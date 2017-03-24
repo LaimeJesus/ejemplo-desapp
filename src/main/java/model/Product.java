@@ -15,9 +15,22 @@ public class Product {
 		this.price = newPrice;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
 	public String getBrand() {
 		return this.brand;
 	}
+	
+	public String getStock() {
+		return this.stock;
+	}
+	
+	public String getPrice() {
+		return this.price;
+	}
+	
 	
 	
 }
