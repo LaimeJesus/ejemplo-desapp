@@ -4,13 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import util.Money;
+
 public class ProductTest {
 	
 	@Test
 	public void testWhenAProductIsCreatedThenAllFieldAreCorrect() {
 		
 		///
-		Product aProduct = new Product("arroz", "marolio" , "56" , "3,50");
+		Product aProduct = new Product("arroz", "marolio" , "56" , new Money(3,67));
 		
 		///
 		String expected = "marolio";
@@ -20,4 +22,5 @@ public class ProductTest {
 		assertEquals(expected , actual);
 		
 	}
+	
 }
