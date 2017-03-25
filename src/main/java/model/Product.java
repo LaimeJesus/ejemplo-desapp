@@ -1,14 +1,16 @@
 package model;
 
+import util.Money;
+
 public class Product {
 	
 	String id;
 	String name;
 	String brand;
 	String stock;
-	String price;
+	Money price;
 	
-	public Product (String newName , String newBrand , String newStock , String newPrice) {
+	public Product (String newName , String newBrand , String newStock , Money newPrice) {
 		this.name = newName;
 		this.brand = newBrand;
 		this.stock = newStock;
@@ -33,7 +35,7 @@ public class Product {
 		return this.stock;
 	}
 	
-	public String getPrice() {
+	public Money getPrice() {
 		return this.price;
 	}
 	
@@ -49,7 +51,7 @@ public class Product {
 		this.stock = newStock;
 	}
 	
-	public void setPrice(String newPrice) {
+	public void setPrice(Money newPrice) {
 		this.price = newPrice;
 	}
 	

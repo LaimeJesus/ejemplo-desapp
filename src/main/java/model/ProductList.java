@@ -2,31 +2,34 @@ package model;
 
 import java.util.HashMap;
 
+import util.Money;
+
 public class ProductList {
 
 	
 	String name;
 	//ArrayList<Umbral> umbrals;
 	
-	String totalAmount;
-	HashMap<Product , String> allProducts;
+	Money totalAmount;
+	HashMap<Product , Integer> allProducts;
 	
 	
 	
 	
-	public void addProduct(Product product , String howMany) {
+	public void addProduct(Product product , Integer howMany) {
 		if ( ! allProducts.containsKey(product)) {
 			allProducts.put(product, howMany);
 			this.updateAmount( this.calculateAmount(product.getPrice() , howMany) );
 		}	
 	}
 	
-	public void updateAmount(String newAmount) {
-		this.totalAmount += newAmount;
+	public void updateAmount(Money newAmount) {
+		totalAmount.plus(newAmount);
 	}
 	
-	public String calculateAmount(String unitPrice , String quantity) {
-		return "unitPrice * quantity";
+	public Money calculateAmount(Money unitPrice , Integer quantity) {
+		unitPrice.times(quantity);
+		return unitPrice;
 	}
 	
 }
