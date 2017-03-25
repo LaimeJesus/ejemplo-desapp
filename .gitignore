@@ -24,6 +24,6 @@ target
 *.project
 *.idea
 *.settings
-
 /bin/
 WebContent/
+*.swp
