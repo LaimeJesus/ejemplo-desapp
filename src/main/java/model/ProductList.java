@@ -18,15 +18,17 @@ public class ProductList {
 	
 	
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
-		if (! this.thisProductIsSelected(product)) {
+		if (this.thisProductIsSelected(product)) {
+			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
+		} else {
 			this.addProductToList(new SelectedProduct(product, howMany));
 			this.updateAmount( this.calculateAmount(product.getPrice() , howMany) );
-		} else {
-			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
+
 		}
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
+		//allProducts.contains(someProduct);
 		for (SelectedProduct currentProduct : allProducts) {
 			if (currentProduct.getProduct().equals(someProduct)) {
 				return true;
@@ -56,7 +58,7 @@ public class ProductList {
 	}
 	
 	public void updateAmount(Money newAmount) {
-		totalAmount.plus(newAmount);
+		totalAmount.add(newAmount);
 	}
 	
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
