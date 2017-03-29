@@ -16,6 +16,7 @@ public class ProductBuilder {
 	}
 	
 	public Product build() {
+		
 		return this.getProduct();
 	}
 	
