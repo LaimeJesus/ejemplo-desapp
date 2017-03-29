@@ -17,6 +17,10 @@ public class Product {
 		this.price = newPrice;
 	}
 	
+	public Product(){
+		
+	}
+	
 	
 	
 	
@@ -55,6 +59,25 @@ public class Product {
 		this.price = newPrice;
 	}
 	
+	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			Product newProduct = (Product) anyObject;
+			return this.totalEquals(newProduct) ;
+		}
+		return false;
+		
+	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof Product;
+	}
+	
+	private boolean totalEquals(Product someProduct) {
+		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
+	}
 	
 }
 

@@ -2,8 +2,10 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Assert;
 import org.junit.Test;
 
+import builders.ProductBuilder;
 import util.Money;
 
 public class ProductTest {
@@ -11,15 +13,105 @@ public class ProductTest {
 	@Test
 	public void testWhenAProductIsCreatedThenAllFieldAreCorrect() {
 		
-		///
-		Product aProduct = new Product("arroz", "marolio" , "56" , new Money(3,67));
+		ProductBuilder productBuilder = new ProductBuilder();
 		
-		///
-		String expected = "marolio";
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("La Salteña")
+				.withPrice(new Money(3,50))
+				.withStock("500")
+				.build();
+		
+		String expected = "La Salteña";
 		String actual = aProduct.getBrand();
 		
-		///
 		assertEquals(expected , actual);
+		
+	}
+	
+	
+	@Test
+	public void testWhenICompareTheSameProductThenTheyAreTheSame() {
+		
+		ProductBuilder productBuilder = new ProductBuilder();
+		
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Marolio")
+				.build();
+		
+		Product anotherProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Marolio")
+				.build();
+		
+		Assert.assertEquals(aProduct, anotherProduct);
+	}
+	
+	@Test
+	public void testWhenCompareDiferentProductsThenTheyAreNotTheSame() {
+		
+		ProductBuilder productBuilder = new ProductBuilder();
+		ProductBuilder productBuilder2 = new ProductBuilder();
+		
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Maruchan")
+				.build();
+		
+		Product anotherProduct = productBuilder2
+				.withName("Fideos")
+				.withBrand("Marolio")
+				.build();
+		
+		Assert.assertNotEquals(aProduct, anotherProduct);
+	}
+	
+	@Test
+	public void testWhenICompareAProductAndSomethingDiferentThenTheyAreNotEquals() {
+		
+		ProductBuilder productBuilder = new ProductBuilder();
+		
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Marolio")
+				.build();
+		
+		Assert.assertFalse(aProduct.equals("Im Not A Product"));
+		
+	}
+	
+	@Test
+	public void testWhenComparingProductWithTheSameBrandButDifferentNameThenTheyAreNotTheSame() {
+		
+		ProductBuilder productBuilder = new ProductBuilder();
+		ProductBuilder productBuilder2 = new ProductBuilder();
+		
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Maruchan")
+				.build();
+		
+		Product anotherProduct = productBuilder2
+				.withName("Fideos")
+				.withBrand("Maruchan")
+				.build();
+		
+		Assert.assertNotEquals(aProduct, anotherProduct);
+		
+	}
+	
+	@Test
+	public void testWhenComparingAProductWIthNullThenTheyAreNotTheSame() {
+		
+		ProductBuilder productBuilder = new ProductBuilder();
+		
+		Product aProduct = productBuilder
+				.withName("Arroz")
+				.withBrand("Maruchan")
+				.build();
+		
+		Assert.assertNotEquals(aProduct, null);
 		
 	}
 	

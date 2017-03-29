@@ -21,11 +21,14 @@ public class User {
 		this.setEmail(newEmail);
 		this.setPassword(newPassword);
 		this.setAddress(newAddress);
-		this.setProfile(new Profile());
-		this.setAllLists(new ArrayList<ProductList>());		
+		this.setMyInitialProfile();	
 	}
 
 	public User() {
+		this.setMyInitialProfile();
+	}
+	
+	private void setMyInitialProfile() {
 		this.setAllLists(new ArrayList<ProductList>());
 		this.setProfile(new Profile());
 	}

@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import builders.UserBuilder;
 import util.Address;
 import util.Password;
-import util.UserBuilder;
 
 public class UserTest {
 	
