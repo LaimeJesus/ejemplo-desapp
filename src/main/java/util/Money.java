@@ -32,14 +32,18 @@ public class Money implements Comparable<Money>{
 	}
 	
 	@Override
-	public boolean equals( Object anotherMoney ) {
-		if (anotherMoney != null && anotherMoney instanceof Money) {
+	public boolean equals(Object anotherMoney ) {
+		if(this.isMyType(anotherMoney)){
 			Money newMoney = (Money) anotherMoney;
 			return this.equals(newMoney);
 		}
 		return false;
 	}
 	
+	private boolean isMyType(Object anotherMoney) {
+		return anotherMoney != null && anotherMoney instanceof Money;
+	}
+
 	public boolean equals( Money someMoney ) {
 		return this.compareTo(someMoney) == 0;
 	}
