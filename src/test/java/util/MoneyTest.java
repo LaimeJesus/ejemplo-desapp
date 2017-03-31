@@ -60,6 +60,25 @@ public class MoneyTest {
 	}
 	
 	@Test
+	public void testGivenTwoEqualsMoneyTheMinusIsEqualsZero() throws MoneyCannotSubstractException{
+		Money aMoney = new Money(10,0);
+		
+		Money expected = new Money(0,0);
+		Money actual = aMoney.minus(aMoney);
+		
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test(expected=MoneyCannotSubstractException.class)
+	public void testAMoneyThatIsLesserThanOtherMoneyCannotBeSubstracted() throws MoneyCannotSubstractException{
+		Money lesserMoney = new Money(10,0);
+		Money greaterMoney = new Money(20,0);
+		
+		lesserMoney.minus(greaterMoney);
+	}
+	
+	@Test
 	public void testWhenAMultiplicationOcurresThenTheCalculusIsCorrect() {
 		
 		Money someMoney = new Money(3,50); 

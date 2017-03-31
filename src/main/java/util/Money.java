@@ -76,7 +76,7 @@ public class Money implements Comparable<Money>{
 	}
 	
 	public Money minus(Money otherMoney) throws MoneyCannotSubstractException {
-		if(this.greaterThan(otherMoney)){
+		if(this.greaterThan(otherMoney) || this.equals(otherMoney)){
 			Integer newInteger = this.getInteger() - otherMoney.getInteger();
 			Integer newDecimal = this.getDecimal() - otherMoney.getDecimal();
 			Integer carry = 0;
