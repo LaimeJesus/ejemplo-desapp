@@ -1,27 +1,17 @@
 package model;
 
+import org.joda.time.Duration;
+
 public class CashRegister {
 
+	private Duration waitingTime;
+
+	public CashRegister(){
+		waitingTime = new Duration(0L);
+	}
 	
-	
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * void requestNext() {
-	 * 
-	 * }
-	 * 
-	 * void chargePayment(ProductList pl) {
-	 * 
-	 * }
-	 * 
-	 * void createPaymentDetail() {
-	 * 
-	 * }
-	 * 
-	 * 
-	 */
-	
+	public Duration getWaitingTime() {
+		return this.waitingTime;
+	}
+
 }
