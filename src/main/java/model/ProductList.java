@@ -12,12 +12,18 @@ import util.Money;
 public class ProductList {
 
 	
-	String name;
+	private String name;
 	//ArrayList<Umbral> umbrals;
 	
-	Money totalAmount = new Money(0,0);
+	private Money totalAmount = new Money(0,0);
 	List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
 	
+	
+	public ProductList () { }
+	
+	public ProductList (String newName) {
+		this.name = newName;
+	}
 	
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
 		if (this.thisProductIsSelected(product)) {
@@ -71,6 +77,33 @@ public class ProductList {
 	//todo
 	public Duration getProcessingTime() {
 		return null;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String newName) {
+		this.name = newName;
+	}
+	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			ProductList newProductList = (ProductList) anyObject;
+			return this.totalEquals(newProductList) ;
+		}
+		return false;
+		
+	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof ProductList;
+	}
+	
+	private boolean totalEquals(ProductList someProductList) {
+		return this.getName().equals(someProductList.getName());
 	}
 	
 }

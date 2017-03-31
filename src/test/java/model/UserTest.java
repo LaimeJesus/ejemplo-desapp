@@ -25,11 +25,9 @@ public class UserTest {
 				.withUsername("someName")
 				.withEmail("someEmail")
 				.withPassword(new Password("somePassword"))
-				.withAddress(new Address("someAddress"))
 				.build();
 		assertEquals(okUser.getUsername(), "someName");
 		assertEquals(okUser.getEmail(), "someEmail");
 		assertEquals(okUser.getPassword().getPassword(), new Password("somePassword").getPassword());
-		assertEquals(okUser.getAddress().getAddress(), new Address("someAddress").getAddress());
 	}
 }
