@@ -1,4 +1,4 @@
-#COMPRANDO ALOLOCO
+## COMPRANDO ALOLOCO
 
 Repository for project **Comprando aloloco**.
 
