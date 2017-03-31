@@ -55,7 +55,14 @@
 	    <artifactId>mockito-all</artifactId>
 	    <version>1.10.19</version>
 	</dependency>
-		
+	
+	<!-- https://mvnrepository.com/artifact/com.google.maps/google-maps-services -->
+	<dependency>
+	    <groupId>com.google.maps</groupId>
+	    <artifactId>google-maps-services</artifactId>
+	    <version>0.1.18</version>
+	</dependency>
+
 	
 	
   </dependencies>
