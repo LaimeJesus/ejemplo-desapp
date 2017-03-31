@@ -16,6 +16,10 @@ public class SelectedProduct {
 		return this.product;
 	}
 	
+	public void setProduct(Product newProduct) {
+		this.product = newProduct;
+	}
+	
 	public Integer getQuantity() {
 		return this.quantity;
 	}
