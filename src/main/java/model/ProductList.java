@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.Duration;
+
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
@@ -64,6 +66,11 @@ public class ProductList {
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
 		unitPrice.times(quantity);
 		return unitPrice;
+	}
+
+	//todo
+	public Duration getProcessingTime() {
+		return null;
 	}
 	
 }
