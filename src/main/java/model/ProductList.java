@@ -79,6 +79,14 @@ public class ProductList {
 		return null;
 	}
 	
+	public Money getTotalAmount(){
+		return null;
+	}
+	
+	public int getQuantityOfProducts() {
+		return 0;
+	}	
+	
 	public String getName() {
 		return this.name;
 	}

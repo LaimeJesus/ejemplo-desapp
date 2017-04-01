@@ -8,6 +8,7 @@ import org.joda.time.Duration;
 public class CashRegister {
 
 	private List<ProductList> productLists;
+	private Filter filter;
 
 	public CashRegister(){
 		productLists = new ArrayList<ProductList>();
@@ -31,5 +32,43 @@ public class CashRegister {
 
 	public void remove(ProductList aProductList) {
 		this.getProductLists().remove(aProductList);
+	}
+
+	public boolean isEmpty() {
+		return this.productLists.isEmpty();
+	}
+
+	public void next() {
+		if(!this.isEmpty()){
+			ProductList nextProductList = this.productLists.get(0);
+			this.remove(nextProductList);
+			this.process(nextProductList);
+		}
+	}
+
+	private void process(ProductList nextProductList) {
+		try {
+			//1000 milliseconds is one second.
+		    Thread.sleep(nextProductList.getProcessingTime().getMillis());
+			//Thread.sleep(5000);
+		    this.next();
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+	}
+
+	public void useFilter(Filter filter){
+		this.filter = filter;		
+	}
+
+	public void addUsingFilter(ProductList aProductList) {
+		if(this.filter.accepts(aProductList)){
+			this.add(aProductList);
+		}
+		
+	}
+
+	public int size() {
+		return this.getProductLists().size();
 	}
 }
