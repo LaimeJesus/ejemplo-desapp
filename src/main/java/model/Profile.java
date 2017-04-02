@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import exceptions.ProductListAlreadyCreatedException;
 import util.Address;
 
