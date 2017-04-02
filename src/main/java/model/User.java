@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
-import util.Address;
 import util.Password;
 
 public class User {

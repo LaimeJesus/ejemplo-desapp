@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.Assert.*;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class ProfileTest {
 			Assert.assertTrue(aProfile.getAllProductList().size() == 3);
 			
 		} catch (ProductListAlreadyCreatedException e) {
-			fail();
+			Assert.fail();
 		}		
 	}
 	
@@ -46,7 +47,7 @@ public class ProfileTest {
 			aProfile.createProductList("Saturday Night");
 			aProfile.createProductList("Saturday Night");
 			
-			fail();
+			Assert.fail();
 		} catch (ProductListAlreadyCreatedException e) {
 			
 		}

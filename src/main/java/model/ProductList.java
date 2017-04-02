@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.Duration;
+
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
@@ -14,7 +16,7 @@ public class ProductList {
 	//ArrayList<Umbral> umbrals;
 	
 	private Money totalAmount = new Money(0,0);
-	List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
+	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
 	
 	
 	public ProductList () { }
@@ -70,6 +72,19 @@ public class ProductList {
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
 		return unitPrice.times(quantity);
 	}
+
+	//todo
+	public Duration getProcessingTime() {
+		return null;
+	}
+	
+	public Money getTotalAmount(){
+		return null;
+	}
+	
+	public int getQuantityOfProducts() {
+		return 0;
+	}	
 	
 	public String getName() {
 		return this.name;

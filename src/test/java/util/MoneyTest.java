@@ -49,7 +49,7 @@ public class MoneyTest {
 	}
 	
 	@Test
-	public void testAMoneyThatIsGreaterThanAnotherMoneyCanBeSubstracted() throws MoneyCannotSubstractException{
+	public void testAMoneyCanBeSubstractedForLesserMoney() throws MoneyCannotSubstractException{
 		Money greaterMoney = new Money(5,0);
 		Money lesserMoney = new Money(4,0);
 		
@@ -60,7 +60,7 @@ public class MoneyTest {
 	}
 	
 	@Test
-	public void testGivenTwoEqualsMoneyTheMinusIsEqualsZero() throws MoneyCannotSubstractException{
+	public void testGivenTwoMoneythatAreEqualsThenSubstractsThemThenReturnsZeroMoney() throws MoneyCannotSubstractException{
 		Money aMoney = new Money(10,0);
 		
 		Money expected = new Money(0,0);
@@ -71,7 +71,7 @@ public class MoneyTest {
 	}
 	
 	@Test(expected=MoneyCannotSubstractException.class)
-	public void testAMoneyThatIsLesserThanOtherMoneyCannotBeSubstracted() throws MoneyCannotSubstractException{
+	public void testMoneyCannotBeSubstractedForGreaterMoneyItThrowsMoneyCannotSubstractException() throws MoneyCannotSubstractException{
 		Money lesserMoney = new Money(10,0);
 		Money greaterMoney = new Money(20,0);
 		
@@ -79,7 +79,7 @@ public class MoneyTest {
 	}
 	
 	@Test
-	public void testWhenAMultiplicationOcurresThenTheCalculusIsCorrect() {
+	public void testMoneyCanBeMultipliedForAnInteger() {
 		
 		Money someMoney = new Money(3,50); 
 		

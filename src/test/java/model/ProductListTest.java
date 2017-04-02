@@ -3,12 +3,9 @@ package model;
 
 import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
-import builders.ProductBuilder;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 public class ProductListTest {
