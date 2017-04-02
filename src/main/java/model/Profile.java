@@ -3,8 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
+import exceptions.ProductListDoesNotExistException;
 import util.Address;
+import util.Money;
 
 public class Profile {
 
@@ -25,6 +28,23 @@ public class Profile {
 			ProductList newProductList = new ProductList(newName);
 			allProductLists.add(newProductList);
 		}
+	}
+	
+	public void addProductToList(String nameOfList , Product productToAdd , Integer howMany) throws ProductIsAlreadySelectedException {
+		for (ProductList currentProductList : this.allProductLists) {
+			if (currentProductList.getName().equals(nameOfList)) {
+				currentProductList.selectProduct(productToAdd , howMany);
+			}
+		}
+	}
+	
+	public Money getCostOfList(String nameOfList) {
+		for (ProductList currentProductList : this.allProductLists) {
+			if (currentProductList.getName().equals(nameOfList)) {
+				return currentProductList.getTotalAmount();
+			}
+		}
+		return new Money(0,0);
 	}
 	
 	public boolean listAlreadyExist(String name) {

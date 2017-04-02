@@ -64,12 +64,11 @@ public class ProductList {
 	}
 	
 	public void updateAmount(Money newAmount) {
-		totalAmount.add(newAmount);
+		totalAmount = totalAmount.add(newAmount);
 	}
 	
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
-		unitPrice.times(quantity);
-		return unitPrice;
+		return unitPrice.times(quantity);
 	}
 	
 	public String getName() {
@@ -78,6 +77,22 @@ public class ProductList {
 	
 	public void setName(String newName) {
 		this.name = newName;
+	}
+	
+	public Money getTotalAmount() {
+		return this.totalAmount;
+	}
+	
+	public void setTotalAmount(Money newTotalAmount) {
+		this.totalAmount = newTotalAmount;
+	}
+	
+	public List<SelectedProduct> getAllProducts() {
+		return this.allProducts;
+	}
+	
+	public void setAllProducts (ArrayList<SelectedProduct> newProducts) {
+		this.allProducts = newProducts;
 	}
 	
 	@Override
