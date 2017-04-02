@@ -4,11 +4,10 @@ import util.Money;
 
 public class Product {
 	
-	String id;
-	String name;
-	String brand;
-	String stock;
-	Money price;
+	private String name;
+	private String brand;
+	private String stock;
+	private Money price;
 	
 	public Product (String newName , String newBrand , String newStock , Money newPrice) {
 		this.name = newName;
@@ -20,11 +19,6 @@ public class Product {
 	public Product(){
 		
 	}
-	
-	
-	
-	
-	
 	
 	//////////GETTERS Y SETTERS
 	public String getName() {
