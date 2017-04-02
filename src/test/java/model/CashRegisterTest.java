@@ -57,7 +57,7 @@ public class CashRegisterTest {
 	}
 	
 	//this test runs in 1sec
-	@Test
+	//@Test
 	public void testACashRegisterCanTakeTheNextClientInTheQueue(){
 		CashRegister aCashRegister = new CashRegister();
 		
