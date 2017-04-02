@@ -2,8 +2,8 @@ package model;
 
 public class SelectedProduct {
 	
-	Product product;
-	Integer quantity;
+	private Product product;
+	private Integer quantity;
 	
 	
 	public SelectedProduct(Product newProduct , Integer newQuantity) {

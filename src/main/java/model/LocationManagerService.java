@@ -10,7 +10,7 @@ public class LocationManagerService {
 	
 	
 	// Replace the API key below with a valid API key.
-	GeoApiContext context = new GeoApiContext().setApiKey("YOUR_API_KEY");
+	private GeoApiContext context = new GeoApiContext().setApiKey("YOUR_API_KEY");
 
 	
 }

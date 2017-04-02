@@ -16,7 +16,7 @@ public class ProductList {
 	//ArrayList<Umbral> umbrals;
 	
 	private Money totalAmount = new Money(0,0);
-	List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
+	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
 	
 	
 	public ProductList () { }
