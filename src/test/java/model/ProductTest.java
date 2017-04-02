@@ -1,7 +1,5 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +23,7 @@ public class ProductTest {
 		String expected = "La Salteña";
 		String actual = aProduct.getBrand();
 		
-		assertEquals(expected , actual);
+		Assert.assertEquals(expected , actual);
 		
 	}
 	
