@@ -77,7 +77,8 @@ public class ProductTest {
 				.withBrand("Marolio")
 				.build();
 		
-		Assert.assertFalse(aProduct.equals("Im Not A Product"));
+		//Assert.assertFalse(aProduct.equals("Im Not A Product"));
+		Assert.assertFalse("Im Not A Product".equals(aProduct));
 		
 	}
 	
