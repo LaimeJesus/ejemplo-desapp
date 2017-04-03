@@ -116,4 +116,9 @@ public class Money implements Comparable<Money>{
 		return new Money(this.getInteger() * times + carry, decimal);
 	}
 	
+	public Money percentage(Integer aPercentage) {
+		//TODO
+		return null;
+	}
+	
 }
