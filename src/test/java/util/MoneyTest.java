@@ -90,4 +90,70 @@ public class MoneyTest {
 		
 	}
 	
+	@Test
+	public void testPercentajeWithoutRoundingOfAMoreThan2DigitsMoney() {
+		
+		Money aPrice = new Money(12345,0);
+		
+		Money expected = new Money(12221,55);
+		
+		assertEquals(expected,aPrice.percentage(99));
+		
+	}
+	
+	@Test
+	public void testPercentajeWithRoundingOfAMoreThan2DigitsMoney() {
+		
+		Money aPrice = new Money(345,87);
+		
+		Money expected = new Money(10,38);
+		
+		assertEquals(expected,aPrice.percentage(3));
+		
+	}
+	
+	@Test
+	public void testPercentajeWithoutRoundingOfA2DigitsMoney() {
+		
+		Money aPrice = new Money(12,13);
+		
+		Money expected = new Money(1,20);
+		
+		assertEquals(expected,aPrice.percentage(10));
+		
+	}
+	
+	@Test
+	public void testPercentajeWithRoundingOfA2DigitsMoney() {
+		
+		Money aPrice = new Money(24,67);
+		
+		Money expected = new Money(6,25);
+		
+		assertEquals(expected,aPrice.percentage(25));
+		
+	}
+	
+	@Test
+	public void testPercentajeWithoutRoundingOfA1DigitMoney() {
+		
+		Money aPrice = new Money(2,10);
+		
+		Money expected = new Money(1,74);
+		
+		assertEquals(expected,aPrice.percentage(87));
+		
+	}
+	
+	@Test
+	public void testPercentajeWithRoundingOfA1DigitMoney() {
+		
+		Money aPrice = new Money(6,97);
+		
+		Money expected = new Money(4,27);
+		
+		assertEquals(expected,aPrice.percentage(61));
+		
+	}
+	
 }
