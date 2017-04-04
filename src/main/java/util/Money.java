@@ -13,17 +13,80 @@ public class Money implements Comparable<Money>{
 		this.setDecimal(new Integer(0));
 	}
 	
-	private void setDecimal(Integer decimal) {
-		this.decimal = decimal;
-	}
-
 	public Money(Integer integerPart, Integer decimalPart) {
 		this.setInteger(integerPart);
 		this.setDecimal(decimalPart);
 	}
 
+	
+	
+	private void setDecimal(Integer decimal) {
+		this.decimal = decimal;
+	}
+
 	private void setInteger(Integer integerPart) {
 		this.integer = integerPart;
+	}
+	
+	private Integer getInteger() {
+		return this.integer;
+	}
+	
+	private Integer getDecimal() {
+		return this.decimal;
+	}
+
+	public Money add(Money otherMoney) {
+		Integer carry = this.calculateCarry(this.getDecimal() + otherMoney.getDecimal());
+		Integer decimal = this.calculateCents(this.getDecimal() + otherMoney.getDecimal());
+		Integer integer = this.getInteger() + otherMoney.getInteger();
+		return new Money(integer + carry, decimal);
+	}
+	
+	public Money times(Integer times) {
+		Integer carry = this.calculateCarry(this.getDecimal()*times);
+		Integer decimal = this.calculateCents(this.getDecimal()*times);
+		return new Money(this.getInteger() * times + carry, decimal);
+	}
+	
+	public Money minus(Money otherMoney) throws MoneyCannotSubstractException {
+		if(this.greaterThan(otherMoney) || this.equals(otherMoney)){
+			Integer newInteger = this.getInteger() - otherMoney.getInteger();
+			Integer newDecimal = this.getDecimal() - otherMoney.getDecimal();
+			Integer carry = 0;
+			if(newDecimal < 0){
+				carry += 1;
+				newDecimal = 100 - otherMoney.getDecimal();
+			}
+			return new Money(newInteger - carry, newDecimal);
+		}
+		throw new MoneyCannotSubstractException();
+	}
+	
+	public Money percentage(Integer aPercentage) {
+		return this.divideBy100().times(aPercentage);
+	}
+	
+	private Money divideBy100() {
+		String parsedNumber = this.getInteger().toString();
+		Integer lenght = parsedNumber.length();
+		Integer realInteger = 0;
+		Integer realDecimal = 0;
+		
+		if (lenght > 2) {
+			String newInteger = parsedNumber.substring(0,lenght - 2);
+			String newDecimal = parsedNumber.substring(lenght - 2 , lenght);
+			realInteger = Integer.parseInt(newInteger);
+			realDecimal = Integer.parseInt(newDecimal);			
+		} else {
+			realDecimal = Integer.parseInt(parsedNumber);
+		}
+		
+		if (this.getDecimal() > 50) {
+			realDecimal++;
+		}
+		
+		return new Money(realInteger,realDecimal);
 	}
 
 	@Override
@@ -48,29 +111,15 @@ public class Money implements Comparable<Money>{
 		return this.compareTo(someMoney) == 0;
 	}
 
-	public Money add(Money otherMoney) {
-		Integer carry = this.calculateCarry(this.getDecimal() + otherMoney.getDecimal());
-		Integer decimal = this.calculateCents(this.getDecimal() + otherMoney.getDecimal());
-		Integer integer = this.getInteger() + otherMoney.getInteger();
-		return new Money(integer + carry, decimal);
-	}
 
 	private Integer calculateCents(int aNumber) {
 		return aNumber % 100;
 	}
-
+	
 	private Integer calculateCarry(Integer aNumber) {
 		return aNumber / 100;
 	}
-
-	private Integer getInteger() {
-		return this.integer;
-	}
-
-	private Integer getDecimal() {
-		return this.decimal;
-	}
-
+	
 	public boolean greaterThan(Money otherMoney){
 		return this.compareTo(otherMoney) == 1;
 	}
@@ -79,20 +128,6 @@ public class Money implements Comparable<Money>{
 		return this.compareTo(otherMoney) == -1;
 	}
 	
-	public Money minus(Money otherMoney) throws MoneyCannotSubstractException {
-		if(this.greaterThan(otherMoney) || this.equals(otherMoney)){
-			Integer newInteger = this.getInteger() - otherMoney.getInteger();
-			Integer newDecimal = this.getDecimal() - otherMoney.getDecimal();
-			Integer carry = 0;
-			if(newDecimal < 0){
-				carry += 1;
-				newDecimal = 100 - otherMoney.getDecimal();
-			}
-			return new Money(newInteger - carry, newDecimal);
-		}
-		throw new MoneyCannotSubstractException();
-	}
-
 	@Override
 	public int compareTo(Money otherMoney) {
 		int integerGreaterThan = this.getInteger().compareTo(otherMoney.getInteger());
@@ -109,16 +144,6 @@ public class Money implements Comparable<Money>{
 			}
 		}
 	}
-
-	public Money times(Integer times) {
-		Integer carry = this.calculateCarry(this.getDecimal()*times);
-		Integer decimal = this.calculateCents(this.getDecimal()*times);
-		return new Money(this.getInteger() * times + carry, decimal);
-	}
 	
-	public Money percentage(Integer aPercentage) {
-		//TODO
-		return null;
-	}
 	
 }
