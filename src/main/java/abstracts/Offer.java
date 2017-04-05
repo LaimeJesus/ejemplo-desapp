@@ -1,55 +1,62 @@
 package abstracts;
 
-import java.util.List;
-
 import exceptions.MoneyCannotSubstractException;
-import model.Product;
 import model.ProductList;
-import model.SelectedProduct;
 import util.Money;
 
 public abstract class Offer {
 
-	private Product relatedProduct;
-	
 	private Integer discountRate;
 	
+	//private period
 	
 	
 	
-	public Offer(Product aRelatedProduct , Integer aDiscountRate) {
-		this.setRelatedProduct(aRelatedProduct);
+	
+	public Offer(Integer aDiscountRate) {
 		this.setDiscountRate(aDiscountRate);
 	}
 	
 	
 	
 	
-	public abstract Money getFinalPrice();
 	
 	public abstract Money getPreviousPrice();
 	
-	public abstract Boolean meetRequirements(List<SelectedProduct> selectedProducts , List<Offer> apliedOffers );
-	
-	public abstract Money getSavingObteined() throws MoneyCannotSubstractException;
-	
-	public abstract void applyOffer(ProductList productListToApply);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public Product getRelatedProduct() {
-		return this.relatedProduct;
+	public Boolean meetRequirements(ProductList productListToVerify){
+		return (this.verifyProductRequirements(productListToVerify) &&
+				this.verifyOfferRequiremets(productListToVerify) &&
+				this.verifyPeriodRequirements(productListToVerify));
 	}
 	
-	public void setRelatedProduct(Product newProduct) {
-		this.relatedProduct = newProduct;
+	private boolean verifyPeriodRequirements(ProductList productListToVerify) {
+		return true;
+		//TODO
 	}
+
+	private boolean verifyOfferRequiremets(ProductList productListToVerify) {
+		return productListToVerify.isApplicable(this);
+	}
+
+	protected abstract boolean verifyProductRequirements(ProductList productListToVerify);
+	
+	public void applyOffer(ProductList productListToApply) {
+		productListToApply.applyOffer(this);
+	}
+	
+	public Money getFinalPrice() throws MoneyCannotSubstractException {
+		return this.getPreviousPrice().minus(this.getDiscount(discountRate));
+	}
+
+	public Money getDiscount(Integer discountRate) {
+		return this.getPreviousPrice().percentage(discountRate);
+	}
+	
+	
+	
+	
+	
+	
 	
 	public Integer getDiscountRate() {
 		return this.discountRate;

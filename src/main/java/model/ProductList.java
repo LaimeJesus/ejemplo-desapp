@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
+import abstracts.Offer;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
@@ -17,6 +18,8 @@ public class ProductList {
 	
 	private Money totalAmount = new Money(0,0);
 	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
+	
+	private List<Offer> appliedOffers = new ArrayList<Offer>();
 	
 	
 	public ProductList () { }
@@ -123,6 +126,24 @@ public class ProductList {
 	
 	private boolean totalEquals(ProductList someProductList) {
 		return this.getName().equals(someProductList.getName());
+	}
+
+	public Boolean isApplicable(Offer aOffer) {
+		return this.getAppliedOffers().stream().noneMatch(
+				offer -> offer.equals(aOffer)
+				);
+	}
+
+	public void applyOffer(Offer aNewOffer) {
+		this.getAppliedOffers().add(aNewOffer);
+	}
+
+	public List<Offer> getAppliedOffers() {
+		return appliedOffers;
+	}
+
+	public void setAppliedOffers(List<Offer> appliedOffers) {
+		this.appliedOffers = appliedOffers;
 	}
 	
 }
