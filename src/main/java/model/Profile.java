@@ -1,11 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
-import exceptions.ProductListDoesNotExistException;
 import util.Address;
 import util.Money;
 
