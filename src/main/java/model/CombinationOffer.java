@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.Interval;
+
 import abstracts.Offer;
 import util.Money;
 
@@ -8,14 +10,14 @@ public class CombinationOffer extends Offer {
 	Product relatedProduct;
 	Product combinatedProduct;
 	
-	public CombinationOffer(Product aRelatedProduct , Product aCombinateProduct , Integer aDiscountRate) {
-		super(aDiscountRate);
+	public CombinationOffer(Product aRelatedProduct , Product aCombinateProduct , Integer aDiscountRate , Interval validPeriod) {
+		super(aDiscountRate, validPeriod);
 		this.setRelatedProduct(aRelatedProduct);
 		this.setCombinatedProduct(aCombinateProduct);
 	}
 
 	@Override
-	public Money getPreviousPrice() {
+	public Money getPreviousPrice(ProductList productListToGetPrice) {
 		return this.getRelatedProduct().getPrice().add(this.getCombinatedProduct().getPrice());
 	}
 	
