@@ -1,5 +1,8 @@
 package abstracts;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+
 import exceptions.MoneyCannotSubstractException;
 import model.ProductList;
 import util.Money;
@@ -7,21 +10,16 @@ import util.Money;
 public abstract class Offer {
 
 	private Integer discountRate;
+	private Interval validPeriod;
 	
-	//private period
-	
-	
-	
-	
-	public Offer(Integer aDiscountRate) {
+	public Offer(Integer aDiscountRate , Interval anInterval) {
 		this.setDiscountRate(aDiscountRate);
+		this.setValidPeriod(anInterval);
 	}
 	
+	protected abstract Money getPreviousPrice(ProductList productListToGetPrice);
 	
-	
-	
-	
-	public abstract Money getPreviousPrice();
+	protected abstract boolean verifyProductRequirements(ProductList productListToVerify);
 	
 	public Boolean meetRequirements(ProductList productListToVerify){
 		return (this.verifyProductRequirements(productListToVerify) &&
@@ -30,26 +28,20 @@ public abstract class Offer {
 	}
 	
 	private boolean verifyPeriodRequirements(ProductList productListToVerify) {
-		return true;
-		//TODO
+		DateTime today = DateTime.now();
+		return this.getValidPeriod().contains(today);
 	}
 
 	private boolean verifyOfferRequiremets(ProductList productListToVerify) {
 		return productListToVerify.isApplicable(this);
 	}
 
-	protected abstract boolean verifyProductRequirements(ProductList productListToVerify);
-	
-	public void applyOffer(ProductList productListToApply) {
-		productListToApply.applyOffer(this);
-	}
-	
-	public Money getFinalPrice() throws MoneyCannotSubstractException {
-		return this.getPreviousPrice().minus(this.getDiscount(discountRate));
+	public Money getFinalPrice(ProductList productListToGetPrice) throws MoneyCannotSubstractException {
+		return this.getPreviousPrice(productListToGetPrice).minus(this.getDiscount(discountRate , productListToGetPrice));
 	}
 
-	public Money getDiscount(Integer discountRate) {
-		return this.getPreviousPrice().percentage(discountRate);
+	public Money getDiscount(Integer discountRate , ProductList productListToGetPrice) {
+		return this.getPreviousPrice(productListToGetPrice).percentage(discountRate);
 	}
 	
 	
@@ -64,5 +56,13 @@ public abstract class Offer {
 	
 	public void setDiscountRate(Integer newDiscountRate) {
 		this.discountRate = newDiscountRate;
+	}
+
+	public Interval getValidPeriod() {
+		return validPeriod;
+	}
+
+	public void setValidPeriod(Interval validPeriod) {
+		this.validPeriod = validPeriod;
 	}
 }
