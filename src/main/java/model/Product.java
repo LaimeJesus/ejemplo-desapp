@@ -1,5 +1,6 @@
 package model;
 
+import util.Category;
 import util.Money;
 
 public class Product {
@@ -8,12 +9,14 @@ public class Product {
 	private String brand;
 	private String stock;
 	private Money price;
+	private Category category;
 	
-	public Product (String newName , String newBrand , String newStock , Money newPrice) {
+	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
 		this.name = newName;
 		this.brand = newBrand;
 		this.stock = newStock;
 		this.price = newPrice;
+		this.setCategory(newCategory);
 	}
 	
 	public Product(){
@@ -71,6 +74,14 @@ public class Product {
 	
 	private boolean totalEquals(Product someProduct) {
 		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 }
