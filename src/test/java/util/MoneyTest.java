@@ -156,4 +156,20 @@ public class MoneyTest {
 		
 	}
 	
+	@Test
+	public void testMoneyCanBeDividedForAnInteger(){
+		Money aMoney = new Money(10,0);
+		Money actual = aMoney.divideBy(5);
+		Money expected = new Money(2,0);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testRoundingAMoneyWithDecimalPartLesserThan50(){
+		assertEquals(new Money(1,0), new Money(1,3).round());
+	}
+	@Test
+	public void testRoundingAMoneyWithDecimalPartGreaterThan50(){
+		assertEquals(new Money(2,0), new Money(1,70).round());
+	}
 }

@@ -19,7 +19,7 @@ public class CashRegister {
 	public Duration getWaitingTime() {
 		Duration totalWaitingTime = new Duration(0L);
 		for(ProductList pl : this.getProductLists()){
-			totalWaitingTime= totalWaitingTime.plus(pl.getProcessingTime());
+			totalWaitingTime = totalWaitingTime.plus(pl.getProcessingTime());
 		}
 		return totalWaitingTime;
 	}

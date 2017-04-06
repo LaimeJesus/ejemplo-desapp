@@ -160,27 +160,38 @@ public class Money implements Comparable<Money>{
 		decimal = Integer.parseInt(current);
 		return new Money(integer, decimal);
 	}
-
+	
 	public static boolean isValid(String aMoney) {
 
 		if(aMoney.isEmpty()){
 			return false;
 		}
-		int dot = aMoney.indexOf('.');
-		if(dot == -1 || dot == 0){
-			return false;
+		int indexOfDot = aMoney.indexOf('.');
+		if(indexOfDot > 0 && aMoney.length() - 1 != indexOfDot){
+			String integer = aMoney.substring(0, indexOfDot);
+			String decimal = aMoney.substring(indexOfDot+1);				
+			boolean stringValid = !integer.isEmpty() && !decimal.isEmpty() && decimal.length() < 3;
+			boolean moneyValid = integer.matches("[0-9]+") && decimal.matches("[0-9]+");
+			return stringValid && moneyValid;
 		}
 		else{
-			String integer = aMoney.substring(0, dot);
-			if(aMoney.length()-1 == dot){
-				return false;
-			}
-			else{
-				String decimal = aMoney.substring(dot+1);				
-				boolean stringValid = !integer.isEmpty() && !decimal.isEmpty() && decimal.length() < 3;
-				//boolean moneyValid = Integer.parseInt(integer) > 0;
-				return stringValid;
-			}
+			return false;
+		}
+	}
+
+	public Money divideBy(int dividing) {
+		
+		Money res = this.round();
+		res.setInteger(this.integer/dividing);
+		return res;
+	}
+
+	public Money round() {
+		if(this.decimal > 50){
+			return new Money(this.integer + 1, 0);
+		}
+		else{
+			return new Money(this.integer, 0);
 		}
 	}
 		
