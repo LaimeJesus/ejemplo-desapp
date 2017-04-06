@@ -1,7 +1,5 @@
 package util;
 
-import org.apache.commons.lang3.EnumUtils;
-
 public enum Category {
 
 	Dairy, Meat, Cleaning, Baked, Vegetable, Fruit, Perfumery, Drink;
@@ -11,7 +9,13 @@ public enum Category {
 	}
 
 	public static boolean exists(String aCategory) {
-		return EnumUtils.isValidEnum(Category.class, aCategory);
+		Category[] categories = Category.values();
+		for(Category c : categories){
+			if(c.name().equals(aCategory)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
