@@ -1,6 +1,10 @@
-package model;
+package services;
 
 import org.joda.time.Duration;
+
+import model.CashRegisterManager;
+import model.Filter;
+import model.ProductList;
 
 public class ShopService {
 	

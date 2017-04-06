@@ -1,10 +1,11 @@
-package model;
+package services;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import abstracts.Offer;
 import exceptions.OfferIsAlreadyCreatedException;
+import model.ProductList;
 
 public class OfferManagerService {
 	

@@ -1,7 +1,10 @@
-package model;
+package services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.CSVProductParser;
+import model.Product;
 
 public class ProductService {
 	
