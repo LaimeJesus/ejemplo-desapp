@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
-import abstracts.Offer;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.offers.Offer;
 import util.Money;
 
 public class ProductList {

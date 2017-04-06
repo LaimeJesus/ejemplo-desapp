@@ -1,8 +1,8 @@
-package model;
+package model.offers;
 
 import org.joda.time.Interval;
 
-import abstracts.Offer;
+import model.ProductList;
 import util.Category;
 import util.Money;
 
@@ -16,7 +16,7 @@ public class CategoryOffer extends Offer {
 	}
 
 	@Override
-	protected Money getPreviousPrice(ProductList productList) {
+	public Money getPreviousPrice(ProductList productList) {
 		return productList.getTotalAmount();
 	}
 

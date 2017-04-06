@@ -1,9 +1,11 @@
-package model;
+package model.registers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.Duration;
+
+import model.ProductList;
 
 public class CashRegister {
 

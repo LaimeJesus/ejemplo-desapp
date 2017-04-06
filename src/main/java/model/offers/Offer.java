@@ -1,4 +1,4 @@
-package abstracts;
+package model.offers;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;

@@ -7,6 +7,7 @@ import org.junit.Test;
 import exceptions.InvalidArgumentsException;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidMoneyException;
+import util.CSVProductParser;
 
 public class CSVParserTest {
 	

@@ -7,6 +7,7 @@ import org.joda.time.Interval;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import model.offers.CategoryOffer;
 import util.Category;
 import util.Money;
 

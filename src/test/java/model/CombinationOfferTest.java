@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.offers.CombinationOffer;
 import util.Money;
 
 public class CombinationOfferTest {

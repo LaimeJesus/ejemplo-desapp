@@ -4,6 +4,9 @@ import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Test;
 
+import model.registers.CashRegister;
+import model.registers.CashRegisterManager;
+
 public class CashRegisterManagerTest {
 	
 	@Test

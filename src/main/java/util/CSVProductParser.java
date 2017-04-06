@@ -1,12 +1,11 @@
-package model;
+package util;
 
 import java.util.List;
 
 import exceptions.InvalidArgumentsException;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidMoneyException;
-import util.Category;
-import util.Money;
+import model.Product;
 
 public class CSVProductParser extends CSVParser<Product>{
 

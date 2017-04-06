@@ -3,8 +3,8 @@ package services;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.CSVProductParser;
 import model.Product;
+import util.CSVProductParser;
 
 public class ProductService {
 	

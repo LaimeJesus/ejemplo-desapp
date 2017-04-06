@@ -1,8 +1,9 @@
-package model;
+package model.offers;
 
 import org.joda.time.Interval;
 
-import abstracts.Offer;
+import model.Product;
+import model.ProductList;
 import util.Money;
 
 public class CombinationOffer extends Offer {

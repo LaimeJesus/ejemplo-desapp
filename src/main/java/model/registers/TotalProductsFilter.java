@@ -1,4 +1,6 @@
-package model;
+package model.registers;
+
+import model.ProductList;
 
 public class TotalProductsFilter extends Filter{
 
