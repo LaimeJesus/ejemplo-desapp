@@ -1,11 +1,17 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
 	
 	private CSVProductParser csvparser;
 	private List<Product> products;
+	
+	public ProductService(){
+		csvparser = new CSVProductParser();
+		products = new ArrayList<Product>();
+	}
 
 	public void addProduct(Product aProduct){
 		this.save(aProduct);
@@ -23,9 +29,18 @@ public class ProductService {
 		this.products.remove(aProduct);
 	}
 	
+	public List<Product> getProducts(){
+		return this.products;
+	}
+
 	public void loadCSVFile(String csv) throws Exception{
 		List<Product> newProducts = this.csvparser.toListObject(this.csvparser.parse(csv));
-		products = newProducts;
+		this.saveList(newProducts);
 	}
+
+	private void saveList(List<Product> newProducts) {
+		this.products = newProducts;
+	}
+	
 	
 }

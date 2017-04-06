@@ -51,6 +51,8 @@ public class CashRegister {
 			//1000 milliseconds is one second.
 		    Thread.sleep(nextProductList.getProcessingTime().getMillis());
 			//Thread.sleep(5000);
+		    //updateStock(nextProductList)
+		    //addToHistory(nextProductList)
 		    this.next();
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();

@@ -20,9 +20,15 @@ public class ProductList {
 	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
 	
 	private List<Offer> appliedOffers = new ArrayList<Offer>();
+	private User user;
 	
+	public ProductList () { 
+	}
+
 	
-	public ProductList () { }
+	public ProductList (User u) { 
+		this.user = u;
+	}
 	
 	public ProductList (String newName) {
 		this.name = newName;
