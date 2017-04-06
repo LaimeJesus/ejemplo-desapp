@@ -12,7 +12,6 @@ public class TotalCostFilter extends Filter{
 
 	@Override
 	public boolean accepts(ProductList aProductList) {
-		// TODO Auto-generated method stub
 		return aProductList.getTotalAmount().lesserThan(this.totalCost) || aProductList.getTotalAmount().equals(this.totalCost);
 	}
 }

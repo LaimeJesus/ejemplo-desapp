@@ -12,10 +12,10 @@ public class Product {
 	private Category category;
 	
 	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
-		this.name = newName;
-		this.brand = newBrand;
-		this.stock = newStock;
-		this.price = newPrice;
+		this.setName(newName);
+		this.setBrand(newBrand);
+		this.setStock(newStock);
+		this.setPrice(newPrice);
 		this.setCategory(newCategory);
 	}
 	
