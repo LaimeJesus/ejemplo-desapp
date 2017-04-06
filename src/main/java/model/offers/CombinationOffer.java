@@ -10,7 +10,7 @@ public class CombinationOffer extends Offer {
 		
 	Product relatedProduct;
 	Product combinatedProduct;
-	
+		
 	public CombinationOffer(Product aRelatedProduct , Product aCombinateProduct , Integer aDiscountRate , Interval validPeriod) {
 		super(aDiscountRate, validPeriod);
 		this.setRelatedProduct(aRelatedProduct);
