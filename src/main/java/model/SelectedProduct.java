@@ -2,8 +2,8 @@ package model;
 
 public class SelectedProduct {
 	
-	Product product;
-	Integer quantity;
+	private Product product;
+	private Integer quantity;
 	
 	
 	public SelectedProduct(Product newProduct , Integer newQuantity) {
@@ -14,6 +14,10 @@ public class SelectedProduct {
 	
 	public Product getProduct() {
 		return this.product;
+	}
+	
+	public void setProduct(Product newProduct) {
+		this.product = newProduct;
 	}
 	
 	public Integer getQuantity() {

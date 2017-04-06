@@ -1,26 +1,27 @@
 package model;
 
+import util.Category;
 import util.Money;
 
 public class Product {
 	
-	String id;
-	String name;
-	String brand;
-	String stock;
-	Money price;
+	private String name;
+	private String brand;
+	private String stock;
+	private Money price;
+	private Category category;
 	
-	public Product (String newName , String newBrand , String newStock , Money newPrice) {
-		this.name = newName;
-		this.brand = newBrand;
-		this.stock = newStock;
-		this.price = newPrice;
+	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
+		this.setName(newName);
+		this.setBrand(newBrand);
+		this.setStock(newStock);
+		this.setPrice(newPrice);
+		this.setCategory(newCategory);
 	}
 	
-	
-	
-	
-	
+	public Product(){
+		
+	}
 	
 	//////////GETTERS Y SETTERS
 	public String getName() {
@@ -55,6 +56,33 @@ public class Product {
 		this.price = newPrice;
 	}
 	
+	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			Product newProduct = (Product) anyObject;
+			return this.totalEquals(newProduct) ;
+		}
+		return false;
+		
+	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof Product;
+	}
+	
+	private boolean totalEquals(Product someProduct) {
+		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 	
 }
 

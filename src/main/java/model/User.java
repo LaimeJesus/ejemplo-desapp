@@ -1,55 +1,49 @@
 package model;
 
-import java.util.ArrayList;
-
-import util.Address;
 import util.Password;
 
 public class User {
 	
 	private String username;
 	private String email;
-
 	private Profile profile;	
-	private Address address;
 	private Password password;
-	private ArrayList<ProductList> allLists;
 	
 	
-	public User(String newUsername , String newEmail , Password newPassword , Address newAddress) {
+	public User(String newUsername , String newEmail , Password newPassword , Profile newProfile) {
 		this.setUsername(newUsername);
 		this.setEmail(newEmail);
 		this.setPassword(newPassword);
-		this.setAddress(newAddress);
-		this.setProfile(new Profile());
-		this.setAllLists(new ArrayList<ProductList>());		
+		this.setMyInitialProfile(newProfile);	
 	}
-
 	public User() {
-		this.setAllLists(new ArrayList<ProductList>());
-		this.setProfile(new Profile());
+		this.profile = new Profile();
+	}
+	
+	
+	
+	private void setMyInitialProfile(Profile newProfile) {
+		this.setProfile(newProfile);
 	}
 
-
+	
+	
+	
 	public Profile getProfile() {
 		return this.profile;
 	}
-
 
 	public String getUsername() {
 		return username;
 	}
 
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
-
 
 	public void setEmail(String email) {
 		this.email = email;
@@ -59,32 +53,11 @@ public class User {
 		this.profile = profile;
 	}
 
-
-	public Address getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-
 	public Password getPassword() {
 		return password;
 	}
 
-
 	public void setPassword(Password password) {
 		this.password = password;
 	}
-
-	public ArrayList<ProductList> getAllLists() {
-		return allLists;
-	}
-
-	public void setAllLists(ArrayList<ProductList> allLists) {
-		this.allLists = allLists;
-	}
-
 }

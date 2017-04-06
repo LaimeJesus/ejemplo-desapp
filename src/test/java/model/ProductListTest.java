@@ -1,13 +1,12 @@
 package model;
 
-import org.mockito.*;
 
 import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class ProductListTest {
 
@@ -20,20 +19,33 @@ public class ProductListTest {
 		
 	}
 	
+	
 	@Test
-	public void testWhenMyProductListAddsAValidNewProductMyListIsIncreased() throws ProductIsAlreadySelectedException {
+	public void testWhenITakeANewProductThenIsOnMyList() {
 		
 		ProductList someProductList = new ProductList();
+		Product anyProductMock = Mockito.mock(Product.class);
+		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(2,43));
 		
-		Product aProduct = Mockito.mock(Product.class);
-		Money aMoney = Mockito.mock(Money.class);
+		try {
+			someProductList.selectProduct(anyProductMock, 5);
+			
+			assertTrue(someProductList.thisProductIsSelected(anyProductMock));
+		} catch (ProductIsAlreadySelectedException e) {
+			fail();
+		}
 		
-		Mockito.when(aMoney.times(3)).thenReturn(aMoney);
-		Mockito.when(aProduct.getPrice()).thenReturn(aMoney);
+	}
+	
+	@Test (expected = ProductIsAlreadySelectedException.class)
+	public void testWhenITakeAProductIAlreadySelectThenAnExceptionIsThrown() throws ProductIsAlreadySelectedException {
 		
-		someProductList.selectProduct(aProduct, 3);
+		ProductList someProductList = new ProductList();
+		Product anyProductMock = Mockito.mock(Product.class);
+		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(2,43));
+		someProductList.selectProduct(anyProductMock, 5);
+		someProductList.selectProduct(anyProductMock, 2);
 		
-		assertTrue(! someProductList.isEmpty());
 	}
 
 }
