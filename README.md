@@ -14,6 +14,9 @@ Repository for project **Comprando aloloco**.
 ### Codacy
 * [Codacy](https://www.codacy.com/app/LaimeJesus/grupo-b-012017/dashboard)
 
+### Coveralls
+* [![Coverage Status](https://coveralls.io/repos/github/LaimeJesus/grupo-b-012017/badge.svg?branch=master)](https://coveralls.io/github/LaimeJesus/grupo-b-012017?branch=master)
+
 ### UML diagram
 * **TODO**
 
