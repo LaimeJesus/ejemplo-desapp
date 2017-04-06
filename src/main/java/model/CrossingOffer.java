@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.Interval;
+
 import abstracts.Offer;
 import util.Money;
 
@@ -9,15 +11,15 @@ public class CrossingOffer extends Offer {
 	private Integer maxQuantity;
 	private Integer minQuantity;
 
-	public CrossingOffer(Integer aDiscountRate , Product newRelatedProduct , Integer maxQuantity , Integer minQuantity) {
-		super(aDiscountRate);
+	public CrossingOffer(Integer aDiscountRate , Product newRelatedProduct , Integer maxQuantity , Integer minQuantity , Interval validPeriod) {
+		super(aDiscountRate, validPeriod);
 		this.setMaxQuantity(maxQuantity);
 		this.setMinQuantity(minQuantity);
 	}
 
 	@Override
-	public Money getPreviousPrice() {
-		return this.getRelatedProduct().getPrice().times(this.getMaxQuantity());
+	public Money getPreviousPrice(ProductList productListToGetPrice) {
+		return getPriceOfRelatedProduct().times(this.getMaxQuantity());
 	}
 
 	@Override
@@ -52,4 +54,7 @@ public class CrossingOffer extends Offer {
 		this.relatedProduct = relatedProduct;
 	}
 
+	private Money getPriceOfRelatedProduct() {
+		return this.getRelatedProduct().getPrice();
+	}
 }

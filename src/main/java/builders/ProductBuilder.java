@@ -1,6 +1,7 @@
 package builders;
 
 import model.Product;
+import util.Category;
 import util.Money;
 
 public class ProductBuilder {
@@ -37,6 +38,11 @@ public class ProductBuilder {
 	
 	public ProductBuilder withPrice(Money newPrice) {
 		this.getProduct().setPrice(newPrice);
+		return this;
+	}
+	
+	public ProductBuilder withCategory(Category newCategory) {
+		this.getProduct().setCategory(newCategory);
 		return this;
 	}
 
