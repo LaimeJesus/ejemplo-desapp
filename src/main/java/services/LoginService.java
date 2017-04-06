@@ -12,8 +12,4 @@ public class LoginService {
 	
 	public void logout(User u) {
 	}
-	
-	public boolean isAdmin(User u){
-		return false;
-	}
 }
