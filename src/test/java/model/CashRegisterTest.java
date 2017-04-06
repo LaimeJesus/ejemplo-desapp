@@ -56,13 +56,13 @@ public class CashRegisterTest {
 		
 	}
 	
-	//this test runs in 1sec
-	//@Test
+	//this test runs in 0,001sec
+	@Test
 	public void testACashRegisterCanTakeTheNextClientInTheQueue(){
 		CashRegister aCashRegister = new CashRegister();
 		
 		ProductList aProductListMock = Mockito.mock(ProductList.class);
-		Mockito.when(aProductListMock.getProcessingTime()).thenReturn(new Duration(1000L));
+		Mockito.when(aProductListMock.getProcessingTime()).thenReturn(new Duration(1L));
 
 		aCashRegister.add(aProductListMock);
 		
