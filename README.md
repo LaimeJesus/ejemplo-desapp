@@ -1,6 +1,6 @@
 ## COMPRANDO ALOLOCO
 
-Repository for project **Comprando aloloco**.
+Repository for project **Comprando aloloco**
 
 ### GitHub Repository
 * [Repository](https://github.com/LaimeJesus/grupo-b-012017)
