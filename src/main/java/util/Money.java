@@ -144,6 +144,44 @@ public class Money implements Comparable<Money>{
 			}
 		}
 	}
-	
-	
+
+	public static Money toMoney(String aStringMoney) {
+		String current = "";
+		Integer integer = null;
+		Integer decimal = null;
+		for(char c : aStringMoney.toCharArray()){
+			if(c=='.'){
+				integer = Integer.parseInt(current);
+				current = "";
+			}else{
+				current+=c;
+			}
+		}
+		decimal = Integer.parseInt(current);
+		return new Money(integer, decimal);
+	}
+
+	public static boolean isValid(String aMoney) {
+
+		if(aMoney.isEmpty()){
+			return false;
+		}
+		int dot = aMoney.indexOf('.');
+		if(dot == -1 || dot == 0){
+			return false;
+		}
+		else{
+			String integer = aMoney.substring(0, dot);
+			if(aMoney.length()-1 == dot){
+				return false;
+			}
+			else{
+				String decimal = aMoney.substring(dot+1);				
+				boolean stringValid = !integer.isEmpty() && !decimal.isEmpty() && decimal.length() < 3;
+				//boolean moneyValid = Integer.parseInt(integer) > 0;
+				return stringValid;
+			}
+		}
+	}
+		
 }
