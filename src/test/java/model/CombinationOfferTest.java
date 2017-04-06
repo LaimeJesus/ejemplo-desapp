@@ -105,7 +105,7 @@ public class CombinationOfferTest {
 			
 		} catch (ProductIsAlreadySelectedException e) {
 			fail();
-		};
+		}
 		
 	}
 	

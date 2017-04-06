@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import model.registers.CashRegister;
 import model.registers.CloseFilter;
+import model.registers.InQueueUser;
 import model.registers.TotalCostFilter;
 import model.registers.TotalProductsFilter;
 import util.Money;
@@ -32,10 +33,10 @@ public class CashRegisterTest {
 	public void testAddingAProductListIncrementTheWaitingTime(){
 		CashRegister emptyCashRegister = new CashRegister();
 		
-		ProductList aProductListMock = Mockito.mock(ProductList.class);
-		Mockito.when(aProductListMock.getProcessingTime()).thenReturn(new Duration(5L));
+		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
+		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(5L));
 		
-		emptyCashRegister.add(aProductListMock);		
+		emptyCashRegister.add(newInQueueUserMock);		
 		
 		Duration expected = new Duration(5L);
 		Duration actual = emptyCashRegister.getWaitingTime();
@@ -47,12 +48,12 @@ public class CashRegisterTest {
 	public void testRemoveAProductListDesincrementTheWaitingTime(){
 		CashRegister emptyCashRegister = new CashRegister();
 		
-		ProductList aProductListMock = Mockito.mock(ProductList.class);
-		Mockito.when(aProductListMock.getProcessingTime()).thenReturn(new Duration(5L));
+		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
+		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(5L));
 
-		emptyCashRegister.add(aProductListMock);
+		emptyCashRegister.add(newInQueueUserMock);
 		Duration afterAdded = emptyCashRegister.getWaitingTime();
-		emptyCashRegister.remove(aProductListMock);
+		emptyCashRegister.remove(newInQueueUserMock);
 		Duration afterRemoved = emptyCashRegister.getWaitingTime();
 		
 		Assert.assertTrue(afterAdded.isLongerThan(afterRemoved));
@@ -65,10 +66,11 @@ public class CashRegisterTest {
 	public void testACashRegisterCanTakeTheNextClientInTheQueue(){
 		CashRegister aCashRegister = new CashRegister();
 		
-		ProductList aProductListMock = Mockito.mock(ProductList.class);
-		Mockito.when(aProductListMock.getProcessingTime()).thenReturn(new Duration(1L));
+		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
+		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(1L));
 
-		aCashRegister.add(aProductListMock);
+
+		aCashRegister.add(newInQueueUserMock);
 		
 		aCashRegister.next();
 		
@@ -76,7 +78,7 @@ public class CashRegisterTest {
 	}
 	
 	@Test
-	public void testACashRegisterAcceptsOnlyProductListsWithTotalCostLesserThan50(){
+	public void testACashRegisterOnlyAcceptsProductListsWithTotalCostLesserThan50(){
 		CashRegister aCashRegister = new CashRegister();
 		TotalCostFilter costLesserThan50Filter = new TotalCostFilter(new Money(50,0));
 		aCashRegister.useFilter(costLesserThan50Filter);
@@ -87,10 +89,11 @@ public class CashRegisterTest {
 		ProductList aProductListWithTotalCostEquals45Mock = Mockito.mock(ProductList.class);
 		Mockito.when(aProductListWithTotalCostEquals45Mock.getTotalAmount()).thenReturn(new Money(45,0));
 
-		aCashRegister.addUsingFilter(aProductListWithTotalCostEquals100Mock);
-		aCashRegister.addUsingFilter(aProductListWithTotalCostEquals45Mock);
+		boolean notAccepted = aCashRegister.accepts(aProductListWithTotalCostEquals100Mock);
+		boolean accepted = aCashRegister.accepts(aProductListWithTotalCostEquals45Mock);
 		
-		Assert.assertEquals(aCashRegister.size(), 1);
+		Assert.assertFalse(notAccepted);
+		Assert.assertTrue(accepted);
 		
 	}
 	
@@ -106,10 +109,12 @@ public class CashRegisterTest {
 		ProductList aProductListWith5ProductsMock = Mockito.mock(ProductList.class);
 		Mockito.when(aProductListWith5ProductsMock.getQuantityOfProducts()).thenReturn(5);
 
-		aCashRegister.addUsingFilter(aProductListWith15ProductsMock);
-		aCashRegister.addUsingFilter(aProductListWith5ProductsMock);
+		boolean notAccepted = aCashRegister.accepts(aProductListWith15ProductsMock);
+		boolean accepted = aCashRegister.accepts(aProductListWith5ProductsMock);
 		
-		Assert.assertEquals(aCashRegister.size(), 1);
+		Assert.assertFalse(notAccepted);
+		Assert.assertTrue(accepted);
+		
 	}
 	
 	@Test
@@ -120,9 +125,9 @@ public class CashRegisterTest {
 		
 		ProductList aProductList = Mockito.mock(ProductList.class);
 		
-		aCashRegister.addUsingFilter(aProductList);
+		boolean notAccepted = aCashRegister.accepts(aProductList);
 		
-		Assert.assertEquals(aCashRegister.size(), 0);
+		Assert.assertFalse(notAccepted);
 	}
 	
 }

@@ -153,7 +153,6 @@ public class MoneyTest {
 		Money expected = new Money(4,27);
 		
 		assertEquals(expected,aPrice.percentage(61));
-		
 	}
 	
 	@Test
@@ -172,4 +171,10 @@ public class MoneyTest {
 	public void testRoundingAMoneyWithDecimalPartGreaterThan50(){
 		assertEquals(new Money(2,0), new Money(1,70).round());
 	}
+	
+	@Test
+	public void testDivide40for6Returns7(){
+		assertEquals(new Money(6, 0), new Money(40,0).divideBy(6));
+	}
+	
 }

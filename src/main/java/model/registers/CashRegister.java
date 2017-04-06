@@ -9,49 +9,47 @@ import model.ProductList;
 
 public class CashRegister {
 
-	private List<ProductList> productLists;
+	private List<InQueueUser> queue;
 	private Filter filter;
 
 	public CashRegister(){
-		productLists = new ArrayList<ProductList>();
+		filter = new OpenFilter();
+		queue = new ArrayList<InQueueUser>();
 	}
 	
 	public Duration getWaitingTime() {
 		Duration totalWaitingTime = new Duration(0L);
-		for(ProductList pl : this.getProductLists()){
-			totalWaitingTime = totalWaitingTime.plus(pl.getProcessingTime());
+		for(InQueueUser user : this.getQueue()){
+			totalWaitingTime = totalWaitingTime.plus(user.getProcessingTime());
 		}
 		return totalWaitingTime;
 	}
 	
-	public void add(ProductList aProductList) {
-		this.getProductLists().add(aProductList);
-	}
-
-	private List<ProductList> getProductLists() {
-		return this.productLists;
-	}
-
-	public void remove(ProductList aProductList) {
-		this.getProductLists().remove(aProductList);
+	private List<InQueueUser> getQueue() {
+		return this.queue;
 	}
 
 	public boolean isEmpty() {
-		return this.productLists.isEmpty();
+		return this.queue.isEmpty();
 	}
 
 	public void next() {
 		if(!this.isEmpty()){
-			ProductList nextProductList = this.productLists.get(0);
-			this.remove(nextProductList);
-			this.process(nextProductList);
+			InQueueUser nextUser = this.queue.get(0);
+			this.remove(nextUser);
+			this.process(nextUser);
 		}
 	}
 
-	private void process(ProductList nextProductList) {
+	public void remove(InQueueUser user) {
+		this.getQueue().remove(user);
+		
+	}
+
+	private void process(InQueueUser user) {
 		try {
 			//1000 milliseconds is one second.
-		    Thread.sleep(nextProductList.getProcessingTime().getMillis());
+		    Thread.sleep(user.getProcessingTime().getMillis());
 			//Thread.sleep(5000);
 		    //updateStock(nextProductList)
 		    //addToHistory(nextProductList)
@@ -65,14 +63,15 @@ public class CashRegister {
 		this.filter = filter;		
 	}
 
-	public void addUsingFilter(ProductList aProductList) {
-		if(this.filter.accepts(aProductList)){
-			this.add(aProductList);
-		}
-		
+	public boolean accepts(ProductList pl){
+		return this.filter.accepts(pl);
 	}
 
 	public int size() {
-		return this.getProductLists().size();
+		return this.getQueue().size();
+	}
+
+	public void add(InQueueUser newInQueueUser) {
+		this.getQueue().add(newInQueueUser);
 	}
 }

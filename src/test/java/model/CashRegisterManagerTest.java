@@ -18,15 +18,10 @@ public class CashRegisterManagerTest {
 		sut.addCashRegister(cr);
 		
 		ProductList pl = new ProductList();
-		
-		//Product productMock = Mockito.mock(Product.class);
-		
-		//Mockito.when(productMock.getProccessingTime()).
-		
-		CashRegister newCR = sut.getLesserTime(pl);
+				
+		CashRegister newCR = sut.getNextCashRegisterFor(pl);
 		
 		Duration expected = newCR.getWaitingTime();
-		//Duration actual = pl.getTotalProcessingTime();
 		Duration actual = new Duration(0L);
 		
 		Assert.assertEquals(expected, actual);
