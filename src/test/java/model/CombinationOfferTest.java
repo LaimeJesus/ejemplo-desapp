@@ -207,8 +207,7 @@ public class CombinationOfferTest {
 			
 			assertFalse(aOffer.meetRequirements(someProductList));
 			
-		} catch (ProductIsAlreadySelectedException e) {
-		};
+		} catch (ProductIsAlreadySelectedException e) {};
 	}
 
 }
