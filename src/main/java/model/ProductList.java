@@ -45,25 +45,24 @@ public class ProductList {
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
-		//allProducts.contains(someProduct);
-		for (SelectedProduct currentProduct : allProducts) {
-			if (currentProduct.getProduct().equals(someProduct)) {
-				return true;
-			}
-		}
-		return false;
+		return this.getAllProducts().stream().anyMatch( 
+				currentSelected -> currentSelected.getProduct().equals(someProduct)
+				);
+		
 	}
 	
 	public boolean isEmpty() {
 		return this.allProducts.isEmpty();
 	}
 	
-	public void addProductToList (SelectedProduct newProduct) {
+	private void addProductToList (SelectedProduct newProduct) {
 		this.allProducts.add(newProduct);
 	}
 	
-	public void deleteProductFromList (Product productToRemove) {
-		this.allProducts.remove(productToRemove);
+	private void deleteProductFromList (Product productToRemove) {
+		this.getAllProducts().removeIf( 
+					currentSelectedProduct -> currentSelectedProduct.getProduct().equals(productToRemove)
+				);
 	}
 	
 	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException {
