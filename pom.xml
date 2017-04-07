@@ -83,6 +83,14 @@
 	    <artifactId>commons-lang3</artifactId>
 	    <version>3.5</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent -->
+	<dependency>
+	    <groupId>org.jacoco</groupId>
+	    <artifactId>org.jacoco.agent</artifactId>
+	    <version>0.7.8</version>
+	</dependency>
+		
 
   </dependencies>
   
@@ -93,15 +101,20 @@
 		    <groupId>org.eluder.coveralls</groupId>
 		    <artifactId>coveralls-maven-plugin</artifactId>
 		    <version>4.3.0</version>
-		    <configuration>
-		        <repoToken>2d2c5edb93625078e0125e947892e23737bd6770</repoToken>
-		    </configuration>
 		</plugin>
     	
     	<plugin>
-		  <groupId>org.jacoco</groupId>
-		  <artifactId>jacoco-maven-plugin</artifactId>
-		  <version>0.7.10-SNAPSHOT</version>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.7.6.201602180812</version>
+		    <executions>
+		        <execution>
+		            <id>prepare-agent</id>
+		            <goals>
+		                <goal>prepare-agent</goal>
+		            </goals>
+		        </execution>
+		    </executions>
 		</plugin>
     	
     	<plugin>
