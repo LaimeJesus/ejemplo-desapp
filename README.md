@@ -15,6 +15,7 @@ Repository for project **Comprando aloloco**
 * [Codacy](https://www.codacy.com/app/LaimeJesus/grupo-b-012017/dashboard)
 
 ### Coveralls
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0c862e352a0547869f603742aac7e305)](https://www.codacy.com/app/sandoval-lucasj/grupo-b-012017?utm_source=github.com&utm_medium=referral&utm_content=LaimeJesus/grupo-b-012017&utm_campaign=badger)
 * [![Coverage Status](https://coveralls.io/repos/github/LaimeJesus/grupo-b-012017/badge.svg?branch=master)](https://coveralls.io/github/LaimeJesus/grupo-b-012017?branch=master)
 
 ### UML diagram
