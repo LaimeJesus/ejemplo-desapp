@@ -3,6 +3,7 @@ package services;
 import org.joda.time.Duration;
 
 import model.ProductList;
+import model.User;
 import model.registers.CashRegisterManager;
 import model.registers.Filter;
 
@@ -14,16 +15,16 @@ public class ShopService {
 		this.cashRegisterManager = new CashRegisterManager(cashRegisters);		
 	}
 	
-	public void pay(ProductList pl){
-		this.cashRegisterManager.addProductList(pl);
+	public void pay(ProductList aProductList, User anUser){
+		this.cashRegisterManager.newUserToQueue(aProductList, anUser);
 	}
 	
 	public Duration getWaitingTime(ProductList pl){
 		return this.cashRegisterManager.getWaitingTime(pl);
 	}
 	
-	public void delivery(ProductList pl){
-		//deliveryService.delivery(pl)
+	public void delivery(ProductList pl, User anUser){
+		//deliveryService.delivery(pl, anUser)
 	}
 	
 	public void changeFilter(int index, Filter f){

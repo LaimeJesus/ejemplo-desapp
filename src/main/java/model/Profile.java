@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
 import util.Address;
@@ -10,13 +12,13 @@ public class Profile {
 
 	
 	private Address address;
-	private ArrayList<ProductList> allProductLists;
+	private List<ProductList> allProductLists;
+	private List<PurchaseRecord> purchaseHistory;
 	
 	public Profile() {
 		allProductLists = new ArrayList<ProductList>();
+		purchaseHistory = new ArrayList<PurchaseRecord>();
 	}
-	
-	
 	
 	public void createProductList(String newName) throws ProductListAlreadyCreatedException {
 		if (this.listAlreadyExist(newName)) {
@@ -28,29 +30,25 @@ public class Profile {
 	}
 	
 	public void addProductToList(String nameOfList , Product productToAdd , Integer howMany) throws ProductIsAlreadySelectedException {
-		for (ProductList currentProductList : this.allProductLists) {
-			if (currentProductList.getName().equals(nameOfList)) {
-				currentProductList.selectProduct(productToAdd , howMany);
-			}
-		}
+		this.getList(nameOfList).selectProduct(productToAdd, howMany);
 	}
 	
 	public Money getCostOfList(String nameOfList) {
-		for (ProductList currentProductList : this.allProductLists) {
-			if (currentProductList.getName().equals(nameOfList)) {
-				return currentProductList.getTotalAmount();
+		return this.getList(nameOfList).getTotalAmount();
+	}
+	
+	public ProductList getList(String aProductListName){
+		ProductList res = null;
+		for(ProductList pl : this.getAllProductList()){
+			if(pl.getName().equals(aProductListName)){
+				return pl;
 			}
 		}
-		return new Money(0,0);
+		return res;
 	}
 	
 	public boolean listAlreadyExist(String name) {
-		for (ProductList currentProductList : this.allProductLists) {
-			if (currentProductList.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
+		return this.getList(name) != null;
 	}
 	
 	public Address getAddress() {
@@ -61,12 +59,20 @@ public class Profile {
 		this.address = newAddress;
 	}
 	
-	public ArrayList<ProductList> getAllProductList() {
+	public List<ProductList> getAllProductList() {
 		return this.allProductLists;
 	}
 	
 	public void setAllLists(ArrayList<ProductList> newProductLists) {
 		this.allProductLists = newProductLists;
+	}
+
+	public void addToHistory(ProductList productList) {
+		this.getPurchaseHistory().add(new PurchaseRecord(productList));
+	}
+
+	private List<PurchaseRecord> getPurchaseHistory() {
+		return this.purchaseHistory;
 	}
 	
 }

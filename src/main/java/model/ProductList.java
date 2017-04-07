@@ -13,21 +13,12 @@ import util.Money;
 public class ProductList {
 
 	
-	private String name;
-	//ArrayList<Umbral> umbrals;
-	
+	private String name;	
 	private Money totalAmount = new Money(0,0);
 	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
-	
 	private List<Offer> appliedOffers = new ArrayList<Offer>();
-	private User user;
 	
 	public ProductList () { 
-	}
-
-	
-	public ProductList (User u) { 
-		this.user = u;
 	}
 	
 	public ProductList (String newName) {
@@ -81,13 +72,20 @@ public class ProductList {
 		return unitPrice.times(quantity);
 	}
 
-	//todo
 	public Duration getProcessingTime() {
-		return null;
+		Duration processingTime = new Duration(0L);
+		for(SelectedProduct p : this.getAllProducts()){
+			processingTime = processingTime.plus(p.getProduct().getProcessingTime().multipliedBy(p.getQuantity()));
+		}
+		return processingTime;
 	}
 	
 	public int getQuantityOfProducts() {
-		return 0;
+		Integer quantity = 0;
+		for(SelectedProduct p : this.getAllProducts()){
+			quantity += p.getQuantity();
+		}
+		return quantity;
 	}	
 	
 	public String getName() {

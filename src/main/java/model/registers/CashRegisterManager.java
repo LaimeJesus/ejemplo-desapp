@@ -6,6 +6,7 @@ import java.util.List;
 import org.joda.time.Duration;
 
 import model.ProductList;
+import model.User;
 
 public class CashRegisterManager {
 
@@ -27,33 +28,38 @@ public class CashRegisterManager {
 		this.registers.add(cr);
 	}
 
-	public CashRegister getLesserTime(ProductList pl) {
-		CashRegister cr = this.registers.get(0);
-		for(CashRegister cashRegister : this.registers){
-			if(cr.getWaitingTime().isLongerThan(cashRegister.getWaitingTime())){
-				cr = cashRegister;
-			}
-		}
-		return cr;
-	}
-
 	public List<CashRegister> getRegisters() {
 		return this.registers;
 	}
 
-	public void addProductList(ProductList pl) {
-		CashRegister aCashRegister = this.getLesserTime(pl);
-		aCashRegister.addUsingFilter(pl);
-		aCashRegister.next();
-		
-	}
-
 	public Duration getWaitingTime(ProductList pl) {
-		return this.getLesserTime(pl).getWaitingTime();
+		return this.getNextCashRegisterFor(pl).getWaitingTime();
 	}
 
 	public void changeFilterFor(int index, Filter f) {
 		this.getRegisters().get(index).useFilter(f);
 	}
 
+	public void newUserToQueue(ProductList aProductList, User user) {
+		CashRegister aCashRegister = this.getNextCashRegisterFor(aProductList);
+		InQueueUser newInQueueUser = new InQueueUser(aProductList, user);
+		aCashRegister.add(newInQueueUser);
+		aCashRegister.next();				
+	}
+
+	//siempre deberia haber una caja para alguien que quiera pagar, sino este metodo devuelve null
+	public CashRegister getNextCashRegisterFor(ProductList aProductList){
+		CashRegister cashRegister = null;
+		for(CashRegister cr : this.getRegisters()){
+			if(cashRegister == null && cr.accepts(aProductList)){
+				cashRegister = cr;
+			}else{
+				if(cr.accepts(aProductList) && cr.getWaitingTime().isLongerThan(cashRegister.getWaitingTime())){
+					cr = cashRegister;
+				}				
+			}
+		}
+		return cashRegister;
+	}
+	
 }

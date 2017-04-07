@@ -1,15 +1,22 @@
 package model;
 
+import org.joda.time.Duration;
+
 import util.Category;
 import util.Money;
 
 public class Product {
 	
+	@SuppressWarnings("unused")
+	private int id;
 	private String name;
 	private String brand;
 	private String stock;
 	private Money price;
 	private Category category;
+	private Duration processingTime;
+	@SuppressWarnings("unused")
+	private String imageUrl;
 	
 	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
 		this.setName(newName);
@@ -83,7 +90,21 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
+	public Duration getProcessingTime() {
+		return this.processingTime;
+	}
+	public void setProcessingTime(Duration newDuration){
+		this.processingTime = newDuration;
+	}
+
+	public void setId(int newId) {
+		this.id = newId;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 }
 
 
