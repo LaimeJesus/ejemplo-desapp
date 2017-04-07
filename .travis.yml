@@ -5,3 +5,5 @@ jdk:
 script:
 - mvn clean install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
 - mvn clean verify
+after_success:
+  - mvn clean test jacoco:report coveralls:report

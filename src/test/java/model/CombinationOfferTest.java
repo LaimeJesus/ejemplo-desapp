@@ -26,7 +26,7 @@ public class CombinationOfferTest {
 		
 		Mockito.when(firstProductMock.getPrice()).thenReturn(new Money(24,56));
 		Mockito.when(secondProductMock.getPrice()).thenReturn(new Money(17,21));
-		
+				
 		CombinationOffer aOffer = new CombinationOffer(firstProductMock, secondProductMock, 15, anIntervalMock);
 		
 		Money expected = new Money(41,77);
