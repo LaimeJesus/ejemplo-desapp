@@ -52,7 +52,7 @@ public class CashRegister {
 		    Thread.sleep(user.getProcessingTime().getMillis());
 			//Thread.sleep(5000);
 		    //updateStock(nextProductList)
-		    //addToHistory(nextProductList)
+		    //user.getProfile().addToHistory(user.getProductList());
 		    this.next();
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();

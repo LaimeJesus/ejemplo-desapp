@@ -69,7 +69,6 @@ public class CashRegisterTest {
 		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
 		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(1L));
 
-
 		aCashRegister.add(newInQueueUserMock);
 		
 		aCashRegister.next();

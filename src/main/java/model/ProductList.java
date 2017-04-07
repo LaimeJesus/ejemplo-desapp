@@ -73,17 +73,20 @@ public class ProductList {
 		return unitPrice.times(quantity);
 	}
 
-	//todo
 	public Duration getProcessingTime() {
-		Duration d = new Duration(0L);
+		Duration processingTime = new Duration(0L);
 		for(SelectedProduct p : this.getAllProducts()){
-			d = d.plus(p.getProduct().getProcessingTime().multipliedBy(p.getQuantity()));
+			processingTime = processingTime.plus(p.getProduct().getProcessingTime().multipliedBy(p.getQuantity()));
 		}
-		return null;
+		return processingTime;
 	}
 	
 	public int getQuantityOfProducts() {
-		return 0;
+		Integer quantity = 0;
+		for(SelectedProduct p : this.getAllProducts()){
+			quantity += p.getQuantity();
+		}
+		return quantity;
 	}	
 	
 	public String getName() {

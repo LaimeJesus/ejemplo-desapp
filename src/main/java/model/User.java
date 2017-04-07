@@ -20,14 +20,9 @@ public class User {
 		this.profile = new Profile();
 	}
 	
-	
-	
 	private void setMyInitialProfile(Profile newProfile) {
 		this.setProfile(newProfile);
 	}
-
-	
-	
 	
 	public Profile getProfile() {
 		return this.profile;

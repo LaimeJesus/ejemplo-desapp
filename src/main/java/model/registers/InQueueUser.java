@@ -3,6 +3,7 @@ package model.registers;
 import org.joda.time.base.BaseDuration;
 
 import model.ProductList;
+import model.Profile;
 import model.User;
 
 public class InQueueUser {
@@ -33,6 +34,10 @@ public class InQueueUser {
 
 	public void setProductList(ProductList productList) {
 		this.productList = productList;
+	}
+
+	public Profile getProfile() {
+		return this.getUser().getProfile();
 	}
 
 }

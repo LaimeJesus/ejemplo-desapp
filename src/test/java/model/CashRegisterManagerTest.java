@@ -9,6 +9,14 @@ import model.registers.CashRegisterManager;
 
 public class CashRegisterManagerTest {
 	
+	
+	@Test
+	public void testCreateACashRegisterManagerWith10CashRegistersHas10CashRegisters(){
+		CashRegisterManager sut = new CashRegisterManager(10);
+		
+		Assert.assertEquals(10, sut.getRegisters().size());
+	}
+	
 	@Test
 	public void testCanGetTheLesserTimeOfMyCashRegisters(){
 		CashRegisterManager sut = new CashRegisterManager();

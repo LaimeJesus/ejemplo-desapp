@@ -47,6 +47,7 @@ public class CashRegisterManager {
 		aCashRegister.next();				
 	}
 
+	//siempre deberia haber una caja para alguien que quiera pagar, sino este metodo devuelve null
 	public CashRegister getNextCashRegisterFor(ProductList aProductList){
 		CashRegister cashRegister = null;
 		for(CashRegister cr : this.getRegisters()){

@@ -55,13 +55,10 @@ public class ProfileTest {
 	}
 	
 	@Test
-	public void testWhenIDontHaveAnyListCreatedThenTotalCostOfAInexistentListIsZero() {
+	public void testWhenIAskForAListThatDoesnotExistItReturnsFalse() {
 		
 		Profile aProfile = new Profile();
-		
-		Money expected = new Money(0,0);
-		
-		Assert.assertEquals(expected, aProfile.getCostOfList("Inexistent List"));
+		Assert.assertFalse(aProfile.listAlreadyExist("Inexistent List"));
 		
 	}
 	

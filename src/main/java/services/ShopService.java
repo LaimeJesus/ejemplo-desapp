@@ -23,8 +23,8 @@ public class ShopService {
 		return this.cashRegisterManager.getWaitingTime(pl);
 	}
 	
-	public void delivery(ProductList pl){
-		//deliveryService.delivery(pl)
+	public void delivery(ProductList pl, User anUser){
+		//deliveryService.delivery(pl, anUser)
 	}
 	
 	public void changeFilter(int index, Filter f){
