@@ -2,15 +2,11 @@ package model.offers;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import antlr.collections.List;
 import exceptions.ProductIsAlreadySelectedException;
 import model.Product;
 import model.ProductList;
