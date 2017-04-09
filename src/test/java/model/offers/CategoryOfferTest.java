@@ -1,4 +1,4 @@
-package model;
+package model.offers;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 
 import antlr.collections.List;
 import exceptions.ProductIsAlreadySelectedException;
+import model.Product;
+import model.ProductList;
 import model.offers.CategoryOffer;
 import util.Category;
 import util.Money;
