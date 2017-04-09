@@ -59,4 +59,26 @@ public class CrossingOfferTest {
 		
 	}
 
+	@Test
+	public void testWhenTheListHasLessThanMaxQuantityOfProductThenDoesNotMeetsTheRequirements() {
+		
+		ProductList aProductList = new ProductList();
+		DateTime today = DateTime.now();
+		DateTime tomorrow = today.plusDays(1);
+		Interval anIntervalMock = new Interval(today, tomorrow);
+		
+		Product aProductMock = Mockito.mock(Product.class);
+		Mockito.when(aProductMock.getPrice()).thenReturn(new Money(2,75));
+		
+		Integer maxQuantity = 3;
+		
+		CrossingOffer aCrossingOffer = new CrossingOffer(23, aProductMock, maxQuantity, 2, anIntervalMock);
+		
+		try {
+			aProductList.selectProduct(aProductMock, maxQuantity-1);
+			assertFalse(aCrossingOffer.meetRequirements(aProductList));
+		} catch (ProductIsAlreadySelectedException e) {
+		}
+	}
+	
 }
