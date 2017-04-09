@@ -1,4 +1,4 @@
-package model;
+package model.offers;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,8 @@ import org.mockito.Mockito;
 
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.Product;
+import model.ProductList;
 import model.offers.CombinationOffer;
 import util.Money;
 

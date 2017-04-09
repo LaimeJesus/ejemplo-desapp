@@ -1,9 +1,10 @@
-package model;
+package model.registers;
 
 import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Test;
 
+import model.ProductList;
 import model.registers.CashRegister;
 import model.registers.CashRegisterManager;
 
