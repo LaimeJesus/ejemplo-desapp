@@ -9,7 +9,7 @@ Repository for project **Comprando aloloco**
 * [Travis](https://travis-ci.org/LaimeJesus/grupo-b-012017)
 
 ### Heroku
-* [Heroku](https://dashboard.heroku.com/apps/grupo-b-012017)
+* [Heroku](https://grupo-b-012017.herokuapp.com/)
 
 ### Codacy
 * [Codacy](https://www.codacy.com/app/LaimeJesus/grupo-b-012017/dashboard)
