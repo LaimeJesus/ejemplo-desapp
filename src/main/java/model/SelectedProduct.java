@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.Duration;
+
 public class SelectedProduct {
 	
 	private Product product;
@@ -7,8 +9,8 @@ public class SelectedProduct {
 	
 	
 	public SelectedProduct(Product newProduct , Integer newQuantity) {
-		this.product = newProduct;
-		this.quantity = newQuantity;
+		this.setProduct(newProduct);
+		this.setQuantity(newQuantity);
 	}
 	
 	
@@ -26,6 +28,10 @@ public class SelectedProduct {
 	
 	public void setQuantity(Integer newQuantity) {
 		this.quantity = newQuantity;
+	}
+
+	public Duration getProcessingTime(){
+		return this.getProduct().getProcessingTime().multipliedBy(this.getQuantity());
 	}
 	
 }

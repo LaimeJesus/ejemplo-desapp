@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import builders.ProductBuilder;
+import util.Category;
 import util.Money;
 
 public class ProductTest {
@@ -18,6 +19,7 @@ public class ProductTest {
 				.withBrand("La Salteña")
 				.withPrice(new Money(3,50))
 				.withStock(500)
+				.withCategory(Category.Perfumery)
 				.build();
 		
 		String expected = "La Salteña";

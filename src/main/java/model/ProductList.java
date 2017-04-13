@@ -54,7 +54,7 @@ public class ProductList {
 		return this.allProducts.isEmpty();
 	}
 	
-	private void addProductToList (SelectedProduct newProduct) {
+	public void addProductToList (SelectedProduct newProduct) {
 		this.allProducts.add(newProduct);
 	}
 	
@@ -82,8 +82,8 @@ public class ProductList {
 
 	public Duration getProcessingTime() {
 		Duration processingTime = new Duration(0L);
-		for(SelectedProduct p : this.getAllProducts()){
-			processingTime = processingTime.plus(p.getProduct().getProcessingTime().multipliedBy(p.getQuantity()));
+		for(SelectedProduct aSelectedProduct : this.getAllProducts()){
+			processingTime = processingTime.plus(aSelectedProduct.getProcessingTime());
 		}
 		return processingTime;
 	}
