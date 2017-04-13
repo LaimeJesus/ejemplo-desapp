@@ -3,7 +3,7 @@ package model.registers;
 import org.joda.time.base.BaseDuration;
 
 import model.ProductList;
-import model.Profile;
+import model.PurchaseRecord;
 import model.User;
 
 public class InQueueUser {
@@ -36,8 +36,8 @@ public class InQueueUser {
 		this.productList = productList;
 	}
 
-	public Profile getProfile() {
-		return this.getUser().getProfile();
+	public void newPurchase() {
+		this.getUser().newPurchase(new PurchaseRecord(this.getProductList()));
 	}
-
+	
 }

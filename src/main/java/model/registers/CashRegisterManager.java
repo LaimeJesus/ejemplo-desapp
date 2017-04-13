@@ -6,7 +6,6 @@ import java.util.List;
 import org.joda.time.Duration;
 
 import model.ProductList;
-import model.User;
 
 public class CashRegisterManager {
 
@@ -32,33 +31,36 @@ public class CashRegisterManager {
 		return this.registers;
 	}
 
-	public Duration getWaitingTime(ProductList pl) {
-		return this.getNextCashRegisterFor(pl).getWaitingTime();
+	public Duration getWaitingTime(ProductList aProductList) {
+		return this.getNextCashRegisterFor(aProductList).getWaitingTime();
 	}
 
 	public void changeFilterFor(int index, Filter f) {
 		this.getRegisters().get(index).useFilter(f);
 	}
-
-	public void newUserToQueue(ProductList aProductList, User user) {
-		CashRegister aCashRegister = this.getNextCashRegisterFor(aProductList);
-		InQueueUser newInQueueUser = new InQueueUser(aProductList, user);
-		aCashRegister.add(newInQueueUser);
-		aCashRegister.next();				
+	
+	public void addInQueueUsertoACashRegister(CashRegister aCashRegister, InQueueUser anInQueueUser){
+		aCashRegister.add(anInQueueUser);
+		aCashRegister.next();
 	}
 
-	//siempre deberia haber una caja para alguien que quiera pagar, sino este metodo devuelve null
+	public void newUserToQueue(InQueueUser anInQueueUser) {
+		this.addInQueueUsertoACashRegister(this.getNextCashRegisterFor(anInQueueUser.getProductList()), anInQueueUser);
+	}
+
 	public CashRegister getNextCashRegisterFor(ProductList aProductList){
 		CashRegister cashRegister = null;
 		for(CashRegister cr : this.getRegisters()){
 			if(cashRegister == null && cr.accepts(aProductList)){
 				cashRegister = cr;
 			}else{
-				if(cr.accepts(aProductList) && cr.getWaitingTime().isLongerThan(cashRegister.getWaitingTime())){
-					cr = cashRegister;
+				if(cr.accepts(aProductList) && cashRegister.getWaitingTime().isLongerThan(cr.getWaitingTime())){
+					cashRegister = cr;
 				}				
 			}
 		}
+		//si cash register es null entonces aca deberia lanzar una excepcion,
+		//ya que no hay cajas disponibles
 		return cashRegister;
 	}
 	

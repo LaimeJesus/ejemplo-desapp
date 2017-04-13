@@ -18,10 +18,11 @@ public class CashRegisterTest {
 	@Test
 	public void testANewCashRegisterIsEmpty(){
 		Assert.assertTrue(new CashRegister().isEmpty());
+		Assert.assertEquals(0,new CashRegister().size());
 	}
 	
 	@Test
-	public void testANewCashRegisterHasNoWaitingTime(){
+	public void testANewCashRegisterHasWaitingTimeOfZeroSeconds(){
 		CashRegister newCashRegister = new CashRegister();
 		
 		Duration expected = new Duration(0L);
@@ -31,7 +32,7 @@ public class CashRegisterTest {
 	}
 	
 	@Test
-	public void testAddingAProductListIncrementTheWaitingTime(){
+	public void testAddingAnUserWithAProductListWhichItsDurationIs5secondsThenIncreaseTheWaitingTimeFor5Sec(){
 		CashRegister emptyCashRegister = new CashRegister();
 		
 		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
@@ -46,7 +47,7 @@ public class CashRegisterTest {
 	}
 	
 	@Test
-	public void testRemoveAProductListDesincrementTheWaitingTime(){
+	public void testRemovingAnUserInTheQueueWithAProductListWhereItsDurationTimeIs5secondsThenDecreaseTheWaitingTimeFor5seconds(){
 		CashRegister emptyCashRegister = new CashRegister();
 		
 		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
@@ -71,6 +72,8 @@ public class CashRegisterTest {
 		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(1L));
 
 		aCashRegister.add(newInQueueUserMock);
+		
+		Mockito.doNothing().when(newInQueueUserMock).newPurchase();
 		
 		aCashRegister.next();
 		
@@ -118,16 +121,25 @@ public class CashRegisterTest {
 	}
 	
 	@Test
-	public void testAClosedCashRegisterCannotAcceptProductLists(){
+	public void testAClosedCashRegisterCannotAcceptAnyUser(){
 		CashRegister aCashRegister = new CashRegister();
 		CloseFilter closeFilter = new CloseFilter();
 		aCashRegister.useFilter(closeFilter);
 		
 		ProductList aProductList = Mockito.mock(ProductList.class);
 		
-		boolean notAccepted = aCashRegister.accepts(aProductList);
+		Assert.assertFalse(aCashRegister.accepts(aProductList));
+	}
+	
+	@Test
+	public void testAOpenCashRegisterCanAcceptAnyUser(){
+		CashRegister aCashRegister = new CashRegister();
+		OpenFilter openFilter = new OpenFilter();
+		aCashRegister.useFilter(openFilter);
 		
-		Assert.assertFalse(notAccepted);
+		ProductList aProductList = Mockito.mock(ProductList.class);
+		
+		Assert.assertTrue(aCashRegister.accepts(aProductList));
 	}
 	
 }

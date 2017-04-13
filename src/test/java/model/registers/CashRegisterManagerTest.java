@@ -3,6 +3,7 @@ package model.registers;
 import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import model.ProductList;
 import model.registers.CashRegister;
@@ -19,21 +20,88 @@ public class CashRegisterManagerTest {
 	}
 	
 	@Test
-	public void testCanGetTheLesserTimeOfMyCashRegisters(){
+	public void testGettingTheCashRegisterWithLesserWaitingTime(){
 		CashRegisterManager sut = new CashRegisterManager();
 		
-		CashRegister cr = new CashRegister();
+		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
+		CashRegister aCashRegister2Mock = Mockito.mock(CashRegister.class);
 		
-		sut.addCashRegister(cr);
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
 		
-		ProductList pl = new ProductList();
-				
-		CashRegister newCR = sut.getNextCashRegisterFor(pl);
-		
-		Duration expected = newCR.getWaitingTime();
-		Duration actual = new Duration(0L);
-		
-		Assert.assertEquals(expected, actual);
-	}
+		Mockito.when(aCashRegister1Mock.getWaitingTime()).thenReturn(new Duration(5L));
+		Mockito.when(aCashRegister1Mock.accepts(aProductListMock)).thenReturn(true);
 
+		Mockito.when(aCashRegister2Mock.getWaitingTime()).thenReturn(new Duration(4L));
+		Mockito.when(aCashRegister2Mock.accepts(aProductListMock)).thenReturn(true);		
+		
+		sut.addCashRegister(aCashRegister1Mock);
+		sut.addCashRegister(aCashRegister2Mock);
+		
+		Assert.assertEquals(aCashRegister2Mock, sut.getNextCashRegisterFor(aProductListMock));	
+		
+	}
+	
+	@Test
+	public void testGettingTheCashRegisterWithLesserTimeWhenAllMyCashRegisterAreClosedThenReturnsNull(){
+		CashRegisterManager sut = new CashRegisterManager();
+		
+		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
+		CashRegister aCashRegister2Mock = Mockito.mock(CashRegister.class);
+		
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		
+		Mockito.when(aCashRegister1Mock.accepts(aProductListMock)).thenReturn(false);
+		Mockito.when(aCashRegister2Mock.accepts(aProductListMock)).thenReturn(false);		
+		
+		sut.addCashRegister(aCashRegister1Mock);
+		sut.addCashRegister(aCashRegister2Mock);
+		
+		Assert.assertEquals(null, sut.getNextCashRegisterFor(aProductListMock));	
+		
+	}
+	
+	@Test
+	public void testGettingTheWaitingTimeWithTwoCashRegisterWith10secondsAndTheOtherWith8SecondsReturns8Seconds(){
+		CashRegisterManager sut = new CashRegisterManager();
+		
+		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
+		CashRegister aCashRegister2Mock = Mockito.mock(CashRegister.class);
+		
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		
+		Mockito.when(aCashRegister1Mock.getWaitingTime()).thenReturn(new Duration(5L));
+		Mockito.when(aCashRegister1Mock.accepts(aProductListMock)).thenReturn(true);
+
+		Mockito.when(aCashRegister2Mock.getWaitingTime()).thenReturn(new Duration(4L));
+		Mockito.when(aCashRegister2Mock.accepts(aProductListMock)).thenReturn(true);		
+		
+		sut.addCashRegister(aCashRegister1Mock);
+		sut.addCashRegister(aCashRegister2Mock);
+		
+		Assert.assertEquals(new Duration(4L), sut.getWaitingTime(aProductListMock));	
+				
+	}
+	
+	@Test
+	public void testAnUserWithItsProductListIsAddedToTheCashRegisterWithTheLesserTime(){
+		CashRegisterManager sut = new CashRegisterManager();
+		
+		CashRegister aCashRegisterMock = Mockito.mock(CashRegister.class);
+		
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		InQueueUser anInQueueUserMock = Mockito.mock(InQueueUser.class);
+		
+		Mockito.when(anInQueueUserMock.getProductList()).thenReturn(aProductListMock);
+		Mockito.when(aCashRegisterMock.getWaitingTime()).thenReturn(new Duration(5L));
+		Mockito.when(aCashRegisterMock.accepts(aProductListMock)).thenReturn(true);
+		
+		sut.addCashRegister(aCashRegisterMock);
+		sut.newUserToQueue(anInQueueUserMock);
+		
+		
+		Mockito.verify(aCashRegisterMock).next();
+		Mockito.verify(anInQueueUserMock).getProductList();
+		
+	}
+	
 }
