@@ -67,12 +67,12 @@ public class Profile {
 		this.allProductLists = newProductLists;
 	}
 
-	public void addToHistory(ProductList productList) {
-		this.getPurchaseHistory().add(new PurchaseRecord(productList));
+	public List<PurchaseRecord> getPurchaseHistory() {
+		return this.purchaseHistory;
 	}
 
-	private List<PurchaseRecord> getPurchaseHistory() {
-		return this.purchaseHistory;
+	public void addNewPurchaseToHistory(PurchaseRecord aPurchaseRecord) {
+		this.getPurchaseHistory().add(aPurchaseRecord);
 	}
 	
 }

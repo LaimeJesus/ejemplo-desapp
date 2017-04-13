@@ -7,7 +7,6 @@ import util.Money;
 
 public class Product {
 	
-	@SuppressWarnings("unused")
 	private int id;
 	private String name;
 	private String brand;
@@ -15,7 +14,6 @@ public class Product {
 	private Money price;
 	private Category category;
 	private Duration processingTime;
-	@SuppressWarnings("unused")
 	private String imageUrl;
 	
 	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
@@ -102,8 +100,16 @@ public class Product {
 		this.id = newId;
 	}
 
+	public int getId(){
+		return this.id;
+	}
+	
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	
+	public String getImageUrl(){
+		return this.imageUrl;
 	}
 }
 

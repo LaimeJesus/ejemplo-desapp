@@ -1,6 +1,5 @@
 package model;
 
-import static org.junit.Assert.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +82,7 @@ public class ProfileTest {
 			Assert.assertEquals(expected, aProfile.getCostOfList("Timmy's Birthday"));
 			
 		} catch (ProductIsAlreadySelectedException | ProductListAlreadyCreatedException e) {
-			fail();
+			Assert.fail();
 		}
 	}
 

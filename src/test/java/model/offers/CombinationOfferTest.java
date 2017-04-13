@@ -137,7 +137,7 @@ public class CombinationOfferTest {
 			
 		} catch (ProductIsAlreadySelectedException e) {
 			fail();
-		};
+		}
 		
 	}
 	
@@ -209,7 +209,7 @@ public class CombinationOfferTest {
 			
 			assertFalse(aOffer.meetRequirements(someProductList));
 			
-		} catch (ProductIsAlreadySelectedException e) {};
+		} catch (ProductIsAlreadySelectedException e) {}
 	}
 
 }

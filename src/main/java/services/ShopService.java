@@ -6,6 +6,7 @@ import model.ProductList;
 import model.User;
 import model.registers.CashRegisterManager;
 import model.registers.Filter;
+import model.registers.InQueueUser;
 
 public class ShopService {
 	
@@ -16,7 +17,8 @@ public class ShopService {
 	}
 	
 	public void pay(ProductList aProductList, User anUser){
-		this.cashRegisterManager.newUserToQueue(aProductList, anUser);
+		InQueueUser newInQueueUser = new InQueueUser(aProductList, anUser);
+		this.cashRegisterManager.newUserToQueue(newInQueueUser);
 	}
 	
 	public Duration getWaitingTime(ProductList pl){

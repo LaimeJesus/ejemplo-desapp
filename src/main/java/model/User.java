@@ -55,4 +55,8 @@ public class User {
 	public void setPassword(Password password) {
 		this.password = password;
 	}
+	public void newPurchase(PurchaseRecord aPurchaseRecord) {
+		this.getProfile().addNewPurchaseToHistory(aPurchaseRecord);
+		
+	}
 }
