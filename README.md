@@ -19,7 +19,7 @@ Repository for project **Comprando aloloco**
 * [![Coverage Status](https://coveralls.io/repos/github/LaimeJesus/grupo-b-012017/badge.svg?branch=master)](https://coveralls.io/github/LaimeJesus/grupo-b-012017?branch=master)
 
 ### UML diagram
-* **TODO**
+* ![UML](https://github.com/LaimeJesus/grupo-b-012017/blob/master/doc/Untitled%20Diagram.png)
 
 ### Mockup
 * **TODO**
