@@ -22,7 +22,7 @@ Repository for project **Comprando aloloco**
 * ![UML](https://github.com/LaimeJesus/grupo-b-012017/blob/master/doc/Untitled%20Diagram.png)
 
 ### Mockup
-* **TODO**
+* ![Mockup](https://raw.githubusercontent.com/LaimeJesus/grupo-b-012017/master/doc/Mockups%20-%20Lobby%20%26%20AddProduct%20-%20PNG.png)
 
 #### Authors
 * Sandoval Lucas
