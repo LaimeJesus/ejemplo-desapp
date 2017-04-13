@@ -17,7 +17,7 @@ public class ProductTest {
 				.withName("Arroz")
 				.withBrand("La Salteña")
 				.withPrice(new Money(3,50))
-				.withStock("500")
+				.withStock(500)
 				.build();
 		
 		String expected = "La Salteña";

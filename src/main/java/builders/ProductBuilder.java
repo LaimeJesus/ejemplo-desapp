@@ -31,7 +31,7 @@ public class ProductBuilder {
 		return this;
 	}
 	
-	public ProductBuilder withStock(String newStock) {
+	public ProductBuilder withStock(Integer newStock) {
 		this.getProduct().setStock(newStock);
 		return this;
 	}

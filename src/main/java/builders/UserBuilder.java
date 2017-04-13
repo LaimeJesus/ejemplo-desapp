@@ -1,6 +1,5 @@
 package builders;
 
-import model.Profile;
 import model.User;
 import util.Password;
 
@@ -18,11 +17,6 @@ public class UserBuilder {
 
 	public UserBuilder withPassword(Password aPassword) {
 		this.getUser().setPassword(aPassword);
-		return this;
-	}
-
-	public UserBuilder withProfile(Profile aProfile) {
-		this.getUser().setProfile(aProfile);
 		return this;
 	}
 

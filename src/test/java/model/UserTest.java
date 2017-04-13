@@ -1,8 +1,8 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import builders.UserBuilder;
@@ -14,7 +14,8 @@ public class UserTest {
 	public void testWhenICreateANewUserThenItHasAProfile(){
 		User newUser = new User();
 		
-		assertTrue(newUser.getProfile() != null);
+		Assert.assertNotNull(newUser.getProfile());
+		Assert.assertFalse(newUser.getIsLogged());
 	}
 	
 	@Test

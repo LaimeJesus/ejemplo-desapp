@@ -22,20 +22,15 @@ public class ProductListTest {
 	
 	
 	@Test
-	public void testWhenITakeANewProductThenIsOnMyList() {
+	public void testWhenITakeANewProductThenIsOnMyList() throws ProductIsAlreadySelectedException {
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);
 		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(2,43));
 		
-		try {
-			someProductList.selectProduct(anyProductMock, 5);
+		someProductList.selectProduct(anyProductMock, 5);
 			
-			assertTrue(someProductList.thisProductIsSelected(anyProductMock));
-		} catch (ProductIsAlreadySelectedException e) {
-			fail();
-		}
-		
+		assertTrue(someProductList.thisProductIsSelected(anyProductMock));		
 	}
 	
 	@Test (expected = ProductIsAlreadySelectedException.class)
@@ -50,7 +45,7 @@ public class ProductListTest {
 	}
 	
 	@Test
-	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() {
+	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() throws ProductIsAlreadySelectedException, ProductDoesNotExistOnListException {
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);
@@ -58,15 +53,11 @@ public class ProductListTest {
 		Mockito.when(anyProductMock.getName()).thenReturn("anyName");
 		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(2,43));
 		
-		try {
-			someProductList.selectProduct(anyProductMock, 5);
+		someProductList.selectProduct(anyProductMock, 5);
+		
+		someProductList.removeProduct(anyProductMock);
 			
-			someProductList.removeProduct(anyProductMock);
-			
-			assertFalse(someProductList.thisProductIsSelected(anyProductMock));
-		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistOnListException e) {
-			fail();
-		} 
+		assertFalse(someProductList.thisProductIsSelected(anyProductMock));
 		
 	}
 	

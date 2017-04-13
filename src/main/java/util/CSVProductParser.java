@@ -33,7 +33,7 @@ public class CSVProductParser extends CSVParser<Product>{
 		aProduct.setId(Integer.parseInt(id));
 		aProduct.setName(name);
 		aProduct.setBrand(brand);
-		aProduct.setStock(stock);
+		aProduct.setStock(Integer.parseInt(stock));
 		checkIsValidMoney(money);
 		aProduct.setPrice(Money.toMoney(money));
 		checkIsValidCategory(category);

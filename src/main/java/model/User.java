@@ -6,22 +6,27 @@ public class User {
 	
 	private String username;
 	private String email;
-	private Profile profile;	
+	private Profile profile;
 	private Password password;
-	
+	private Boolean isLogged;
 	
 	public User(String newUsername , String newEmail , Password newPassword , Profile newProfile) {
 		this.setUsername(newUsername);
 		this.setEmail(newEmail);
 		this.setPassword(newPassword);
-		this.setMyInitialProfile(newProfile);	
+		this.setProfile(newProfile);	
 	}
 	public User() {
-		this.profile = new Profile();
+		this.setProfile(new Profile());
+		this.setIsLogged(false);
+	}
+		
+	private void setIsLogged(Boolean bool) {
+		this.isLogged = bool;
 	}
 	
-	private void setMyInitialProfile(Profile newProfile) {
-		this.setProfile(newProfile);
+	public Boolean getIsLogged(){
+		return this.isLogged;
 	}
 	
 	public Profile getProfile() {

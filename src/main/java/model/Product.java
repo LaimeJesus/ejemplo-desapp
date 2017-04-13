@@ -10,13 +10,13 @@ public class Product {
 	private int id;
 	private String name;
 	private String brand;
-	private String stock;
+	private Integer stock;
 	private Money price;
 	private Category category;
 	private Duration processingTime;
 	private String imageUrl;
 	
-	public Product (String newName , String newBrand , String newStock , Money newPrice , Category newCategory) {
+	public Product (String newName , String newBrand , Integer newStock , Money newPrice , Category newCategory) {
 		this.setName(newName);
 		this.setBrand(newBrand);
 		this.setStock(newStock);
@@ -37,7 +37,7 @@ public class Product {
 		return this.brand;
 	}
 	
-	public String getStock() {
+	public Integer getStock() {
 		return this.stock;
 	}
 	
@@ -53,7 +53,7 @@ public class Product {
 		this.brand = newBrand;
 	}
 	
-	public void setStock(String newStock) {
+	public void setStock(Integer newStock) {
 		this.stock = newStock;
 	}
 	
