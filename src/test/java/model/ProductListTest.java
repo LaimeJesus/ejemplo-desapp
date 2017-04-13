@@ -6,6 +6,8 @@ import exceptions.ProductIsAlreadySelectedException;
 import util.Money;
 import static org.junit.Assert.*;
 
+import org.joda.time.Duration;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -97,4 +99,39 @@ public class ProductListTest {
 		
 	}
 
+	@Test
+	public void testGettingTheProcessingTimeIsTheSumOfTheProcessingTimeOfAllMyProducts(){
+		
+		ProductList aProductList = new ProductList();
+		
+		SelectedProduct aSelectedProduct1Mock = Mockito.mock(SelectedProduct.class);
+		SelectedProduct aSelectedProduct2Mock = Mockito.mock(SelectedProduct.class);
+		
+		Mockito.when(aSelectedProduct1Mock.getProcessingTime()).thenReturn(new Duration(5000L));
+		Mockito.when(aSelectedProduct2Mock.getProcessingTime()).thenReturn(new Duration(5000L));
+		
+		aProductList.addProductToList(aSelectedProduct1Mock);
+		aProductList.addProductToList(aSelectedProduct2Mock);
+		
+		Assert.assertEquals(new Duration(10000L), aProductList.getProcessingTime());
+		
+	}
+	
+	@Test
+	public void testGettingTheProductsQuantityIsTheSumOfTheQuantityForEachSelectedProductQuantity(){
+		ProductList aProductList = new ProductList();
+		
+		SelectedProduct aSelectedProduct1Mock = Mockito.mock(SelectedProduct.class);
+		SelectedProduct aSelectedProduct2Mock = Mockito.mock(SelectedProduct.class);
+		
+		Mockito.when(aSelectedProduct1Mock.getQuantity()).thenReturn(10);
+		Mockito.when(aSelectedProduct2Mock.getQuantity()).thenReturn(10);
+		
+		aProductList.addProductToList(aSelectedProduct1Mock);
+		aProductList.addProductToList(aSelectedProduct2Mock);
+		
+		Assert.assertEquals(20, aProductList.getQuantityOfProducts());
+		
+	}
+	
 }

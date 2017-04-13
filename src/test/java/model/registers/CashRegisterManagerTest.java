@@ -101,7 +101,20 @@ public class CashRegisterManagerTest {
 		
 		Mockito.verify(aCashRegisterMock).next();
 		Mockito.verify(anInQueueUserMock).getProductList();
+	}
+	
+	@Test
+	public void testChangeACashRegisterToClose(){
+		CashRegisterManager sut = new CashRegisterManager();
 		
+		CashRegister aCashRegisterMock = Mockito.mock(CashRegister.class);
+		
+		CloseFilter newCloseFilter = new CloseFilter(); 
+		
+		sut.addCashRegister(aCashRegisterMock);
+		sut.changeFilterFor(0, newCloseFilter);
+		
+		Mockito.verify(aCashRegisterMock).useFilter(newCloseFilter);
 	}
 	
 }
