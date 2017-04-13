@@ -11,18 +11,19 @@ import util.Category;
 public class SameCategoryRecommendation implements RecommendationStrategy {
 
 	private List<Product> elementsToProcess;
-	Map<Category, List<Product>> categoryMapping;
+	private Map<Category, List<Product>> categoryMapping;
 	
 	@Override
 	public void obtainData() {
 		//TODO
 	}
 
+	
 	@Override
 	public void processData() {
-		categoryMapping = this.initializeStructure();
+		this.setCategoryMapping(this.initializeStructure());
 		for (Product aProduct : this.getElementsToProcess()) {
-			List<Product> products = categoryMapping.get(aProduct.getCategory());
+			List<Product> products = this.getCategoryMapping().get(aProduct.getCategory());
 			products.add(aProduct);
 			categoryMapping.put(aProduct.getCategory(), products);
 		}
@@ -38,7 +39,7 @@ public class SameCategoryRecommendation implements RecommendationStrategy {
 
 	@Override
 	public Recommendation generateRecommendation(Product related , Integer quantity) {
-		List<Product> list = categoryMapping.get(related.getCategory());
+		List<Product> list = this.getCategoryMapping().get(related.getCategory());
 		if (list.size() > quantity) {
 			return new Recommendation(related, list.subList(0, quantity));
 		} return new Recommendation(related, list);
@@ -50,6 +51,14 @@ public class SameCategoryRecommendation implements RecommendationStrategy {
 
 	public void setElementsToProcess(List<Product> elementsToProcess) {
 		this.elementsToProcess = elementsToProcess;
+	}
+	
+	public Map<Category, List<Product>> getCategoryMapping() {
+		return this.categoryMapping;
+	}
+	
+	private void setCategoryMapping( Map<Category, List<Product>> newCategoryMapping) {
+		this.categoryMapping = newCategoryMapping;
 	}
 
 }
