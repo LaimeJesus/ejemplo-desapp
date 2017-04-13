@@ -23,10 +23,19 @@
     <script>
       var map;
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.70637, lng: -58.2772431},
+        var unqui = {lat: -34.70637, lng: -58.2772431};
+        
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: unqui,
           zoom: 8
         });
+        
+        var marker = new google.maps.Marker({
+          position: unqui,
+          map: map,
+          title: 'Universidad Nacional de Quilmes'
+        });
+
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1ZXtqtTXdoUYnqe1toQzOGGV_Yw-trM4&callback=initMap"
