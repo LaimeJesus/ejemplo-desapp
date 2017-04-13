@@ -14,15 +14,23 @@ public class ProductList {
 
 	
 	private String name;	
-	private Money totalAmount = new Money(0,0);
-	private List<SelectedProduct> allProducts = new ArrayList<SelectedProduct>();
-	private List<Offer> appliedOffers = new ArrayList<Offer>();
+	private Money totalAmount;
+	private List<SelectedProduct> allProducts;
+	private List<Offer> appliedOffers;
 	
-	public ProductList () { 
+	public ProductList () {
+		this.initialize();
 	}
 	
 	public ProductList (String newName) {
 		this.name = newName;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.setAllProducts(new ArrayList<SelectedProduct>());
+		this.setTotalAmount(new Money(0,0));
+		this.setAppliedOffers(new ArrayList<Offer>());
 	}
 	
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {

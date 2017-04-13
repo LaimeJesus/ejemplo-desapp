@@ -14,6 +14,7 @@ public class CrossingOffer extends Offer {
 
 	public CrossingOffer(Integer aDiscountRate , Product newRelatedProduct , Integer maxQuantity , Integer minQuantity , Interval validPeriod) {
 		super(aDiscountRate, validPeriod);
+		this.setRelatedProduct(newRelatedProduct);
 		this.setMaxQuantity(maxQuantity);
 		this.setMinQuantity(minQuantity);
 	}
