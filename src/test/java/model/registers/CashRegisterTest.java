@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import model.ProductList;
+import model.products.ProductList;
 import model.registers.CashRegister;
 import model.registers.CloseFilter;
 import model.registers.InQueueUser;

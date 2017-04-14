@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import exceptions.MoneyCannotSubstractException;
-import model.ProductList;
+import model.products.ProductList;
 import util.Money;
 
 public abstract class Offer {

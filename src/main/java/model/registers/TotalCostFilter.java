@@ -1,6 +1,6 @@
 package model.registers;
 
-import model.ProductList;
+import model.products.ProductList;
 import util.Money;
 
 public class TotalCostFilter extends Filter{

@@ -1,6 +1,6 @@
 package builders;
 
-import model.Product;
+import model.products.Product;
 import util.Category;
 import util.Money;
 

@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import model.Product;
-import model.ProductList;
+import model.products.Product;
+import model.products.ProductList;
 import util.Money;
 
 public class PriceAlertTest {

@@ -2,7 +2,7 @@ package model.recommendations;
 
 import java.util.List;
 
-import model.Product;
+import model.products.Product;
 
 public class Recommendation {
 

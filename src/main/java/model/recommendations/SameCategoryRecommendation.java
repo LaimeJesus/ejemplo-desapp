@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.Product;
+import model.products.Product;
 import util.Category;
 
 public class SameCategoryRecommendation implements RecommendationStrategy {

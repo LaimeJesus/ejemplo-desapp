@@ -2,9 +2,9 @@ package model.registers;
 
 import org.joda.time.base.BaseDuration;
 
-import model.ProductList;
-import model.PurchaseRecord;
-import model.User;
+import model.products.ProductList;
+import model.products.PurchaseRecord;
+import model.users.User;
 
 public class InQueueUser {
 

@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductIsAlreadySelectedException;
-import model.Product;
-import model.ProductList;
 import model.offers.CombinationOffer;
+import model.products.Product;
+import model.products.ProductList;
 import util.Money;
 
 public class CombinationOfferTest {

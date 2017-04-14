@@ -3,8 +3,8 @@ package model.registers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import model.ProductList;
-import model.User;
+import model.products.ProductList;
+import model.users.User;
 
 public class InQueueUserTest {
 

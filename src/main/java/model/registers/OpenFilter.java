@@ -1,6 +1,6 @@
 package model.registers;
 
-import model.ProductList;
+import model.products.ProductList;
 
 public class OpenFilter extends Filter {
 

@@ -1,9 +1,10 @@
-package model;
+package model.products;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import builders.ProductBuilder;
+import model.products.Product;
 import util.Category;
 import util.Money;
 

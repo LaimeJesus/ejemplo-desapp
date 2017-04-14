@@ -1,8 +1,11 @@
-package model;
+package model.products;
 
 
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.products.Product;
+import model.products.ProductList;
+import model.products.SelectedProduct;
 import util.Money;
 import static org.junit.Assert.*;
 

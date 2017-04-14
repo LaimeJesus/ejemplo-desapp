@@ -1,5 +1,6 @@
-package model;
+package model.users;
 
+import model.products.PurchaseRecord;
 import util.Password;
 
 public class User {

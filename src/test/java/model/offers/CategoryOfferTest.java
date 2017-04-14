@@ -8,9 +8,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import exceptions.ProductIsAlreadySelectedException;
-import model.Product;
-import model.ProductList;
 import model.offers.CategoryOffer;
+import model.products.Product;
+import model.products.ProductList;
 import util.Category;
 import util.Money;
 

@@ -1,4 +1,4 @@
-package model;
+package model.users;
 
 
 import org.junit.Assert;
@@ -9,6 +9,9 @@ import builders.ProductBuilder;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
 import model.alerts.PriceAlert;
+import model.products.Product;
+import model.products.ProductList;
+import model.users.Profile;
 import util.Money;
 
 public class ProfileTest {

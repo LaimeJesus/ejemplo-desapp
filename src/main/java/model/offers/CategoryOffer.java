@@ -2,7 +2,7 @@ package model.offers;
 
 import org.joda.time.Interval;
 
-import model.ProductList;
+import model.products.ProductList;
 import util.Category;
 import util.Money;
 

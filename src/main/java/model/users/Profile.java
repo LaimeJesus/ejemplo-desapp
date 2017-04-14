@@ -1,4 +1,4 @@
-package model;
+package model.users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.List;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
 import model.alerts.Alert;
+import model.products.Product;
+import model.products.ProductList;
+import model.products.PurchaseRecord;
 import util.Address;
 import util.Money;
 

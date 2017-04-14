@@ -1,7 +1,7 @@
 package model.alerts;
 
-import model.Product;
-import model.ProductList;
+import model.products.Product;
+import model.products.ProductList;
 import util.Category;
 
 public class UmbralAlert extends Alert{

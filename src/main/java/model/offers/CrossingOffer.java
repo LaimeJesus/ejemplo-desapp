@@ -2,8 +2,8 @@ package model.offers;
 
 import org.joda.time.Interval;
 
-import model.Product;
-import model.ProductList;
+import model.products.Product;
+import model.products.ProductList;
 import util.Money;
 
 public class CrossingOffer extends Offer {

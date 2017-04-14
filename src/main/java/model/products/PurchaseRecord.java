@@ -1,4 +1,4 @@
-package model;
+package model.products;
 
 import org.joda.time.DateTime;
 

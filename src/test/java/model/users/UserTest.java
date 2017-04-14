@@ -1,4 +1,4 @@
-package model;
+package model.users;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import builders.UserBuilder;
+import model.users.User;
 import util.Password;
 
 public class UserTest {

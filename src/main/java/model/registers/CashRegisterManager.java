@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
-import model.ProductList;
+import model.products.ProductList;
 
 public class CashRegisterManager {
 

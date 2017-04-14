@@ -1,6 +1,6 @@
 package builders;
 
-import model.User;
+import model.users.User;
 import util.Password;
 
 public class UserBuilder {

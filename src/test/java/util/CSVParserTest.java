@@ -8,7 +8,7 @@ import exceptions.InvalidArgumentsException;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDurationException;
 import exceptions.InvalidMoneyException;
-import model.Product;
+import model.products.Product;
 import util.CSVProductParser;
 
 public class CSVParserTest {

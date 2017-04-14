@@ -1,6 +1,6 @@
 package model.recommendations;
 
-import model.Product;
+import model.products.Product;
 
 public interface RecommendationStrategy {
 

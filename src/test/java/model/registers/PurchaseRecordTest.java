@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import model.ProductList;
-import model.PurchaseRecord;
+import model.products.ProductList;
+import model.products.PurchaseRecord;
 
 public class PurchaseRecordTest {
 
