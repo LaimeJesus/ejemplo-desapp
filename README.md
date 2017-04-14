@@ -6,7 +6,7 @@ Repository for project **Comprando aloloco**
 * [Repository](https://github.com/LaimeJesus/grupo-b-012017)
 
 ### Travis
-* [Travis](https://travis-ci.org/LaimeJesus/grupo-b-012017)[![Build Status](https://travis-ci.org/LaimeJesus/grupo-b-012017.svg?branch=master)](https://travis-ci.org/LaimeJesus/grupo-b-012017)
+* [![Build Status](https://travis-ci.org/LaimeJesus/grupo-b-012017.svg?branch=master)](https://travis-ci.org/LaimeJesus/grupo-b-012017)
 
 ### Heroku
 * [Heroku](https://grupo-b-012017.herokuapp.com/)
