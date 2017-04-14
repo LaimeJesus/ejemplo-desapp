@@ -13,7 +13,7 @@ public class PurchaseRecord {
 	}
 
 	public DateTime getPurchasingDate() {
-		return purchasingDate;
+		return this.purchasingDate;
 	}
 
 	public void setPurchasingDate(DateTime purchasingDate) {
@@ -21,7 +21,7 @@ public class PurchaseRecord {
 	}
 
 	public ProductList getProductList() {
-		return productList;
+		return this.productList;
 	}
 
 	public void setProductList(ProductList productList) {

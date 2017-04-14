@@ -2,12 +2,14 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.Duration;
 
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.Offer;
+import util.Category;
 import util.Money;
 
 public class ProductList {
@@ -41,6 +43,21 @@ public class ProductList {
 			this.updateAmount( this.calculateAmount(product.getPrice() , howMany) );
 
 		}
+	}
+	
+	public List<SelectedProduct> getSelectedProductsBy(Category aCategory){
+		return this.getAllProducts().stream().filter(
+				aSelectedProduct -> aSelectedProduct.getProduct().getCategory().equals(aCategory) 
+				).collect(Collectors.toList());
+	}
+	
+	public SelectedProduct getSelectedProduct(Product someProduct){
+		for(SelectedProduct selectedIterator : this.getAllProducts()){
+			if(selectedIterator.equals(someProduct)){
+				return selectedIterator;
+			}
+		}
+		return null;
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
@@ -88,7 +105,7 @@ public class ProductList {
 		return processingTime;
 	}
 	
-	public int getQuantityOfProducts() {
+	public Integer getQuantityOfProducts() {
 		Integer quantity = 0;
 		for(SelectedProduct p : this.getAllProducts()){
 			quantity += p.getQuantity();
@@ -155,6 +172,16 @@ public class ProductList {
 
 	public void setAppliedOffers(List<Offer> appliedOffers) {
 		this.appliedOffers = appliedOffers;
+	}
+
+	public Integer getQuantityOfProducts(Category aCategory) {
+		Integer categoryTotal = 0;
+		List<SelectedProduct> filteredSelectedProduct = this.getSelectedProductsBy(aCategory);	
+		for(SelectedProduct sp : filteredSelectedProduct){
+			categoryTotal += sp.getQuantity();
+		}
+		return categoryTotal;
+
 	}
 	
 }

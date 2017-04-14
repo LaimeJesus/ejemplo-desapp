@@ -3,10 +3,12 @@ package model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import builders.ProductBuilder;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
+import model.alerts.PriceAlert;
 import util.Money;
 
 public class ProfileTest {
@@ -20,20 +22,15 @@ public class ProfileTest {
 	}
 	
 	@Test
-	public void testWhenICreateMultipleProductListThenICanSeeThemAll() {
+	public void testWhenICreateMultipleProductListThenICanSeeThemAll() throws ProductListAlreadyCreatedException {
 	
 		Profile aProfile = new Profile();
 			
-		try {
-			aProfile.createProductList("Saturday Night");
-			aProfile.createProductList("Timmy's Birthday");
-			aProfile.createProductList("Soccer Game");
-			
-			Assert.assertTrue(aProfile.getAllProductList().size() == 3);
-			
-		} catch (ProductListAlreadyCreatedException e) {
-			Assert.fail();
-		}		
+		aProfile.createProductList("Saturday Night");
+		aProfile.createProductList("Timmy's Birthday");
+		aProfile.createProductList("Soccer Game");
+		
+		Assert.assertTrue(aProfile.getAllProductList().size() == 3);		
 	}
 	
 	
@@ -42,14 +39,10 @@ public class ProfileTest {
 		
 		Profile aProfile = new Profile();
 				
-		try {
-			aProfile.createProductList("Saturday Night");
-			aProfile.createProductList("Saturday Night");
-			
-			Assert.fail();
-		} catch (ProductListAlreadyCreatedException e) {
-			
-		}
+		aProfile.createProductList("Saturday Night");
+		aProfile.createProductList("Saturday Night");
+		
+		Assert.fail();
 			
 	}
 	
@@ -62,7 +55,7 @@ public class ProfileTest {
 	}
 	
 	@Test
-	public void testWhenIHadAListCreatedICantSeeTheCostOfTheList() {
+	public void testWhenIHadAListCreatedICantSeeTheCostOfTheList() throws ProductListAlreadyCreatedException, ProductIsAlreadySelectedException {
 		
 		Profile aProfile = new Profile();
 		ProductBuilder productBuilder = new ProductBuilder();
@@ -72,18 +65,66 @@ public class ProfileTest {
 				.withPrice(aPrice)
 				.build();
 				
-		try {
+		
+		aProfile.createProductList("Timmy's Birthday");
+		aProfile.addProductToList("Timmy's Birthday", aProductWithPrice, 1);
+		
+		Money expected = new Money(31,24);
+		
+		Assert.assertEquals(expected, aProfile.getCostOfList("Timmy's Birthday"));
 			
-			aProfile.createProductList("Timmy's Birthday");
-			aProfile.addProductToList("Timmy's Birthday", aProductWithPrice, 1);
-			
-			Money expected = new Money(31,24);
-			
-			Assert.assertEquals(expected, aProfile.getCostOfList("Timmy's Birthday"));
-			
-		} catch (ProductIsAlreadySelectedException | ProductListAlreadyCreatedException e) {
-			Assert.fail();
-		}
 	}
 
+	@Test
+	public void testCheckIfMyAlertsCanDisplaySomeAlertForAProductListReturnsTrue(){
+		Profile aProfile = new Profile();
+		
+		PriceAlert aPriceAlertMock = Mockito.mock(PriceAlert.class);
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		
+		Mockito.when(aPriceAlertMock.canDisplayAlert(aProductListMock)).thenReturn(true);
+		aProfile.addNewAlert(aPriceAlertMock);
+		
+		Mockito.doNothing().when(aPriceAlertMock).activate();
+		aProfile.activate(aPriceAlertMock);
+		
+		Assert.assertTrue(aProfile.checkCanDisplayAlerts(aProductListMock));
+		
+	}
+	
+	@Test
+	public void testCheckIfMyAlertsCanDisplaySomeAlertForAProductListReturnsFalse(){
+		Profile aProfile = new Profile();
+		
+		PriceAlert aPriceAlertMock = Mockito.mock(PriceAlert.class);
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		
+		Mockito.when(aPriceAlertMock.canDisplayAlert(aProductListMock)).thenReturn(false);
+		aProfile.addNewAlert(aPriceAlertMock);
+		
+		Mockito.doNothing().when(aPriceAlertMock).shutdown();
+		aProfile.shutdown(aPriceAlertMock);
+		
+		Assert.assertFalse(aProfile.checkCanDisplayAlerts(aProductListMock));
+		
+	}	
+
+	@Test
+	public void testCheckIfMyAlertsCanDisplaySomeAlertForAProductListWhenIsTryingToAddANewProductReturnsTrue(){
+		Profile aProfile = new Profile();
+		
+		PriceAlert aPriceAlertMock = Mockito.mock(PriceAlert.class);
+		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		Product aProductMock = Mockito.mock(Product.class);
+		Integer aQuantity = 1;
+		
+		Mockito.when(aPriceAlertMock.canDisplayAlert(aProductListMock, aProductMock, aQuantity)).thenReturn(true);
+		aProfile.addNewAlert(aPriceAlertMock);
+		
+		Mockito.doNothing().when(aPriceAlertMock).shutdown();
+		aProfile.shutdown(aPriceAlertMock);
+		
+		Assert.assertTrue(aProfile.checkCanDisplayAlerts(aProductListMock, aProductMock, aQuantity));
+		
+	}	
 }

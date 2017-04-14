@@ -130,7 +130,7 @@ public class ProductListTest {
 		aProductList.addProductToList(aSelectedProduct1Mock);
 		aProductList.addProductToList(aSelectedProduct2Mock);
 		
-		Assert.assertEquals(20, aProductList.getQuantityOfProducts());
+		Assert.assertEquals(new Integer(20), aProductList.getQuantityOfProducts());
 		
 	}
 	

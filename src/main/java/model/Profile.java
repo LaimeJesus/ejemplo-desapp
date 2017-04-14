@@ -5,6 +5,7 @@ import java.util.List;
 
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListAlreadyCreatedException;
+import model.alerts.Alert;
 import util.Address;
 import util.Money;
 
@@ -14,10 +15,12 @@ public class Profile {
 	private Address address;
 	private List<ProductList> allProductLists;
 	private List<PurchaseRecord> purchaseHistory;
+	private List<Alert> alerts;
 	
 	public Profile() {
 		allProductLists = new ArrayList<ProductList>();
 		purchaseHistory = new ArrayList<PurchaseRecord>();
+		this.alerts = new ArrayList<Alert>();
 	}
 	
 	public void createProductList(String newName) throws ProductListAlreadyCreatedException {
@@ -25,7 +28,7 @@ public class Profile {
 			throw new ProductListAlreadyCreatedException("Ya existe una lista con el mismo nombre");
 		} else {
 			ProductList newProductList = new ProductList(newName);
-			allProductLists.add(newProductList);
+			this.getAllProductList().add(newProductList);
 		}
 	}
 	
@@ -63,10 +66,6 @@ public class Profile {
 		return this.allProductLists;
 	}
 	
-	public void setAllLists(ArrayList<ProductList> newProductLists) {
-		this.allProductLists = newProductLists;
-	}
-
 	public List<PurchaseRecord> getPurchaseHistory() {
 		return this.purchaseHistory;
 	}
@@ -75,4 +74,26 @@ public class Profile {
 		this.getPurchaseHistory().add(aPurchaseRecord);
 	}
 	
+	public void addNewAlert(Alert newAlert){
+		this.getAlerts().add(newAlert);
+	}
+
+	private List<Alert> getAlerts() {
+		return this.alerts;
+	}
+	
+	public Boolean checkCanDisplayAlerts(ProductList aProductList, Product aProduct, Integer aQuantity){
+		return this.getAlerts().stream().anyMatch(currentAlert -> currentAlert.canDisplayAlert(aProductList, aProduct, aQuantity));
+	}
+	
+	public Boolean checkCanDisplayAlerts(ProductList aProductList){
+		return this.getAlerts().stream().anyMatch(currentAlert -> currentAlert.canDisplayAlert(aProductList));
+	}
+	
+	public void activate(Alert anAlert){
+		this.getAlerts().get(this.getAlerts().indexOf(anAlert)).activate();
+	}
+	public void shutdown(Alert anAlert){
+		this.getAlerts().get(this.getAlerts().indexOf(anAlert)).shutdown();
+	}
 }
