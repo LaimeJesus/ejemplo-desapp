@@ -25,7 +25,7 @@ public class Profile {
 	
 	public void createProductList(String newName) throws ProductListAlreadyCreatedException {
 		if (this.listAlreadyExist(newName)) {
-			throw new ProductListAlreadyCreatedException("Ya existe una lista con el mismo nombre");
+			throw new ProductListAlreadyCreatedException();
 		} else {
 			ProductList newProductList = new ProductList(newName);
 			this.getAllProductList().add(newProductList);

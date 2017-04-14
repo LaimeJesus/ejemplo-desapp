@@ -34,16 +34,13 @@ public class ProfileTest {
 	}
 	
 	
-	@Test 
+	@Test(expected=ProductListAlreadyCreatedException.class)
 	public void testWhenITryToCreateTwoListsWhitSameNameThenIGotAnError() throws ProductListAlreadyCreatedException {
 		
 		Profile aProfile = new Profile();
 				
 		aProfile.createProductList("Saturday Night");
 		aProfile.createProductList("Saturday Night");
-		
-		Assert.fail();
-			
 	}
 	
 	@Test
