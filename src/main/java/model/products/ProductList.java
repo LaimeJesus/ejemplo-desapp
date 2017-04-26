@@ -10,9 +10,10 @@ import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.Offer;
 import util.Category;
+import util.Entity;
 import util.Money;
 
-public class ProductList {
+public class ProductList extends Entity {
 
 	
 	private String name;	
