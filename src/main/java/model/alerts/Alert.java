@@ -2,8 +2,9 @@ package model.alerts;
 
 import model.products.Product;
 import model.products.ProductList;
+import util.Entity;
 
-public abstract class Alert {
+public abstract class Alert extends Entity {
 
 	private Boolean isOn;
 
