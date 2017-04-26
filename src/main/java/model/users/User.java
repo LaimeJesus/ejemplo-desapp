@@ -1,9 +1,10 @@
 package model.users;
 
 import model.products.PurchaseRecord;
+import util.Entity;
 import util.Password;
 
-public class User {
+public class User extends Entity{
 	
 	private String username;
 	private String email;
