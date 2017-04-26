@@ -2,7 +2,9 @@ package model.products;
 
 import org.joda.time.Duration;
 
-public class SelectedProduct {
+import util.Entity;
+
+public class SelectedProduct extends Entity{
 	
 	private Product product;
 	private Integer quantity;
