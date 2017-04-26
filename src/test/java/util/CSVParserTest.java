@@ -32,7 +32,7 @@ public class CSVParserTest {
 		
 		Product aProduct = products.get(0);
 		
-		Assert.assertEquals(1, aProduct.getId());
+		Assert.assertEquals(new Integer(1), aProduct.getId());
 		Assert.assertEquals("nameOne", aProduct.getName());
 		Assert.assertEquals("brandOne", aProduct.getBrand());
 		Assert.assertEquals(new Integer(1), aProduct.getStock());
