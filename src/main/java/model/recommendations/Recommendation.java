@@ -3,8 +3,9 @@ package model.recommendations;
 import java.util.List;
 
 import model.products.Product;
+import util.Entity;
 
-public class Recommendation {
+public class Recommendation extends Entity {
 
 	private Product relatedProduct;
 	private List<Product> recommended;
