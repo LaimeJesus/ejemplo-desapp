@@ -2,7 +2,9 @@ package model.products;
 
 import org.joda.time.DateTime;
 
-public class PurchaseRecord {
+import util.Entity;
+
+public class PurchaseRecord extends Entity {
 
 	private DateTime purchasingDate;
 	private ProductList productList;
