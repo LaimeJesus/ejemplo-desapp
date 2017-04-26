@@ -3,11 +3,11 @@ package model.products;
 import org.joda.time.Duration;
 
 import util.Category;
+import util.Entity;
 import util.Money;
 
-public class Product {
+public class Product extends Entity {
 	
-	private int id;
 	private String name;
 	private String brand;
 	private Integer stock;
@@ -15,6 +15,8 @@ public class Product {
 	private Category category;
 	private Duration processingTime;
 	private String imageUrl;
+	
+	
 	
 	public Product (String newName , String newBrand , Integer newStock , Money newPrice , Category newCategory) {
 		this.setName(newName);
@@ -24,11 +26,32 @@ public class Product {
 		this.setCategory(newCategory);
 	}
 	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			Product newProduct = (Product) anyObject;
+			return this.totalEquals(newProduct) ;
+		}
+		return false;
+		
+	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof Product;
+	}
+	
+	private boolean totalEquals(Product someProduct) {
+		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
+	}
+	
+	
+	
+
 	public Product(){
 		
 	}
 	
-	//////////GETTERS Y SETTERS
 	public String getName() {
 		return this.name;
 	}
@@ -61,26 +84,6 @@ public class Product {
 		this.price = newPrice;
 	}
 	
-	
-	@Override
-	public boolean equals(Object anyObject) {
-		
-		if (this.isMyType(anyObject)) {
-			Product newProduct = (Product) anyObject;
-			return this.totalEquals(newProduct) ;
-		}
-		return false;
-		
-	}
-	
-	private boolean isMyType(Object anyObject) {
-		return anyObject != null && anyObject instanceof Product;
-	}
-	
-	private boolean totalEquals(Product someProduct) {
-		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -96,14 +99,6 @@ public class Product {
 		this.processingTime = newDuration;
 	}
 
-	public void setId(int newId) {
-		this.id = newId;
-	}
-
-	public int getId(){
-		return this.id;
-	}
-	
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
@@ -111,6 +106,7 @@ public class Product {
 	public String getImageUrl(){
 		return this.imageUrl;
 	}
+
 }
 
 
