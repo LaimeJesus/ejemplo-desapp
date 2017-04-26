@@ -5,9 +5,10 @@ import org.joda.time.Interval;
 
 import exceptions.MoneyCannotSubstractException;
 import model.products.ProductList;
+import util.Entity;
 import util.Money;
 
-public abstract class Offer {
+public abstract class Offer extends Entity {
 
 	private Integer discountRate;
 	private Interval validPeriod;
