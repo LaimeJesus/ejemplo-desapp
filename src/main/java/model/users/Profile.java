@@ -10,9 +10,10 @@ import model.products.Product;
 import model.products.ProductList;
 import model.products.PurchaseRecord;
 import util.Address;
+import util.Entity;
 import util.Money;
 
-public class Profile {
+public class Profile extends Entity{
 
 	
 	private Address address;
