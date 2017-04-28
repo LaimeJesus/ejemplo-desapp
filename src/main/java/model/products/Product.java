@@ -4,9 +4,11 @@ import org.joda.time.Duration;
 
 import util.Category;
 import util.Entity;
+import util.Monetizable;
 import util.Money;
 
-public class Product extends Entity {
+@javax.persistence.Entity
+public class Product extends Entity implements Monetizable {
 	
 	private String name;
 	private String brand;
@@ -105,6 +107,20 @@ public class Product extends Entity {
 	
 	public String getImageUrl(){
 		return this.imageUrl;
+	}
+	
+	
+	/**
+	 * Metodos necesarios para garantizar que se persistira un VARCHAR en lugar de un Money
+	 */
+
+	@Override
+	public Money getMonetizableElement() {
+		return this.price;
+	}
+	
+	public void setMonetizableElement(Money newMoney) {
+		this.price = newMoney;
 	}
 
 }

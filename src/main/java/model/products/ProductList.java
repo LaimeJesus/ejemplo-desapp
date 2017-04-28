@@ -11,9 +11,10 @@ import exceptions.ProductIsAlreadySelectedException;
 import model.offers.Offer;
 import util.Category;
 import util.Entity;
+import util.Monetizable;
 import util.Money;
 
-public class ProductList extends Entity {
+public class ProductList extends Entity implements Monetizable {
 
 	
 	private String name;	
@@ -183,6 +184,21 @@ public class ProductList extends Entity {
 		}
 		return categoryTotal;
 
+	}
+	
+	
+	/**
+	 * Metodos necesarios para garantizar que se persistira un VARCHAR en lugar de un Money
+	 */
+
+	@Override
+	public Money getMonetizableElement() {
+		return this.totalAmount;
+	}
+
+	@Override
+	public void setMonetizableElement(Money newMoney) {
+		this.totalAmount = newMoney;
 	}
 	
 }
