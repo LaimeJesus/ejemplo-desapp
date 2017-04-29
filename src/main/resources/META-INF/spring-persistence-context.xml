@@ -110,6 +110,10 @@
 	<bean id="persistence.productrepository" class="repositories.ProductRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
-	
-
+	<bean id="persistence.userrepository" class="repositories.UserRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	<bean id="persistence.profilerepository" class="repositories.ProfileRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
 </beans>

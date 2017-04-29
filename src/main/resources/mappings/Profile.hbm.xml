@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping default-access="field" default-cascade="save-update">    
+    <class name="model.users.Profile">
+        <id name="id" type="java.lang.Integer" column="profile_id">
+            <generator class="increment" />
+        </id>
+        <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one>
+		<bag name="allProductLists" cascade="all" lazy="false" inverse="false">
+			<key column="product_list_id"/>
+			<one-to-many class="model.products.ProductList"/>
+		</bag>
+		<bag name="purchaseHistory" cascade="all" lazy="false" inverse="false">
+			<key column="purchase_id"/>
+			<one-to-many class="model.products.PurchaseRecord"/>
+		</bag>
+		<bag name="alerts" cascade="all" lazy="false" inverse="false">
+			<key column="alert_id"/>
+			<one-to-many class="model.alerts.Alert"/>
+		</bag>     	        
+    </class>
+</hibernate-mapping>
