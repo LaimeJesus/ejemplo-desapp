@@ -7,6 +7,10 @@ import util.Money;
 
 public class PriceAlert extends Alert implements Monetizable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2705995157525891027L;
 	private Money limit;
 
 	public PriceAlert(Money aMoney, Boolean isOn) {

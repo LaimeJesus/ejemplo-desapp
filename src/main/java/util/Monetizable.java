@@ -1,8 +1,6 @@
 package util;
 
 public interface Monetizable {
-
-	
 	
 	public Money getMonetizableElement();
 	

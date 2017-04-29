@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import model.products.Product;
 import services.microservices.ProductService;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/META-INF/spring-persistence-context.xml", "/META-INF/spring-services-context.xml" })
 public class ProductServiceTest {
@@ -24,3 +25,4 @@ public class ProductServiceTest {
 	}
 
 }
+

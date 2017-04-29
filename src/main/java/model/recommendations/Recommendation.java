@@ -7,6 +7,10 @@ import util.Entity;
 
 public class Recommendation extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1333900215189403767L;
 	private Product relatedProduct;
 	private List<Product> recommended;
 	

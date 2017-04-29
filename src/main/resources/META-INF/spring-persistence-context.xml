@@ -50,7 +50,7 @@
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> -->
 		
 		<bean id="persistence.sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" >
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
 
 		<property name="dataSource" ref="persistence.dataSource" />
 <!--  
@@ -79,7 +79,7 @@
 		</property>
 		<property name="mappingLocations">
 			<list>
-				<value>classpath*:mappings/Product.hbm.xml</value>
+				<value>classpath*:mappings/*.hbm.xml</value>
 			</list>
 		</property>
 
@@ -88,7 +88,7 @@
 
 <!-- Transaction manager for a single JDBC DataSource -->
 	<bean id="persistence.transactionManager"
-		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 <!-- 		<property name="jdbcExceptionTranslator" ref="persistence.jdbcExceptionTranslator" /> -->
 	</bean>

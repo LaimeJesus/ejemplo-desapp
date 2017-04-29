@@ -6,6 +6,10 @@ import util.Entity;
 
 public class SelectedProduct extends Entity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8915491491245495928L;
 	private Product product;
 	private Integer quantity;
 	
