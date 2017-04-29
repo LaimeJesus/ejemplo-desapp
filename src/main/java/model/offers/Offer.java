@@ -53,7 +53,9 @@ public abstract class Offer extends Entity {
 	
 	
 	
-	
+	public Offer() {
+		
+	}
 	
 	public Integer getDiscountRate() {
 		return this.discountRate;
