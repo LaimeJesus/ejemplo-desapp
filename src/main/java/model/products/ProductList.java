@@ -26,6 +26,8 @@ public class ProductList extends Entity implements Monetizable {
 	private List<SelectedProduct> allProducts;
 	private List<Offer> appliedOffers;
 	
+	private String moneyValue;
+	
 	public ProductList () {
 		this.initialize();
 	}
