@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping default-access="field" default-cascade="save-update">
+    
+    <class name="model.products.ProductList">
+        
+        
+        <id 
+	        name="id" 
+	        type="integer" 
+	        column="product_list_id">
+            <generator class="increment" />
+        </id>
+        
+        <property
+        	name="name"
+        	type="java.lang.String"
+        	column="product_list_name" />
+        	
+        <property 
+        	name="moneyValue"
+        	type="java.lang.String"
+        	column="product_list_total_amount" />
+        
+        <list name="allProducts" cascade="all" inverse="false">
+			<key column="selected_product_id"></key>
+			<list-index column="posicion_selected_product"></list-index>
+			<one-to-many
+				class="model.products.SelectedProduct" />
+		</list>
+        
+        <list name="appliedOffers" cascade="all" inverse="false">
+			<key column="offer_id"></key>
+			<list-index column="posicion_oferta"></list-index>
+			<one-to-many
+				class="model.offers.Offer" />
+		</list>
+        
+    </class>
+    
+</hibernate-mapping>

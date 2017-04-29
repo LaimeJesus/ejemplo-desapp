@@ -11,36 +11,36 @@
         
         <id 
 	        name="id" 
-	        type="integer" 
-	        column="products_id">
+	        type="java.lang.Integer" 
+	        column="product_id">
             <generator class="increment" />
         </id>
         
         <property 
         	name="name" 
         	type="java.lang.String" 
-        	column="products_name"
+        	column="product_name"
         	not-null="false" />
         <property 
 	        name="brand" 
 	        type="java.lang.String" 
-	        column="products_brand"
+	        column="product_brand"
 	        not-null="false" />
         <property 
 	        name="stock" 
 	        type="java.lang.Integer" 
-	        column="products_stock"
+	        column="product_stock"
 	        not-null="false" />
         
 		<property 
 			name="moneyValue" 
 			type="java.lang.String" 
-			column="products_price"
+			column="product_price"
 			not-null="false" />
 		  
         <property 
         	name="category" 
-        	column="products_category"
+        	column="product_category"
         	not-null="false" >
 		  	<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">util.Category</param>
@@ -57,7 +57,7 @@
         <property 
 	        name="imageUrl" 
 	        type="java.lang.String" 
-	        column="products_image_url"
+	        column="product_image_url"
 	        not-null="false" />
         
         

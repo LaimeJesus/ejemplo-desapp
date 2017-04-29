@@ -32,6 +32,11 @@ public class CombinationOffer extends Offer {
 			   productListToVerify.thisProductIsSelected(this.getCombinatedProduct());	
 	}
 
+	
+	public CombinationOffer() {
+		super();
+	}
+	
 	public Product getRelatedProduct() {
 		return this.relatedProduct;
 	}

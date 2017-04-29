@@ -31,6 +31,11 @@ public class CategoryOffer extends Offer {
 				);
 	}
 
+	
+	public CategoryOffer(){
+		super();
+	}
+	
 	public Category getCategory() {
 		return this.category;
 	}

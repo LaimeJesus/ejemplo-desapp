@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping default-access="field" default-cascade="save-update">
+    
+    <class name="model.offers.Offer" abstract="true">
+        
+        
+        <id 
+	        name="id" 
+	        type="java.lang.Integer" 
+	        column="product_id">
+            <generator class="increment" />
+        </id>
+        
+        <discriminator column="offer_type" type="java.lang.String" />
+      
+		<subclass
+			name="model.offers.CombinationOffer"
+			discriminator-value="Combination">
+			
+			<one-to-one 
+				name="relatedProduct" 
+				class="model.products.Product" />
+			
+			<one-to-one 
+				name="combinatedProduct" 
+				class="model.products.Product" />
+			
+		</subclass>
+		
+		<subclass
+			name="model.offers.CategoryOffer"
+			discriminator-value="Category">
+			
+			<property 
+	        	name="category" 
+	        	column="category_offer_category"
+	        	not-null="false" >
+			  	<type name="org.hibernate.type.EnumType">
+					<param name="enumClass">util.Category</param>
+				</type>
+				       
+			</property>
+			
+		</subclass> 
+		
+		<subclass
+			name="model.offers.CrossingOffer"
+			discriminator-value="Crossing">
+			
+			<one-to-one 
+				name="relatedProduct" 
+				class="model.products.Product"/>
+			
+			<property 
+		        name="maxQuantity" 
+		        type="java.lang.Integer" 
+		        column="crossing_offer_max_quantity"
+		        not-null="false" />
+	        
+	        <property 
+		        name="minQuantity" 
+		        type="java.lang.Integer" 
+		        column="crossing_offer_min_quantity"
+		        not-null="false" />
+			
+		</subclass>        
+		 
+        
+        
+    </class>
+    
+</hibernate-mapping>
