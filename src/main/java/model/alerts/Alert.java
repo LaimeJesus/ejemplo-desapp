@@ -6,6 +6,10 @@ import util.Entity;
 
 public abstract class Alert extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8563786224441828662L;
 	private Boolean isOn;
 
 	public Alert(Boolean isOn){

@@ -16,6 +16,10 @@ import util.Money;
 public class Profile extends Entity{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5152611130346050935L;
 	private Address address;
 	private List<ProductList> allProductLists;
 	private List<PurchaseRecord> purchaseHistory;

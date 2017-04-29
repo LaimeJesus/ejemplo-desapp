@@ -1,7 +1,13 @@
 package util;
 
-public class Entity {
+import java.io.Serializable;
+
+public class Entity implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2070168481754732045L;
 	private Integer id;
 	
 	

@@ -6,6 +6,10 @@ import util.Entity;
 
 public class PurchaseRecord extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -616092953405797730L;
 	private DateTime purchasingDate;
 	private ProductList productList;
 

@@ -6,6 +6,10 @@ import util.Password;
 
 public class User extends Entity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -93676646992378093L;
 	private String username;
 	private String email;
 	private Profile profile;

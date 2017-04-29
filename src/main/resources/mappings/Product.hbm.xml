@@ -4,32 +4,64 @@
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
         
-<Hibernate-mapping default-access="field" default-cascade="save-update">
+<hibernate-mapping default-access="field" default-cascade="save-update">
     
     <class name="model.products.Product">
         
         
-        <id name="id" type="integer" column="products_id">
-            <generator class="auto" />
+        <id 
+	        name="id" 
+	        type="integer" 
+	        column="products_id">
+            <generator class="increment" />
         </id>
         
-        <property name="name" type="java.lang.String" column="products_name" />
-        <property name="brand" type="java.lang.String" column="products_brand" />
-        <property name="stock" type="java.lang.Integer" column="products_stock" />
+        <property 
+        	name="name" 
+        	type="java.lang.String" 
+        	column="products_name"
+        	not-null="false" />
+        <property 
+	        name="brand" 
+	        type="java.lang.String" 
+	        column="products_brand"
+	        not-null="false" />
+        <property 
+	        name="stock" 
+	        type="java.lang.Integer" 
+	        column="products_stock"
+	        not-null="false" />
         
-		<property name="moneyValue" type="java.lang.String" column="products_price" />
+		<property 
+			name="moneyValue" 
+			type="java.lang.String" 
+			column="products_price"
+			not-null="false" />
 		  
-        <property name="category" column="products_category">
-		  <type name="org.hibernate.type.EnumType">
-		    <param name="enumClass">util.Category</param>
-		  </type>       
+        <property 
+        	name="category" 
+        	column="products_category"
+        	not-null="false" >
+		  	<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">util.Category</param>
+			</type>
+			       
 		</property>
 		
-        <property name="processingTime" type="org.joda.time.contrib.hibernate.PersistentDuration" column="products_processing_time" />
-        <property name="imageUrl" type="java.lang.String" column="products_image_url" />
+<!--         <property  -->
+<!-- 	        name="processingTime"  -->
+<!-- 	        type="org.joda.time.contrib.hibernate.PersistentDuration"  -->
+<!-- 	        column="products_processing_time"  -->
+<!-- 	        not-null="false" /> -->
+	        
+        <property 
+	        name="imageUrl" 
+	        type="java.lang.String" 
+	        column="products_image_url"
+	        not-null="false" />
         
         
         
     </class>
     
-</Hibernate-mapping>
+</hibernate-mapping>

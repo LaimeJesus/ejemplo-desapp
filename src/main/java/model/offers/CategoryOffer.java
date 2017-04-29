@@ -8,6 +8,10 @@ import util.Money;
 
 public class CategoryOffer extends Offer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1815897013800073580L;
 	private Category category;
 	
 	public CategoryOffer(Integer aDiscountRate, Interval anInterval, Category aCategory) {

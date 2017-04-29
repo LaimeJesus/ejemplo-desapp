@@ -7,9 +7,12 @@ import util.Entity;
 import util.Monetizable;
 import util.Money;
 
-@javax.persistence.Entity
 public class Product extends Entity implements Monetizable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7281685467288672502L;
 	private String name;
 	private String brand;
 	private Integer stock;
@@ -17,6 +20,8 @@ public class Product extends Entity implements Monetizable {
 	private Category category;
 	private Duration processingTime;
 	private String imageUrl;
+	
+	private String moneyValue;
 	
 	
 	
@@ -83,6 +88,7 @@ public class Product extends Entity implements Monetizable {
 	}
 	
 	public void setPrice(Money newPrice) {
+		this.setMonetizableElement(newPrice);
 		this.price = newPrice;
 	}
 	

@@ -6,6 +6,10 @@ import util.Category;
 
 public class UmbralAlert extends Alert{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2108128507040668799L;
 	private Category category;
 	private Double acceptedPercentage;
 

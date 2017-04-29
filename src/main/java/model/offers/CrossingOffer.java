@@ -8,6 +8,10 @@ import util.Money;
 
 public class CrossingOffer extends Offer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -695045664315277760L;
 	private Product relatedProduct;
 	private Integer maxQuantity;
 	private Integer minQuantity;

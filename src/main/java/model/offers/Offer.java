@@ -10,6 +10,10 @@ import util.Money;
 
 public abstract class Offer extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 846644012300118458L;
 	private Integer discountRate;
 	private Interval validPeriod;
 	

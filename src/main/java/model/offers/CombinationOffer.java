@@ -8,6 +8,10 @@ import util.Money;
 
 public class CombinationOffer extends Offer {
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4616900153311628958L;
 	private Product relatedProduct;
 	private Product combinatedProduct;
 		
