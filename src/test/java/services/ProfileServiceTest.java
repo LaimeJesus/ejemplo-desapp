@@ -21,7 +21,10 @@ public class ProfileServiceTest {
 	
 	@Test
 	public void testProfilesCanBeAdded(){
-		profileService.save(new Profile());
+		Profile aProfile = new Profile();
+		profileService.save(aProfile);
 		Assert.assertEquals(1, profileService.retriveAll().size());
+		profileService.delete(aProfile);
+		Assert.assertEquals(0, profileService.retriveAll().size());
 	}
 }

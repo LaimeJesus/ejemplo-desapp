@@ -20,9 +20,12 @@ public class UserServiceTest {
 	private UserService userService;
 
 	@Test
-	public void testUsersCanBeSaved(){
-		userService.save(new User());
+	public void testUsersCanBeSavedAndDeleted(){
+		User anUser = new User();
+		userService.save(anUser);
 		Assert.assertEquals(1, userService.retriveAll().size());
+		userService.delete(anUser);
+		Assert.assertEquals(0, userService.retriveAll().size());
 	}
 
 }
