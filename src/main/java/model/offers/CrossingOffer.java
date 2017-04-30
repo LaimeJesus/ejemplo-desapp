@@ -36,6 +36,12 @@ public class CrossingOffer extends Offer {
 				);
 	}
 
+	
+	
+	public CrossingOffer() {
+		super();
+	}
+	
 	public Integer getMaxQuantity() {
 		return maxQuantity;
 	}

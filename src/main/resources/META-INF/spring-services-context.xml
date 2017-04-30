@@ -10,6 +10,10 @@
 	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
 		<property name="repository" ref="persistence.productrepository" />
 	</bean>
+	
+	<bean id="services.microservices.crossingofferservice" class="services.microservices.CrossingOfferService">
+		<property name="repository" ref="persistence.crossingofferrepository" />
+	</bean>
 
 	<bean id="services.microservices.userservice" class="services.microservices.UserService">
 		<property name="repository" ref="persistence.userrepository" />
