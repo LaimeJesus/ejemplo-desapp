@@ -9,14 +9,15 @@
         <id name="id" type="java.lang.Integer" column="profile_id">
             <generator class="increment" />
         </id>
-        <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one>
+        <property name="address" type="java.lang.String" column="profile_address"/>
+        <!-- <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one> -->
 		<bag name="allProductLists" cascade="all" lazy="false" inverse="false">
 			<key column="product_list_id"/>
 			<one-to-many class="model.products.ProductList"/>
 		</bag>
-		<bag name="purchaseHistory" cascade="all" lazy="false" inverse="false">
-			<key column="purchase_id"/>
-			<one-to-many class="model.products.PurchaseRecord"/>
+		<bag name="purchaseRecords" cascade="all" lazy="false" inverse="false">
+			<key column="purchase_record_id"/>
+			<one-to-many class="model.registers.PurchaseRecord"/>
 		</bag>
 		<bag name="alerts" cascade="all" lazy="false" inverse="false">
 			<key column="alert_id"/>

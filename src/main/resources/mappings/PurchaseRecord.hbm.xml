@@ -5,15 +5,11 @@
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
         
 <hibernate-mapping default-access="field" default-cascade="save-update">    
-    <class name="model.products.PurchaseRecord">
+    <class name="model.registers.PurchaseRecord">
         <id name="id" type="java.lang.Integer" column="purchase_record_id">
             <generator class="increment" />
         </id>
-
  		<property name="purchasingDate" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
-		<bag name="productList" cascade="all" lazy="false" inverse="false">
-			<key column="product_list_id"/>
-			<one-to-many class="model.products.ProductList"/>
-		</bag>        
+		<one-to-one name="purchasingList" class="model.products.ProductList" cascade="save-update"></one-to-one>
 	</class>
 </hibernate-mapping>

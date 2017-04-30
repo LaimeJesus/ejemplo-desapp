@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import model.products.ProductList;
-import model.products.PurchaseRecord;
 
 public class PurchaseRecordTest {
 

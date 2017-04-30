@@ -16,7 +16,7 @@ public class InQueueUserTest {
 		
 		anInQueueUser.newPurchase();
 		
-		Assert.assertEquals(1,anUser.getProfile().getPurchaseHistory().size());
+		Assert.assertEquals(1,anUser.getProfile().getPurchaseRecords().size());
 	}
 	
 	@Test

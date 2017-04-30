@@ -12,7 +12,8 @@ public class PriceAlert extends Alert implements Monetizable{
 	 */
 	private static final long serialVersionUID = 2705995157525891027L;
 	private Money limit;
-
+	private String moneyValue;
+	
 	public PriceAlert(Money aMoney, Boolean isOn) {
 		super(isOn);
 		this.setLimit(aMoney);

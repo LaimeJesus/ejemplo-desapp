@@ -20,7 +20,7 @@ public class UserServiceTest {
 	private UserService userService;
 
 	@Test
-	public void testProductCanBeSaved(){
+	public void testUsersCanBeSaved(){
 		userService.save(new User());
 		Assert.assertEquals(1, userService.retriveAll().size());
 	}

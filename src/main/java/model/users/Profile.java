@@ -8,7 +8,7 @@ import exceptions.ProductListAlreadyCreatedException;
 import model.alerts.Alert;
 import model.products.Product;
 import model.products.ProductList;
-import model.products.PurchaseRecord;
+import model.registers.PurchaseRecord;
 import util.Address;
 import util.Entity;
 import util.Money;
@@ -22,12 +22,12 @@ public class Profile extends Entity{
 	private static final long serialVersionUID = 5152611130346050935L;
 	private Address address;
 	private List<ProductList> allProductLists;
-	private List<PurchaseRecord> purchaseHistory;
+	private List<PurchaseRecord> purchaseRecords;
 	private List<Alert> alerts;
 	
 	public Profile() {
 		allProductLists = new ArrayList<ProductList>();
-		purchaseHistory = new ArrayList<PurchaseRecord>();
+		purchaseRecords = new ArrayList<PurchaseRecord>();
 		this.alerts = new ArrayList<Alert>();
 	}
 	
@@ -74,12 +74,12 @@ public class Profile extends Entity{
 		return this.allProductLists;
 	}
 	
-	public List<PurchaseRecord> getPurchaseHistory() {
-		return this.purchaseHistory;
+	public List<PurchaseRecord> getPurchaseRecords() {
+		return this.purchaseRecords;
 	}
 
 	public void addNewPurchaseToHistory(PurchaseRecord aPurchaseRecord) {
-		this.getPurchaseHistory().add(aPurchaseRecord);
+		this.getPurchaseRecords().add(aPurchaseRecord);
 	}
 	
 	public void addNewAlert(Alert newAlert){
