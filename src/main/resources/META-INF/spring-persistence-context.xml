@@ -121,4 +121,8 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
+	<bean id="persistence.recommendationrepository" class="repositories.RecommendationRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
 </beans>
