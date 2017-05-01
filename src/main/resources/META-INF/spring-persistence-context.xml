@@ -117,7 +117,7 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
-	<bean id="persistence.crossingofferrepository" class="repositories.CrossingOfferRepository" >
+	<bean id="persistence.crossingofferrepository" class="repositories.offers.CrossingOfferRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	

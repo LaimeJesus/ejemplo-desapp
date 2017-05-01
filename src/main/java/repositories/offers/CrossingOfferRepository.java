@@ -1,6 +1,7 @@
-package repositories;
+package repositories.offers;
 
 import model.offers.CrossingOffer;
+import repositories.HibernateGenericDAO;
 
 public class CrossingOfferRepository extends HibernateGenericDAO<CrossingOffer> {
 
