@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping default-access="field" default-cascade="save-update">    
+    <class name="model.recommendations.Recommendation">
+        <id name="id" type="java.lang.Integer" column="purchase_record_id">
+            <generator class="increment" />
+        </id>
+        
+		<one-to-one 
+			name="relatedProduct" 
+			class="model.products.Product" 
+			cascade="save-update">
+		</one-to-one>
+		
+		<bag 
+			name="recommended" 
+			cascade="all" 
+			lazy="false" 
+			inverse="false">
+			
+			<key column="product_id"/>
+			
+			<one-to-many class="model.products.Product"/>
+			
+		</bag>
+	
+	</class>
+</hibernate-mapping>
