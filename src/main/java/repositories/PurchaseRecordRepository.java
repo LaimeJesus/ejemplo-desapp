@@ -1,6 +1,6 @@
 package repositories;
 
-import model.products.PurchaseRecord;
+import model.registers.PurchaseRecord;
 
 public class PurchaseRecordRepository extends HibernateGenericDAO<PurchaseRecord> {
 

@@ -2,8 +2,7 @@ package services.microservices;
 
 import model.users.Profile;
 
-public class ProfileService extends GenericService<Profile> {
-
+public class ProfileService extends GenericService<Profile>{
 	/**
 	 * 
 	 */

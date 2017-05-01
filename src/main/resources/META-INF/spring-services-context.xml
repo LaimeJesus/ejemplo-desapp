@@ -15,5 +15,13 @@
 		<property name="repository" ref="persistence.crossingofferrepository" />
 	</bean>
 
+	<bean id="services.microservices.userservice" class="services.microservices.UserService">
+		<property name="repository" ref="persistence.userrepository" />
+	</bean>
+
+	<bean id="services.microservices.profileservice" class="services.microservices.ProfileService">
+		<property name="repository" ref="persistence.profilerepository" />
+	</bean>
+
 
 </beans>

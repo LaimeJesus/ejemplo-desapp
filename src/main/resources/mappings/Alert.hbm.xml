@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping default-access="field" default-cascade="save-update">
+    
+    <class name="model.alerts.Alert" abstract="true">
+		<id name="id" type="java.lang.Integer" column="alert_id">
+            <generator class="increment"/>
+        </id>
+        <discriminator column="alert_type" type="java.lang.String"/>
+		<subclass name="model.alerts.PriceAlert" discriminator-value="price">
+			<property name="moneyValue" type="java.lang.String" column="price_alert_limit"/>
+		</subclass>
+		<subclass name="model.alerts.UmbralAlert" discriminator-value="umbral">
+			<property name="category" column="umbral_alert_category">
+			  	<type name="org.hibernate.type.EnumType">
+					<param name="enumClass">util.Category</param>
+				</type>
+			</property>
+			<property name="acceptedPercentage" type="java.lang.Double" column="umbral_alert_accepted_percentage"/>
+		</subclass>		
+	</class>
+    
+</hibernate-mapping>

@@ -1,6 +1,7 @@
 package model.users;
 
-import model.products.PurchaseRecord;
+
+import model.registers.PurchaseRecord;
 import util.Entity;
 import util.Password;
 
