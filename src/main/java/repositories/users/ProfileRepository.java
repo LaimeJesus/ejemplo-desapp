@@ -1,4 +1,4 @@
-package repositories;
+package repositories.users;
 
 import model.users.Profile;
 import repositories.generics.HibernateGenericDAO;
