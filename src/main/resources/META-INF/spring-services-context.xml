@@ -22,6 +22,9 @@
 	<bean id="services.microservices.profileservice" class="services.microservices.ProfileService">
 		<property name="repository" ref="persistence.profilerepository" />
 	</bean>
-
+	
+	<bean id="services.microservices.recommendationservice" class="services.microservices.RecommendationService">
+		<property name="repository" ref="persistence.recommendationrepository" />
+	</bean>
 
 </beans>
