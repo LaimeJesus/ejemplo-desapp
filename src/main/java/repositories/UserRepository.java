@@ -1,6 +1,7 @@
 package repositories;
 
 import model.users.User;
+import repositories.generics.HibernateGenericDAO;
 
 public class UserRepository extends HibernateGenericDAO<User> {
 

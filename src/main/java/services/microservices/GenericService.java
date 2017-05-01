@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.GenericRepository;
+import repositories.generics.GenericRepository;
 
 public class GenericService<T> implements Serializable {
 

@@ -1,7 +1,7 @@
 package repositories.offers;
 
 import model.offers.CombinationOffer;
-import repositories.HibernateGenericDAO;
+import repositories.generics.HibernateGenericDAO;
 
 public class CombinationOfferRepository extends HibernateGenericDAO<CombinationOffer> {
 

@@ -1,6 +1,7 @@
 package repositories;
 
 import model.recommendations.Recommendation;
+import repositories.generics.HibernateGenericDAO;
 
 public class RecommendationRepository extends HibernateGenericDAO<Recommendation> {
 

@@ -1,6 +1,7 @@
 package repositories;
 
 import model.products.SelectedProduct;
+import repositories.generics.HibernateGenericDAO;
 
 public class SelectedProductRepository extends HibernateGenericDAO<SelectedProduct> {
 

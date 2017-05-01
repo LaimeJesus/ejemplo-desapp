@@ -1,4 +1,4 @@
-package repositories;
+package repositories.generics;
 
 import java.io.Serializable;
 import java.util.List;

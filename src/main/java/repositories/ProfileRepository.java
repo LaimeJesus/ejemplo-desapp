@@ -1,6 +1,7 @@
 package repositories;
 
 import model.users.Profile;
+import repositories.generics.HibernateGenericDAO;
 
 public class ProfileRepository extends HibernateGenericDAO<Profile> {
 
