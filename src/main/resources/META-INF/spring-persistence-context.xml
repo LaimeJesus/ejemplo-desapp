@@ -107,7 +107,7 @@
 	<!-- ________________________________________ -->
 	<!-- ________________________________________ -->
 	
-	<bean id="persistence.productrepository" class="repositories.ProductRepository" >
+	<bean id="persistence.productrepository" class="repositories.products.ProductRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	<bean id="persistence.userrepository" class="repositories.users.UserRepository" >

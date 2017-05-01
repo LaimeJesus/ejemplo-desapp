@@ -1,4 +1,4 @@
-package repositories;
+package repositories.products;
 
 import model.products.SelectedProduct;
 import repositories.generics.HibernateGenericDAO;
