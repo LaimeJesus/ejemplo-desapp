@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import model.alerts.PriceAlert;
+import model.alerts.UmbralAlert;
 import model.users.Profile;
 import services.microservices.ProfileService;
 
@@ -27,4 +29,23 @@ public class ProfileServiceTest {
 		profileService.delete(aProfile);
 		Assert.assertEquals(0, profileService.retriveAll().size());
 	}
+	
+	@Test
+	public void testAProfileCanBeSavedWithAlerts(){
+		Profile aProfile = new Profile();
+		PriceAlert priceAlert = new PriceAlert();
+		
+		UmbralAlert umbralAlert = new UmbralAlert();
+		
+		aProfile.addNewAlert(priceAlert);
+		aProfile.addNewAlert(umbralAlert);
+		
+		profileService.save(aProfile);
+		
+		Assert.assertEquals(2, profileService.find(aProfile).getAlerts().size());
+		
+		profileService.delete(aProfile);
+		Assert.assertEquals(0, profileService.retriveAll().size());
+	}
+		
 }
