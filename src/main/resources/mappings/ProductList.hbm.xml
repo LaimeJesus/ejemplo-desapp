@@ -34,7 +34,7 @@
 		</list>
         
         <list name="appliedOffers" cascade="all" inverse="false">
-			<key column="offer_id"></key>
+			<key column="product_list_id"></key>
 			<list-index column="posicion_oferta"></list-index>
 			<one-to-many
 				class="model.offers.Offer" />
