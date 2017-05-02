@@ -22,7 +22,7 @@ public class PurchaseRecordServiceTest {
     private PurchaseRecordService purchaseRecordService;
 
     @Test
-    public void testCategoryOfferCanBeSaved(){
+    public void testPurchaseRecordCanBeSaved(){
     	purchaseRecordService.save(new PurchaseRecord());
         Assert.assertEquals(1, purchaseRecordService.retriveAll().size());
     }
