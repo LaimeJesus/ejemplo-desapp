@@ -27,7 +27,7 @@
         	column="product_list_total_amount" />
         
         <list name="allProducts" cascade="all" inverse="false">
-			<key column="selected_product_id"></key>
+			<key column="product_list_id"></key>
 			<list-index column="posicion_selected_product"></list-index>
 			<one-to-many
 				class="model.products.SelectedProduct" />
