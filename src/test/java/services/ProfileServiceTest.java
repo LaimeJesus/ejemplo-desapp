@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import model.alerts.PriceAlert;
 import model.alerts.UmbralAlert;
+import model.registers.PurchaseRecord;
 import model.users.Profile;
 import services.microservices.ProfileService;
 
@@ -47,5 +48,20 @@ public class ProfileServiceTest {
 		profileService.delete(aProfile);
 		Assert.assertEquals(0, profileService.retriveAll().size());
 	}
+	@Test
+	public void testAProfileCanBeSavedWithPurchaseRecords(){
+		Profile aProfile = new Profile();
+		PurchaseRecord purchaseRecord = new PurchaseRecord();
+		
+		aProfile.addNewPurchaseToHistory(purchaseRecord);
+		
+		profileService.save(aProfile);
+		
+		Assert.assertEquals(1, profileService.find(aProfile).getPurchaseRecords());
+		
+		profileService.delete(aProfile);
+		Assert.assertEquals(0, profileService.retriveAll().size());
+	}
+
 		
 }

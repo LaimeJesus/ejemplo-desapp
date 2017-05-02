@@ -12,16 +12,16 @@
         <property name="address" type="java.lang.String" column="profile_address"/>
         <!-- <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one> -->
 		<bag name="allProductLists" cascade="all" lazy="false" inverse="false">
-			<key column="product_list_id"/>
+			<key column="profile_id"/>
 			<one-to-many class="model.products.ProductList"/>
 		</bag>
 		<bag name="purchaseRecords" cascade="all" lazy="false" inverse="false">
-			<key column="purchase_record_id"/>
+			<key column="profile_id"/>
 			<one-to-many class="model.registers.PurchaseRecord"/>
 		</bag>
 		<bag name="alerts" cascade="all" lazy="false" inverse="false">
 			<key column="profile_id"/>
 			<one-to-many class="model.alerts.Alert"/>
-		</bag>     	        
+		</bag>
     </class>
 </hibernate-mapping>
