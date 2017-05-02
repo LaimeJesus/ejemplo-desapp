@@ -19,6 +19,9 @@ public class PriceAlert extends Alert implements Monetizable{
 		this.setLimit(aMoney);
 	}
 
+	public PriceAlert() {
+	}
+
 	private void setLimit(Money aLimit) {
 		this.limit = aLimit;
 	}
