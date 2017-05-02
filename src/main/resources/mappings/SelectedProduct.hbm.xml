@@ -24,7 +24,8 @@
         
         <one-to-one 
         	name="product" 
-        	class="model.products.Product" />
+        	class="model.products.Product"
+        	cascade="all" />
         
     </class>
     
