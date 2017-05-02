@@ -107,13 +107,11 @@
 	<!-- ________________________________________ -->
 	<!-- ________________________________________ -->
 	
-	<bean id="persistence.productrepository" class="repositories.ProductRepository" >
+	<bean id="persistence.categoryofferrepository" class="repositories.CategoryOfferRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
-	<bean id="persistence.userrepository" class="repositories.UserRepository" >
-		<property name="sessionFactory" ref="persistence.sessionFactory" />
-	</bean>
-	<bean id="persistence.profilerepository" class="repositories.ProfileRepository" >
+	
+	<bean id="persistence.combinationofferrepository" class="repositories.CombinationOfferRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
@@ -121,7 +119,31 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
+	<bean id="persistence.productlistrepository" class="repositories.ProductListRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.productrepository" class="repositories.ProductRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.profilerepository" class="repositories.ProfileRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.purchaserecordrepository" class="repositories.PurchaseRecordRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
 	<bean id="persistence.recommendationrepository" class="repositories.RecommendationRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.selectedproductrepository" class="repositories.SelectedProductRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.userrepository" class="repositories.UserRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
