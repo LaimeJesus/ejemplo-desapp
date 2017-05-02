@@ -20,7 +20,7 @@ public class ProfileServiceTest {
 	private ProfileService profileService;
 	
 	@Test
-	public void testProfilesCanBeAdded(){
+	public void testAnEmptyProfileCanBeSaved(){
 		Profile aProfile = new Profile();
 		profileService.save(aProfile);
 		Assert.assertEquals(1, profileService.retriveAll().size());
