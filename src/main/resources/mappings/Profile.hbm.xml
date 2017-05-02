@@ -20,7 +20,7 @@
 			<one-to-many class="model.registers.PurchaseRecord"/>
 		</bag>
 		<bag name="alerts" cascade="all" lazy="false" inverse="false">
-			<key column="alert_id"/>
+			<key column="profile_id"/>
 			<one-to-many class="model.alerts.Alert"/>
 		</bag>     	        
     </class>
