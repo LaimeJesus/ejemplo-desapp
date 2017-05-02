@@ -22,7 +22,7 @@ public class SelectedProductServiceTest {
     private SelectedProductService selectedProductService;
 
     @Test
-    public void testCategoryOfferCanBeSaved(){
+    public void testSelectedProductCanBeSaved(){
     	selectedProductService.save(new SelectedProduct());
         Assert.assertEquals(1, selectedProductService.retriveAll().size());
     }
