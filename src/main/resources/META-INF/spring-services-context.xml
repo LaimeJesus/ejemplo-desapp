@@ -7,11 +7,11 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<bean id="services.microservices.categoryofferservice" class="services.microservices.CategoryOfferService">
-		<property name="repository" ref="persistence.crossingofferrepository" />
+		<property name="repository" ref="persistence.categoryofferrepository" />
 	</bean>
 	
 	<bean id="services.microservices.combinationofferservice" class="services.microservices.CombinationOfferService">
-		<property name="repository" ref="persistence.crossingofferrepository" />
+		<property name="repository" ref="persistence.combinationofferrepository" />
 	</bean>
 
 	<bean id="services.microservices.crossingofferservice" class="services.microservices.CrossingOfferService">
@@ -31,7 +31,7 @@
 	</bean>
 	
 	<bean id="services.microservices.purchaserecordservice" class="services.microservices.PurchaseRecordService">
-		<property name="repository" ref="persistence.recommendationrepository" />
+		<property name="repository" ref="persistence.purchaserecordrepository" />
 	</bean>
 	
 	<bean id="services.microservices.recommendationservice" class="services.microservices.RecommendationService">
@@ -39,7 +39,7 @@
 	</bean>
 	
 	<bean id="services.microservices.selectedproductservice" class="services.microservices.SelectedProductService">
-		<property name="repository" ref="persistence.recommendationrepository" />
+		<property name="repository" ref="persistence.selectedproductrepository" />
 	</bean>
 
 	<bean id="services.microservices.userservice" class="services.microservices.UserService">
