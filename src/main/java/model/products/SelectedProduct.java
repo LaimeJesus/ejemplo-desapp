@@ -20,6 +20,10 @@ public class SelectedProduct extends Entity{
 	}
 	
 	
+	public SelectedProduct () {
+		
+	}
+	
 	public Product getProduct() {
 		return this.product;
 	}
