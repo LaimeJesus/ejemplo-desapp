@@ -15,7 +15,7 @@ public class PurchaseRecord extends Entity {
 	private ProductList purchasingList;
 
 	public PurchaseRecord(){
-		
+		this.setPurchasingDate(DateTime.now());
 	}
 	
 	public PurchaseRecord(ProductList aProductList) {
