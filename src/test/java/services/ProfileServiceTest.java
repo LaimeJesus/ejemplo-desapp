@@ -57,7 +57,7 @@ public class ProfileServiceTest {
 		
 		profileService.save(aProfile);
 		
-		Assert.assertEquals(1, profileService.find(aProfile).getPurchaseRecords());
+		Assert.assertEquals(1, profileService.find(aProfile).getPurchaseRecords().size());
 		
 		profileService.delete(aProfile);
 		Assert.assertEquals(0, profileService.retriveAll().size());
