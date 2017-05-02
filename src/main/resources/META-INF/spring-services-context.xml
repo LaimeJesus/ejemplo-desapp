@@ -6,22 +6,52 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-
-	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
-		<property name="repository" ref="persistence.productrepository" />
+	<bean id="services.microservices.categoryofferservice" class="services.microservices.CategoryOfferService">
+		<property name="repository" ref="persistence.crossingofferrepository" />
 	</bean>
 	
-	<bean id="services.microservices.crossingofferservice" class="services.microservices.CrossingOfferService">
+	<bean id="services.microservices.combinationofferservice" class="services.microservices.CombinationOfferService">
 		<property name="repository" ref="persistence.crossingofferrepository" />
 	</bean>
 
-	<bean id="services.microservices.userservice" class="services.microservices.UserService">
-		<property name="repository" ref="persistence.userrepository" />
+	<bean id="services.microservices.crossingofferservice" class="services.microservices.CrossingOfferService">
+		<property name="repository" ref="persistence.crossingofferrepository" />
+	</bean>
+	
+	<bean id="services.microservices.productlistservice" class="services.microservices.ProductListService">
+		<property name="repository" ref="persistence.productlistrepository" />
+	</bean>
+	
+	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
+		<property name="repository" ref="persistence.productrepository" />
 	</bean>
 
 	<bean id="services.microservices.profileservice" class="services.microservices.ProfileService">
 		<property name="repository" ref="persistence.profilerepository" />
 	</bean>
+	
+	<bean id="services.microservices.purchaserecordservice" class="services.microservices.PurchaseRecordService">
+		<property name="repository" ref="persistence.recommendationrepository" />
+	</bean>
+	
+	<bean id="services.microservices.recommendationservice" class="services.microservices.RecommendationService">
+		<property name="repository" ref="persistence.recommendationrepository" />
+	</bean>
+	
+	<bean id="services.microservices.selectedproductservice" class="services.microservices.SelectedProductService">
+		<property name="repository" ref="persistence.recommendationrepository" />
+	</bean>
 
+	<bean id="services.microservices.userservice" class="services.microservices.UserService">
+		<property name="repository" ref="persistence.userrepository" />
+	</bean>
+	
+<!-- 	<bean id="services.general.coreservice" class="services.general.CoreService"> -->
+<!-- 		<property name="userService" ref="services.microservices.userservice" /> -->
+<!-- 		<property name="profileService" ref="services.microservices.profileservice" /> -->
+<!-- 		<property name="productListService" ref="persistence.recommendationrepository" /> -->
+<!-- 		<property name="purchaseRecordService" ref="persistence.recommendationrepository" /> -->
+<!-- 	</bean> -->
+	
 
 </beans>

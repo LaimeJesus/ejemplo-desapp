@@ -18,6 +18,10 @@ public class Recommendation extends Entity {
 		this.setRelatedProduct(aProduct);
 		this.setRecommended(recommendedProducts);
 	}
+	
+	public Recommendation () {
+		
+	}
 
 	public Product getRelatedProduct() {
 		return relatedProduct;

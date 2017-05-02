@@ -107,17 +107,40 @@
 	<!-- ________________________________________ -->
 	<!-- ________________________________________ -->
 	
-	<bean id="persistence.productrepository" class="repositories.products.ProductRepository" >
-		<property name="sessionFactory" ref="persistence.sessionFactory" />
-	</bean>
+
 	<bean id="persistence.userrepository" class="repositories.users.UserRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
+
 	<bean id="persistence.profilerepository" class="repositories.users.ProfileRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
+	<bean id="persistence.purchaserecordrepository" class="repositories.PurchaseRecordRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+
 	<bean id="persistence.crossingofferrepository" class="repositories.offers.CrossingOfferRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.combinationofferrepository" class="repositories.offers.CombinationOfferRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+		
+	<bean id="persistence.productrepository" class="repositories.products.ProductRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+		
+	<bean id="persistence.productlistrepository" class="repositories.products.ProductListRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+		
+	<bean id="persistence.recommendationrepository" class="repositories.RecommendationRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.selectedproductrepository" class="repositories.products.SelectedProductRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
