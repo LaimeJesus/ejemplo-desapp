@@ -86,7 +86,7 @@ public class Profile extends Entity{
 		this.getAlerts().add(newAlert);
 	}
 
-	private List<Alert> getAlerts() {
+	public List<Alert> getAlerts() {
 		return this.alerts;
 	}
 	
