@@ -124,6 +124,10 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
+	<bean id="persistence.categoryofferrepository" class="repositories.offers.CategoryOfferRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
 	<bean id="persistence.combinationofferrepository" class="repositories.offers.CombinationOfferRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
