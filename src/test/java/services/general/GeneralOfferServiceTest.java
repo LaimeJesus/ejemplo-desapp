@@ -1,4 +1,4 @@
-package service.general;
+package services.general;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,10 +37,10 @@ public class GeneralOfferServiceTest {
     public void testGeneralOfferServiceCanSaveOffer(){
     	Offer someOffer = new CategoryOffer();
     	
+    	Integer expected = categoryOfferService.retriveAll().size();
     	generalOfferService.save(someOffer);
     	
-    	Assert.assertEquals(1 , categoryOfferService.retriveAll().size());
-    	generalOfferService.delete(someOffer);
+    	Assert.assertEquals(expected+1 , categoryOfferService.retriveAll().size());
     }
     
     @Test
@@ -48,14 +48,14 @@ public class GeneralOfferServiceTest {
     	Offer someOffer = new CategoryOffer();
     	Offer anotherOffer = new CrossingOffer();
     	
+    	Integer expectedCategory = categoryOfferService.retriveAll().size();
     	generalOfferService.save(someOffer);
+    	
+    	Integer expectedCrossing = crossinfOfferService.retriveAll().size();
     	generalOfferService.save(anotherOffer);
     	
-    	Assert.assertEquals(1 , categoryOfferService.retriveAll().size());  
-    	Assert.assertEquals(1 , crossinfOfferService.retriveAll().size());
-    	
-    	generalOfferService.delete(someOffer);
-    	generalOfferService.delete(anotherOffer);
+    	Assert.assertEquals(expectedCategory+1 , categoryOfferService.retriveAll().size());  
+    	Assert.assertEquals(expectedCrossing+1 , crossinfOfferService.retriveAll().size());
     }
 
 }
