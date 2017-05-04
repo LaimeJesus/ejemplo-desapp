@@ -1,9 +1,11 @@
 package model.users;
 
 
+import model.products.Product;
 import model.registers.PurchaseRecord;
 import util.Entity;
 import util.Password;
+import util.Permission;
 
 public class User extends Entity{
 	
@@ -17,15 +19,19 @@ public class User extends Entity{
 	private Password password;
 	private Boolean isLogged;
 	
+	private Permission userPermission;
+	
 	public User(String newUsername , String newEmail , Password newPassword , Profile newProfile) {
+		super();
 		this.setUsername(newUsername);
 		this.setEmail(newEmail);
 		this.setPassword(newPassword);
-		this.setProfile(newProfile);	
+		this.setProfile(newProfile);
 	}
 	public User() {
 		this.setProfile(new Profile());
 		this.setIsLogged(false);
+		this.setUserPermission(Permission.NORMAL);
 	}
 		
 	private void setIsLogged(Boolean bool) {
@@ -68,7 +74,68 @@ public class User extends Entity{
 		this.password = password;
 	}
 	public void newPurchase(PurchaseRecord aPurchaseRecord) {
-		this.getProfile().addNewPurchaseToHistory(aPurchaseRecord);
+		this.getProfile().addNewPurchaseToHistory(aPurchaseRecord);	
+	}
+	
+	public Permission getUserPermission() {
+		return userPermission;
+	}
+	public void setUserPermission(Permission userPermission) {
+		this.userPermission = userPermission;
+	}
+	
+	
+	
+	public void login() {
+		this.setIsLogged(true);
+	}
+	
+	public void logout() {
+		this.setIsLogged(false);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			User newUser = (User) anyObject;
+			return this.totalEquals(newUser) ;
+		}
+		return false;
 		
 	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof User;
+	}
+	
+	private boolean totalEquals(User someUser) {
+		return 
+			this.getUsername().equals(someUser.getUsername()) &&
+			this.getPassword().equals(someUser.getPassword()) &&
+			this.getEmail().equals(someUser.getEmail()) &&
+			this.getUserPermission().equals(someUser.getUserPermission());
+	}
+	
+	public boolean hasWritePermission () {
+		return this.userPermission != Permission.NORMAL;
+	}
+	
+	
+	
+	
 }
