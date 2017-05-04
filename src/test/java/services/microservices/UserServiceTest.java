@@ -21,11 +21,10 @@ public class UserServiceTest {
 
 	@Test
 	public void testUsersCanBeSavedAndDeleted(){
+		Integer expected = userService.retriveAll().size();
 		User anUser = new User();
 		userService.save(anUser);
-		Assert.assertEquals(1, userService.retriveAll().size());
-		userService.delete(anUser);
-		Assert.assertEquals(0, userService.retriveAll().size());
+		Assert.assertEquals(expected+1, userService.retriveAll().size());
 	}
 
 }

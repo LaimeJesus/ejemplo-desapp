@@ -24,11 +24,10 @@ public class ProfileServiceTest {
 	
 	@Test
 	public void testAnEmptyProfileCanBeSaved(){
+		Integer expected = profileService.retriveAll().size();
 		Profile aProfile = new Profile();
 		profileService.save(aProfile);
-		Assert.assertEquals(1, profileService.retriveAll().size());
-		profileService.delete(aProfile);
-		Assert.assertEquals(0, profileService.retriveAll().size());
+		Assert.assertEquals(expected+1, profileService.retriveAll().size());
 	}
 	
 	@Test
@@ -41,12 +40,11 @@ public class ProfileServiceTest {
 		aProfile.addNewAlert(priceAlert);
 		aProfile.addNewAlert(umbralAlert);
 		
+		
+		Integer expected = profileService.find(aProfile).getAlerts().size();
 		profileService.save(aProfile);
 		
-		Assert.assertEquals(2, profileService.find(aProfile).getAlerts().size());
-		
-		profileService.delete(aProfile);
-		Assert.assertEquals(0, profileService.retriveAll().size());
+		Assert.assertEquals(expected+2, profileService.find(aProfile).getAlerts().size());
 	}
 	@Test
 	public void testAProfileCanBeSavedWithPurchaseRecords(){
@@ -55,12 +53,10 @@ public class ProfileServiceTest {
 		
 		aProfile.addNewPurchaseToHistory(purchaseRecord);
 		
+		Integer expected = profileService.find(aProfile).getPurchaseRecords().size();
 		profileService.save(aProfile);
 		
-		Assert.assertEquals(1, profileService.find(aProfile).getPurchaseRecords().size());
-		
-		profileService.delete(aProfile);
-		Assert.assertEquals(0, profileService.retriveAll().size());
+		Assert.assertEquals(expected+1, profileService.find(aProfile).getPurchaseRecords().size());
 	}
 
 		
