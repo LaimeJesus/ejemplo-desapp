@@ -1,7 +1,5 @@
 package services.general;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
 import model.offers.CrossingOffer;
@@ -28,6 +26,18 @@ public class GeneralOfferService {
 		}
 		if (offer instanceof CrossingOffer) {
 			getCrossingOfferService().save( (CrossingOffer) offer);
+		}
+	}
+	
+	public void delete(Offer offer) {
+		if (offer instanceof CategoryOffer) {
+			getCategoryOfferService().delete( (CategoryOffer) offer);
+		}
+		if (offer instanceof CombinationOffer) {
+			getCombinationOfferService().delete( (CombinationOffer) offer);
+		}
+		if (offer instanceof CrossingOffer) {
+			getCrossingOfferService().delete( (CrossingOffer) offer);
 		}
 	}
 
