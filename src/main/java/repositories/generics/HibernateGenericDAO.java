@@ -60,4 +60,9 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
         this.getHibernateTemplate().update(entity);
     }
 
+    
+    public void deleteAll() {
+    	this.getHibernateTemplate().deleteAll(this.findAll());
+    }
+    
 }
