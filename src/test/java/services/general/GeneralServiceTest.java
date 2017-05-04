@@ -80,28 +80,28 @@ public class GeneralServiceTest {
 		userService.delete(userToSignUp);
     }
 	
-	@Test
-    public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay(){
-		User userToSignUp = new UserBuilder()
-				.withUsername("sandoval.lucasj2")
-				.withEmail("sandoval.lucasj@gmail.com")
-				.withPassword(new Password("estaesmipass"))
-				.withUserPermission(Permission.ADMIN)
-				.build();
-		Integer expected = generalOfferService.retriveAll().size();
-		
-		try {
-			
-			generalService.createUser(userToSignUp);
-			generalService.createOffer(new CombinationOffer(), userToSignUp);
-			
-			Assert.assertEquals(expected+1, generalOfferService.retriveAll().size());
-		} catch (UsernameOrPasswordInvalidException | WrongUserPermissionException | UserAlreadyExistsException e) {
-			e.printStackTrace();
-			fail();
-		}
-    }
-	
+//	@Test
+//    public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay(){
+//		User userToSignUp = new UserBuilder()
+//				.withUsername("sandoval.lucasj2")
+//				.withEmail("sandoval.lucasj@gmail.com")
+//				.withPassword(new Password("estaesmipass"))
+//				.withUserPermission(Permission.ADMIN)
+//				.build();
+//		Integer expected = generalOfferService.retriveAll().size();
+//		
+//		try {
+//			
+//			generalService.createUser(userToSignUp);
+//			generalService.createOffer(new CombinationOffer(), userToSignUp);
+//			
+//			Assert.assertEquals(expected+1, generalOfferService.retriveAll().size());
+//		} catch (UsernameOrPasswordInvalidException | WrongUserPermissionException | UserAlreadyExistsException e) {
+//			e.printStackTrace();
+//			fail();
+//		}
+//    }
+//	
 	@Test
 	public void testPrueba() {
 		Assert.assertEquals(Permission.ADMIN , Permission.ADMIN);
