@@ -42,6 +42,7 @@ public class GeneralService {
 		getUserService().authenticateUser(user);
 	}
 	
+	@Transactional
 	public void createOffer (Offer offer , User user) throws UsernameOrPasswordInvalidException, WrongUserPermissionException {
 		if (getUserService().hasWritePermission(user)) {
 			getGeneralOfferService().save(offer);

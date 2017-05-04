@@ -1,5 +1,8 @@
 package services.general;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
 import model.offers.CrossingOffer;
@@ -39,6 +42,14 @@ public class GeneralOfferService {
 		if (offer instanceof CrossingOffer) {
 			getCrossingOfferService().delete( (CrossingOffer) offer);
 		}
+	}
+	
+	public List<Offer> retriveAll() {
+		List<Offer> results = new ArrayList<Offer>();
+		results.addAll(this.getCategoryOfferService().retriveAll());
+		results.addAll(this.getCrossingOfferService().retriveAll());
+		results.addAll(this.getCombinationOfferService().retriveAll());
+		return results;
 	}
 
 

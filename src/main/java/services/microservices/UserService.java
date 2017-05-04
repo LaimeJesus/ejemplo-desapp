@@ -50,13 +50,19 @@ public class UserService extends GenericService<User>{
 	public User findByUsername (String username) {
 		User exampleUser = new User();
 		exampleUser.setUsername(username);
+		exampleUser.setEmail(null);
+		exampleUser.setPassword(null);
+		exampleUser.setId(null);
+		exampleUser.setProfile(null);
+		exampleUser.setUserPermission(null);
+		exampleUser.logout();
 		List<User> possible = this.getRepository().findByExample(exampleUser);
 		return (possible.size() > 0) ? possible.get(0) : null;
 	}
 	
 	private User validateExist(User possible) throws UsernameOrPasswordInvalidException {
 		User exist = this.findByUsername(possible.getUsername());
-		if (! exist.equals(possible)) throw new UsernameOrPasswordInvalidException();
+		if (! possible.equals(exist)) throw new UsernameOrPasswordInvalidException();
 		return exist;
 	}
 	

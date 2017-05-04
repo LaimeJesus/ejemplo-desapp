@@ -10,7 +10,13 @@
             <generator class="increment" />
         </id>
         
-        <property name="username" type="java.lang.String" column="user_username" not-null="false" />
+        <property 
+        	name="username" 
+        	type="java.lang.String" 
+        	column="user_username" 
+        	not-null="false" 
+        	unique="true" />
+        	
         <property name="email" type="java.lang.String" column="user_email" not-null="false" />
         
 		<one-to-one name="profile" class="model.users.Profile" cascade="all"></one-to-one>
