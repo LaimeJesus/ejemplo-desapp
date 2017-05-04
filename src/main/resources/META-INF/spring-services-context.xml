@@ -46,6 +46,14 @@
 		<property name="repository" ref="persistence.userrepository" />
 	</bean>
 	
+	<bean id="services.microservices.pricealertservice" class="services.microservices.PriceAlertService">
+		<property name="repository" ref="persistence.pricealertrepository" />
+	</bean>
+	
+	<bean id="services.microservices.umbralalertservice" class="services.microservices.UmbralAlertService">
+		<property name="repository" ref="persistence.umbralalertrepository" />
+	</bean>
+	
 	<bean id="services.general.generalofferservice" class="services.general.GeneralOfferService">
 		<property name="categoryOfferService" ref="services.microservices.categoryofferservice" />
 		<property name="crossingOfferService" ref="services.microservices.crossingofferservice" />

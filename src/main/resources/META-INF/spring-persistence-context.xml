@@ -148,4 +148,12 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 	
+	<bean id="persistence.pricealertrepository" class="repositories.alerts.PriceAlertRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
+	<bean id="persistence.umbralalertrepository" class="repositories.alerts.UmbralAlertRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+	
 </beans>
