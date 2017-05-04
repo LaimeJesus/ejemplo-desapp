@@ -46,6 +46,17 @@
 		<property name="repository" ref="persistence.userrepository" />
 	</bean>
 	
+	<bean id="services.general.generalofferservice" class="services.general.GeneralOfferService">
+		<property name="categoryOfferService" ref="services.microservices.categoryofferservice" />
+		<property name="crossingOfferService" ref="services.microservices.crossingofferservice" />
+		<property name="combinationOfferService" ref="services.microservices.combinationofferservice" />
+	</bean>
+	
+	<bean id="services.general.generalservice" class="services.general.GeneralService">
+		<property name="userService" ref="services.microservices.userservice" />
+		<property name="generalOfferService" ref="services.general.generalofferservice" />
+	</bean>
+	
 <!-- 	<bean id="services.general.coreservice" class="services.general.CoreService"> -->
 <!-- 		<property name="userService" ref="services.microservices.userservice" /> -->
 <!-- 		<property name="profileService" ref="services.microservices.profileservice" /> -->
