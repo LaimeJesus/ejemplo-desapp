@@ -40,5 +40,21 @@ public class GenericService<T> implements Serializable {
     public void update(final T object) {
         this.getRepository().update(object);
     }
+    
+    
+    /**
+     * 
+     * @param id
+     * @return El objeto con Id = id
+     */
+    @Transactional
+    public T findById(Integer id) {
+    	return this.getRepository().findById(id);
+    }
+    
+    
+    
+    
+    
 
 }
