@@ -26,8 +26,8 @@ public class Profile extends Entity{
 	private List<Alert> alerts;
 	
 	public Profile() {
-		allProductLists = new ArrayList<ProductList>();
-		purchaseRecords = new ArrayList<PurchaseRecord>();
+		this.allProductLists = new ArrayList<ProductList>();
+		this.purchaseRecords = new ArrayList<PurchaseRecord>();
 		this.alerts = new ArrayList<Alert>();
 	}
 	
