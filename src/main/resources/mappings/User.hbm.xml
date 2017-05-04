@@ -17,5 +17,16 @@
 		<property name="password" type="java.lang.String" column="user_password" not-null="false"/>
 		
 		<property name="isLogged" type="java.lang.Boolean" column="user_isLogged" not-null="false"/>		
+    
+    	<property 
+        	name="userPermission" 
+        	column="user_permission"
+        	not-null="false" >
+		  	<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">util.Permission</param>
+			</type>
+			       
+		</property>
+    	
     </class>
 </hibernate-mapping>
