@@ -1,9 +1,20 @@
 package util;
 
-public class Password {
+import model.users.User;
 
+public class Password extends Entity{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -190619487033895009L;
 	private String password;
 
+	
+	public Password(){
+		
+	}
+	
 	public Password(String aPassword) {
 		this.setPassword(aPassword);
 	}
@@ -16,4 +27,25 @@ public class Password {
 		this.password = password;
 	}
 
+	
+	@Override
+	public boolean equals(Object anyObject) {
+		
+		if (this.isMyType(anyObject)) {
+			Password newPassword = (Password) anyObject;
+			return this.totalEquals(newPassword) ;
+		}
+		return false;
+		
+	}
+	
+	private boolean isMyType(Object anyObject) {
+		return anyObject != null && anyObject instanceof User;
+	}
+	
+	private boolean totalEquals(Password somePassword) {
+		return 
+			this.getPassword().equals(somePassword.getPassword());
+	}
+	
 }
