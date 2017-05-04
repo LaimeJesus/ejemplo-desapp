@@ -53,7 +53,10 @@ public class GenericService<T> implements Serializable {
     }
     
     
-    
+    @Transactional
+    public void deleteAll() {
+    	this.getRepository().deleteAll();
+    }
     
     
 
