@@ -9,9 +9,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import model.offers.CategoryOffer;
+import model.offers.CrossingOffer;
 import model.offers.Offer;
 import services.general.GeneralOfferService;
 import services.microservices.CategoryOfferService;
+import services.microservices.CrossingOfferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
@@ -26,13 +28,34 @@ public class GeneralOfferServiceTest {
     @Qualifier("services.microservices.categoryofferservice")
     private CategoryOfferService categoryOfferService;
 	
+	@Autowired
+    @Qualifier("services.microservices.crossingofferservice")
+    private CrossingOfferService crossinfOfferService;
+	
+	
     @Test
-    public void testGeneralOfferServiceCanSaveAnyOffer(){
+    public void testGeneralOfferServiceCanSaveOffer(){
     	Offer someOffer = new CategoryOffer();
     	
     	generalOfferService.save(someOffer);
     	
-    	Assert.assertEquals(1 , categoryOfferService.retriveAll().size());  	
+    	Assert.assertEquals(1 , categoryOfferService.retriveAll().size());
+    	generalOfferService.delete(someOffer);
+    }
+    
+    @Test
+    public void testGeneralOfferServiceCanSaveDifferentsOffers(){
+    	Offer someOffer = new CategoryOffer();
+    	Offer anotherOffer = new CrossingOffer();
+    	
+    	generalOfferService.save(someOffer);
+    	generalOfferService.save(anotherOffer);
+    	
+    	Assert.assertEquals(1 , categoryOfferService.retriveAll().size());  
+    	Assert.assertEquals(1 , crossinfOfferService.retriveAll().size());
+    	
+    	generalOfferService.delete(someOffer);
+    	generalOfferService.delete(anotherOffer);
     }
 
 }
