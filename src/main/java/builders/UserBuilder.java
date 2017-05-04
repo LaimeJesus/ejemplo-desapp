@@ -2,6 +2,7 @@ package builders;
 
 import model.users.User;
 import util.Password;
+import util.Permission;
 
 public class UserBuilder {
 
@@ -31,6 +32,11 @@ public class UserBuilder {
 
 	public UserBuilder withEmail(String anEmail) {
 		this.getUser().setEmail(anEmail);
+		return this;
+	}
+	
+	public UserBuilder withUserPermission(Permission aPermission) {
+		this.getUser().setUserPermission(aPermission);
 		return this;
 	}
 }
