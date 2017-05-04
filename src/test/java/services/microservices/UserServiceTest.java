@@ -1,4 +1,4 @@
-package services;
+package services.microservices;
 
 import org.junit.Assert;
 import org.junit.Test;
