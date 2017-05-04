@@ -1,6 +1,8 @@
 package services.general;
 
 
+import org.springframework.transaction.annotation.Transactional;
+
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
@@ -23,7 +25,7 @@ public class GeneralService {
 	
 	
 	
-
+	@Transactional
 	public void createUser (User newUser) throws UserAlreadyExistsException{
 		getUserService().createNewUser(newUser);	
 	}
