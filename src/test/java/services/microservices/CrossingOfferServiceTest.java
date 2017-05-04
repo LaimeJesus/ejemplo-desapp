@@ -26,8 +26,9 @@ public class CrossingOfferServiceTest {
 
     @Test
     public void testCrossingOfferCanBeSaved(){
+    	Integer expected = crossingOfferService.retriveAll().size();
     	crossingOfferService.save(new CrossingOffer());
-        Assert.assertEquals(1, crossingOfferService.retriveAll().size());
+        Assert.assertEquals(expected+1, crossingOfferService.retriveAll().size());
     }
 	
 }

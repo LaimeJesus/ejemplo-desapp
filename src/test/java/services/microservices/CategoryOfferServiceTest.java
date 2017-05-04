@@ -23,8 +23,9 @@ public class CategoryOfferServiceTest {
 
     @Test
     public void testCategoryOfferCanBeSaved(){
+    	Integer expected = categoryOfferService.retriveAll().size();
     	categoryOfferService.save(new CategoryOffer());
-        Assert.assertEquals(1, categoryOfferService.retriveAll().size());
+        Assert.assertEquals(expected+1, categoryOfferService.retriveAll().size());
     }
 	
 }

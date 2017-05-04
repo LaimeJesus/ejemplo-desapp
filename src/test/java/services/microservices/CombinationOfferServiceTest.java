@@ -23,8 +23,11 @@ public class CombinationOfferServiceTest {
 
     @Test
     public void testCombinationOfferCanBeSaved(){
+    	
+    	Integer expected = combinationOfferService.retriveAll().size();
     	combinationOfferService.save(new CombinationOffer());
-        Assert.assertEquals(1, combinationOfferService.retriveAll().size());
+        Assert.assertEquals(expected+1 , combinationOfferService.retriveAll().size());
+        
     }
 	
 }
