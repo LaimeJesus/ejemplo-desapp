@@ -74,4 +74,10 @@ public class GeneralOfferService {
 	public void setCrossingOfferService(CrossingOfferService crossingOfferService) {
 		this.crossingOfferService = crossingOfferService;
 	}
+
+	public void deleteAll() {
+		this.getCategoryOfferService().deleteAll();
+		this.getCombinationOfferService().deleteAll();
+		this.getCrossingOfferService().deleteAll();
+	}
 }
