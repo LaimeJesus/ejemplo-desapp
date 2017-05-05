@@ -40,7 +40,7 @@ public class Password extends Entity{
 	}
 	
 	private boolean isMyType(Object anyObject) {
-		return anyObject != null && anyObject instanceof User;
+		return anyObject != null && anyObject instanceof Password;
 	}
 	
 	private boolean totalEquals(Password somePassword) {
