@@ -58,6 +58,9 @@ public class GenericService<T> implements Serializable {
     	this.getRepository().deleteAll();
     }
     
-    
+    @Transactional
+    public Integer count() {
+    	return this.getRepository().count();
+    }
 
 }
