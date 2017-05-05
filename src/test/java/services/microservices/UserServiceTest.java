@@ -21,7 +21,7 @@ public class UserServiceTest {
 
 	@Test
 	public void testUsersCanBeSavedAndDeleted(){
-		Integer expected = userService.retriveAll().size();
+		Integer expected = userService.count();
 		User anUser = new User();
 		userService.save(anUser);
 		Assert.assertEquals(expected+1, userService.retriveAll().size());
