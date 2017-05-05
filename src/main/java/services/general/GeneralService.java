@@ -46,7 +46,7 @@ public class GeneralService {
 	public void createOffer (Offer offer , User user) throws UsernameOrPasswordInvalidException, WrongUserPermissionException {
 		if (getUserService().hasWritePermission(user)) {
 			getGeneralOfferService().save(offer);
-		} throw new WrongUserPermissionException();
+		} else { throw new WrongUserPermissionException(); }
 	}
 	
 	public void addProduct (Product p) {}
