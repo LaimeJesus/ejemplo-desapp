@@ -132,10 +132,12 @@ public class User extends Entity{
 	}
 	
 	public boolean hasWritePermission () {
-		return this.userPermission != Permission.NORMAL;
+		return !this.isNormalUser();
 	}
 	
-	
+	private boolean isNormalUser() {
+		return this.getUserPermission().equals(Permission.NORMAL);
+	}
 	
 	
 }
