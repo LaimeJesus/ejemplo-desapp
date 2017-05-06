@@ -49,7 +49,9 @@ public class Product extends Entity implements Monetizable {
 	}
 	
 	private boolean totalEquals(Product someProduct) {
-		return this.getName().equals(someProduct.getName()) && this.getBrand().equals(someProduct.getBrand());
+		return 
+			this.getName().equals(someProduct.getName()) && 
+			this.getBrand().equals(someProduct.getBrand());
 	}
 	
 	
