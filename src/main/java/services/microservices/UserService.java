@@ -4,6 +4,7 @@ import java.util.List;
 
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
+import model.products.ProductList;
 import model.users.User;
 
 public class UserService extends GenericService<User>{
@@ -25,13 +26,13 @@ public class UserService extends GenericService<User>{
 	public void loginUser (User user) throws UsernameOrPasswordInvalidException {
 		User possible = this.validateExist(user);
 		possible.login();
-		this.save(possible);
+		this.update(possible);
 	}
 	
 	public void logout (User user) throws UsernameOrPasswordInvalidException {
 		User possible = this.validateExist(user);
 		possible.logout();
-		this.save(possible);
+		this.update(possible);
 	}
 	
 	public User authenticateUser (User user) throws UsernameOrPasswordInvalidException {
@@ -44,6 +45,11 @@ public class UserService extends GenericService<User>{
 		
 	}
 	
+	public void createProductList(User anUser , ProductList aProductList) throws UsernameOrPasswordInvalidException {
+		User possible = this.authenticateUser(anUser);
+		possible.getProfile().addNewProductList(aProductList);
+		this.update(possible);
+	}
 	
 	
 	
