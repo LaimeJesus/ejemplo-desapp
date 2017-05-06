@@ -104,4 +104,8 @@ public class Profile extends Entity{
 	public void shutdown(Alert anAlert){
 		this.getAlerts().get(this.getAlerts().indexOf(anAlert)).shutdown();
 	}
+
+	public void addNewProductList(ProductList aProductList) {
+		this.getAllProductList().add(aProductList);
+	}
 }
