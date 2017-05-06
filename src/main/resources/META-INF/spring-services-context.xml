@@ -20,6 +20,7 @@
 	
 	<bean id="services.microservices.productlistservice" class="services.microservices.ProductListService">
 		<property name="repository" ref="persistence.productlistrepository" />
+		<property name="productService" ref="services.microservices.productservice" />
 	</bean>
 	
 	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
@@ -63,14 +64,8 @@
 	<bean id="services.general.generalservice" class="services.general.GeneralService">
 		<property name="userService" ref="services.microservices.userservice" />
 		<property name="generalOfferService" ref="services.general.generalofferservice" />
-	</bean>
-	
-<!-- 	<bean id="services.general.coreservice" class="services.general.CoreService"> -->
-<!-- 		<property name="userService" ref="services.microservices.userservice" /> -->
-<!-- 		<property name="profileService" ref="services.microservices.profileservice" /> -->
-<!-- 		<property name="productListService" ref="persistence.recommendationrepository" /> -->
-<!-- 		<property name="purchaseRecordService" ref="persistence.recommendationrepository" /> -->
-<!-- 	</bean> -->
-	
+		<property name="productService" ref="services.microservices.productservice" />
+		<property name="productListService" ref="services.microservices.productlistservice" />
+	</bean>	
 
 </beans>
