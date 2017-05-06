@@ -25,7 +25,7 @@
         <one-to-one 
         	name="product" 
         	class="model.products.Product"
-        	cascade="all" />
+        	cascade="persist" />
         
     </class>
     
