@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,12 @@ public class SelectedProductServiceTest {
     @Qualifier("services.microservices.selectedproductservice")
     private SelectedProductService selectedProductService;
 
-    @Test
+    @Before
+    public void setUp() {
+    	selectedProductService.deleteAll();
+    }
+	
+	@Test
     public void testSelectedProductCanBeSaved(){
     	selectedProductService.save(new SelectedProduct());
         Assert.assertEquals(1, selectedProductService.retriveAll().size());
