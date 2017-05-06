@@ -11,13 +11,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import builders.ProductBuilder;
 import builders.UserBuilder;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
 import model.offers.CombinationOffer;
+import model.products.Product;
+import model.products.ProductList;
+import model.users.Profile;
 import model.users.User;
+import services.microservices.ProductListService;
+import services.microservices.ProductService;
 import services.microservices.UserService;
+import util.Category;
 import util.Password;
 import util.Permission;
 
@@ -38,6 +45,14 @@ public class GeneralServiceTest {
 	@Autowired
     @Qualifier("services.general.generalofferservice")
     private GeneralOfferService generalOfferService;
+
+	@Autowired
+    @Qualifier("services.microservices.productservice")
+    private ProductService productService;
+	
+	@Autowired
+    @Qualifier("services.microservices.productlistservice")
+    private ProductListService productListService;
 	
 	@Before
 	public void setUp() {
@@ -104,6 +119,62 @@ public class GeneralServiceTest {
 			fail();
 		}
     }
+	
+	@Test
+	public void testWhenISaveANewProductThenEverythingIsOkay() {
+		
+		Integer expected = productService.count();
+		
+		Product productToSave = new ProductBuilder()
+				.build();
+		
+		generalService.addProduct(productToSave);
+		Integer current = productService.count();
+		
+		Assert.assertEquals(new Integer(expected+1), current);
+	}
+	
+	@Test
+	public void testWhenIUpdateANewProductThenTheNumberOfProductsIsNotModified() {
+		
+		
+		Product productToSave = new ProductBuilder()
+				.build();
+		
+		generalService.addProduct(productToSave);
+		Integer expected = productService.count();
+		productToSave.setCategory(Category.Dairy);
+		generalService.updateProduct(productToSave);
+		
+		Integer current = productService.count();
+		
+		Assert.assertEquals(expected, current);
+	}
+	
+	@Test
+	public void testWhenICreateAProductListThenEverythingIsOkay() {
+		
+		ProductList someProductList = new ProductList();
+		
+		Profile someProfile = new Profile();
+		someProfile.addNewProductList(someProductList);
+		
+		User someUser = new UserBuilder()
+			.withUsername("someUser")
+			.build();
+		
+		someUser.setProfile(someProfile);
+		
+		userService.save(someUser);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
