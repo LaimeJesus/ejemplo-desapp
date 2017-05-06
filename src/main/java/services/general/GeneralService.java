@@ -3,6 +3,7 @@ package services.general;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
@@ -10,6 +11,8 @@ import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
+import services.microservices.ProductListService;
+import services.microservices.ProductService;
 import services.microservices.UserService;
 
 public class GeneralService {
@@ -21,7 +24,8 @@ public class GeneralService {
 	
 	private UserService userService;
 	private GeneralOfferService generalOfferService;
-	
+	private ProductService productService;
+	private ProductListService productListService;
 	
 	
 	
@@ -30,14 +34,17 @@ public class GeneralService {
 		getUserService().createNewUser(newUser);	
 	}
 	
+	@Transactional
 	public void loginUser (User user) throws UsernameOrPasswordInvalidException {
 		getUserService().loginUser(user);
 	}
 	
+	@Transactional
 	public void logoutUser (User user) throws UsernameOrPasswordInvalidException{
 		getUserService().logout(user);
 	}
 	
+	@Transactional
 	public void authenticateUser (User user) throws UsernameOrPasswordInvalidException {
 		getUserService().authenticateUser(user);
 	}
@@ -49,9 +56,25 @@ public class GeneralService {
 		} else { throw new WrongUserPermissionException(); }
 	}
 	
-	public void addProduct (Product p) {}
+	@Transactional
+	public void addProduct (Product newProduct) {
+		this.getProductService().save(newProduct);
+	}
 	
-	public void selectProduct (User u , ProductList pl , Product p) {}
+	@Transactional
+	public void updateProduct (Product newProduct) {
+		this.getProductService().update(newProduct);
+	}
+	
+	@Transactional
+	public void createProductList (User user , ProductList productList) {
+		//this.getUserService().createProductList(user,productList);
+	}
+	
+	@Transactional
+	public void selectProduct (ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException {	
+		this.getProductListService().selectProduct(productList , product , quantity);
+	}
 	
 	public void removeProduct (User u , ProductList pl , Product p ) {}
 	
@@ -76,6 +99,22 @@ public class GeneralService {
 	}
 	public void setGeneralOfferService(GeneralOfferService generalOfferService) {
 		this.generalOfferService = generalOfferService;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
+	public ProductListService getProductListService() {
+		return productListService;
+	}
+
+	public void setProductListService(ProductListService productListService) {
+		this.productListService = productListService;
 	}
 	
 	
