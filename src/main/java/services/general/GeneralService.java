@@ -3,6 +3,7 @@ package services.general;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
@@ -67,8 +68,8 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void createProductList (User user , ProductList productList) {
-		//this.getUserService().createProductList(user,productList);
+	public void createProductList (User user , ProductList productList) throws UsernameOrPasswordInvalidException {
+		this.getUserService().createProductList(user,productList);
 	}
 	
 	@Transactional
@@ -76,7 +77,10 @@ public class GeneralService {
 		this.getProductListService().selectProduct(productList , product , quantity);
 	}
 	
-	public void removeProduct (User u , ProductList pl , Product p ) {}
+	@Transactional
+	public void removeProduct (ProductList productList , Product product ) throws ProductDoesNotExistOnListException {
+		this.getProductListService().removeProduct(productList , product);
+	}
 	
 	public void generateRecommmendation (User u , Product p) {}
 	
