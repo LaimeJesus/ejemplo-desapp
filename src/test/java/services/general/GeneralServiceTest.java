@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import builders.ProductBuilder;
 import builders.UserBuilder;
+import exceptions.ProductDoesNotExistOnListException;
+import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
@@ -25,6 +27,7 @@ import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.UserService;
 import util.Category;
+import util.Money;
 import util.Password;
 import util.Permission;
 
@@ -58,6 +61,7 @@ public class GeneralServiceTest {
 	public void setUp() {
 		generalOfferService.deleteAll();
 		userService.deleteAll();
+		productService.deleteAll();
 	}
 	
 	@Test
@@ -154,22 +158,73 @@ public class GeneralServiceTest {
 	@Test
 	public void testWhenICreateAProductListThenEverythingIsOkay() {
 		
-		ProductList someProductList = new ProductList();
+		ProductList someProductList = new ProductList("First");
 		
 		Profile someProfile = new Profile();
 		someProfile.addNewProductList(someProductList);
 		
-		User someUser = new UserBuilder()
+		User someValidUser = new UserBuilder()
 			.withUsername("someUser")
+			.withEmail("sandoval.lucasj@gmail.com")
+			.withPassword(new Password("mypassword"))
+			.withUserPermission(Permission.NORMAL)
 			.build();
 		
-		someUser.setProfile(someProfile);
+		someValidUser.setProfile(someProfile);
 		
-		userService.save(someUser);
+		userService.save(someValidUser);
 		
+		ProductList anotherProductList = new ProductList("Second");
+		try {
+			generalService.createProductList(someValidUser, anotherProductList);
+			User saved = userService.findByUsername("someUser");
+			
+			Assert.assertTrue(saved.getProfile().getAllProductList().contains(anotherProductList));
+		} catch (UsernameOrPasswordInvalidException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 	
-	
+	@Test
+	public void testWhenIRemoveAProductFromAListThatExistThenEverythingIsOkay() {
+		
+		ProductList someProductList = new ProductList("First");
+		
+		Profile someProfile = new Profile();
+		someProfile.addNewProductList(someProductList);
+		
+		User someValidUser = new UserBuilder()
+			.withUsername("someUser")
+			.withEmail("sandoval.lucasj@gmail.com")
+			.withPassword(new Password("mypassword"))
+			.withUserPermission(Permission.NORMAL)
+			.build();
+		
+		someValidUser.setProfile(someProfile);
+		
+		Product someValidProduct = new ProductBuilder()
+			.withBrand("Marolio")
+			.withName("Arroz")
+			.withPrice(new Money(13,50))
+			.build();
+		
+		userService.save(someValidUser);
+		productService.save(someValidProduct);
+		
+		try {
+			User saved = userService.findByUsername("someUser");
+			Integer expected = saved.getProfile().getAllProductList().size();
+			generalService.selectProduct(someProductList, someValidProduct, 3);
+			generalService.removeProduct(someProductList, someValidProduct);
+			Integer current = saved.getProfile().getAllProductList().size();
+			
+			Assert.assertEquals(expected , current);
+		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistOnListException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 	
 	
 	
