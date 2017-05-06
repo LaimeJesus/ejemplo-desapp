@@ -69,10 +69,11 @@ public class ProductList extends Entity implements Monetizable {
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
-		return this.getAllProducts().stream().anyMatch( 
-				currentSelected -> currentSelected.getProduct().equals(someProduct)
-				);
-		
+		for (SelectedProduct selected : this.getAllProducts()) {
+			if (selected.getProduct().equals(someProduct))
+				return true;
+		}
+		return false;
 	}
 	
 	public boolean isEmpty() {
