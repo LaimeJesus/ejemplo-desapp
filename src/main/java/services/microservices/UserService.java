@@ -85,5 +85,11 @@ public class UserService extends GenericService<User>{
 		User exist = this.findByUsername(possibleNewUser.getUsername());
 		if (exist != null) throw new UserAlreadyExistsException();
 	}
+
+	@Transactional
+	public List<ProductList> getListsFromUser(User saved) throws UsernameOrPasswordInvalidException {
+		User exist = this.authenticateUser(saved);
+		return exist.getProfile().getAllProductList();
+	}
 	
 }
