@@ -30,7 +30,7 @@ public class ProductListService extends GenericService<ProductList> {
 			this.update(result);
 		}
 	}	
-	
+	 
 	@Transactional
 	public void removeProduct(ProductList productList, Product product) throws ProductDoesNotExistOnListException {
 		if (this.validateProduct(product) ) {
