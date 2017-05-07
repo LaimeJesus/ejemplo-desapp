@@ -7,6 +7,7 @@ import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
 import model.offers.CrossingOffer;
 import model.offers.Offer;
+import model.products.ProductList;
 import services.microservices.CategoryOfferService;
 import services.microservices.CombinationOfferService;
 import services.microservices.CrossingOfferService;
@@ -49,6 +50,14 @@ public class GeneralOfferService {
 		results.addAll(this.getCategoryOfferService().retriveAll());
 		results.addAll(this.getCrossingOfferService().retriveAll());
 		results.addAll(this.getCombinationOfferService().retriveAll());
+		return results;
+	}
+	
+	public List<Offer> applicableForList(ProductList aProductList) {
+		List<Offer> results = new ArrayList<Offer>();
+		results.addAll(this.getCategoryOfferService().applicableForList(aProductList));
+		results.addAll(this.getCrossingOfferService().applicableForList(aProductList));
+		results.addAll(this.getCombinationOfferService().applicableForList(aProductList));
 		return results;
 	}
 
