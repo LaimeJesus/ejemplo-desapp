@@ -1,5 +1,9 @@
 package services.microservices;
 
+import static org.junit.Assert.fail;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,11 +12,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import builders.ProductBuilder;
+import exceptions.MoneyCannotSubstractException;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
+import model.products.Product;
 import model.products.ProductList;
 import services.general.GeneralOfferService;
 import services.microservices.ProductListService;
+import util.Category;
+import util.Money;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,14 +49,41 @@ public class ProductListServiceTest {
     public void testProductListWithOffersCanBeSaved() {
     	
     	ProductList aPl = new ProductList();
-    	aPl.applyOffer(new CategoryOffer());
-    	aPl.applyOffer(new CrossingOffer());
+    	aPl.setTotalAmount(new Money(250,0));
+    	Product someProduct = new ProductBuilder()
+    		.withBrand("Marolio")
+    		.withName("Arroz")
+    		.withCategory(Category.Fruit)
+    		.withPrice(new Money(15,15))
+    		.withStock(54)
+    		.build();
     	
-    	Integer expected = generalOfferService.retriveAll().size();
-    	productListService.save(aPl);
-    	
-    	
-    	Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+    	try {
+			aPl.applyOffer(
+				new CategoryOffer(
+					10,
+					new Interval(DateTime.now() , DateTime.now().plusDays(1)) , 
+					Category.Baked
+				)
+			);
+			aPl.applyOffer(
+				new CrossingOffer(
+					10,
+					someProduct,
+					3,
+					2,
+					new Interval(DateTime.now() , DateTime.now().plusDays(1))
+				)
+			);
+			Integer expected = generalOfferService.retriveAll().size();
+			productListService.save(aPl);			
+			Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+    	 
     	
     }
 	
