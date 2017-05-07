@@ -61,4 +61,5 @@ public class ProductListService extends GenericService<ProductList> {
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
 	}
+	
 }
