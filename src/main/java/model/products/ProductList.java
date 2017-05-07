@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.joda.time.Duration;
 
+import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.Offer;
@@ -43,20 +44,15 @@ public class ProductList extends Entity implements Monetizable {
 		this.setAppliedOffers(new ArrayList<Offer>());
 	}
 	
-	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
-		if (this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
-		} else {
-			this.addProductToList(new SelectedProduct(product, howMany));
-			this.updateAmount( this.calculateAmount(product.getPrice() , howMany) );
-
-		}
-	}
 	
 	public List<SelectedProduct> getSelectedProductsBy(Category aCategory){
-		return this.getAllProducts().stream().filter(
-				aSelectedProduct -> aSelectedProduct.getProduct().getCategory().equals(aCategory) 
-				).collect(Collectors.toList());
+		List<SelectedProduct> result = new ArrayList<SelectedProduct>();
+		for (SelectedProduct current : this.getAllProducts()) {
+			if (current.getProduct().getCategory().equals(aCategory)){
+				result.add(current);
+			}
+		}
+		return result;
 	}
 	
 	public SelectedProduct getSelectedProduct(Product someProduct){
@@ -67,6 +63,15 @@ public class ProductList extends Entity implements Monetizable {
 		}
 		return null;
 	}
+
+	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
+		if (this.thisProductIsSelected(product)) {
+			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
+		} else {
+			this.addProductToList(new SelectedProduct(product, howMany));
+			this.plusAmount( this.calculateAmount(product.getPrice() , howMany) );
+		}
+	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
 		for (SelectedProduct selected : this.getAllProducts()) {
@@ -76,30 +81,35 @@ public class ProductList extends Entity implements Monetizable {
 		return false;
 	}
 	
-	public boolean isEmpty() {
-		return this.allProducts.isEmpty();
-	}
-	
 	public void addProductToList (SelectedProduct newProduct) {
 		this.allProducts.add(newProduct);
 	}
 	
 	private void deleteProductFromList (Product productToRemove) {
 		this.getAllProducts().removeIf( 
-					currentSelectedProduct -> currentSelectedProduct.getProduct().equals(productToRemove)
+				currentSelectedProduct -> currentSelectedProduct.getProduct().equals(productToRemove)
 				);
+	}
+	
+	public boolean isEmpty() {
+		return this.allProducts.isEmpty();
 	}
 	
 	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException {
 		if (this.thisProductIsSelected(productToRemove)) {
 			this.deleteProductFromList(productToRemove);
+			this.update();
 		} else {
 			throw new ProductDoesNotExistOnListException("El producto que intenta eliminar no se encuentra seleccionado");
 		}
 	}
 	
-	public void updateAmount(Money newAmount) {
+	public void plusAmount(Money newAmount) {
 		totalAmount = totalAmount.add(newAmount);
+	}
+	
+	public void minusAmount (Money money) throws MoneyCannotSubstractException{
+		totalAmount = totalAmount.minus(money);
 	}
 	
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
@@ -146,6 +156,19 @@ public class ProductList extends Entity implements Monetizable {
 		this.allProducts = newProducts;
 	}
 	
+	public List<Offer> getAppliedOffers() {
+		return appliedOffers;
+	}
+	
+	public void setAppliedOffers(List<Offer> appliedOffers) {
+		this.appliedOffers = appliedOffers;
+	}
+	
+///////////////////////////////
+///////////////////////////////
+////// EQUALS METHODS /////////
+///////////////////////////////
+///////////////////////////////
 	@Override
 	public boolean equals(Object anyObject) {
 		
@@ -164,25 +187,12 @@ public class ProductList extends Entity implements Monetizable {
 	private boolean totalEquals(ProductList someProductList) {
 		return this.getName().equals(someProductList.getName());
 	}
-
-	public Boolean isApplicable(Offer aOffer) {
-		return this.getAppliedOffers().stream().noneMatch(
-				offer -> offer.equals(aOffer)
-				);
-	}
-
-	public void applyOffer(Offer aNewOffer) {
-		this.getAppliedOffers().add(aNewOffer);
-	}
-
-	public List<Offer> getAppliedOffers() {
-		return appliedOffers;
-	}
-
-	public void setAppliedOffers(List<Offer> appliedOffers) {
-		this.appliedOffers = appliedOffers;
-	}
-
+///////////////////////////////
+///////////////////////////////
+////// EQUALS METHODS /////////
+///////////////////////////////
+///////////////////////////////
+	
 	public Integer getQuantityOfProducts(Category aCategory) {
 		Integer categoryTotal = 0;
 		List<SelectedProduct> filteredSelectedProduct = this.getSelectedProductsBy(aCategory);	
@@ -192,6 +202,64 @@ public class ProductList extends Entity implements Monetizable {
 		return categoryTotal;
 
 	}
+	
+///////////////////////////////
+///////////////////////////////
+////// OFFER METHODS //////////
+///////////////////////////////
+///////////////////////////////
+	
+	public void applyOffer (Offer offer) throws MoneyCannotSubstractException {
+		if (this.isApplicable(offer)) {
+			this.setTotalAmount(offer.getFinalPrice(this));
+			this.addOffer(offer);
+		}
+	}
+	
+	public void disapplyOffer (Offer offer) {
+		if (this.getAppliedOffers().contains(offer)) {
+			this.removeOffer(offer);
+			this.update();
+		}
+	}
+	
+	public Boolean isApplicable(Offer aOffer) {
+		return this.getAppliedOffers().stream().noneMatch(
+				offer -> offer.equals(aOffer)
+				);
+	}
+	
+	private void addOffer(Offer aNewOffer) {
+		this.getAppliedOffers().add(aNewOffer);
+	}
+	
+	private void removeOffer(Offer offerToRemove) {
+		this.getAppliedOffers().remove(offerToRemove);
+	}
+///////////////////////////////
+///////////////////////////////
+////// OFFER METHODS //////////
+///////////////////////////////
+///////////////////////////////
+
+	public void update() {
+		List<Offer> currentOffers = this.getAppliedOffers();
+		List<SelectedProduct> currentProducts = this.getAllProducts();
+		
+		this.initialize();
+
+		try {
+			for (SelectedProduct selected : currentProducts) {
+				this.selectProduct(selected.getProduct(), selected.getQuantity());				
+			}
+			for (Offer offer : currentOffers) {
+				this.applyOffer(offer);
+			}
+		} 	
+		catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException e) {
+		}
+	}
+	
 	
 	
 	/**
