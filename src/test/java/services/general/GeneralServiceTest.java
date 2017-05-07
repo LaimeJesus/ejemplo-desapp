@@ -2,6 +2,8 @@ package services.general;
 
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +27,7 @@ import model.users.Profile;
 import model.users.User;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
+import services.microservices.SelectedProductService;
 import services.microservices.UserService;
 import util.Category;
 import util.Money;
@@ -56,12 +59,18 @@ public class GeneralServiceTest {
 	@Autowired
     @Qualifier("services.microservices.productlistservice")
     private ProductListService productListService;
+
+	@Autowired
+    @Qualifier("services.microservices.selectedproductservice")
+	private SelectedProductService selectedProductService;
 	
 	@Before
 	public void setUp() {
 		generalOfferService.deleteAll();
 		userService.deleteAll();
 		productService.deleteAll();
+		productListService.deleteAll();
+		selectedProductService.deleteAll();
 	}
 	
 	@Test
@@ -179,7 +188,7 @@ public class GeneralServiceTest {
 			generalService.createProductList(someValidUser, anotherProductList);
 			User saved = userService.findByUsername("someUser");
 			
-			Assert.assertTrue(saved.getProfile().getAllProductList().contains(anotherProductList));
+			Assert.assertTrue(userService.getListsFromUser(saved).contains(anotherProductList));
 		} catch (UsernameOrPasswordInvalidException e) {
 			e.printStackTrace();
 			fail();
@@ -187,7 +196,7 @@ public class GeneralServiceTest {
 	}
 	
 	@Test
-	public void testWhenIRemoveAProductFromAListThatExistThenEverythingIsOkay() {
+	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() {
 		
 		ProductList someProductList = new ProductList("First");
 		
@@ -213,14 +222,16 @@ public class GeneralServiceTest {
 		productService.save(someValidProduct);
 		
 		try {
-			User saved = userService.findByUsername("someUser");
-			Integer expected = saved.getProfile().getAllProductList().size();
-			generalService.selectProduct(someProductList, someValidProduct, 3);
-			generalService.removeProduct(someProductList, someValidProduct);
-			Integer current = saved.getProfile().getAllProductList().size();
+			Integer expected = selectedProductService.count();
 			
-			Assert.assertEquals(expected , current);
-		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistOnListException e) {
+			User saved = userService.findByUsername("someUser");
+			generalService.selectProduct(someProductList, someValidProduct, 3);
+			List<ProductList> lists = userService.getListsFromUser(saved);
+			
+			Assert.assertTrue(lists.contains(someProductList));
+			
+			Assert.assertEquals( new Integer(expected+1) , selectedProductService.count());
+		} catch (ProductIsAlreadySelectedException | UsernameOrPasswordInvalidException e) {
 			e.printStackTrace();
 			fail();
 		}
