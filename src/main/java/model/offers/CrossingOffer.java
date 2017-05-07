@@ -69,4 +69,22 @@ public class CrossingOffer extends Offer {
 	private Money getPriceOfRelatedProduct() {
 		return this.getRelatedProduct().getPrice();
 	}
+	
+	@Override
+	public boolean equals(Object anotherPossibleOffer ) {
+		if(this.isMyType(anotherPossibleOffer)){
+			CrossingOffer newOffer = (CrossingOffer) anotherPossibleOffer;
+			return 
+				this.getDiscountRate().equals(newOffer.getDiscountRate()) &&
+				this.getValidPeriod().equals(newOffer.getValidPeriod()) &&
+				this.getRelatedProduct().equals(newOffer.getRelatedProduct()) &&
+				this.getMaxQuantity().equals(newOffer.getMaxQuantity()) &&
+				this.getMinQuantity().equals(newOffer.getMinQuantity());
+		}
+		return false;
+	}
+	
+	private boolean isMyType(Object anotherPossibleOffer) {
+		return anotherPossibleOffer != null && anotherPossibleOffer instanceof CrossingOffer;
+	}
 }
