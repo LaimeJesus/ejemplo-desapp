@@ -5,14 +5,13 @@ import model.products.ProductList;
 import util.Monetizable;
 import util.Money;
 
-public class PriceAlert extends Alert implements Monetizable{
+public class PriceAlert extends Alert {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2705995157525891027L;
 	private Money limit;
-	private String moneyValue;
 	
 	public PriceAlert(Money aMoney, Boolean isOn) {
 		super(isOn);
@@ -37,15 +36,5 @@ public class PriceAlert extends Alert implements Monetizable{
 	@Override
 	public Boolean satisfy(ProductList aProductList, Product aProduct, Integer aQuantity) {
 		return aProductList.getTotalAmount().add(aProduct.getPrice().times(aQuantity)).greaterThan(this.getLimit());
-	}
-
-	@Override
-	public Money getMonetizableElement() {
-		return this.limit;
-	}
-
-	@Override
-	public void setMonetizableElement(Money newMoney) {
-		this.limit = newMoney;
 	}
 }

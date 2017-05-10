@@ -7,7 +7,7 @@ import util.Entity;
 import util.Monetizable;
 import util.Money;
 
-public class Product extends Entity implements Monetizable {
+public class Product extends Entity {
 	
 	/**
 	 * 
@@ -20,8 +20,6 @@ public class Product extends Entity implements Monetizable {
 	private Category category;
 	private Duration processingTime;
 	private String imageUrl;
-	
-	private String moneyValue;
 	
 	
 	
@@ -90,7 +88,6 @@ public class Product extends Entity implements Monetizable {
 	}
 	
 	public void setPrice(Money newPrice) {
-		this.setMonetizableElement(newPrice);
 		this.price = newPrice;
 	}
 	
@@ -115,20 +112,6 @@ public class Product extends Entity implements Monetizable {
 	
 	public String getImageUrl(){
 		return this.imageUrl;
-	}
-	
-	
-	/**
-	 * Metodos necesarios para garantizar que se persistira un VARCHAR en lugar de un Money
-	 */
-
-	@Override
-	public Money getMonetizableElement() {
-		return this.price;
-	}
-	
-	public void setMonetizableElement(Money newMoney) {
-		this.price = newMoney;
 	}
 
 }

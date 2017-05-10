@@ -3,6 +3,7 @@ package model.products;
 
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.offers.CategoryOffer;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
@@ -136,5 +137,27 @@ public class ProductListTest {
 		Assert.assertEquals(new Integer(20), aProductList.getQuantityOfProducts());
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

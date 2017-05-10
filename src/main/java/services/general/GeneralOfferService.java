@@ -80,4 +80,11 @@ public class GeneralOfferService {
 		this.getCombinationOfferService().deleteAll();
 		this.getCrossingOfferService().deleteAll();
 	}
+
+	public boolean isOfferValid(Offer someOffer) {
+		return 
+		this.getCategoryOfferService().isOfferValid(someOffer) ||
+		this.getCombinationOfferService().isOfferValid(someOffer) ||
+		this.getCrossingOfferService().isOfferValid(someOffer);
+	}
 }

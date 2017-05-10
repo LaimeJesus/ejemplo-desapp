@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class PurchaseRecordServiceTest {
     @Qualifier("services.microservices.purchaserecordservice")
     private PurchaseRecordService purchaseRecordService;
 
+	@Before
+	public void setUp() {
+		purchaseRecordService.deleteAll();
+	}
+	
     @Test
     public void testPurchaseRecordCanBeSaved(){
     	purchaseRecordService.save(new PurchaseRecord());

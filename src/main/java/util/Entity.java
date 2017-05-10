@@ -18,6 +18,5 @@ public class Entity implements Serializable{
 
 	public void setId(Integer newId) {
 		this.id = newId;
-	}
-	
+	}	
 }

@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,15 @@ import services.microservices.CategoryOfferService;
 @ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
 public class CategoryOfferServiceTest {
 
-	
+
 	@Autowired
     @Qualifier("services.microservices.categoryofferservice")
     private CategoryOfferService categoryOfferService;
+
+	@Before
+	public void setUp() {
+		categoryOfferService.deleteAll();
+	}
 
     @Test
     public void testCategoryOfferCanBeSaved(){
@@ -27,5 +33,5 @@ public class CategoryOfferServiceTest {
     	categoryOfferService.save(new CategoryOffer());
         Assert.assertEquals(expected+1, categoryOfferService.retriveAll().size());
     }
-	
+
 }

@@ -6,15 +6,18 @@ import java.util.stream.Collectors;
 
 import org.joda.time.Duration;
 
+import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import model.offers.CategoryOffer;
+import model.offers.CrossingOffer;
 import model.offers.Offer;
 import util.Category;
 import util.Entity;
 import util.Monetizable;
 import util.Money;
 
-public class ProductList extends Entity implements Monetizable {
+public class ProductList extends Entity {
 
 	
 	/**
@@ -25,8 +28,6 @@ public class ProductList extends Entity implements Monetizable {
 	private Money totalAmount;
 	private List<SelectedProduct> allProducts;
 	private List<Offer> appliedOffers;
-	
-	private String moneyValue;
 	
 	public ProductList () {
 		this.initialize();
@@ -44,15 +45,17 @@ public class ProductList extends Entity implements Monetizable {
 	}
 	
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
-		if (this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
-		} else {
-			this.addProductToList(new SelectedProduct(product, howMany));
-			this.updateAmount( this.calculateAmount(product.getPrice() , howMany) );
-
-		}
+		this.validateProductIsSelected(product);
+		this.addProductToList(new SelectedProduct(product, howMany));
+		this.updateAmount( product.getPrice().times(howMany) );
 	}
 	
+	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
+		if ( this.thisProductIsSelected(product)) {
+			throw new ProductIsAlreadySelectedException("Putito");
+		}
+	}
+
 	public List<SelectedProduct> getSelectedProductsBy(Category aCategory){
 		return this.getAllProducts().stream().filter(
 				aSelectedProduct -> aSelectedProduct.getProduct().getCategory().equals(aCategory) 
@@ -98,7 +101,7 @@ public class ProductList extends Entity implements Monetizable {
 	}
 	
 	public void updateAmount(Money newAmount) {
-		totalAmount = totalAmount.add(newAmount);
+		this.setTotalAmount(this.getTotalAmount().add(newAmount));
 	}
 	
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
@@ -164,15 +167,6 @@ public class ProductList extends Entity implements Monetizable {
 		return this.getName().equals(someProductList.getName());
 	}
 
-	public Boolean isApplicable(Offer aOffer) {
-		return this.getAppliedOffers().stream().noneMatch(
-				offer -> offer.equals(aOffer)
-				);
-	}
-
-	public void applyOffer(Offer aNewOffer) {
-		this.getAppliedOffers().add(aNewOffer);
-	}
 
 	public List<Offer> getAppliedOffers() {
 		return appliedOffers;
@@ -190,21 +184,44 @@ public class ProductList extends Entity implements Monetizable {
 		}
 		return categoryTotal;
 
-	}
-	
-	
-	/**
-	 * Metodos necesarios para garantizar que se persistira un VARCHAR en lugar de un Money
-	 */
+	}	
 
-	@Override
-	public Money getMonetizableElement() {
-		return this.totalAmount;
-	}
-
-	@Override
-	public void setMonetizableElement(Money newMoney) {
-		this.totalAmount = newMoney;
+	
+	
+	
+	
+	
+	
+	public void applyOffer(Offer offer) throws MoneyCannotSubstractException {
+		if (this.isApplicable(offer)) {
+			this.getAppliedOffers().add(offer);
+			this.setTotalAmount( offer.getFinalPrice(this) );
+		}
 	}
 	
+	public void disapplyOffer(Offer offer) throws ProductIsAlreadySelectedException, MoneyCannotSubstractException {
+		this.getAppliedOffers().remove(offer);
+		this.update();
+	}
+	
+	public Boolean isApplicable(Offer anOffer) {
+		return anOffer.meetRequirements(this);
+	}
+	
+	public void update() throws ProductIsAlreadySelectedException, MoneyCannotSubstractException {
+		List<Offer> applied = this.getAppliedOffers();
+		List<SelectedProduct> selected = this.getAllProducts();
+		
+		this.initialize();
+		
+		for (SelectedProduct selectedProduct : selected) {
+			this.selectProduct(selectedProduct.getProduct(), selectedProduct.getQuantity());
+		}
+		
+		for (Offer offer : applied) {
+			this.applyOffer(offer);
+		}
+		
+		
+	}
 }

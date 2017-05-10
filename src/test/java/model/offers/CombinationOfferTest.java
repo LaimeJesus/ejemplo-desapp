@@ -52,9 +52,9 @@ public class CombinationOfferTest {
 		
 		CombinationOffer aOffer = new CombinationOffer(firstProductMock, secondProductMock, 15,anIntervalMock);
 		
-		Money expected = new Money(6,30);
+		Money expected = new Money(6,27);
 		
-		assertEquals(aOffer.getDiscount(aOffer.getDiscountRate() , aProductListMock), expected);
+		assertEquals(expected , aOffer.getDiscount(aOffer.getDiscountRate() , aProductListMock));
 		
 	}
 	
@@ -67,13 +67,14 @@ public class CombinationOfferTest {
 		DateTime tomorrow = today.plusDays(1);
 		Interval anIntervalMock = new Interval(today, tomorrow);
 		ProductList aProductListMock = Mockito.mock(ProductList.class);
+		Mockito.when(aProductListMock.getTotalAmount()).thenReturn(new Money(41,77));
 		
 		Mockito.when(firstProductMock.getPrice()).thenReturn(new Money(24,56));
 		Mockito.when(secondProductMock.getPrice()).thenReturn(new Money(17,21));
 		
 		CombinationOffer aOffer = new CombinationOffer(firstProductMock, secondProductMock, 15, anIntervalMock);
 		
-		Money expected = new Money(35,47);
+		Money expected = new Money(35,50);
 		
 		try {
 			assertEquals(aOffer.getFinalPrice(aProductListMock), expected);
@@ -135,7 +136,7 @@ public class CombinationOfferTest {
 			
 			assertFalse(someProductList.isApplicable(aOffer));
 			
-		} catch (ProductIsAlreadySelectedException e) {
+		} catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException e) {
 			fail();
 		}
 		

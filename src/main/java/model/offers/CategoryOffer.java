@@ -44,4 +44,15 @@ public class CategoryOffer extends Offer {
 		this.category = newCategory;
 	}
 	
+	@Override
+	protected boolean isEqualsToMe(Offer offer) {
+		if (offer != null && offer instanceof CategoryOffer) {
+			CategoryOffer current = (CategoryOffer) offer;
+			return 
+				this.getCategory().equals(current.getCategory()) && 
+				this.getDiscountRate().equals(current.getDiscountRate()) &&
+				this.getValidPeriod().equals(current.getValidPeriod());
+		}
+		return false;
+	}
 }

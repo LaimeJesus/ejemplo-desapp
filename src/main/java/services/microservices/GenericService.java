@@ -56,11 +56,43 @@ public class GenericService<T> implements Serializable {
     @Transactional
     public void deleteAll() {
     	this.getRepository().deleteAll();
+    	
     }
     
     @Transactional
     public Integer count() {
     	return this.getRepository().count();
     }
+    
+    @Transactional
+    public T getByExample(T example) {
+    	List<T> possible = this.retriveAll();
+    	for (T current : possible) {
+    		if (current.equals(example)) {
+    			return current;
+    		}
+    	}
+    	return null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

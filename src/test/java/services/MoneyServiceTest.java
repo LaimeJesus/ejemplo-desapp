@@ -1,0 +1,133 @@
+package services;
+
+import static org.junit.Assert.*;
+
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import builders.ProductBuilder;
+import builders.UserBuilder;
+import exceptions.ProductDoesNotExistException;
+import exceptions.ProductIsAlreadySelectedException;
+import exceptions.UserAlreadyExistsException;
+import exceptions.UsernameOrPasswordInvalidException;
+import model.products.Product;
+import model.products.ProductList;
+import model.users.User;
+import services.general.GeneralOfferService;
+import services.general.GeneralService;
+import services.microservices.ProductListService;
+import services.microservices.ProductService;
+import services.microservices.UserService;
+import util.Category;
+import util.Money;
+import util.Password;
+import util.Permission;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
+public class MoneyServiceTest {
+
+	
+	@Autowired
+    @Qualifier("services.moneyservice")
+    private MoneyService moneyService;
+	
+	@Autowired
+    @Qualifier("services.microservices.productservice")
+    private ProductService productService;
+	
+	@Autowired
+    @Qualifier("services.microservices.productlistservice")
+    private ProductListService productListService;
+	
+	@Autowired
+    @Qualifier("services.microservices.userservice")
+    private UserService userService;
+	
+	@Autowired
+    @Qualifier("services.general.generalofferservice")
+    private GeneralOfferService generalOfferService;
+	
+	@Autowired
+	private GeneralService generalService;
+	
+	@Before
+	public void setUp() throws Exception {
+		moneyService.deleteAll();
+	}
+
+	@Test
+	public void test1() throws UsernameOrPasswordInvalidException, UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException {
+		
+		Integer expected = moneyService.retriveAll().size();
+		
+		Product p1 = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("Marolio")
+			.withCategory(Category.Baked)
+			.withPrice(new Money(3,0))
+			.build();
+		
+		Product p2 = new ProductBuilder()
+				.withName("Arroz")
+				.withBrand("Marolio")
+				.withCategory(Category.Baked)
+				.withPrice(new Money(3,0))
+				.build();
+		
+		Product p3 = new ProductBuilder()
+				.withName("Arroz")
+				.withBrand("Marolio")
+				.withCategory(Category.Baked)
+				.withPrice(new Money(3,0))
+				.build();
+		
+		productService.save(p1);
+		productService.save(p2);
+		productService.save(p3);
+		
+		System.out.println("PRODUCTOS : " + productService.count());
+		
+		ProductList pl = new ProductList("pl1");
+
+		User valid = new UserBuilder()
+			.withUsername("sandi")
+			.withEmail("arroba")
+			.withPassword(new Password("qweqwe"))
+			.withUserPermission(Permission.NORMAL)
+			.build();
+		
+		generalService.createUser(valid);
+		
+		generalService.createNewProductList(valid, pl);
+		
+		
+		System.out.println("TOTAL pl : " + pl.getTotalAmount());
+		ProductList validPL = productListService.getByUser(pl, valid);
+		System.out.println("TOTAL validPL : " + validPL.getTotalAmount());
+		
+		generalService.selectProduct(valid, pl, p2, 2);
+		
+		
+		
+		List<Money> moneys = moneyService.retriveAll();
+		
+		for (Money m : moneys) {
+			System.out.println(m.getId() + " - " + m.toString());
+		}
+		
+		
+		Integer current = moneyService.retriveAll().size();
+		Assert.assertEquals(new Integer(expected+5) , current);
+	}
+
+}

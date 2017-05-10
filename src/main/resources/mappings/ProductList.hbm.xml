@@ -21,10 +21,10 @@
         	type="java.lang.String"
         	column="product_list_name" />
         	
-        <property 
-        	name="moneyValue"
-        	type="java.lang.String"
-        	column="product_list_total_amount" />
+        <one-to-one 
+        	name="totalAmount" 
+        	class="util.Money" >
+        </one-to-one>
         
         <list name="allProducts" cascade="all" inverse="false">
 			<key column="product_list_id"></key>

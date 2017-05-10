@@ -1,6 +1,7 @@
 package services.microservices;
 
 import model.offers.CrossingOffer;
+import model.offers.Offer;
 
 public class CrossingOfferService extends GenericService<CrossingOffer> {
 
@@ -14,6 +15,18 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 	
 	public CrossingOffer getById(Integer id) {
 		return this.getRepository().findById(id);
+	}
+
+
+
+
+	public boolean isOfferValid(Offer someOffer) {
+		for (CrossingOffer offer : this.retriveAll()) {
+			if (offer.equals(someOffer)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

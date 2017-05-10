@@ -2,7 +2,7 @@ package util;
 
 import exceptions.MoneyCannotSubstractException;
 
-public class Money implements Comparable<Money>{
+public class Money extends Entity implements Comparable<Money>{
 
 	private Integer integer;
 	private Integer decimal;
@@ -64,7 +64,7 @@ public class Money implements Comparable<Money>{
 	}
 	
 	public Money percentage(Integer aPercentage) {
-		return this.divideBy100().times(aPercentage);
+		return this.times(aPercentage).divideBy100();
 	}
 	
 	private Money divideBy100() {

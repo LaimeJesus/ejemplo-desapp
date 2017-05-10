@@ -1,6 +1,5 @@
 package services.microservices;
 
-import org.junit.Test;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,10 @@ public class RecommendationServiceTest {
 	@Qualifier("services.microservices.recommendationservice")
 	private RecommendationService recommendationService;
 	
+	@Before
+	public void setUp() {
+		recommendationService.deleteAll();
+	}
 	
 	@Test
 	public void testARecommendationCanBeSaved() {

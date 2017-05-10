@@ -21,6 +21,7 @@
 	<bean id="services.microservices.productlistservice" class="services.microservices.ProductListService">
 		<property name="repository" ref="persistence.productlistrepository" />
 		<property name="productService" ref="services.microservices.productservice" />
+		<property name="userService" ref="services.microservices.userservice"></property>
 	</bean>
 	
 	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
@@ -53,6 +54,10 @@
 	
 	<bean id="services.microservices.umbralalertservice" class="services.microservices.UmbralAlertService">
 		<property name="repository" ref="persistence.umbralalertrepository" />
+	</bean>
+	
+	<bean id="services.moneyservice" class="services.MoneyService">
+		<property name="repository" ref="persistence.moneyrepository" />
 	</bean>
 	
 	<bean id="services.general.generalofferservice" class="services.general.GeneralOfferService">

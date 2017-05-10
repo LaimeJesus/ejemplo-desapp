@@ -53,5 +53,17 @@ public class CombinationOffer extends Offer {
 		this.combinatedProduct = aNewCombinatedProduct;
 	}
 
+	@Override
+	protected boolean isEqualsToMe(Offer offer) {
+		if (offer != null && offer instanceof CombinationOffer) {
+			CombinationOffer current = (CombinationOffer) offer;
+			return 
+				this.getCombinatedProduct().equals(current.getCombinatedProduct()) &&
+				this.getRelatedProduct().equals(current.getRelatedProduct()) &&
+				this.getDiscountRate().equals(current.getDiscountRate()) &&
+				this.getValidPeriod().equals(current.getValidPeriod());
+		}
+		return false;
+	}
 
 }

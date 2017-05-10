@@ -1,6 +1,7 @@
 package services.general;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class GeneralOfferServiceTest {
     @Qualifier("services.microservices.crossingofferservice")
     private CrossingOfferService crossinfOfferService;
 	
+	@Before
+	public void setUp() {
+		generalOfferService.deleteAll();
+		categoryOfferService.deleteAll();
+		crossinfOfferService.deleteAll();
+	}
 	
     @Test
     public void testGeneralOfferServiceCanSaveOffer(){

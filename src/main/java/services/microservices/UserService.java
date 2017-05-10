@@ -6,6 +6,7 @@ import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
+import util.Money;
 
 public class UserService extends GenericService<User>{
 
@@ -47,6 +48,7 @@ public class UserService extends GenericService<User>{
 	
 	public void createProductList(User anUser , ProductList aProductList) throws UsernameOrPasswordInvalidException {
 		User possible = this.authenticateUser(anUser);
+		aProductList.setTotalAmount(new Money(0,0));
 		possible.getProfile().addNewProductList(aProductList);
 		this.update(possible);
 	}

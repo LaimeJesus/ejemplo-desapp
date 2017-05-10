@@ -117,7 +117,7 @@ public class MoneyTest {
 		
 		Money aPrice = new Money(12,13);
 		
-		Money expected = new Money(1,20);
+		Money expected = new Money(1,21);
 		
 		assertEquals(expected,aPrice.percentage(10));
 		
@@ -128,7 +128,7 @@ public class MoneyTest {
 		
 		Money aPrice = new Money(24,67);
 		
-		Money expected = new Money(6,25);
+		Money expected = new Money(6,17);
 		
 		assertEquals(expected,aPrice.percentage(25));
 		
@@ -139,7 +139,7 @@ public class MoneyTest {
 		
 		Money aPrice = new Money(2,10);
 		
-		Money expected = new Money(1,74);
+		Money expected = new Money(1,83);
 		
 		assertEquals(expected,aPrice.percentage(87));
 		
@@ -150,7 +150,7 @@ public class MoneyTest {
 		
 		Money aPrice = new Money(6,97);
 		
-		Money expected = new Money(4,27);
+		Money expected = new Money(4,25);
 		
 		assertEquals(expected,aPrice.percentage(61));
 	}
