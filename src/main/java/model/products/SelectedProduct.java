@@ -3,6 +3,7 @@ package model.products;
 import org.joda.time.Duration;
 
 import util.Entity;
+import util.Money;
 
 public class SelectedProduct extends Entity{
 	
@@ -42,6 +43,11 @@ public class SelectedProduct extends Entity{
 
 	public Duration getProcessingTime(){
 		return this.getProduct().getProcessingTime().multipliedBy(this.getQuantity());
+	}
+
+
+	public Money getFinalPrice() {
+		return this.getProduct().getPrice().times(this.getQuantity());
 	}
 	
 }
