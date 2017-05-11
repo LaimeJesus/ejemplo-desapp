@@ -20,11 +20,13 @@
         	name="quantity" 
         	type="java.lang.Integer" 
         	column="selected_product_quantity"
+        	lazy="false"
         	not-null="true" />
         
         <many-to-one 
         	name="product" 
         	class="model.products.Product"
+        	lazy="false"
         	cascade="persist"
         	not-null="true"/>
         
