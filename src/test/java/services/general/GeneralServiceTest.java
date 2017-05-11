@@ -4,6 +4,8 @@ import static org.junit.Assert.fail;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import builders.ProductBuilder;
 import builders.UserBuilder;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistException;
+import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
@@ -61,10 +64,10 @@ public class GeneralServiceTest {
 	@Autowired
     @Qualifier("services.microservices.productlistservice")
     private ProductListService productListService;
-	
+
 	@Autowired
     @Qualifier("services.microservices.selectedproductservice")
-    private SelectedProductService selectedProductService;
+	private SelectedProductService selectedProductService;
 	
 	@Before
 	public void setUp() {
@@ -173,36 +176,44 @@ public class GeneralServiceTest {
 		
 		Profile someProfile = new Profile();
 		someProfile.addNewProductList(someProductList);
-		
-		User somaValidUser = new UserBuilder()
+		User someValidUser = new UserBuilder()
 			.withUsername("someUser")
 			.withEmail("Sandoval.lucasj@gamail.com")
 			.withPassword(new Password("asd"))
 			.build();
 		
-		somaValidUser.setProfile(someProfile);
+		someValidUser.setProfile(someProfile);
 		
 		Integer expected = productListService.count();
 		
-		generalService.createUser(somaValidUser);
+		generalService.createUser(someValidUser);
 		
 		ProductList second = new ProductList("Second");
 		
-		generalService.createNewProductList(somaValidUser,second);
+		generalService.createNewProductList(someValidUser,second);
 		
 		
 		Assert.assertEquals(new Integer(expected+2), productListService.count());
 		
-		ProductList validFirst = productListService.getByUser(someProductList, somaValidUser);
-		ProductList validSecond = productListService.getByUser(second, somaValidUser);
+		ProductList validFirst = productListService.getByUser(someProductList, someValidUser);
+		ProductList validSecond = productListService.getByUser(second, someValidUser);
 		
 		Assert.assertNotNull(validFirst.getId());
 		Assert.assertNotNull(validSecond.getId());
 		
+		ProductList anotherProductList = new ProductList("Second");
+		try {
+			generalService.createNewProductList(someValidUser, anotherProductList);
+			User saved = userService.findByUsername("someUser");
+			
+			Assert.assertTrue(userService.getListsFromUser(saved).contains(anotherProductList));
+		} catch (UsernameOrPasswordInvalidException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 	
-	@Test
-	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException {
+	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException {
 		
 		ProductList someProductList = new ProductList("First");
 		
@@ -269,5 +280,47 @@ public class GeneralServiceTest {
 		Assert.assertEquals(1, us.getProfile().getAllProductList().size());
 		Assert.assertEquals(valid.getId(), validAfterPersist.getId());
 		Assert.assertEquals(new Money(35,0), result);
+	}
+	
+	@Test
+	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException {
+		
+		ProductList someProductList = new ProductList("First");
+		
+		Profile someProfile = new Profile();
+		someProfile.addNewProductList(someProductList);
+		
+		User someValidUser = new UserBuilder()
+			.withUsername("someUser")
+			.withEmail("sandoval.lucasj@gmail.com")
+			.withPassword(new Password("mypassword"))
+			.withUserPermission(Permission.NORMAL)
+			.build();
+		
+		someValidUser.setProfile(someProfile);
+		
+		Product someValidProduct = new ProductBuilder()
+			.withBrand("Marolio")
+			.withName("Arroz")
+			.withPrice(new Money(13,50))
+			.build();
+		
+		userService.save(someValidUser);
+		productService.save(someValidProduct);
+		
+		try {
+			Integer expected = selectedProductService.count();
+			
+			User saved = userService.findByUsername("someUser");
+			generalService.selectProduct(someValidUser, someProductList, someValidProduct, 3);
+			List<ProductList> lists = userService.getListsFromUser(saved);
+			
+			Assert.assertTrue(lists.contains(someProductList));
+			
+			Assert.assertEquals( new Integer(expected+1) , selectedProductService.count());
+		} catch (ProductIsAlreadySelectedException | UsernameOrPasswordInvalidException | ProductDoesNotExistException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 }

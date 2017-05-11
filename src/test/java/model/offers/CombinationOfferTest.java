@@ -57,7 +57,7 @@ public class CombinationOfferTest {
 		assertEquals(expected , aOffer.getDiscount(aOffer.getDiscountRate() , aProductListMock));
 		
 	}
-	
+	 
 	@Test
 	public void testWhenAnCombinationOfferIsCreatedThenICanAskThePriceWithTheDiscount() {
 		

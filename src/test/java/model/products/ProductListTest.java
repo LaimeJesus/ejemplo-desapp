@@ -1,19 +1,27 @@
 package model.products;
 
 
+import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.CategoryOffer;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
+import util.Category;
 import util.Money;
 import static org.junit.Assert.*;
 
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import builders.ProductBuilder;
+
+import static org.mockito.Mockito.*;
 
 public class ProductListTest {
 
@@ -51,7 +59,7 @@ public class ProductListTest {
 	}
 	
 	@Test
-	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() throws ProductIsAlreadySelectedException, ProductDoesNotExistOnListException {
+	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() throws ProductIsAlreadySelectedException, ProductDoesNotExistOnListException, MoneyCannotSubstractException {
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);
@@ -68,7 +76,7 @@ public class ProductListTest {
 	}
 	
 	@Test (expected = ProductDoesNotExistOnListException.class)
-	public void testWhenITryToRemoveAProductThatIDidntSelectThenAnExceptionIsRaised() throws ProductDoesNotExistOnListException{
+	public void testWhenITryToRemoveAProductThatIDidntSelectThenAnExceptionIsRaised() throws ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException{
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);
@@ -138,26 +146,128 @@ public class ProductListTest {
 		
 	}
 	
+	@Test
+	public void testWhenApplyingAnOfferThenMyTotalAmountIsUpdated() {
+		
+		ProductList aProductList = new ProductList();
+		Product anyProductMock = Mockito.mock(Product.class);
+		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(20,50));
+		Mockito.when(anyProductMock.getCategory()).thenReturn(Category.Baked);
+		Interval anInterval = new Interval(DateTime.now(), DateTime.now().plusDays(1)); 
+		
+		CategoryOffer aCategoryOffer = new CategoryOffer(10 , anInterval , Category.Baked);
+		
+		try {
+			aProductList.selectProduct(anyProductMock, 1);
+			Money expected = aProductList.getTotalAmount();
+			aProductList.applyOffer(aCategoryOffer);
+			
+			Assert.assertTrue(aProductList.getAppliedOffers().contains(aCategoryOffer));
+			Assert.assertEquals(expected.minus(new Money(2,05)) , aProductList.getTotalAmount());
+			
+		} catch (MoneyCannotSubstractException | ProductIsAlreadySelectedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+		
+	}
 	
+	@Test
+	public void testWhenRemoveAnAppliedOfferThenMyTotalAmountIsUpdated() {
+		
+		ProductList aProductList = new ProductList();
+		Product anyProductMock = Mockito.mock(Product.class);
+		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(20,50));
+		Mockito.when(anyProductMock.getCategory()).thenReturn(Category.Baked);
+		Interval anInterval = new Interval(DateTime.now(), DateTime.now().plusDays(1)); 
+		
+		CategoryOffer aCategoryOffer = new CategoryOffer(10 , anInterval , Category.Baked);
+		
+		try {
+			aProductList.selectProduct(anyProductMock, 1);
+			Money expected = aProductList.getTotalAmount();
+			aProductList.applyOffer(aCategoryOffer);
+			aProductList.disapplyOffer(aCategoryOffer);
+			
+			Assert.assertFalse(aProductList.getAppliedOffers().contains(aCategoryOffer));
+			Assert.assertEquals(expected , aProductList.getTotalAmount());
+			
+		} catch (MoneyCannotSubstractException | ProductIsAlreadySelectedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+		
+	}
+
+	@Test
+	public void testWhenUpdatingProductListThenItEvaluatesTheListComplete() {
+		
+		ProductList aProductList = new ProductList();
+		Product anyProductMock = Mockito.mock(Product.class);
+		Mockito.when(anyProductMock.getPrice()).thenReturn(new Money(20,50));
+		Mockito.when(anyProductMock.getCategory()).thenReturn(Category.Baked);
+		Interval anInterval = new Interval(DateTime.now(), DateTime.now().plusDays(1)); 
+		
+		CategoryOffer aCategoryOffer = new CategoryOffer(10 , anInterval , Category.Baked);
+		
+		try {
+			
+			aProductList.selectProduct(anyProductMock, 3);
+			aProductList.applyOffer(aCategoryOffer);
+			Money expected = aProductList.getTotalAmount();
+			aProductList.update();
+			
+			Assert.assertEquals(expected , aProductList.getTotalAmount());
+			
+		} catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	public void testWhenRemovingAProductFromProductListThenItReEvaluatesTheListComplete() {
+		
+		ProductList aProductList = new ProductList();
+		Product aProduct = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("Marolio")
+			.withCategory(Category.Baked)
+			.withPrice(new Money(20,50))
+			.withStock(31)
+			.build();
+		Product bProduct = new ProductBuilder()
+			.withName("Atun")
+			.withBrand("La Campagnola")
+			.withCategory(Category.Meat)
+			.withPrice(new Money(12,76))
+			.withStock(22)
+			.build();
+
+		Interval anInterval = new Interval(DateTime.now(), DateTime.now().plusDays(1)); 
+		
+		CategoryOffer aCategoryOffer = new CategoryOffer(15 , anInterval , Category.Baked);
+		
+		try {
+			
+			aProductList.selectProduct(bProduct, 1);
+			Money expected = aProductList.getTotalAmount();
+			
+			aProductList.selectProduct(aProduct, 1);
+			aProductList.applyOffer(aCategoryOffer);
+			
+			Assert.assertTrue(aProductList.getAppliedOffers().contains(aCategoryOffer));
+			
+			aProductList.removeProduct(aProduct);
+			
+			Assert.assertEquals( expected , aProductList.getTotalAmount() );
+		} catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException | ProductDoesNotExistOnListException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+	}
 }

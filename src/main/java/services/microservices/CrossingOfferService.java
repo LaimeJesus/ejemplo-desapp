@@ -1,7 +1,11 @@
 package services.microservices;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.offers.CrossingOffer;
 import model.offers.Offer;
+import model.products.ProductList;
 
 public class CrossingOfferService extends GenericService<CrossingOffer> {
 
@@ -27,6 +31,17 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 			}
 		}
 		return false;
+	}
+	
+	public List<CrossingOffer> applicableForList(ProductList aProductList) {
+		List<CrossingOffer> results = new ArrayList<CrossingOffer>();
+		List<CrossingOffer> possibles = this.retriveAll();
+		for (CrossingOffer offer : possibles) {
+			if (offer.meetRequirements(aProductList)){
+				results.add(offer);
+			}
+		}
+		return results;
 	}
 	
 }

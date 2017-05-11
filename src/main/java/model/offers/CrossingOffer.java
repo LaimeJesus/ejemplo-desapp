@@ -96,5 +96,4 @@ public class CrossingOffer extends Offer {
 		}
 		return false;
 	}
-	
 }

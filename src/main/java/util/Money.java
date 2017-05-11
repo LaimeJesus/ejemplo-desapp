@@ -62,30 +62,37 @@ public class Money extends Entity implements Comparable<Money>{
 		}
 		throw new MoneyCannotSubstractException();
 	}
-	
+	 
 	public Money percentage(Integer aPercentage) {
 		return this.times(aPercentage).divideBy100();
 	}
 	
 	private Money divideBy100() {
-		String parsedNumber = this.getInteger().toString();
-		Integer lenght = parsedNumber.length();
+		String parsedInteger = this.getInteger().toString();
+		Integer lenght = parsedInteger.length();
 		Integer realInteger = 0;
 		Integer realDecimal = 0;
-		
 		if (lenght > 2) {
-			String newInteger = parsedNumber.substring(0,lenght - 2);
-			String newDecimal = parsedNumber.substring(lenght - 2 , lenght);
+			String newInteger = parsedInteger.substring(0,lenght - 2);
+			String newDecimal = parsedInteger.substring(lenght - 2 , lenght);
 			realInteger = Integer.parseInt(newInteger);
-			realDecimal = Integer.parseInt(newDecimal);			
+			realDecimal = Integer.parseInt(newDecimal);	
 		} else {
-			realDecimal = Integer.parseInt(parsedNumber);
+			if (lenght == 2) {
+				String newDecimal = parsedInteger;
+				realDecimal = Integer.parseInt(newDecimal);
+			} else {
+				String newDecimal = "0" + parsedInteger;
+				realDecimal = Integer.parseInt(newDecimal);
+			}
 		}
-		
 		if (this.getDecimal() > 50) {
 			realDecimal++;
+			if (realDecimal == 100) {
+				realDecimal = 0;
+				realInteger++;
+			}
 		}
-		
 		return new Money(realInteger,realDecimal);
 	}
 

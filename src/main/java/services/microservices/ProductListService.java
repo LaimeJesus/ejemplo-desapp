@@ -49,9 +49,6 @@ public class ProductListService extends GenericService<ProductList> {
 			throw new ProductDoesNotExistException();
 		}
 	}
-
-	
-	
 	
 	public ProductService getProductService() {
 		return productService;

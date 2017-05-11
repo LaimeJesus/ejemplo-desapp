@@ -56,9 +56,13 @@ public class ProductList extends Entity {
 	}
 
 	public List<SelectedProduct> getSelectedProductsBy(Category aCategory){
-		return this.getAllProducts().stream().filter(
-				aSelectedProduct -> aSelectedProduct.getProduct().getCategory().equals(aCategory) 
-				).collect(Collectors.toList());
+		List<SelectedProduct> result = new ArrayList<SelectedProduct>();
+		for (SelectedProduct current : this.getAllProducts()) {
+			if (current.getProduct().getCategory().equals(aCategory)){
+				result.add(current);
+			}
+		}
+		return result;
 	}
 	
 	public SelectedProduct getSelectedProduct(Product someProduct){
@@ -71,14 +75,11 @@ public class ProductList extends Entity {
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
-		return this.getAllProducts().stream().anyMatch( 
-				currentSelected -> currentSelected.getProduct().equals(someProduct)
-				);
-		
-	}
-	
-	public boolean isEmpty() {
-		return this.allProducts.isEmpty();
+		for (SelectedProduct selected : this.getAllProducts()) {
+			if (selected.getProduct().equals(someProduct))
+				return true;
+		}
+		return false;
 	}
 	
 	public void addProductToList (SelectedProduct newProduct) {
@@ -87,20 +88,25 @@ public class ProductList extends Entity {
 	
 	private void deleteProductFromList (Product productToRemove) {
 		this.getAllProducts().removeIf( 
-					currentSelectedProduct -> currentSelectedProduct.getProduct().equals(productToRemove)
+				currentSelectedProduct -> currentSelectedProduct.getProduct().equals(productToRemove)
 				);
 	}
 	
-	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException {
+	public boolean isEmpty() {
+		return this.allProducts.isEmpty();
+	}
+	
+	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException {
 		if (this.thisProductIsSelected(productToRemove)) {
 			this.deleteProductFromList(productToRemove);
+			this.update();
 		} else {
 			throw new ProductDoesNotExistOnListException("El producto que intenta eliminar no se encuentra seleccionado");
 		}
 	}
-	
-	public void updateAmount(Money newAmount) {
-		this.setTotalAmount(this.getTotalAmount().add(newAmount));
+		
+	public void minusAmount (Money money) throws MoneyCannotSubstractException{
+		totalAmount = totalAmount.minus(money);
 	}
 	
 	public Money calculateAmount(Money unitPrice , Integer quantity) {
@@ -147,6 +153,19 @@ public class ProductList extends Entity {
 		this.allProducts = newProducts;
 	}
 	
+	public List<Offer> getAppliedOffers() {
+		return this.appliedOffers;
+	}
+	
+	public void setAppliedOffers(List<Offer> appliedOffers) {
+		this.appliedOffers = appliedOffers;
+	}
+	
+///////////////////////////////
+///////////////////////////////
+////// EQUALS METHODS /////////
+///////////////////////////////
+///////////////////////////////
 	@Override
 	public boolean equals(Object anyObject) {
 		
@@ -165,16 +184,12 @@ public class ProductList extends Entity {
 	private boolean totalEquals(ProductList someProductList) {
 		return this.getName().equals(someProductList.getName());
 	}
-
-
-	public List<Offer> getAppliedOffers() {
-		return appliedOffers;
-	}
-
-	public void setAppliedOffers(List<Offer> appliedOffers) {
-		this.appliedOffers = appliedOffers;
-	}
-
+///////////////////////////////
+///////////////////////////////
+////// EQUALS METHODS /////////
+///////////////////////////////
+///////////////////////////////
+	
 	public Integer getQuantityOfProducts(Category aCategory) {
 		Integer categoryTotal = 0;
 		List<SelectedProduct> filteredSelectedProduct = this.getSelectedProductsBy(aCategory);	
@@ -182,9 +197,8 @@ public class ProductList extends Entity {
 			categoryTotal += sp.getQuantity();
 		}
 		return categoryTotal;
-
-	}	
-
+	}
+	
 	public Money getMoneyOfProducts() {
 		Money result = new Money(0,0);
 		for (SelectedProduct p : this.getAllProducts()) {
@@ -200,8 +214,6 @@ public class ProductList extends Entity {
 		}
 		return result;
 	}
-	
-	
 	
 	public void applyOffer(Offer offer) throws MoneyCannotSubstractException {
 		if (this.isApplicable(offer)) {

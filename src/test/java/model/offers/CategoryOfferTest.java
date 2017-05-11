@@ -10,6 +10,7 @@ import org.joda.time.Interval;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.CategoryOffer;
 import model.products.Product;
@@ -21,13 +22,13 @@ import util.Money;
 public class CategoryOfferTest {
 
 	@Test
-	public void testWhenTheCategoryOfferNeedThePrevioysPriceThenAsksToProductList() {
+	public void testWhenTheProductListDoesNotHaveAnyProductOfTheCategoryThenFinalPriceIsTheSame() {
 		
 		ProductList aProductListMock = Mockito.mock(ProductList.class);
 		Product aProductMock1 = Mockito.mock(Product.class);
 		Product aProductMock2 = Mockito.mock(Product.class);
 		
-		Mockito.when(aProductMock1.getCategory()).thenReturn(Category.Baked);
+		Mockito.when(aProductMock1.getCategory()).thenReturn(Category.Dairy);
 		Mockito.when(aProductMock2.getCategory()).thenReturn(Category.Fruit);
 		
 		Mockito.when(aProductMock1.getPrice()).thenReturn(new Money(12,30));
@@ -54,9 +55,9 @@ public class CategoryOfferTest {
 		
 		CategoryOffer aCategoryOffer = new CategoryOffer(15, anInterval, Category.Baked);
 		
-		Money expected = new Money(3,50);
+		Money expected = new Money(24,60);
 		
-		assertEquals(expected, aCategoryOffer.getPreviousPrice(aProductListMock));
+		assertEquals(expected, aCategoryOffer.getFinalPrice(aProductListMock , new Money(24,60)));
 		
 	}
 	

@@ -2,6 +2,8 @@ package services.microservices;
 
 import static org.junit.Assert.fail;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +18,11 @@ import builders.UserBuilder;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
+import builders.ProductBuilder;
+import exceptions.MoneyCannotSubstractException;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
+import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
 import services.general.GeneralOfferService;
@@ -25,6 +30,8 @@ import services.general.GeneralService;
 import services.microservices.ProductListService;
 import util.Password;
 import util.Permission;
+import util.Category;
+import util.Money;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -91,8 +98,40 @@ public class ProductListServiceTest {
     	Integer expected = generalOfferService.retriveAll().size();
     	productListService.save(aPl);
     	
+    	aPl.setTotalAmount(new Money(250,0));
+    	Product someProduct = new ProductBuilder()
+    		.withBrand("Marolio")
+    		.withName("Arroz")
+    		.withCategory(Category.Fruit)
+    		.withPrice(new Money(15,15))
+    		.withStock(54)
+    		.build();
     	
-    	Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+    	try {
+			aPl.applyOffer(
+				new CategoryOffer(
+					10,
+					new Interval(DateTime.now() , DateTime.now().plusDays(1)) , 
+					Category.Baked
+				)
+			);
+			aPl.applyOffer(
+				new CrossingOffer(
+					10,
+					someProduct,
+					3,
+					2,
+					new Interval(DateTime.now() , DateTime.now().plusDays(1))
+				)
+			);
+			productListService.save(aPl);			
+			Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+    	 
     	
     }
 	

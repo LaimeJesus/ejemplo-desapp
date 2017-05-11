@@ -33,6 +33,7 @@ public class SelectedProductServiceTest {
 	@Before
 	public void setUp() {
 		selectedProductService.deleteAll();
+		productService.deleteAll();
 	}
 	
     @Test

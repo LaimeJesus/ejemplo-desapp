@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistException;
+import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameOrPasswordInvalidException;
@@ -79,7 +80,10 @@ public class GeneralService {
 		return this.getProductListService().selectProduct(user , productList , product , quantity);
 	}
 	
-	public void removeProduct (User u , ProductList pl , Product p ) {}
+	@Transactional
+	public void removeProduct (ProductList productList , Product product ) throws ProductDoesNotExistOnListException {
+		//this.getProductListService().removeProduct(productList , product);
+	}
 	
 	public void generateRecommmendation (User u , Product p) {}
 	

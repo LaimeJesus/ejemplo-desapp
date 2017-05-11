@@ -22,7 +22,7 @@ public abstract class Offer extends Entity {
 		this.setValidPeriod(anInterval);
 	}
 	
-	protected abstract Money getPreviousPrice(ProductList productListToGetPrice);
+	public abstract Money getPreviousPrice(ProductList productListToGetPrice);
 	
 	protected abstract boolean verifyProductRequirements(ProductList productListToVerify);
 	
@@ -62,8 +62,6 @@ public abstract class Offer extends Entity {
 	public Money getDiscount(Integer discountRate , ProductList productListToGetPrice) {
 		return this.getPreviousPrice(productListToGetPrice).percentage(discountRate);
 	}
-	
-	
 	
 	
 	
