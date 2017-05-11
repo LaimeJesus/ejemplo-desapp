@@ -62,7 +62,10 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
 
     
     public void deleteAll() {
-    	this.getHibernateTemplate().deleteAll(this.findAll());
+    	List<T> all = this.findAll();
+    	for (T t : all) {
+    		this.getHibernateTemplate().delete(t);
+    	}
     }
     
 }
