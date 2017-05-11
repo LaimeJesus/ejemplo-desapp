@@ -4,7 +4,7 @@
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
         
-<hibernate-mapping default-access="field" default-cascade="save-update">
+<hibernate-mapping default-access="field" default-cascade="all">
     
     <class name="model.products.SelectedProduct">
         
@@ -20,15 +20,13 @@
         	name="quantity" 
         	type="java.lang.Integer" 
         	column="selected_product_quantity"
-        	lazy="false"
         	not-null="true" />
         
-        <many-to-one 
+        <one-to-one 
         	name="product" 
         	class="model.products.Product"
         	lazy="false"
-        	cascade="persist"
-        	not-null="true"/>
+        	cascade="persist" />
         
     </class>
     
