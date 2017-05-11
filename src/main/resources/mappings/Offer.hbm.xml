@@ -6,7 +6,7 @@
         
 <hibernate-mapping default-access="field" default-cascade="save-update">
     
-    <class name="model.offers.Offer" abstract="true">
+    <class name="model.offers.Offer" abstract="true" lazy="false">
         
         
         <id 
