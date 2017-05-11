@@ -49,8 +49,14 @@ public abstract class Offer extends Entity {
 		return true;
 	}
 
-	public Money getFinalPrice(ProductList productListToGetPrice) throws MoneyCannotSubstractException {
-		return productListToGetPrice.getTotalAmount().minus(this.getDiscount(discountRate , productListToGetPrice));
+	public Money getFinalPrice(ProductList productListToGetPrice , Money totalAmount ) {
+		try {
+			return totalAmount.minus(this.getDiscount(discountRate , productListToGetPrice));
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Money(0,0);
+		}
 	}
 
 	public Money getDiscount(Integer discountRate , ProductList productListToGetPrice) {
