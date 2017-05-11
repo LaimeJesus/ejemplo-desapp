@@ -47,7 +47,6 @@ public class ProductList extends Entity {
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
 		this.validateProductIsSelected(product);
 		this.addProductToList(new SelectedProduct(product, howMany));
-		this.updateAmount( product.getPrice().times(howMany) );
 	}
 	
 	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
@@ -133,7 +132,7 @@ public class ProductList extends Entity {
 	}
 	
 	public Money getTotalAmount() {
-		return this.totalAmount;
+		return this.getMoneyOfProductsWithOffers();
 	}
 	
 	public void setTotalAmount(Money newTotalAmount) {
@@ -186,16 +185,28 @@ public class ProductList extends Entity {
 
 	}	
 
+	public Money getMoneyOfProducts() {
+		Money result = new Money(0,0);
+		for (SelectedProduct p : this.getAllProducts()) {
+			result = result.add(p.getFinalPrice());
+		}
+		return result;
+	}
 	
-	
-	
+	public Money getMoneyOfProductsWithOffers() {
+		Money result = this.getMoneyOfProducts();
+		for (Offer o : this.getAppliedOffers()) {
+			result = o.getFinalPrice(this,result);
+		}
+		return result;
+	}
 	
 	
 	
 	public void applyOffer(Offer offer) throws MoneyCannotSubstractException {
 		if (this.isApplicable(offer)) {
 			this.getAppliedOffers().add(offer);
-			this.setTotalAmount( offer.getFinalPrice(this) );
+			this.setTotalAmount( offer.getFinalPrice(this , this.getTotalAmount()) );
 		}
 	}
 	
