@@ -202,7 +202,7 @@ public class GeneralServiceTest {
 	}
 	
 	@Test
-	public void test1() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException {
+	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException {
 		
 		ProductList someProductList = new ProductList("First");
 		
@@ -236,7 +236,7 @@ public class GeneralServiceTest {
 	}
 	
 	@Test
-	public void test2() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException {
+	public void testWhenSelectingAProductThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException {
 		
 		User someValidUser = new UserBuilder()
 			.withUsername("someUser")
@@ -253,9 +253,6 @@ public class GeneralServiceTest {
 			.build();
 		
 		ProductList someProductList = new ProductList("First");		
-
-		
-		//Product e = productService.getByExample(validProduct);
 		
 		generalService.createUser(someValidUser);
 		productService.save(validProduct);
@@ -264,7 +261,6 @@ public class GeneralServiceTest {
 		User us = generalService.getUserService().findByUsername("someUser");
 		
 		ProductList valid = productListService.getByUser(someProductList, someValidUser);
-		System.out.println("Antes "+ valid.getTotalAmount());
 		Money result = generalService.selectProduct(someValidUser, someProductList, validProduct, 10);
 		
 		ProductList validAfterPersist = productListService.getByUser(someProductList, someValidUser);
@@ -273,52 +269,5 @@ public class GeneralServiceTest {
 		Assert.assertEquals(1, us.getProfile().getAllProductList().size());
 		Assert.assertEquals(valid.getId(), validAfterPersist.getId());
 		Assert.assertEquals(new Money(35,0), result);
-		//Assert.assertEquals(new Money(10,0),e.getPrice());
-		//Assert.assertEquals(new Money(0,0) , valid.getTotalAmount());
 	}
-	
-	@Test
-	public void test5() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException{
-		
-		userService.deleteAll();
-		generalOfferService.deleteAll();
-		productListService.deleteAll();
-		productService.deleteAll();
-		selectedProductService.deleteAll();
-		
-		ProductList pl1 = new ProductList("1");
-
-		User user = new UserBuilder()
-				.withUsername("user")
-				.withEmail("user@gmail.com")
-				.withPassword(new Password("user"))
-				.build();
-		
-		Product p1 = new Product();
-		p1.setName("p1");
-		p1.setBrand("p1");
-		p1.setPrice(new Money(10,0));
-		p1.setCategory(Category.Baked);
-		p1.setStock(35);
-
-		generalService.createUser(user);
-		generalService.createNewProductList(user, pl1);
-		productService.save(p1);
-		
-		Product p2 = new Product();
-		p2.setName("p2");
-		p2.setBrand("Marolio");
-		p2.setPrice(new Money(20,0));
-		p2.setCategory(Category.Baked);
-		p2.setStock(35);
-
-		ProductList pl2 = new ProductList("2");
-		generalService.createNewProductList(user, pl2);
-		Assert.assertEquals(new Money(0,0), productListService.getByUser(pl2, user).getTotalAmount());
-	}
-	
-	
-	
-	
-	
 }
