@@ -63,10 +63,13 @@ public class MoneyServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		moneyService.deleteAll();
+		productService.deleteAll();
+		generalOfferService.deleteAll();
+		userService.deleteAll();
 	}
 
 	@Test
-	public void test1() throws UsernameOrPasswordInvalidException, UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException {
+	public void testWhenWorkingWithListsMoneysArenPersisted() throws UsernameOrPasswordInvalidException, UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException {
 		
 		Integer expected = moneyService.retriveAll().size();
 		
@@ -95,8 +98,6 @@ public class MoneyServiceTest {
 		productService.save(p2);
 		productService.save(p3);
 		
-		System.out.println("PRODUCTOS : " + productService.count());
-		
 		ProductList pl = new ProductList("pl1");
 
 		User valid = new UserBuilder()
@@ -110,24 +111,21 @@ public class MoneyServiceTest {
 		
 		generalService.createNewProductList(valid, pl);
 		
-		
-		System.out.println("TOTAL pl : " + pl.getTotalAmount());
 		ProductList validPL = productListService.getByUser(pl, valid);
-		System.out.println("TOTAL validPL : " + validPL.getTotalAmount());
 		
-		generalService.selectProduct(valid, pl, p2, 2);
+		generalService.selectProduct(valid, pl, p2, 7);
 		
-		
+		ProductList validPostPL = productListService.getByUser(pl, valid);
 		
 		List<Money> moneys = moneyService.retriveAll();
 		
-		for (Money m : moneys) {
-			System.out.println(m.getId() + " - " + m.toString());
-		}
-		
-		
 		Integer current = moneyService.retriveAll().size();
-		Assert.assertEquals(new Integer(expected+5) , current);
+		
+		Assert.assertEquals(new Integer(expected+3) , current);
+		
+		Money currentMoney = validPostPL.getTotalAmount();
+		
+		Assert.assertEquals(new Money(21,0), currentMoney);
 	}
 
 }
