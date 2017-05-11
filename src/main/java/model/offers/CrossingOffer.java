@@ -2,6 +2,7 @@ package model.offers;
 
 import org.joda.time.Interval;
 
+import exceptions.MoneyCannotSubstractException;
 import model.products.Product;
 import model.products.ProductList;
 import util.Money;
@@ -36,6 +37,18 @@ public class CrossingOffer extends Offer {
 				);
 	}
 
+	@Override
+	public Money getFinalPrice(ProductList productListToGetPrice , Money totalAmount) {
+		try {
+			return totalAmount.minus( 
+				(this.getRelatedProduct().getPrice().times(this.getMaxQuantity())).minus(this.getRelatedProduct().getPrice().times(this.getMinQuantity()))
+				);
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Money(0,0);
+		}
+	}
 	
 	
 	public CrossingOffer() {
