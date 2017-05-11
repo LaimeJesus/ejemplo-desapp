@@ -76,11 +76,7 @@ public class CombinationOfferTest {
 		
 		Money expected = new Money(35,50);
 		
-		try {
-			assertEquals(aOffer.getFinalPrice(aProductListMock), expected);
-		} catch (MoneyCannotSubstractException e) {
-			fail();
-		}
+		assertEquals(aOffer.getFinalPrice(aProductListMock , new Money(41,77)), expected);
 		
 	}
 	
@@ -132,7 +128,11 @@ public class CombinationOfferTest {
 			someProductList.selectProduct(firstProductMock, 1);
 			someProductList.selectProduct(secondProductMock, 1);
 			
+			System.out.println(someProductList.getTotalAmount());
+			
 			someProductList.applyOffer(aOffer);
+			
+			System.out.println(someProductList.getTotalAmount());
 			
 			assertFalse(someProductList.isApplicable(aOffer));
 			
