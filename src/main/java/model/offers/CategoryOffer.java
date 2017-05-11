@@ -3,6 +3,7 @@ package model.offers;
 import org.joda.time.Interval;
 
 import model.products.ProductList;
+import model.products.SelectedProduct;
 import util.Category;
 import util.Money;
 
@@ -21,7 +22,13 @@ public class CategoryOffer extends Offer {
 
 	@Override
 	public Money getPreviousPrice(ProductList productList) {
-		return productList.getTotalAmount();
+		Money result = new Money(0,0);
+		for (SelectedProduct p : productList.getAllProducts()) {
+			if (p.getProduct().getCategory().equals(this.getCategory())) {
+				result = result.add(p.getFinalPrice());
+			}
+		}
+		return result;
 	}
 
 	@Override
