@@ -201,6 +201,13 @@ public class ProductList extends Entity {
 	
 	public Money getMoneyOfProducts() {
 		Money result = new Money(0,0);
+	
+		for (SelectedProduct p : this.getAllProducts()) {
+			System.out.println("Precio: " + p.getProduct().getPrice());
+			System.out.println("Cantidad: " + p.getQuantity());
+			
+		}
+		
 		for (SelectedProduct p : this.getAllProducts()) {
 			result = result.add(p.getFinalPrice());
 		}

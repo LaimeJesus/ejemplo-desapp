@@ -14,7 +14,7 @@
         	name="username" 
         	type="java.lang.String" 
         	column="user_username" 
-        	unique="true" />
+        	 />
         	
         <property 
         	name="email" 

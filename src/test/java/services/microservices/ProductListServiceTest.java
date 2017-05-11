@@ -48,12 +48,17 @@ public class ProductListServiceTest {
     private GeneralOfferService generalOfferService;
 	
 	@Autowired
+    @Qualifier("services.microservices.userservice")
+    private UserService userService;
+	
+	@Autowired
 	private GeneralService generalService;
 	
 	@Before
 	public void setUp() {
 		productListService.deleteAll();
 		generalOfferService.deleteAll();
+		userService.deleteAll();
 	}
 
     @Test
