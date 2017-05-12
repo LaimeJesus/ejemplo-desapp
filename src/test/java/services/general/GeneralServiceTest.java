@@ -1,6 +1,7 @@
 package services.general;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Interval;
 import java.util.List;
 
@@ -244,11 +245,12 @@ public class GeneralServiceTest {
 			.build();
 		
 		Product validProduct = new ProductBuilder()
-			.withName("Arroz")
-			.withBrand("Marolio")
+			.withName("asdfgh")
+			.withBrand("asdfgh")
+			.withStock(35)
 			.withPrice(new Money(3,50))
 			.withCategory(Category.Baked)
-			.withStock(35)
+			.withProcessingTime(new Duration(1L))
 			.build();
 		
 		ProductList someProductList = new ProductList("First");		

@@ -39,6 +39,23 @@ public class UserServiceTest {
 
 	
 	@Test
+	public void testCreateDifferentUsersWithTheSamePassword() throws UserAlreadyExistsException{
+		User userOne = new User();
+		userOne.setUsername("pepe");
+		userOne.setPassword(new Password("pass"));
+		User userTwo = new User();
+		userTwo.setUsername("pepo");
+		userTwo.setPassword(new Password("pass"));
+		
+		userService.createNewUser(userOne);
+		userService.createNewUser(userTwo);
+		Assert.assertEquals(userService.findByUsername("pepe").getPassword(), userService.findByUsername("pepo").getPassword());
+		
+		userService.deleteAll();
+		
+	}
+	
+	@Test
 	public void testUsersCanBeLogged() throws UserAlreadyExistsException, UsernameDoesNotExistException{
 		userService.deleteAll();
 		User user = new User();

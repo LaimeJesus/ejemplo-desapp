@@ -120,6 +120,9 @@ public class MoneyServiceTest {
 		
 		Money currentMoney = validPostPL.getTotalAmount();		
 		Assert.assertEquals(new Money(21,0), currentMoney);
+		
+		generalService.getUserService().deleteAll();
+		generalService.getProductService().deleteAll();
 	}
 
 }

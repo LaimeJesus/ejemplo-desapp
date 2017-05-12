@@ -7,8 +7,6 @@
 <hibernate-mapping default-access="field" default-cascade="save-update">
     
     <class name="model.products.ProductList">
-        
-        
         <id 
 	        name="id" 
 	        type="java.lang.Integer" 
