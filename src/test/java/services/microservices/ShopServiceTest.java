@@ -87,6 +87,13 @@ public class ShopServiceTest {
 		shopService.getUserService().createNewUser(user);
 		shopService.getUserService().loginUser(user);
 		productListService.selectProduct(user, productList, product, 10);
+		
+		System.out.println("Processing :  ANTES" );
+		Product pl = shopService.getProductService().getByExample(product);
+			
+		System.out.println("Processing : " + pl.getProcessingTime());
+		
+
 		shopService.ready(user, productList);
 				
 		List<PurchaseRecord> purchases = shopService.getUserService().getPurchaseRecords(user);

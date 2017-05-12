@@ -4,7 +4,6 @@ import org.joda.time.Duration;
 
 import util.Category;
 import util.Entity;
-import util.Monetizable;
 import util.Money;
 
 public class Product extends Entity {
@@ -20,6 +19,8 @@ public class Product extends Entity {
 	private Category category;
 	private Duration processingTime;
 	private String imageUrl;
+	
+	private java.time.Duration persistentProcessingTime;
 	
 	
 	
