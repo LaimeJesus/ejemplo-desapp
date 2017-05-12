@@ -32,8 +32,6 @@ public class UserService extends GenericService<User>{
 		//User possible = this.validateExist(user);
 		User possible = this.findByUsername(user.getUsername());
 		possible.login();
-		System.out.println(possible.getIsLogged());
-		System.out.println(possible.getUsername());
 		this.update(possible);
 	}
 	
