@@ -49,7 +49,7 @@ public class UserServiceTest {
 		
 		userService.createNewUser(userOne);
 		userService.createNewUser(userTwo);
-		Assert.assertEquals(userService.findByUsername("pepe").getPassword(), userService.findByUsername("pepo").getPassword());
+		Assert.assertEquals(userService.findByUsername("pepe").getPassword().getPassword(), userService.findByUsername("pepo").getPassword().getPassword());
 		
 		userService.deleteAll();
 		

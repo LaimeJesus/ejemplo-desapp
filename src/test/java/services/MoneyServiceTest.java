@@ -70,7 +70,7 @@ public class MoneyServiceTest {
 		Assert.assertTrue(true);
 	}
 	
-	//@Test
+	@Test
 	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		
 		Integer expected = moneyService.retriveAll().size();
