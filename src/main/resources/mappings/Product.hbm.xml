@@ -57,8 +57,7 @@
         <property 
 	        name="imageUrl" 
 	        type="java.lang.String" 
-	        column="product_image_url"
-	        not-null="false" />
+	        column="product_image_url"/>
         
         
         

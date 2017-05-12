@@ -10,6 +10,6 @@
             <generator class="increment" />
         </id>
  		<!-- <property name="purchasingDate" type="org.joda.time.contrib.hibernate.PersistentDateTime"/> -->
-		<one-to-one name="purchasingList" class="model.products.ProductList" cascade="save-update"></one-to-one>
+		<one-to-one name="purchasingList" class="model.products.ProductList" cascade="persist"></one-to-one>
 	</class>
 </hibernate-mapping>

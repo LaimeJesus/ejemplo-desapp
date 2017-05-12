@@ -33,7 +33,7 @@ public class User extends Entity{
 		this.setUserPermission(Permission.NORMAL);
 	}
 		
-	private void setIsLogged(Boolean bool) {
+	public void setIsLogged(Boolean bool) {
 		this.isLogged = bool;
 	}
 	

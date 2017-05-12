@@ -1,5 +1,6 @@
 package services.microservices;
 
+
 import model.registers.PurchaseRecord;
 
 public class PurchaseRecordService extends GenericService<PurchaseRecord> {

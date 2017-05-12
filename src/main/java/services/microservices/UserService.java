@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.UserAlreadyExistsException;
-import exceptions.UsernameOrPasswordInvalidException;
+import exceptions.UserIsNotLoggedException;
+import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
+import model.registers.PurchaseRecord;
 import model.users.User;
 
 public class UserService extends GenericService<User>{
@@ -26,34 +28,37 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	public void loginUser (User user) throws UsernameOrPasswordInvalidException {
-		User possible = this.validateExist(user);
+	public void loginUser (User user) throws UsernameDoesNotExistException {
+		//User possible = this.validateExist(user);
+		User possible = this.findByUsername(user.getUsername());
 		possible.login();
+		System.out.println(possible.getIsLogged());
+		System.out.println(possible.getUsername());
 		this.update(possible);
 	}
 	
 	@Transactional
-	public void logout (User user) throws UsernameOrPasswordInvalidException {
+	public void logout (User user) throws UsernameDoesNotExistException {
 		User possible = this.validateExist(user);
 		possible.logout();
 		this.update(possible);
 	}
 	
 	@Transactional
-	public User authenticateUser (User user) throws UsernameOrPasswordInvalidException {
+	public User authenticateUser (User user) throws UsernameDoesNotExistException {
 		return this.validateExist(user);
 	}
 	
 	@Transactional
-	public boolean hasWritePermission(User user) throws UsernameOrPasswordInvalidException {
+	public boolean hasWritePermission(User user) throws UsernameDoesNotExistException {
 		User current = this.authenticateUser(user);
 		return current.hasWritePermission();
 		
 	}
 	
 	@Transactional
-	public void createProductList(User anUser , ProductList aProductList) throws UsernameOrPasswordInvalidException {
-		User possible = this.authenticateUser(anUser);
+	public void createProductList(User anUser , ProductList aProductList) throws UsernameDoesNotExistException, UserIsNotLoggedException {
+		User possible = this.validateLogged(anUser);
 		possible.getProfile().addNewProductList(aProductList);
 		this.update(possible);
 	}
@@ -61,22 +66,14 @@ public class UserService extends GenericService<User>{
 	
 	@Transactional
 	public User findByUsername (String username) {
-		User exampleUser = new User();
-		exampleUser.setUsername(username);
-		exampleUser.setEmail(null);
-		exampleUser.setPassword(null);
-		exampleUser.setId(null);
-		exampleUser.setProfile(null);
-		exampleUser.setUserPermission(null);
-		exampleUser.logout();
-		List<User> possible = this.getRepository().findByExample(exampleUser);
+		List<User> possible = this.getRepository().findByField("username", username);
 		return (possible.size() > 0) ? possible.get(0) : null;
 	}
 	
 	@Transactional
-	private User validateExist(User possible) throws UsernameOrPasswordInvalidException {
+	private User validateExist(User possible) throws UsernameDoesNotExistException {
 		User exist = this.findByUsername(possible.getUsername());
-		if (! possible.equals(exist)) throw new UsernameOrPasswordInvalidException();
+		if (!possible.getUsername().equals(exist.getUsername())) throw new UsernameDoesNotExistException();
 		return exist;
 	}
 	
@@ -87,9 +84,25 @@ public class UserService extends GenericService<User>{
 	}
 
 	@Transactional
-	public List<ProductList> getListsFromUser(User saved) throws UsernameOrPasswordInvalidException {
+	public List<ProductList> getListsFromUser(User saved) throws UsernameDoesNotExistException {
 		User exist = this.authenticateUser(saved);
 		return exist.getProfile().getAllProductList();
+	}
+	
+	
+	@Transactional
+	public List<PurchaseRecord> getPurchaseRecords(User user) throws UsernameDoesNotExistException{
+		User exist = this.authenticateUser(user);
+		return exist.getProfile().getPurchaseRecords();
+	}
+
+	@Transactional
+	public User validateLogged(User user) throws UserIsNotLoggedException, UsernameDoesNotExistException {
+		User exist = this.validateExist(user);
+		if(exist.getIsLogged()){
+			return exist;
+		}
+		throw new UserIsNotLoggedException();
 	}
 	
 }

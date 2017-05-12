@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import exceptions.InvalidSelectedProduct;
 import model.products.Product;
+import model.products.ProductList;
+import model.products.SelectedProduct;
 import util.CSVProductParser;
 
 public class ProductService extends GenericService<Product> {
@@ -45,5 +48,22 @@ public class ProductService extends GenericService<Product> {
 		List<Product> possibles = this.getRepository().findByExample(newProduct);
 		return (possibles.size() > 0) ? possibles.get(0) : null;
 
+	}
+
+	@Transactional
+	public void updateStock(ProductList p) throws InvalidSelectedProduct {
+		for(SelectedProduct sp : p.getAllProducts()){
+			validateSelectedProduct(sp);
+			sp.getProduct().setStock(sp.getProduct().getStock() - sp.getQuantity());
+			this.update(sp.getProduct());
+		}
+		
+	}
+
+	private void validateSelectedProduct(SelectedProduct sp) throws InvalidSelectedProduct {
+		if(sp.getQuantity() > sp.getProduct().getStock()){
+			throw new InvalidSelectedProduct("can not select that product");
+		}
+		
 	}
 }

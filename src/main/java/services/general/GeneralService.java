@@ -6,7 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
-import exceptions.UsernameOrPasswordInvalidException;
+import exceptions.UserIsNotLoggedException;
+import exceptions.UsernameDoesNotExistException;
 import exceptions.WrongUserPermissionException;
 import model.offers.Offer;
 import model.products.Product;
@@ -36,25 +37,28 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void loginUser (User user) throws UsernameOrPasswordInvalidException {
+	public void loginUser (User user) throws UsernameDoesNotExistException {
 		getUserService().loginUser(user);
 	}
 	
 	@Transactional
-	public void logoutUser (User user) throws UsernameOrPasswordInvalidException{
+	public void logoutUser (User user) throws UsernameDoesNotExistException{
 		getUserService().logout(user);
 	}
 	
 	@Transactional
-	public void authenticateUser (User user) throws UsernameOrPasswordInvalidException {
+	public void authenticateUser (User user) throws UsernameDoesNotExistException {
 		getUserService().authenticateUser(user);
 	}
 	
 	@Transactional
-	public void createOffer (Offer offer , User user) throws UsernameOrPasswordInvalidException, WrongUserPermissionException {
-		if (getUserService().hasWritePermission(user)) {
-			getGeneralOfferService().save(offer);
-		} else { throw new WrongUserPermissionException(); }
+	public void createOffer (Offer offer , User user) throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException {
+		User logged = getUserService().validateLogged(user);
+		if(logged.hasWritePermission()){
+			getGeneralOfferService().save(offer);			
+		}else{
+			throw new WrongUserPermissionException();
+		}
 	}
 	
 	@Transactional
@@ -68,7 +72,7 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void createProductList (User user , ProductList productList) throws UsernameOrPasswordInvalidException {
+	public void createProductList (User user , ProductList productList) throws UsernameDoesNotExistException, UserIsNotLoggedException {
 		this.getUserService().createProductList(user,productList);
 	}
 	
@@ -120,8 +124,5 @@ public class GeneralService {
 	public void setProductListService(ProductListService productListService) {
 		this.productListService = productListService;
 	}
-	
-	
-	
-	
+
 }

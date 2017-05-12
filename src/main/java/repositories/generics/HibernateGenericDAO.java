@@ -25,6 +25,13 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
 
     }
 
+    @SuppressWarnings("unchecked")
+	public List<T> findByField(String field, String key){
+    	String query = "from " + this.persistentClass.getName() + " where " + field +"='"+key+"'";
+    	List<?> list = this.getHibernateTemplate().find(query);
+    	return (List<T>) list;
+    }
+    
     public void delete(final T entity) {
         this.getHibernateTemplate().delete(entity);
     }

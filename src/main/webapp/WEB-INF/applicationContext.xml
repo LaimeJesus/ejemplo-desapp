@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+
+    <!-- import cxf webservices -->
+    <import resource="classpath*:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath*:META-INF/cxf/cxf-extension-soap.xml" />
+    <import resource="classpath*:META-INF/cxf/cxf-servlet.xml"/>
+
+<bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
+
+<bean id='jacksonProvider' class='org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider' />
+
+	<jaxrs:server id="product" address="/"  >
+		<jaxrs:serviceBeans>
+			<ref bean="productController"/>
+			<ref bean="productListController"/>
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<ref bean="jaxbProvider" />
+			<ref bean="jacksonProvider" />
+		</jaxrs:providers>
+		<jaxrs:features>
+			<cxf:logging />
+		</jaxrs:features>
+	</jaxrs:server>
+
+	<bean id="productController" class="rest.controllers.ProductController">
+		<property name="productService" ref="services.microservices.productservice" />
+	</bean>
+	
+	<bean id="productListController" class="rest.controllers.ProductListController">
+		<property name="generalService" ref="services.general.generalservice" />
+		<property name="userService" ref="services.microservices.userservice" />
+		<property name="productService" ref="services.microservices.productservice" />
+		<property name="productListService" ref="services.microservices.productlistservice" />
+	</bean>
+
+</beans>

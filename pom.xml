@@ -11,12 +11,14 @@
   <version>1.0-SNAPCHAT</version>
   <name>desapp-grupob-backend Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  
+    
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<spring.version>4.1.3.RELEASE</spring.version>
 	<hibernate.version>4.3.6.Final</hibernate.version>
 <!-- 	<project.spring.data.jpa.version>1.10.3.RELEASE</project.spring.data.jpa.version> -->
+	<jackson.version>1.8.2</jackson.version>
+	<cxf.version>2.7.18</cxf.version>
   </properties>
   
   <dependencies>
@@ -97,14 +99,7 @@
 	    <artifactId>joda-time</artifactId>
 	    <version>2.9.9</version>
 	</dependency>
-	
-	<!-- Jackson -->
-	<dependency>
-		<groupId>com.fasterxml.jackson.core</groupId>
-		<artifactId>jackson-databind</artifactId>
-		<version>2.6.3</version>
-	</dependency>
-	
+		
 	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 	<dependency>
 	    <groupId>org.apache.commons</groupId>
@@ -132,7 +127,8 @@
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-context</artifactId>
 	    <version>${spring.version}</version>
-	    <scope>test</scope> 
+	    <scope>test</scope>
+	     
 	</dependency>
 		
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
@@ -173,13 +169,80 @@
 		<version>${spring.version}</version>
 		<!--  <version>4.3.7.RELEASE</version> -->
 	</dependency>
-	
+		
 	<dependency>
 		<groupId>commons-dbcp</groupId>
 		<artifactId>commons-dbcp</artifactId>
 		<version>1.4</version>
 	</dependency>
 		
+		
+		<!-- CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>		
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		
+		<!-- Jetty is needed if you're are not using the CXFServlet -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-bundle-jaxrs</artifactId>
+			<!-- 2.3.5 or 2.4.1 -->
+			<version>${cxf.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-server</artifactId>
+				</exclusion>
+			</exclusions>
+
+		</dependency>
+
+		<!-- CXF -->
+
+		<!-- Jackson -->
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.3</version>
+		</dependency>
+
+
+		<!-- /Jackson -->
+
 
   </dependencies>
   
@@ -237,7 +300,6 @@
 	     		<target>1.8</target>
 	     	</configuration>
      	</plugin>
-    
     </plugins>
     <finalName>desapp-grupob-backend</finalName>
   </build>

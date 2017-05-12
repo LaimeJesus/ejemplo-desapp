@@ -11,5 +11,5 @@ public class ProfileService extends GenericService<Profile>{
 	public Profile find(Profile aProfile) {
 		return this.getRepository().findByExample(aProfile).get(0);
 	}
-
+	
 }

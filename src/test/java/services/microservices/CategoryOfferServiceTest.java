@@ -14,7 +14,7 @@ import services.microservices.CategoryOfferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
-public class CategoryOfferServiceTest {
+public class CategoryOfferServiceTest{
 
 	
 	@Autowired
@@ -26,6 +26,9 @@ public class CategoryOfferServiceTest {
     	Integer expected = categoryOfferService.retriveAll().size();
     	categoryOfferService.save(new CategoryOffer());
         Assert.assertEquals(expected+1, categoryOfferService.retriveAll().size());
+        
+        categoryOfferService.deleteAll();
+        
     }
 	
 }

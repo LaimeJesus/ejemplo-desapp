@@ -6,6 +6,8 @@ import java.util.List;
 import org.joda.time.Duration;
 
 import model.products.ProductList;
+import model.users.User;
+import util.Money;
 
 public class CashRegisterManager {
 
@@ -22,29 +24,19 @@ public class CashRegisterManager {
 			this.addCashRegister(aCashRegister);			
 		}
 	}
-	
-	public void addCashRegister(CashRegister cr) {
-		this.registers.add(cr);
-	}
 
 	public List<CashRegister> getRegisters() {
 		return this.registers;
 	}
 
-	public Duration getWaitingTime(ProductList aProductList) {
-		return this.getNextCashRegisterFor(aProductList).getWaitingTime();
-	}
 
-	public void changeFilterFor(int index, Filter f) {
-		this.getRegisters().get(index).useFilter(f);
-	}
 	
 	public void addInQueueUsertoACashRegister(CashRegister aCashRegister, InQueueUser anInQueueUser){
 		aCashRegister.add(anInQueueUser);
 		aCashRegister.next();
 	}
 
-	public void newUserToQueue(InQueueUser anInQueueUser) {
+	public void addInQueueUser(InQueueUser anInQueueUser) {
 		this.addInQueueUsertoACashRegister(this.getNextCashRegisterFor(anInQueueUser.getProductList()), anInQueueUser);
 	}
 
@@ -59,9 +51,40 @@ public class CashRegisterManager {
 				}				
 			}
 		}
-		//si cash register es null entonces aca deberia lanzar una excepcion,
-		//ya que no hay cajas disponibles
 		return cashRegister;
 	}
+
+	public void changeFilterFor(int index, Filter f) {
+		this.getRegisters().get(index).useFilter(f);
+	}
+	/////////////////////////////////////////////////////////////
 	
+	public void closeCashRegister(int index){
+		this.changeFilterFor(index, new CloseFilter());
+	}
+
+	public void openCashRegister(int index){
+		this.changeFilterFor(index, new OpenFilter());
+	}
+	
+	public void totalCostFilter(int index, Money money){
+		this.changeFilterFor(index, new TotalCostFilter(money));
+	}
+	
+	public void addCashRegister(CashRegister cr) {
+		this.registers.add(cr);
+	}
+	
+	public void removeCashRegister(CashRegister cr){
+		this.registers.remove(cr);
+	}
+	
+	public void addUserWithProductList(User user, ProductList pl){
+		this.addInQueueUser(new InQueueUser(pl, user));
+	}
+
+	public Duration getWaitingTime(ProductList aProductList) {
+		return this.getNextCashRegisterFor(aProductList).getWaitingTime();
+	}
+
 }

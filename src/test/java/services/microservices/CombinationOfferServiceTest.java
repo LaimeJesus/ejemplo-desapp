@@ -14,7 +14,7 @@ import services.microservices.CombinationOfferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
-public class CombinationOfferServiceTest {
+public class CombinationOfferServiceTest{
 
 	
 	@Autowired
@@ -27,7 +27,9 @@ public class CombinationOfferServiceTest {
     	Integer expected = combinationOfferService.retriveAll().size();
     	combinationOfferService.save(new CombinationOffer());
         Assert.assertEquals(expected+1 , combinationOfferService.retriveAll().size());
+
         
+        combinationOfferService.deleteAll();
     }
 	
 }

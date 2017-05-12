@@ -96,7 +96,7 @@ public class CashRegisterManagerTest {
 		Mockito.when(aCashRegisterMock.accepts(aProductListMock)).thenReturn(true);
 		
 		sut.addCashRegister(aCashRegisterMock);
-		sut.newUserToQueue(anInQueueUserMock);
+		sut.addInQueueUser(anInQueueUserMock);
 		
 		
 		Mockito.verify(aCashRegisterMock).next();

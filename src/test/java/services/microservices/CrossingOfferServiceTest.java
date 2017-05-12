@@ -14,7 +14,7 @@ import services.microservices.CrossingOfferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath*:/META-INF/spring-persistence-context.xml", "classpath*:/META-INF/spring-services-context.xml" })
-public class CrossingOfferServiceTest {
+public class CrossingOfferServiceTest{
 
 	
 	
@@ -29,6 +29,9 @@ public class CrossingOfferServiceTest {
     	Integer expected = crossingOfferService.retriveAll().size();
     	crossingOfferService.save(new CrossingOffer());
         Assert.assertEquals(expected+1, crossingOfferService.retriveAll().size());
+        
+        
+        crossingOfferService.deleteAll();
     }
 	
 }

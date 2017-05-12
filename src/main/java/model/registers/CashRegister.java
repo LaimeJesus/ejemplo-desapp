@@ -11,10 +11,12 @@ public class CashRegister {
 
 	private List<InQueueUser> queue;
 	private Filter filter;
+	private boolean isRunning;
 
 	public CashRegister(){
 		filter = new OpenFilter();
 		queue = new ArrayList<InQueueUser>();
+		isRunning = false;
 	}
 	
 	public Duration getWaitingTime() {
@@ -33,8 +35,8 @@ public class CashRegister {
 		return this.queue.isEmpty();
 	}
 
-	public void next() {
-		if(!this.isEmpty()){
+	public synchronized void next() {
+		if(this.canProcess()){
 			InQueueUser nextUser = this.queue.get(0);
 			this.remove(nextUser);
 			this.process(nextUser);
@@ -45,14 +47,16 @@ public class CashRegister {
 		this.getQueue().remove(user);
 		
 	}
+	
+	public Boolean canProcess(){
+		return !this.isEmpty() && !this.isRunning;
+	}
 
 	private void process(InQueueUser user) {
 		try {
 			//1000 milliseconds is one second.
+			this.isRunning = true;
 		    Thread.sleep(user.getProcessingTime().getMillis());
-			//Thread.sleep(5000);
-		    //updateStock(nextProductList)
-		    user.newPurchase();
 		    this.next();
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();

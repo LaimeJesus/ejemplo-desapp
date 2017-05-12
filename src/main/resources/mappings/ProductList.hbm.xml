@@ -20,11 +20,6 @@
         	name="name"
         	type="java.lang.String"
         	column="product_list_name" />
-        	
-        <property 
-        	name="moneyValue"
-        	type="java.lang.String"
-        	column="product_list_total_amount" />
         
         <list name="allProducts" cascade="all" inverse="false">
 			<key column="product_list_id"></key>

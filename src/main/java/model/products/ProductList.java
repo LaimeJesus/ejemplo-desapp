@@ -24,7 +24,7 @@ public class ProductList extends Entity implements Monetizable {
 	private static final long serialVersionUID = -6025165365717618663L;
 	private String name;	
 	private Money totalAmount;
-	private List<SelectedProduct> allProducts;
+	public List<SelectedProduct> allProducts;
 	private List<Offer> appliedOffers;
 	
 	private String moneyValue;

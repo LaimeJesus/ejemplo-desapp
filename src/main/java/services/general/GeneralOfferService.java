@@ -89,4 +89,5 @@ public class GeneralOfferService {
 		this.getCombinationOfferService().deleteAll();
 		this.getCrossingOfferService().deleteAll();
 	}
+
 }
