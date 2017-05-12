@@ -24,13 +24,15 @@
 		<one-to-one 
 			name="profile" 
 			class="model.users.Profile" 
-			cascade="all">
+			cascade="all"
+			lazy="false">
 		</one-to-one>
 		
-		<one-to-one 
+		<many-to-one 
 			name="password" 
-			class="util.Password" >
-		</one-to-one>
+			class="util.Password" 
+			cascade="all"
+			lazy="false" />
 		
 		<property 
 			name="isLogged" 

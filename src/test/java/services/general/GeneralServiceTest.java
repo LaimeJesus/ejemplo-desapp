@@ -286,7 +286,6 @@ public class GeneralServiceTest {
 			.withUsername("someUser")
 			.withEmail("sandoval.lucasj@gmail.com")
 			.withPassword(new Password("mypassword"))
-			.withUserPermission(Permission.NORMAL)
 			.build();
 		
 		someValidUser.setProfile(someProfile);

@@ -4,7 +4,7 @@
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
         
-<hibernate-mapping default-access="field" default-cascade="save-update">
+<hibernate-mapping default-access="field" >
     
     <class name="model.products.ProductList">
         <id 
@@ -17,16 +17,27 @@
         <property
         	name="name"
         	type="java.lang.String"
-        	column="product_list_name" />
+        	column="product_list_name"
+        	not-null="true" />
         
-        <list name="allProducts" cascade="all" inverse="false" lazy="false">
+        <list 
+        	name="allProducts" 
+        	cascade="all" 
+        	inverse="false" 
+        	lazy="false">
+        	
 			<key column="product_list_id"></key>
 			<list-index column="posicion_selected_product"></list-index>
 			<one-to-many
 				class="model.products.SelectedProduct" />
 		</list>
         
-        <list name="appliedOffers" cascade="all" inverse="false" lazy="false">
+        <list 
+        	name="appliedOffers" 
+        	cascade="persist" 
+        	inverse="false" 
+        	lazy="false">
+        	
 			<key column="product_list_id"></key>
 			<list-index column="posicion_oferta"></list-index>
 			<one-to-many
