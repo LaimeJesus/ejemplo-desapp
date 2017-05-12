@@ -1,5 +1,6 @@
 package services.microservices;
 
+import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +47,7 @@ public class SelectedProductServiceTest {
     		.withBrand("Marolio")
     		.withPrice(new Money(3,5))
     		.withStock(100)
+    		.withProcessingTime(new Duration(1L))
     		.build();
     	
     	productService.save(someProduct);
@@ -56,6 +58,9 @@ public class SelectedProductServiceTest {
     	
     	selectedProductService.save(someSelected);
         Assert.assertEquals(expected+1, selectedProductService.retriveAll().size());
+        
+        selectedProductService.deleteAll();
+        productService.deleteAll();
     }
 	
 }

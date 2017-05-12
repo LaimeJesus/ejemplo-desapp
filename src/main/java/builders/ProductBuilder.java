@@ -1,5 +1,7 @@
 package builders;
 
+import org.joda.time.Duration;
+
 import model.products.Product;
 import util.Category;
 import util.Money;
@@ -38,6 +40,11 @@ public class ProductBuilder {
 	
 	public ProductBuilder withPrice(Money newPrice) {
 		this.getProduct().setPrice(newPrice);
+		return this;
+	}
+	
+	public ProductBuilder withProcessingTime(Duration d){
+		this.getProduct().setProcessingTime(d);
 		return this;
 	}
 	
