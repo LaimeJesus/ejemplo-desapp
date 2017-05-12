@@ -2,7 +2,7 @@ package util;
 
 import exceptions.MoneyCannotSubstractException;
 
-public class Money implements Comparable<Money>{
+public class Money extends Entity implements Comparable<Money>{
 
 	private Integer integer;
 	private Integer decimal;

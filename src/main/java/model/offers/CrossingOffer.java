@@ -2,6 +2,7 @@ package model.offers;
 
 import org.joda.time.Interval;
 
+import exceptions.MoneyCannotSubstractException;
 import model.products.Product;
 import model.products.ProductList;
 import util.Money;
@@ -36,6 +37,18 @@ public class CrossingOffer extends Offer {
 				);
 	}
 
+	@Override
+	public Money getFinalPrice(ProductList productListToGetPrice , Money totalAmount) {
+		try {
+			return totalAmount.minus( 
+				(this.getRelatedProduct().getPrice().times(this.getMaxQuantity())).minus(this.getRelatedProduct().getPrice().times(this.getMinQuantity()))
+				);
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Money(0,0);
+		}
+	}
 	
 	
 	public CrossingOffer() {
@@ -69,22 +82,18 @@ public class CrossingOffer extends Offer {
 	private Money getPriceOfRelatedProduct() {
 		return this.getRelatedProduct().getPrice();
 	}
-	
+
 	@Override
-	public boolean equals(Object anotherPossibleOffer ) {
-		if(this.isMyType(anotherPossibleOffer)){
-			CrossingOffer newOffer = (CrossingOffer) anotherPossibleOffer;
+	protected boolean isEqualsToMe(Offer offer) {
+		if (offer != null && offer instanceof CrossingOffer) {
+			CrossingOffer current = (CrossingOffer) offer;
 			return 
-				this.getDiscountRate().equals(newOffer.getDiscountRate()) &&
-				this.getValidPeriod().equals(newOffer.getValidPeriod()) &&
-				this.getRelatedProduct().equals(newOffer.getRelatedProduct()) &&
-				this.getMaxQuantity().equals(newOffer.getMaxQuantity()) &&
-				this.getMinQuantity().equals(newOffer.getMinQuantity());
+				this.getMinQuantity().equals(current.getMinQuantity()) &&
+				this.getMaxQuantity().equals(current.getMaxQuantity()) &&
+				this.getRelatedProduct().equals(current.getRelatedProduct()) &&
+				this.getDiscountRate().equals(current.getDiscountRate()) &&
+				this.getValidPeriod().equals(current.getValidPeriod());
 		}
 		return false;
-	}
-	
-	private boolean isMyType(Object anotherPossibleOffer) {
-		return anotherPossibleOffer != null && anotherPossibleOffer instanceof CrossingOffer;
 	}
 }

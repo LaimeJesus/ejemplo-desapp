@@ -1,7 +1,7 @@
 package services.general;
 
-import static org.junit.Assert.fail;
-
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import java.util.List;
 
 import org.junit.Assert;
@@ -15,13 +15,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import builders.ProductBuilder;
 import builders.UserBuilder;
-import exceptions.ProductDoesNotExistOnListException;
+import exceptions.MoneyCannotSubstractException;
+import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
+import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
 import model.products.Product;
 import model.products.ProductList;
@@ -120,9 +122,7 @@ public class GeneralServiceTest {
 				.withUserPermission(Permission.ADMIN)
 				.build();
 		generalService.createUser(user);
-		System.out.println("cree el usuario");
 		generalService.loginUser(user);
-		System.out.println("logee el usuario");
 		generalService.createOffer(new CombinationOffer(), user);
 		Assert.assertEquals(1, generalOfferService.retriveAll().size());
 		
@@ -162,23 +162,35 @@ public class GeneralServiceTest {
 	}
 	
 	@Test
-	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException {
+	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException, UserAlreadyExistsException {
 		
 		ProductList someProductList = new ProductList("First");
 		
 		Profile someProfile = new Profile();
 		someProfile.addNewProductList(someProductList);
-		
 		User someValidUser = new UserBuilder()
 			.withUsername("someUser")
-			.withEmail("sandoval.lucasj@gmail.com")
-			.withPassword(new Password("mypassword"))
-			.withUserPermission(Permission.NORMAL)
+			.withEmail("Sandoval.lucasj@gamail.com")
+			.withPassword(new Password("asd"))
 			.build();
 		
 		someValidUser.setProfile(someProfile);
 		
-		userService.save(someValidUser);
+		Integer expected = productListService.count();
+		
+		generalService.createUser(someValidUser);
+		ProductList second = new ProductList("Second");
+		generalService.loginUser(someValidUser);
+		generalService.createProductList(someValidUser,second);
+		
+		
+		Assert.assertEquals(new Integer(expected+2), productListService.count());
+		
+		ProductList validFirst = productListService.getByUser(someProductList, someValidUser);
+		ProductList validSecond = productListService.getByUser(second, someValidUser);
+		
+		Assert.assertNotNull(validFirst.getId());
+		Assert.assertNotNull(validSecond.getId());
 		
 		ProductList anotherProductList = new ProductList("Second");
 		generalService.loginUser(someValidUser);
@@ -187,8 +199,76 @@ public class GeneralServiceTest {
 		Assert.assertTrue(userService.getListsFromUser(saved).contains(anotherProductList));
 	}
 	
+	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, UsernameDoesNotExistException {
+		
+		ProductList someProductList = new ProductList("First");
+		
+		Profile someProfile = new Profile();
+		someProfile.addNewProductList(someProductList);
+		
+		User somaValidUser = new UserBuilder()
+			.withUsername("someUser")
+			.withEmail("Sandoval.lucasj@gamail.com")
+			.withPassword(new Password("asd"))
+			.build();
+		
+		somaValidUser.setProfile(someProfile);
+		
+		DateTime today = DateTime.now();
+		Interval anInterval = new Interval(today , today.plusDays(1));
+		
+		generalService.createUser(somaValidUser);
+		generalService.loginUser(somaValidUser);
+		ProductList valid = productListService.getByUser(someProductList, somaValidUser);
+		Money currentAmount = valid.getTotalAmount();
+		
+		CategoryOffer aValidCategoryOffer = new CategoryOffer(10, anInterval, Category.Baked);
+		
+		generalService.applyOffer(somaValidUser, aValidCategoryOffer, someProductList);
+		valid = productListService.getByUser(someProductList, somaValidUser);
+		
+		Assert.assertEquals(currentAmount , valid.getTotalAmount());
+		
+	}
+	
 	@Test
-	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() throws ProductIsAlreadySelectedException {
+	public void testWhenSelectingAProductThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
+		
+		User someValidUser = new UserBuilder()
+			.withUsername("someUser")
+			.withEmail("sandoval.lucasj@gmail.com")
+			.withPassword(new Password("asd"))
+			.build();
+		
+		Product validProduct = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("Marolio")
+			.withPrice(new Money(3,50))
+			.withCategory(Category.Baked)
+			.withStock(35)
+			.build();
+		
+		ProductList someProductList = new ProductList("First");		
+		
+		generalService.createUser(someValidUser);
+		productService.save(validProduct);
+		generalService.loginUser(someValidUser);
+		generalService.createProductList(someValidUser, someProductList);
+		User us = generalService.getUserService().findByUsername("someUser");
+		
+		ProductList valid = productListService.getByUser(someProductList, someValidUser);
+		Money result = generalService.selectProduct(someValidUser, someProductList, validProduct, 10);
+		
+		ProductList validAfterPersist = productListService.getByUser(someProductList, someValidUser);
+		
+		Assert.assertEquals("sandoval.lucasj@gmail.com", us.getEmail());
+		Assert.assertEquals(1, us.getProfile().getAllProductList().size());
+		Assert.assertEquals(valid.getId(), validAfterPersist.getId());
+		Assert.assertEquals(new Money(35,0), result);		
+	}
+	
+	@Test
+	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		
 		ProductList someProductList = new ProductList("First");
 		
@@ -212,28 +292,17 @@ public class GeneralServiceTest {
 		
 		userService.save(someValidUser);
 		productService.save(someValidProduct);
+		userService.loginUser(someValidUser);
 		Integer expected = selectedProductService.count();
-		
+				
 		User saved = userService.findByUsername("someUser");
+		generalService.selectProduct(someValidUser, someProductList, someValidProduct, 3);
+		List<ProductList> lists = userService.getListsFromUser(saved);
 		
+		Assert.assertTrue(lists.contains(someProductList));
+		
+		Assert.assertEquals( new Integer(expected+1) , selectedProductService.count());
 
 		Assert.assertTrue(true);
-//		
-//		generalService.selectProduct(saved, someProductList, someValidProduct, 3);
-//		List<ProductList> lists = userService.getListsFromUser(saved);
-//		
-//		Assert.assertTrue(lists.contains(someProductList));
-//		
-//		Assert.assertEquals( new Integer(expected+1) , selectedProductService.count());
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

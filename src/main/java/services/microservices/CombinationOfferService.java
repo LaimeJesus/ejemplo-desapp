@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.offers.CombinationOffer;
+import model.offers.Offer;
 import model.products.ProductList;
 
 public class CombinationOfferService extends GenericService<CombinationOffer> {
@@ -13,6 +14,14 @@ public class CombinationOfferService extends GenericService<CombinationOffer> {
 	 */
 	private static final long serialVersionUID = -6264043641769715489L;
 
+	public boolean isOfferValid(Offer someOffer) {
+		for (CombinationOffer offer : this.retriveAll()) {
+			if (offer.equals(someOffer)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public List<CombinationOffer> applicableForList(ProductList aProductList) {
 		List<CombinationOffer> results = new ArrayList<CombinationOffer>();
 		List<CombinationOffer> possibles = this.retriveAll();
@@ -23,5 +32,4 @@ public class CombinationOfferService extends GenericService<CombinationOffer> {
 		}
 		return results;
 	}
-	
 }

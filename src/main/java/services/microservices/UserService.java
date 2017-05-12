@@ -10,6 +10,7 @@ import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
 import model.registers.PurchaseRecord;
 import model.users.User;
+import util.Money;
 
 public class UserService extends GenericService<User>{
 
@@ -57,6 +58,7 @@ public class UserService extends GenericService<User>{
 	@Transactional
 	public void createProductList(User anUser , ProductList aProductList) throws UsernameDoesNotExistException, UserIsNotLoggedException {
 		User possible = this.validateLogged(anUser);
+		aProductList.setTotalAmount(new Money(0,0));
 		possible.getProfile().addNewProductList(aProductList);
 		this.update(possible);
 	}

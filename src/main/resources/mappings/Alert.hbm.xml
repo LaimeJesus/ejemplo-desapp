@@ -28,10 +28,14 @@
 			name="model.alerts.PriceAlert" 
 			discriminator-value="price" >
 			
-			<property 
-				name="moneyValue" 
-				type="java.lang.String" 
-				column="price_alert_limit"/>
+		<one-to-one 
+			name="limit" 
+			class="util.Money"
+			cascade="persist">
+		
+		</one-to-one>			
+
+
 		</subclass>
 		
 		<subclass 
@@ -40,6 +44,7 @@
 			
 			<property 
 				name="category" 
+				unique="true"
 				column="umbral_alert_category">
 			  	<type 
 			  		name="org.hibernate.type.EnumType">

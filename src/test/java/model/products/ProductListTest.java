@@ -59,7 +59,7 @@ public class ProductListTest {
 	}
 	
 	@Test
-	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() throws ProductIsAlreadySelectedException, ProductDoesNotExistOnListException {
+	public void testWhenIRemoveAProductThatISelectThenItIsRemovedFromMyList() throws ProductIsAlreadySelectedException, ProductDoesNotExistOnListException, MoneyCannotSubstractException {
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);
@@ -76,7 +76,7 @@ public class ProductListTest {
 	}
 	
 	@Test (expected = ProductDoesNotExistOnListException.class)
-	public void testWhenITryToRemoveAProductThatIDidntSelectThenAnExceptionIsRaised() throws ProductDoesNotExistOnListException{
+	public void testWhenITryToRemoveAProductThatIDidntSelectThenAnExceptionIsRaised() throws ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException{
 		
 		ProductList someProductList = new ProductList();
 		Product anyProductMock = Mockito.mock(Product.class);

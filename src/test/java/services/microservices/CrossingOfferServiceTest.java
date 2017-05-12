@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class CrossingOfferServiceTest{
     @Qualifier("services.microservices.crossingofferservice")
     private CrossingOfferService crossingOfferService;
 
+	@Before
+	public void setUp() {
+		crossingOfferService.deleteAll();
+	}
+	
     @Test
     public void testCrossingOfferCanBeSaved(){
     	Integer expected = crossingOfferService.retriveAll().size();

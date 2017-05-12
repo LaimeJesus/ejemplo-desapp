@@ -6,10 +6,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import exceptions.ProductIsAlreadySelectedException;
-import exceptions.UsernameOrPasswordInvalidException;
-import model.products.ProductList;
-import model.users.User;
 import rest.dtos.ProductListDTO;
 import services.general.GeneralService;
 import services.microservices.ProductListService;

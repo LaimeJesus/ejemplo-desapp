@@ -32,11 +32,11 @@
 	        column="product_stock"
 	        not-null="false" />
         
-		<property 
-			name="moneyValue" 
-			type="java.lang.String" 
-			column="product_price"
-			not-null="false" />
+		<one-to-one 
+			name="price" 
+			class="util.Money"
+			cascade="all">
+		</one-to-one>
 		  
         <property 
         	name="category" 

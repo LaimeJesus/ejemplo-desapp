@@ -2,8 +2,6 @@ package model.products;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.joda.time.Duration;
 
 import exceptions.MoneyCannotSubstractException;
@@ -12,10 +10,9 @@ import exceptions.ProductIsAlreadySelectedException;
 import model.offers.Offer;
 import util.Category;
 import util.Entity;
-import util.Monetizable;
 import util.Money;
 
-public class ProductList extends Entity implements Monetizable {
+public class ProductList extends Entity {
 
 	
 	/**
@@ -26,8 +23,6 @@ public class ProductList extends Entity implements Monetizable {
 	private Money totalAmount;
 	public List<SelectedProduct> allProducts;
 	private List<Offer> appliedOffers;
-	
-	private String moneyValue;
 	
 	public ProductList () {
 		this.initialize();
@@ -44,7 +39,17 @@ public class ProductList extends Entity implements Monetizable {
 		this.setAppliedOffers(new ArrayList<Offer>());
 	}
 	
+	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
+		this.validateProductIsSelected(product);
+		this.addProductToList(new SelectedProduct(product, howMany));
+	}
 	
+	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
+		if ( this.thisProductIsSelected(product)) {
+			throw new ProductIsAlreadySelectedException("Putito");
+		}
+	}
+
 	public List<SelectedProduct> getSelectedProductsBy(Category aCategory){
 		List<SelectedProduct> result = new ArrayList<SelectedProduct>();
 		for (SelectedProduct current : this.getAllProducts()) {
@@ -62,15 +67,6 @@ public class ProductList extends Entity implements Monetizable {
 			}
 		}
 		return null;
-	}
-
-	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
-		if (this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("El producto que intenta seleccionar, ya se encuentra dentro del listado");
-		} else {
-			this.addProductToList(new SelectedProduct(product, howMany));
-			this.plusAmount( this.calculateAmount(product.getPrice() , howMany) );
-		}
 	}
 	
 	public boolean thisProductIsSelected (Product someProduct) {
@@ -95,7 +91,7 @@ public class ProductList extends Entity implements Monetizable {
 		return this.allProducts.isEmpty();
 	}
 	
-	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException {
+	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException {
 		if (this.thisProductIsSelected(productToRemove)) {
 			this.deleteProductFromList(productToRemove);
 			this.update();
@@ -103,11 +99,7 @@ public class ProductList extends Entity implements Monetizable {
 			throw new ProductDoesNotExistOnListException("El producto que intenta eliminar no se encuentra seleccionado");
 		}
 	}
-	
-	public void plusAmount(Money newAmount) {
-		totalAmount = totalAmount.add(newAmount);
-	}
-	
+		
 	public void minusAmount (Money money) throws MoneyCannotSubstractException{
 		totalAmount = totalAmount.minus(money);
 	}
@@ -141,7 +133,7 @@ public class ProductList extends Entity implements Monetizable {
 	}
 	
 	public Money getTotalAmount() {
-		return this.totalAmount;
+		return this.getMoneyOfProductsWithOffers();
 	}
 	
 	public void setTotalAmount(Money newTotalAmount) {
@@ -157,7 +149,7 @@ public class ProductList extends Entity implements Monetizable {
 	}
 	
 	public List<Offer> getAppliedOffers() {
-		return appliedOffers;
+		return this.appliedOffers;
 	}
 	
 	public void setAppliedOffers(List<Offer> appliedOffers) {
@@ -200,80 +192,54 @@ public class ProductList extends Entity implements Monetizable {
 			categoryTotal += sp.getQuantity();
 		}
 		return categoryTotal;
-
 	}
 	
-///////////////////////////////
-///////////////////////////////
-////// OFFER METHODS //////////
-///////////////////////////////
-///////////////////////////////
+	public Money getMoneyOfProducts() {
+		Money result = new Money(0,0);		
+		for (SelectedProduct p : this.getAllProducts()) {
+			result = result.add(p.getFinalPrice());
+		}
+		return result;
+	}
 	
-	public void applyOffer (Offer offer) throws MoneyCannotSubstractException {
+	public Money getMoneyOfProductsWithOffers() {
+		Money result = this.getMoneyOfProducts();
+		for (Offer o : this.getAppliedOffers()) {
+			result = o.getFinalPrice(this,result);
+		}
+		return result;
+	}
+	
+	public void applyOffer(Offer offer) throws MoneyCannotSubstractException {
 		if (this.isApplicable(offer)) {
-			this.setTotalAmount(offer.getFinalPrice(this));
-			this.addOffer(offer);
+			this.getAppliedOffers().add(offer);
+			this.setTotalAmount( offer.getFinalPrice(this , this.getTotalAmount()) );
 		}
 	}
 	
-	public void disapplyOffer (Offer offer) {
-		if (this.getAppliedOffers().contains(offer)) {
-			this.removeOffer(offer);
-			this.update();
-		}
+	public void disapplyOffer(Offer offer) throws ProductIsAlreadySelectedException, MoneyCannotSubstractException {
+		this.getAppliedOffers().remove(offer);
+		this.update();
 	}
 	
-	public Boolean isApplicable(Offer aOffer) {
-		return this.getAppliedOffers().stream().noneMatch(
-				offer -> offer.equals(aOffer)
-				);
+	public Boolean isApplicable(Offer anOffer) {
+		return anOffer.meetRequirements(this);
 	}
 	
-	private void addOffer(Offer aNewOffer) {
-		this.getAppliedOffers().add(aNewOffer);
-	}
-	
-	private void removeOffer(Offer offerToRemove) {
-		this.getAppliedOffers().remove(offerToRemove);
-	}
-///////////////////////////////
-///////////////////////////////
-////// OFFER METHODS //////////
-///////////////////////////////
-///////////////////////////////
-
-	public void update() {
-		List<Offer> currentOffers = this.getAppliedOffers();
-		List<SelectedProduct> currentProducts = this.getAllProducts();
+	public void update() throws ProductIsAlreadySelectedException, MoneyCannotSubstractException {
+		List<Offer> applied = this.getAppliedOffers();
+		List<SelectedProduct> selected = this.getAllProducts();
 		
 		this.initialize();
-
-		try {
-			for (SelectedProduct selected : currentProducts) {
-				this.selectProduct(selected.getProduct(), selected.getQuantity());				
-			}
-			for (Offer offer : currentOffers) {
-				this.applyOffer(offer);
-			}
-		} 	
-		catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException e) {
+		
+		for (SelectedProduct selectedProduct : selected) {
+			this.selectProduct(selectedProduct.getProduct(), selectedProduct.getQuantity());
 		}
+		
+		for (Offer offer : applied) {
+			this.applyOffer(offer);
+		}
+		
+		
 	}
-	
-	
-	
-	/**
-	 * Metodos necesarios para garantizar que se persistira un VARCHAR en lugar de un Money
-	 */
-
-	@Override
-	public Money getMonetizableElement() {
-		return this.totalAmount;
-	}
-
-	@Override
-	public void setMonetizableElement(Money newMoney) {
-		this.totalAmount = newMoney;
-	}
-	
 }

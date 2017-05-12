@@ -24,12 +24,13 @@ public class CategoryOffer extends Offer {
 
 	@Override
 	public Money getPreviousPrice(ProductList productList) {
-		List<SelectedProduct> list = productList.getSelectedProductsBy(this.getCategory());
 		Money result = new Money(0,0);
-		for (SelectedProduct current : list) {
-			result = result.add( current.getProduct().getPrice().times(current.getQuantity()) );
+		for (SelectedProduct p : productList.getAllProducts()) {
+			if (p.getProduct().getCategory().equals(this.getCategory())) {
+				result = result.add(p.getFinalPrice());
+			}
 		}
- 		return result;
+		return result;
 	}
 
 	@Override
@@ -52,25 +53,15 @@ public class CategoryOffer extends Offer {
 		this.category = newCategory;
 	}
 	
-	
 	@Override
-	public boolean equals(Object anotherPossibleOffer ) {
-		if(this.isMyType(anotherPossibleOffer)){
-			CategoryOffer newOffer = (CategoryOffer) anotherPossibleOffer;
-			return this.totalEquals(newOffer);
+	protected boolean isEqualsToMe(Offer offer) {
+		if (offer != null && offer instanceof CategoryOffer) {
+			CategoryOffer current = (CategoryOffer) offer;
+			return 
+				this.getCategory().equals(current.getCategory()) && 
+				this.getDiscountRate().equals(current.getDiscountRate()) &&
+				this.getValidPeriod().equals(current.getValidPeriod());
 		}
 		return false;
 	}
-	
-	private boolean isMyType(Object anotherPossibleOffer) {
-		return anotherPossibleOffer != null && anotherPossibleOffer instanceof CategoryOffer;
-	}
-
-	public boolean totalEquals( CategoryOffer someOffer ) {
-		return 
-			this.getDiscountRate().equals(someOffer.getDiscountRate()) &&
-			this.getValidPeriod().equals(someOffer.getValidPeriod()) &&
-			this.getCategory().equals(someOffer.getCategory());
-	}
-	
 }

@@ -2,6 +2,9 @@ package model.offers;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Test;
@@ -12,6 +15,7 @@ import exceptions.ProductIsAlreadySelectedException;
 import model.offers.CategoryOffer;
 import model.products.Product;
 import model.products.ProductList;
+import model.products.SelectedProduct;
 import util.Category;
 import util.Money;
 
@@ -21,7 +25,29 @@ public class CategoryOfferTest {
 	public void testWhenTheProductListDoesNotHaveAnyProductOfTheCategoryThenFinalPriceIsTheSame() {
 		
 		ProductList aProductListMock = Mockito.mock(ProductList.class);
-		Mockito.when(aProductListMock.getTotalAmount()).thenReturn(new Money(156,76));
+		Product aProductMock1 = Mockito.mock(Product.class);
+		Product aProductMock2 = Mockito.mock(Product.class);
+		
+		Mockito.when(aProductMock1.getCategory()).thenReturn(Category.Dairy);
+		Mockito.when(aProductMock2.getCategory()).thenReturn(Category.Fruit);
+		
+		Mockito.when(aProductMock1.getPrice()).thenReturn(new Money(12,30));
+		Mockito.when(aProductMock2.getPrice()).thenReturn(new Money(52,30));
+		
+		SelectedProduct aSelectedProductMock1 = Mockito.mock(SelectedProduct.class);
+		SelectedProduct aSelectedProductMock2 = Mockito.mock(SelectedProduct.class);
+		
+		Mockito.when(aSelectedProductMock1.getProduct()).thenReturn(aProductMock1);
+		Mockito.when(aSelectedProductMock2.getProduct()).thenReturn(aProductMock2);
+		Mockito.when(aSelectedProductMock1.getFinalPrice()).thenReturn(new Money(3,50));
+		Mockito.when(aSelectedProductMock2.getFinalPrice()).thenReturn(new Money(27,25));
+		
+		List<SelectedProduct> selected = new ArrayList<SelectedProduct>();
+		selected.add(aSelectedProductMock1);
+		selected.add(aSelectedProductMock2);
+		
+		Mockito.when(aProductListMock.getTotalAmount()).thenReturn(new Money(24,60));
+		Mockito.when(aProductListMock.getAllProducts()).thenReturn(selected);
 		
 		DateTime today = DateTime.now();
 		DateTime tomorrow = today.plusDays(1);
@@ -29,15 +55,9 @@ public class CategoryOfferTest {
 		
 		CategoryOffer aCategoryOffer = new CategoryOffer(15, anInterval, Category.Baked);
 		
-		Money expected = new Money(156,76);
+		Money expected = new Money(24,60);
 		
-		try {
-			assertEquals(expected, aCategoryOffer.getFinalPrice(aProductListMock));
-		} catch (MoneyCannotSubstractException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		}
+		assertEquals(expected, aCategoryOffer.getFinalPrice(aProductListMock , new Money(24,60)));
 		
 	}
 	

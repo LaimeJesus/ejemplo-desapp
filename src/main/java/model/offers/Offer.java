@@ -26,23 +26,37 @@ public abstract class Offer extends Entity {
 	
 	protected abstract boolean verifyProductRequirements(ProductList productListToVerify);
 	
+
+	protected abstract boolean isEqualsToMe(Offer offer);
+	
 	public Boolean meetRequirements(ProductList productListToVerify){
 		return (this.verifyProductRequirements(productListToVerify) &&
 				this.verifyOfferRequiremets(productListToVerify) &&
-				this.verifyPeriodRequirements(productListToVerify));
+				this.verifyPeriodRequirements());
 	}
 	
-	private boolean verifyPeriodRequirements(ProductList productListToVerify) {
+	private boolean verifyPeriodRequirements() {
 		DateTime today = DateTime.now();
 		return this.getValidPeriod().contains(today);
 	}
 
-	private boolean verifyOfferRequiremets(ProductList productListToVerify) {
-		return productListToVerify.isApplicable(this);
+	protected boolean verifyOfferRequiremets(ProductList productListToVerify) {
+		for (Offer possible : productListToVerify.getAppliedOffers()) {
+			if (this.isEqualsToMe(possible)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	public Money getFinalPrice(ProductList productListToGetPrice) throws MoneyCannotSubstractException {
-		return productListToGetPrice.getTotalAmount().minus(this.getDiscount(discountRate , productListToGetPrice));
+	public Money getFinalPrice(ProductList productListToGetPrice , Money totalAmount ) {
+		try {
+			return totalAmount.minus(this.getDiscount(discountRate , productListToGetPrice));
+		} catch (MoneyCannotSubstractException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Money(0,0);
+		}
 	}
 
 	public Money getDiscount(Integer discountRate , ProductList productListToGetPrice) {
@@ -69,5 +83,5 @@ public abstract class Offer extends Entity {
 
 	public void setValidPeriod(Interval validPeriod) {
 		this.validPeriod = validPeriod;
-	}
+	}	
 }

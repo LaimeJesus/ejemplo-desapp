@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class UserServiceTest {
 	@Qualifier("services.microservices.userservice")
 	private UserService userService;
 
+	@Before
+	public void setUp() {
+		userService.deleteAll();
+	}
+	
 	@Test
 	public void testUsersCanBeSavedAndDeleted(){
 		Integer expected = userService.count();

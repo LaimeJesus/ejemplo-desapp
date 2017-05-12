@@ -3,6 +3,8 @@ package services.general;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.MoneyCannotSubstractException;
+import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
@@ -16,6 +18,7 @@ import model.users.User;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.UserService;
+import util.Money;
 
 public class GeneralService {
 	
@@ -77,18 +80,23 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void selectProduct (ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException {	
-		this.getProductListService().selectProduct(productList , product , quantity);
+	public Money selectProduct (User user , ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {	
+		return this.getProductListService().selectProduct(user , productList , product , quantity);
 	}
 	
 	@Transactional
 	public void removeProduct (ProductList productList , Product product ) throws ProductDoesNotExistOnListException {
-		this.getProductListService().removeProduct(productList , product);
+		//this.getProductListService().removeProduct(productList , product);
 	}
 	
 	public void generateRecommmendation (User u , Product p) {}
 	
-	public void applyOffer (User u , Offer o , ProductList pl) {}
+	@Transactional
+	public void applyOffer (User user , Offer offer , ProductList productList) throws MoneyCannotSubstractException, UsernameDoesNotExistException {
+		if (this.getGeneralOfferService().isOfferValid(offer) ){
+			this.getProductListService().applyOffer(user,offer,productList);
+		}
+	}
 	
 	public void removeOffer (User u , Offer o , ProductList pl) {}
 

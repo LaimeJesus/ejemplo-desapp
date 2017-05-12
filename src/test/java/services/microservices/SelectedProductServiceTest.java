@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import builders.ProductBuilder;
+import model.products.Product;
 import model.products.SelectedProduct;
 import services.microservices.SelectedProductService;
+import util.Category;
+import util.Money;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,15 +26,36 @@ public class SelectedProductServiceTest {
     @Qualifier("services.microservices.selectedproductservice")
     private SelectedProductService selectedProductService;
 
-    @Before
-    public void setUp() {
-    	selectedProductService.deleteAll();
-    }
+	@Autowired
+    @Qualifier("services.microservices.productservice")
+    private ProductService productService;
 	
-	@Test
+	@Before
+	public void setUp() {
+		selectedProductService.deleteAll();
+		productService.deleteAll();
+	}
+	
+    @Test
     public void testSelectedProductCanBeSaved(){
-    	selectedProductService.save(new SelectedProduct());
-        Assert.assertEquals(1, selectedProductService.retriveAll().size());
+    	Integer expected = selectedProductService.count();
+    	
+    	Product someProduct = new ProductBuilder()
+    		.withName("Arroz")
+    		.withCategory(Category.Baked)
+    		.withBrand("Marolio")
+    		.withPrice(new Money(3,5))
+    		.withStock(100)
+    		.build();
+    	
+    	productService.save(someProduct);
+    	
+    	SelectedProduct someSelected = new SelectedProduct();
+    	someSelected.setQuantity(1);
+    	someSelected.setProduct(someProduct);
+    	
+    	selectedProductService.save(someSelected);
+        Assert.assertEquals(expected+1, selectedProductService.retriveAll().size());
     }
 	
 }

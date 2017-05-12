@@ -1,6 +1,7 @@
 package services.microservices;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class CombinationOfferServiceTest{
     @Qualifier("services.microservices.combinationofferservice")
     private CombinationOfferService combinationOfferService;
 
+	@Before
+	public void setUp() {
+		combinationOfferService.deleteAll();
+	}
+	
     @Test
     public void testCombinationOfferCanBeSaved(){
     	

@@ -53,17 +53,17 @@ public class ProductService extends GenericService<Product> {
 	@Transactional
 	public void updateStock(ProductList p) throws InvalidSelectedProduct {
 		for(SelectedProduct sp : p.getAllProducts()){
-			validateSelectedProduct(sp);
-			sp.getProduct().setStock(sp.getProduct().getStock() - sp.getQuantity());
-			this.update(sp.getProduct());
-		}
-		
+			Product current = this.getByExample(sp.getProduct());
+			validateSelectedProduct(sp, current);
+			current.setStock(current.getStock() - sp.getQuantity());
+			this.update(current);
+		}		
 	}
 
-	private void validateSelectedProduct(SelectedProduct sp) throws InvalidSelectedProduct {
-		if(sp.getQuantity() > sp.getProduct().getStock()){
+	@Transactional
+	private void validateSelectedProduct(SelectedProduct sp, Product current) throws InvalidSelectedProduct {
+		if(sp.getQuantity() > current.getStock()){
 			throw new InvalidSelectedProduct("can not select that product");
-		}
-		
+		}		
 	}
 }

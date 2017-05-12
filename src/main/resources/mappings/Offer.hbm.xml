@@ -30,11 +30,13 @@
 			
 			<one-to-one 
 				name="relatedProduct" 
-				class="model.products.Product" />
+				class="model.products.Product"
+				lazy="false" />
 			
 			<one-to-one 
 				name="combinatedProduct" 
-				class="model.products.Product" />
+				class="model.products.Product"
+				lazy="false" />
 			
 		</subclass>
 		
@@ -60,7 +62,8 @@
 			
 			<one-to-one 
 				name="relatedProduct" 
-				class="model.products.Product"/>
+				class="model.products.Product"
+				lazy="false"/>
 			
 			<property 
 		        name="maxQuantity" 
