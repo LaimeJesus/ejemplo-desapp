@@ -48,11 +48,12 @@
 			       
 		</property>
 		
-<!--         <property  -->
-<!-- 	        name="processingTime"  -->
-<!-- 	        type="org.joda.time.contrib.hibernate.PersistentDuration"  -->
-<!-- 	        column="products_processing_time"  -->
-<!-- 	        not-null="false" /> -->
+        <property 
+	        name="processingTime" 
+	        type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong" 
+	        column="products_processing_time" 
+	        not-null="false"
+	        lazy="false" />
 	        
         <property 
 	        name="imageUrl" 
