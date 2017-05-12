@@ -81,6 +81,9 @@ public class ProductListServiceTest {
 		ProductList expected = productListService.getByUser(new ProductList("First"), someUser);
 		
 		Assert.assertNotEquals(expected.getId() , null);
+		
+		generalService.getUserService().deleteAll();
+		generalService.getProductListService().deleteAll();
     }
     
     @Test
@@ -119,7 +122,9 @@ public class ProductListServiceTest {
     					)
     			);
     	productListService.save(aPl);			
-    	Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );    	 
+    	Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+    	generalService.getGeneralOfferService().deleteAll();
+    	generalService.getUserService().deleteAll();
     }
 	
 }

@@ -88,11 +88,7 @@ public class ShopServiceTest {
 		shopService.getUserService().loginUser(user);
 		productListService.selectProduct(user, productList, product, 10);
 		
-		System.out.println("Processing :  ANTES" );
-		Product pl = shopService.getProductService().getByExample(product);
-			
-		System.out.println("Processing : " + pl.getProcessingTime());
-		
+		Product pl = shopService.getProductService().getByExample(product);		
 
 		shopService.ready(user, productList);
 				

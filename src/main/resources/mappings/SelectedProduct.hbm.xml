@@ -26,7 +26,8 @@
         	name="product" 
         	class="model.products.Product"
         	lazy="false"
-        	cascade="persist" />
+        	cascade="persist" 
+        	/>
         
     </class>
     

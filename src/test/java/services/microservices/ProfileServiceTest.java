@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import model.alerts.PriceAlert;
 import model.alerts.UmbralAlert;
-import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
 import services.microservices.ProfileService;
@@ -80,5 +79,7 @@ public class ProfileServiceTest {
 		userService.save(aUser);
 				
 		Assert.assertEquals(expected+1 , profileService.retriveAll().size());
+		
+		userService.deleteAll();
 	}
 }

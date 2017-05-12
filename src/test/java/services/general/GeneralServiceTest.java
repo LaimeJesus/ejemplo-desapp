@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -109,8 +110,6 @@ public class GeneralServiceTest {
 		
 		generalService.createUser(userToSignUp);
 		generalService.createUser(anotherUserToSignUp);
-		
-		userService.delete(userToSignUp);
     }
 	
 	@Test
@@ -142,6 +141,9 @@ public class GeneralServiceTest {
 		Integer current = productService.count();
 		
 		Assert.assertEquals(new Integer(expected+1), current);
+		
+		generalService.getProductService().deleteAll();
+		
 	}
 	
 	@Test
@@ -159,6 +161,8 @@ public class GeneralServiceTest {
 		Integer current = productService.count();
 		
 		Assert.assertEquals(expected, current);
+		
+		generalService.getProductService().deleteAll();
 	}
 	
 	@Test
@@ -227,8 +231,7 @@ public class GeneralServiceTest {
 		generalService.applyOffer(somaValidUser, aValidCategoryOffer, someProductList);
 		valid = productListService.getByUser(someProductList, somaValidUser);
 		
-		Assert.assertEquals(currentAmount , valid.getTotalAmount());
-		
+		Assert.assertEquals(currentAmount , valid.getTotalAmount());	
 	}
 	
 	@Test
@@ -264,9 +267,14 @@ public class GeneralServiceTest {
 		Assert.assertEquals("sandoval.lucasj@gmail.com", us.getEmail());
 		Assert.assertEquals(1, us.getProfile().getAllProductList().size());
 		Assert.assertEquals(valid.getId(), validAfterPersist.getId());
-		Assert.assertEquals(new Money(35,0), result);		
+		Assert.assertEquals(new Money(35,0), result);
+		
+		generalService.getUserService().delete(us);
+		generalService.getUserService().delete(someValidUser);
+		generalService.getProductService().deleteAll();
+		
 	}
-	
+
 	@Test
 	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		
@@ -304,5 +312,17 @@ public class GeneralServiceTest {
 		Assert.assertEquals( new Integer(expected+1) , selectedProductService.count());
 
 		Assert.assertTrue(true);
+		
+		generalService.getUserService().deleteAll();
+		generalService.getProductService().deleteAll();
+		generalService.getGeneralOfferService().deleteAll();
+		
 	}
+	
+	
+	@After
+	public void after(){
+		generalService.getUserService().deleteAll();
+	}
+	
 }

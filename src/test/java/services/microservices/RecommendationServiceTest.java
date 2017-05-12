@@ -28,6 +28,7 @@ public class RecommendationServiceTest {
 		recommendationService.save(new Recommendation());
 		
 		Assert.assertEquals(1, recommendationService.retriveAll().size());
+		recommendationService.deleteAll();
 	}
 	
 }
