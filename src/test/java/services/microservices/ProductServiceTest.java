@@ -28,10 +28,11 @@ public class ProductServiceTest {
 		productService.deleteAll();
 	}
 	
-//	@Test
+	@Test
 	public void testProductCanBeSaved(){
 		productService.save(new Product());
 		Assert.assertEquals(1, productService.retriveAll().size());
+		productService.deleteAll();
 	}
 	
 	@Test
