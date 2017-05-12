@@ -45,7 +45,7 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void logoutUser (User user) throws UsernameDoesNotExistException{
+	public void logoutUser (User user) throws UsernameDoesNotExistException, UserIsNotLoggedException{
 		getUserService().logout(user);
 	}
 	

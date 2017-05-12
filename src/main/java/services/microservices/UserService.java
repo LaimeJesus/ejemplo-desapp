@@ -37,8 +37,8 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	public void logout (User user) throws UsernameDoesNotExistException {
-		User possible = this.validateExist(user);
+	public void logout (User user) throws UsernameDoesNotExistException, UserIsNotLoggedException {
+		User possible = this.validateLogged(user);
 		possible.logout();
 		this.update(possible);
 	}
@@ -65,9 +65,14 @@ public class UserService extends GenericService<User>{
 	
 	
 	@Transactional
-	public User findByUsername (String username) {
+	public User findByUsername (String username){
 		List<User> possible = this.getRepository().findByField("username", username);
-		return (possible.size() > 0) ? possible.get(0) : null;
+		if(possible.size()>0){
+			return possible.get(0);
+		}
+		else{
+			return null;
+		}
 	}
 	
 	@Transactional
@@ -78,7 +83,7 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	private void validateNewUser (User possibleNewUser) throws UserAlreadyExistsException {
+	private void validateNewUser (User possibleNewUser) throws UserAlreadyExistsException{
 		User exist = this.findByUsername(possibleNewUser.getUsername());
 		if (exist != null) throw new UserAlreadyExistsException();
 	}
@@ -103,6 +108,5 @@ public class UserService extends GenericService<User>{
 			return exist;
 		}
 		throw new UserIsNotLoggedException();
-	}
-	
+	}	
 }

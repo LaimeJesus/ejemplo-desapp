@@ -62,7 +62,7 @@ public class ShopServiceTest {
 		Assert.assertEquals(new Duration(0), shopService.waitingTime(pl));
 	}
 	
-	//@Test
+	@Test
 	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException{
 		shopService.initialize(5);		
 				
@@ -102,7 +102,7 @@ public class ShopServiceTest {
 		
 	}
 	
-	//@Test(expected=InvalidSelectedProduct.class)
+	@Test(expected=InvalidSelectedProduct.class)
 	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();

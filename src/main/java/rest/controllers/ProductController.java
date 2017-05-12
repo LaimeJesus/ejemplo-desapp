@@ -28,9 +28,9 @@ public class ProductController {
 				p.setName("name:" + String.valueOf(i));
 				p.setBrand("brand:" + String.valueOf(i));
 				p.setCategory(Category.Baked);
+				p.setStock(i*10);
 				productService.save(p);			
-			}			
-
+			}
 			//creo la lista de respuesta
 			List<ProductDTO> productsDTOs = new ArrayList<ProductDTO>();
 			//lleno la lista con los productos pasados a dtos

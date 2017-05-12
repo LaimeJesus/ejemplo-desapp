@@ -22,7 +22,7 @@
         	column="selected_product_quantity"
         	not-null="true" />
         
-        <one-to-one 
+        <many-to-one 
         	name="product" 
         	class="model.products.Product"
         	lazy="false"

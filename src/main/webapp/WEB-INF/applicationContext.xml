@@ -20,8 +20,9 @@
 
 	<jaxrs:server id="product" address="/"  >
 		<jaxrs:serviceBeans>
-			<ref bean="productController"/>
-			<ref bean="productListController"/>
+			<ref bean="productcontroller"/>
+			<ref bean="productlistcontroller"/>
+			<ref bean="usercontroller"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
@@ -35,15 +36,20 @@
 		</jaxrs:features>
 	</jaxrs:server>
 
-	<bean id="productController" class="rest.controllers.ProductController">
+	<bean id="productcontroller" class="rest.controllers.ProductController">
 		<property name="productService" ref="services.microservices.productservice" />
 	</bean>
 	
-	<bean id="productListController" class="rest.controllers.ProductListController">
+	
+	<bean id="productlistcontroller" class="rest.controllers.ProductListController">
 		<property name="generalService" ref="services.general.generalservice" />
 		<property name="userService" ref="services.microservices.userservice" />
 		<property name="productService" ref="services.microservices.productservice" />
 		<property name="productListService" ref="services.microservices.productlistservice" />
 	</bean>
+
+	<bean id="usercontroller" class="rest.controllers.UserController">
+		<property name="userService" ref="services.microservices.userservice" />
+	</bean>	
 
 </beans>
