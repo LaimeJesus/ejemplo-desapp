@@ -2,7 +2,8 @@ package services.microservices;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
 import model.products.Product;
@@ -17,6 +18,11 @@ public class ProductService extends GenericService<Product> {
 	 * 
 	 */
 	private static final long serialVersionUID = -8067303758622033038L;
+	
+	@Autowired
+	private SelectedProductService selectedProductService;
+	
+	
 	
 	@Transactional
 	public void upload(String csv) throws Exception{
@@ -65,5 +71,25 @@ public class ProductService extends GenericService<Product> {
 		if(sp.getQuantity() > current.getStock()){
 			throw new InvalidSelectedProduct("can not select that product");
 		}		
+	}
+	
+	@Transactional
+	@Override
+	public void delete(Product pro) {
+		List<SelectedProduct> allSelected = selectedProductService.retriveAll();
+		for (SelectedProduct sp : allSelected) {
+			if (sp.getProduct().equals(pro)){
+				selectedProductService.delete(sp);
+			}
+		}
+		super.delete(pro);
+	}
+
+	public SelectedProductService getSelectedProductService() {
+		return selectedProductService;
+	}
+
+	public void setSelectedProductService(SelectedProductService selectedProductService) {
+		this.selectedProductService = selectedProductService;
 	}
 }

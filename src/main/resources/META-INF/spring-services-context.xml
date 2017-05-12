@@ -25,6 +25,7 @@
 	</bean>
 	
 	<bean id="services.microservices.productservice" class="services.microservices.ProductService">
+		<property name="selectedProductService" ref="services.microservices.selectedproductservice" />
 		<property name="repository" ref="persistence.productrepository" />
 	</bean>
 

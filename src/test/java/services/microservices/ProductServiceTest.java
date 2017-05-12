@@ -49,5 +49,41 @@ public class ProductServiceTest {
 		Assert.assertTrue( productService.retriveAll().contains(productToSave) );
 	}
 	
+	@Test
+	public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
+		Product product1ToSave = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("Molto")
+			.withCategory(Category.Baked)
+			.withPrice(new Money(15,50))
+			.withStock(45)
+			.build();
+		Product product2ToSave = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("Marolio")
+			.withCategory(Category.Baked)
+			.withPrice(new Money(15,50))
+			.withStock(45)
+			.build();
+		Product product3ToSave = new ProductBuilder()
+			.withName("Arroz")
+			.withBrand("La Campagnola")
+			.withCategory(Category.Baked)
+			.withPrice(new Money(15,50))
+			.withStock(45)
+			.build();
+		
+		productService.save(product1ToSave);
+		productService.save(product2ToSave);
+		productService.save(product3ToSave);
+	
+	
+		
+		
+	
+	}
+	
+	
+	
 }
 
