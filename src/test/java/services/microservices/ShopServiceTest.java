@@ -62,7 +62,7 @@ public class ShopServiceTest {
 		Assert.assertEquals(new Duration(0), shopService.waitingTime(pl));
 	}
 	
-	//@Test
+	@Test
 	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException{
 		shopService.initialize(5);		
 				
@@ -87,6 +87,13 @@ public class ShopServiceTest {
 		shopService.getUserService().createNewUser(user);
 		shopService.getUserService().loginUser(user);
 		productListService.selectProduct(user, productList, product, 10);
+		
+		System.out.println("Processing :  ANTES" );
+		Product pl = shopService.getProductService().getByExample(product);
+			
+		System.out.println("Processing : " + pl.getProcessingTime());
+		
+
 		shopService.ready(user, productList);
 				
 		List<PurchaseRecord> purchases = shopService.getUserService().getPurchaseRecords(user);
@@ -102,7 +109,7 @@ public class ShopServiceTest {
 		
 	}
 	
-	//@Test(expected=InvalidSelectedProduct.class)
+	@Test(expected=InvalidSelectedProduct.class)
 	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();
