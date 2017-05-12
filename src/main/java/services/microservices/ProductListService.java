@@ -13,7 +13,6 @@ import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
-import util.Money;
 
 public class ProductListService extends GenericService<ProductList> {
 
@@ -27,7 +26,7 @@ public class ProductListService extends GenericService<ProductList> {
 	
 	
 	@Transactional
-	public Money selectProduct( User user , ProductList productList , Product product , Integer quantity) 
+	public void selectProduct( User user , ProductList productList , Product product , Integer quantity) 
 	throws 	ProductIsAlreadySelectedException, 
 			ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		
@@ -36,8 +35,6 @@ public class ProductListService extends GenericService<ProductList> {
 		ProductList valid = this.getByUser(productList, exist);
 		valid.selectProduct(product, quantity);
 		this.getUserService().update(exist);
-		ProductList valid2 = this.getByUser(productList, exist);
-		return valid2.getTotalAmount();
 	}
 	
 	@Transactional

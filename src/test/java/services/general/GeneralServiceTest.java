@@ -254,24 +254,21 @@ public class GeneralServiceTest {
 			.build();
 		
 		ProductList someProductList = new ProductList("First");		
+
+		productService.save(validProduct);
 		
 		generalService.createUser(someValidUser);
-		productService.save(validProduct);
 		generalService.loginUser(someValidUser);
-		generalService.createProductList(someValidUser, someProductList);
-		User us = generalService.getUserService().findByUsername("someUser");
-		
-		ProductList valid = productListService.getByUser(someProductList, someValidUser);
-		Money result = generalService.selectProduct(someValidUser, someProductList, validProduct, 10);
+		generalService.createProductList(someValidUser, someProductList);		
+		generalService.selectProduct(someValidUser, someProductList, validProduct, 10);
+		someValidUser = generalService.getUserService().findByUsername("someUser");
 		
 		ProductList validAfterPersist = productListService.getByUser(someProductList, someValidUser);
 		
-		Assert.assertEquals("sandoval.lucasj@gmail.com", us.getEmail());
-		Assert.assertEquals(1, us.getProfile().getAllProductList().size());
-		Assert.assertEquals(valid.getId(), validAfterPersist.getId());
-		Assert.assertEquals(new Money(35,0), result);
+		Assert.assertEquals("sandoval.lucasj@gmail.com", someValidUser.getEmail());
+		Assert.assertEquals(1, someValidUser.getProfile().getAllProductList().size());
+		Assert.assertEquals(new Money(35,0), validAfterPersist.getTotalAmount());
 		
-		generalService.getUserService().delete(us);
 		generalService.getUserService().delete(someValidUser);
 		generalService.getProductService().deleteAll();
 		

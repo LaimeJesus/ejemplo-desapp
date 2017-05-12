@@ -64,11 +64,6 @@ public class MoneyServiceTest {
 		generalOfferService.deleteAll();
 		userService.deleteAll();
 	}
-
-	@Test
-	public void testtrue(){
-		Assert.assertTrue(true);
-	}
 	
 	@Test
 	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
@@ -78,20 +73,23 @@ public class MoneyServiceTest {
 		Product p1 = new ProductBuilder()
 			.withName("Arroz")
 			.withBrand("Marolio")
+			.withStock(10)
 			.withCategory(Category.Baked)
 			.withPrice(new Money(3,0))
 			.build();
 		
 		Product p2 = new ProductBuilder()
 				.withName("Arroz")
-				.withBrand("Marolio")
+				.withBrand("Arroz")
+				.withStock(10)
 				.withCategory(Category.Baked)
 				.withPrice(new Money(3,0))
 				.build();
 		
 		Product p3 = new ProductBuilder()
 				.withName("Arroz")
-				.withBrand("Marolio")
+				.withBrand("Dia")
+				.withStock(10)
 				.withCategory(Category.Baked)
 				.withPrice(new Money(3,0))
 				.build();
@@ -100,7 +98,7 @@ public class MoneyServiceTest {
 		productService.save(p2);
 		productService.save(p3);
 		
-		ProductList pl = new ProductList("pl1");
+		ProductList pl = new ProductList("pl");
 		User valid = new UserBuilder()
 			.withUsername("sandi")
 			.withEmail("arroba")

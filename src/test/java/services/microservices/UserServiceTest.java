@@ -27,29 +27,25 @@ public class UserServiceTest {
 	public void setUp() {
 		userService.deleteAll();
 	}
-	
-	@Test
-	public void testUsersCanBeSavedAndDeleted(){
-		Integer expected = userService.count();
-		User anUser = new User();
-		userService.save(anUser);
-		Assert.assertEquals(expected+1, userService.retriveAll().size());
-		userService.delete(anUser);
-	}
-
-	
+		
 	@Test
 	public void testCreateDifferentUsersWithTheSamePassword() throws UserAlreadyExistsException{
 		User userOne = new User();
 		userOne.setUsername("pepe");
-		userOne.setPassword(new Password("pass"));
+		Password passOne = new Password("pass");
+		userOne.setPassword(passOne);
 		User userTwo = new User();
-		userTwo.setUsername("pepo");
-		userTwo.setPassword(new Password("pass"));
+		userTwo.setUsername("pisho");
+		Password passTwo = new Password("pass");
+		userTwo.setPassword(passTwo);
 		
 		userService.createNewUser(userOne);
 		userService.createNewUser(userTwo);
-		Assert.assertEquals(userService.findByUsername("pepe").getPassword().getPassword(), userService.findByUsername("pepo").getPassword().getPassword());
+		
+		User fromBDOne = userService.findByUsername("pepe");
+		User fromBDTwo = userService.findByUsername("pisho");
+		
+		Assert.assertEquals(fromBDOne.getPassword().getPassword(), fromBDTwo.getPassword().getPassword());
 		
 		userService.deleteAll();
 		

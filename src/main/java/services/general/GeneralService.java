@@ -18,7 +18,6 @@ import model.users.User;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.UserService;
-import util.Money;
 
 public class GeneralService {
 	
@@ -80,8 +79,8 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public Money selectProduct (User user , ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {	
-		return this.getProductListService().selectProduct(user , productList , product , quantity);
+	public void selectProduct (User user , ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {	
+		this.getProductListService().selectProduct(user , productList , product , quantity);
 	}
 	
 	@Transactional

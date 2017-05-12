@@ -54,7 +54,7 @@ public class ProductServiceTest {
 		productService.delete(productToSave);
 	}
 	
-	@Test
+	//@Test
 	public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
 		Product product1ToSave = new ProductBuilder()
 			.withName("Arroz")
