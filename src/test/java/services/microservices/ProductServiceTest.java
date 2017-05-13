@@ -23,9 +23,9 @@ public class ProductServiceTest {
 	
 	@Autowired
 	private ProductService productService;
-	
 	@Autowired
 	private SelectedProductService selectedProductService;
+	
 	
 	@Before
 	public void setUp() {
@@ -58,38 +58,33 @@ public class ProductServiceTest {
 		productService.delete(productToSave);
 	}
 	
-	//@Test
-	public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
-		Product product1ToSave = new ProductBuilder()
-			.withName("Arroz")
-			.withBrand("Molto")
-			.withCategory(Category.Baked)
-			.withPrice(new Money(15,50))
-			.withStock(45)
-			.build();
-		
-		productService.save(product1ToSave);
-		
-		Integer expected = selectedProductService.count();
-	
-		SelectedProduct selection1 = new SelectedProduct(product1ToSave , 1);
-		SelectedProduct selection2 = new SelectedProduct(product1ToSave , 2);
-		SelectedProduct selection3 = new SelectedProduct(product1ToSave , 3);
-		
-		selectedProductService.save(selection1);
-		selectedProductService.save(selection2);
-		selectedProductService.save(selection3);
-		
-		
-		for (Product p : productService.retriveAll()) {
-			System.out.println("ID : " + p.getId());
-			System.out.println("name : " + p.getName());
-			System.out.println("brand : " + p.getBrand());
-		}
-		
-		productService.delete(product1ToSave);
-		
-		Assert.assertEquals(expected, selectedProductService.count());
+	@Test
+    public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
+        Product product1ToSave = new ProductBuilder()
+            .withName("Arroz")
+            .withBrand("Molto")
+            .withCategory(Category.Baked)
+            .withPrice(new Money(15,50))
+            .withStock(45)
+            .build();
+        
+        productService.save(product1ToSave);
+        
+        Integer expected = selectedProductService.count();
+    
+        SelectedProduct selection1 = new SelectedProduct(product1ToSave , 1);
+        SelectedProduct selection2 = new SelectedProduct(product1ToSave , 2);
+        SelectedProduct selection3 = new SelectedProduct(product1ToSave , 3);
+        
+        selectedProductService.save(selection1);
+        selectedProductService.save(selection2);
+        selectedProductService.save(selection3);
+        
+        Product fromDB = productService.getByExample(product1ToSave);
+        
+        productService.delete(fromDB);
+        
+        Assert.assertEquals(expected, selectedProductService.count());		
 	
 	}
 	

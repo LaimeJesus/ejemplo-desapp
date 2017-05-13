@@ -1,70 +1,73 @@
 package rest.controllers;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import model.users.User;
-import services.microservices.UserService;
-import util.Password;
+import rest.dtos.UserDTO;
+import services.general.GeneralService;
 
 @Path("/user")
 public class UserController {
 	
-	private UserService userService;
 	
+	private GeneralService generalService;
+	//	@Consumes("application/x-www-form-urlencoded")
+//	public Response signUp(@FormParam("username")String username, @FormParam("password") String pass){
 	@POST
 	@Path("/signup")
-	@Consumes("application/x-www-form-urlencoded")
-	public Response signUp(@FormParam("username")String username, @FormParam("password") String pass){
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(new Password(pass));
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response signup(UserDTO user){
 		try{
-			userService.createNewUser(user);
+			generalService.createUser(user.fullUser());
 			return Response.ok().build();			
 		}catch(UserAlreadyExistsException uaee){
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
 	
+//	@Consumes("application/x-www-form-urlencoded")
+//	public Response login(@FormParam("username")String username, @FormParam("password") String pass){
 	@POST
 	@Path("/login")
-	@Consumes("application/x-www-form-urlencoded")
-	public Response login(@FormParam("username")String username, @FormParam("password") String pass){
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(UserDTO user){		
 		try {
-			User user = userService.findByUsername(username);
-			userService.loginUser(user);
+			generalService.loginUser(user.toUser());
 			return Response.ok().build();
 		} catch (UsernameDoesNotExistException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
 	
+//	@Consumes("application/x-www-form-urlencoded")
+//	public Response logout(@FormParam("username")String username){
 	@POST
 	@Path("/logout")
-	@Consumes("application/x-www-form-urlencoded")
-	public Response logout(@FormParam("username")String username){
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response logout(UserDTO user){
 		try {
-			User user = userService.findByUsername(username);
-			userService.logout(user);
+			generalService.logoutUser(user.toUser());
 			return Response.ok().build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public GeneralService getGeneralService() {
+		return generalService;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setGeneralService(GeneralService generalService) {
+		this.generalService = generalService;
 	}
 	
 }

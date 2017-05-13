@@ -1,5 +1,8 @@
 package rest.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.Duration;
 
 import model.products.Product;
@@ -29,7 +32,7 @@ public class ProductDTO {
 		this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
 		//this.imageUrl = p.getImageUrl();
 	}
-	
+		
 	public Product toProduct(){
 		Product prod = new Product();
 		prod.setName(name);
@@ -39,5 +42,20 @@ public class ProductDTO {
 		prod.setCategory(Category.valueOf(category));
 		prod.setProcessingTime(new Duration(processingTime));
 		return prod;
+	}
+
+	public Product toUniqueProduct() {
+		Product prod = new Product();
+		prod.setName(name);
+		prod.setBrand(brand);
+		return prod;
+	}
+
+	public static List<ProductDTO> toDTOs(List<Product> retriveAll) {
+		ArrayList<ProductDTO> res = new ArrayList<ProductDTO>();
+		for(Product p : retriveAll){
+			res.add(new ProductDTO(p));
+		}
+		return res;
 	}
 }

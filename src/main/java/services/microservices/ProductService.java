@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
+import exceptions.ProductAlreadyCreatedException;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
-import model.users.User;
 import util.CSVProductParser;
 
 public class ProductService extends GenericService<Product> {
@@ -25,25 +25,20 @@ public class ProductService extends GenericService<Product> {
 	
 	
 	@Transactional
-	public void addproduct(User u, Product p){
-		validateUser(u);
+	public void addproduct(Product p) throws ProductAlreadyCreatedException{
 		validateProduct(p);
 		save(p);
 	}
 	
-	
-	private void validateProduct(Product p) {
-		if(findByProduct(p) != null){
+	@Transactional
+	private Product validateProduct(Product p) throws ProductAlreadyCreatedException {
+		Product prod = findByProduct(p); 
+		if( prod == null){
+			return prod;
 		}
+		throw new ProductAlreadyCreatedException();
 		
 	}
-
-
-	private void validateUser(User u) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Transactional
 	public void upload(String csv) throws Exception{
