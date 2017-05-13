@@ -77,6 +77,7 @@
 	<bean id="services.microservices.shopservice" class="services.microservices.ShopService">
 		<property name="productService" ref="services.microservices.productservice"/>
 		<property name="userService" ref="services.microservices.userservice"/>
+		<property name="productListService" ref="services.microservices.productlistservice"/>
 	</bean>
 
 </beans>

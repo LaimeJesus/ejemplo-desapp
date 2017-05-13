@@ -4,7 +4,7 @@
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
         
-<hibernate-mapping default-access="field" default-cascade="save-update">
+<hibernate-mapping default-access="field" >
     
     <class name="model.alerts.Alert" abstract="true">
 		
@@ -31,7 +31,7 @@
 		<one-to-one 
 			name="limit" 
 			class="util.Money"
-			cascade="persist">
+			cascade="all">
 		
 		</one-to-one>			
 

@@ -67,6 +67,9 @@ public class ShopServiceTest {
 		shopService.getUserService().createProductList(user, pl);
 		Duration expected = shopService.waitingTime(user, pl);
 		Assert.assertEquals(new Duration(0), expected);
+		
+		shopService.getUserService().deleteAll();
+		
 	}
 	
 	@Test

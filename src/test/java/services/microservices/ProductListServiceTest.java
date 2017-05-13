@@ -13,11 +13,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import builders.UserBuilder;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.ProductDoesNotExistException;
+import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import builders.ProductBuilder;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
+import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
@@ -60,7 +64,7 @@ public class ProductListServiceTest {
     @Test
     public void testProductListCanBeSaved(){
     	Integer expected = productListService.retriveAll().size();
-    	productListService.save(new ProductList());
+    	productListService.save(new ProductList("test"));
         Assert.assertEquals(expected+1, productListService.retriveAll().size());
     }
     
@@ -87,16 +91,40 @@ public class ProductListServiceTest {
     }
     
     @Test
-    public void testProductListWithOffersCanBeSaved() throws MoneyCannotSubstractException {
+    public void testProductListWithOffersCanBeSaved() 
+     throws MoneyCannotSubstractException, 
+    		UsernameDoesNotExistException, 
+    		UserAlreadyExistsException, 
+    		UserIsNotLoggedException, 
+    		ProductIsAlreadySelectedException, 
+    		ProductDoesNotExistException {
     	
-    	ProductList aPl = new ProductList();
-    	aPl.getAppliedOffers().add(new CategoryOffer());
-    	aPl.getAppliedOffers().add(new CrossingOffer());
+    	
+    	
+    	ProductList aPl = new ProductList("MyProductList");
+    	
+    	CategoryOffer offer1 = new CategoryOffer();
+    	CrossingOffer offer2 = new CrossingOffer();
+    	
+    	aPl.getAppliedOffers().add(offer1);
+    	aPl.getAppliedOffers().add(offer2);
+    	
+    	generalOfferService.save(offer1);
+    	generalOfferService.save(offer2);
+    	
+    	User someUser = new UserBuilder()
+    		.withUsername("lucas")
+    		.withEmail("sandoval.lucasj@gmail.com")
+    		.withPassword(new Password("asdasd"))
+    		.withUserPermission(Permission.NORMAL)
+    		.build();
+    	
+    	generalService.createUser(someUser);
+    	generalService.loginUser(someUser);
+    	generalService.createProductList(someUser, aPl);
     	
     	Integer expected = generalOfferService.retriveAll().size();
-    	productListService.save(aPl);
-    	
-    	aPl.setTotalAmount(new Money(250,0));
+    	 
     	Product someProduct = new ProductBuilder()
     		.withBrand("Marolio")
     		.withName("Arroz")
@@ -105,26 +133,22 @@ public class ProductListServiceTest {
     		.withStock(54)
     		.build();
     	
-    	aPl.applyOffer(
-    			new CategoryOffer(
-    					10,
-    					new Interval(DateTime.now() , DateTime.now().plusDays(1)) , 
-    					Category.Baked
-    					)
-    			);
-    	aPl.applyOffer(
-    			new CrossingOffer(
-    					10,
-    					someProduct,
-    					3,
-    					2,
-    					new Interval(DateTime.now() , DateTime.now().plusDays(1))
-    					)
-    			);
-    	productListService.save(aPl);			
-    	Assert.assertEquals(expected+2 , generalOfferService.retriveAll().size() );
+    	generalService.getProductService().save(someProduct);	
+    	generalService.selectProduct(someUser, aPl, someProduct, 3);
+    	
+    	CategoryOffer offer3 = new CategoryOffer(
+			10,
+			new Interval(DateTime.now() , DateTime.now().plusDays(1)) , 
+			Category.Baked
+			);
+    	
+    	generalService.applyOffer(someUser, offer3, aPl);
+    	
+    	Assert.assertEquals(expected , new Integer(generalOfferService.retriveAll().size()) );
+    	
     	generalService.getGeneralOfferService().deleteAll();
     	generalService.getUserService().deleteAll();
+    	generalService.getProductService().deleteAll();
     }
 	
 }

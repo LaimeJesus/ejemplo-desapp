@@ -45,7 +45,7 @@ public class ShopService{
 	@Transactional
 	public Duration waitingTime(User u, ProductList p) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist{
 		User logged = userService.validateLogged(u);
-		ProductList pl = productListService.getByUser(p, logged);
+		ProductList pl = getProductListService().getByUser(p, logged);
 		if(pl == null) {
 			throw new ProductListDoesNotExist();
 		}
@@ -66,5 +66,13 @@ public class ShopService{
 
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
+	}
+
+	public ProductListService getProductListService() {
+		return productListService;
+	}
+
+	public void setProductListService(ProductListService productListService) {
+		this.productListService = productListService;
 	}
 }
