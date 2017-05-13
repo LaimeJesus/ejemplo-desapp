@@ -9,6 +9,7 @@ import exceptions.InvalidSelectedProduct;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
+import model.users.User;
 import util.CSVProductParser;
 
 public class ProductService extends GenericService<Product> {
@@ -23,7 +24,27 @@ public class ProductService extends GenericService<Product> {
 	private SelectedProductService selectedProductService;
 	
 	
+	@Transactional
+	public void addproduct(User u, Product p){
+		validateUser(u);
+		validateProduct(p);
+		save(p);
+	}
 	
+	
+	private void validateProduct(Product p) {
+		if(findByProduct(p) != null){
+		}
+		
+	}
+
+
+	private void validateUser(User u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	@Transactional
 	public void upload(String csv) throws Exception{
 		CSVProductParser parser = new CSVProductParser();

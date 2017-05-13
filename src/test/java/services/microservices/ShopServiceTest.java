@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import exceptions.InvalidSelectedProduct;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
+import exceptions.ProductListDoesNotExist;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
@@ -39,7 +40,6 @@ public class ShopServiceTest {
 	@Qualifier("services.microservices.productlistservice")
 	public ProductListService productListService;
 	
-	
 	@Before
 	public void setUp(){
 		shopService.getUserService().deleteAll();
@@ -55,11 +55,21 @@ public class ShopServiceTest {
 	
 	
 	@Test
-	public void testCanGetWaitingTime(){
+	public void testCanGetWaitingTime() throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, UserAlreadyExistsException{
 		shopService.initialize(10);
-		ProductList pl = new ProductList();
+		ProductList pl = new ProductList("prod1");
+		User user = new User();
+		user.setUsername("pepe");
+		user.setPassword(new Password("pass"));
+		user.setEmail("pepe@gmail");
+		shopService.getUserService().createNewUser(user);
+		shopService.getUserService().loginUser(user);
+		shopService.getUserService().createProductList(user, pl);
+		Duration expected = shopService.waitingTime(user, pl);
+		Assert.assertEquals(new Duration(0), expected);
 		
-		Assert.assertEquals(new Duration(0), shopService.waitingTime(pl));
+		shopService.getUserService().deleteAll();
+		
 	}
 	
 	@Test
@@ -88,8 +98,6 @@ public class ShopServiceTest {
 		shopService.getUserService().loginUser(user);
 		productListService.selectProduct(user, productList, product, 10);
 		
-		Product pl = shopService.getProductService().getByExample(product);		
-
 		shopService.ready(user, productList);
 				
 		List<PurchaseRecord> purchases = shopService.getUserService().getPurchaseRecords(user);
@@ -98,7 +106,6 @@ public class ShopServiceTest {
 		Assert.assertEquals(1, purchases.size());
 		
 		Assert.assertEquals(new Integer(20), shopService.getProductService().getByExample(product).getStock());
-		
 		
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();

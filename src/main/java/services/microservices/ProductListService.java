@@ -55,7 +55,6 @@ public class ProductListService extends GenericService<ProductList> {
 	
 	@Transactional
 	public ProductList getByUser(ProductList example , User owner) throws UsernameDoesNotExistException {
-		
 		User exist = getUserService().authenticateUser(owner);
 		List<ProductList> listsOfUser = exist.getProfile().getAllProductList();
 		for (ProductList current : listsOfUser) {
