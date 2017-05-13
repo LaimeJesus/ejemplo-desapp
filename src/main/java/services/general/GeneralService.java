@@ -172,5 +172,10 @@ public class GeneralService {
 		return user.getProfile().getAllProductList();
 	}
 
+	@Transactional
+	public void upload(String file) throws Exception {
+		getProductService().upload(file);
+	}
+
 	
 }

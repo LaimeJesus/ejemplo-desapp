@@ -10,6 +10,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import exceptions.ProductDoesNotExistException;
+import exceptions.ProductIsAlreadySelectedException;
+import exceptions.UserIsNotLoggedException;
+import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
 import rest.dtos.CreateListDTO;
 import rest.dtos.ProductListDTO;
@@ -30,8 +34,12 @@ public class ProductListController {
 		try {
 			generalService.selectProduct(data.user.toUser(), data.productlist.toProductList(), data.product.toUniqueProduct(), data.quantity);
 			return Response.status(Response.Status.OK).build();
-		} catch (Exception e) {
+		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistException | UsernameDoesNotExistException | UserIsNotLoggedException e) {
+			System.out.println(e.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
@@ -43,7 +51,8 @@ public class ProductListController {
 		try{
 			generalService.createProductList(cl.user.toUser(), cl.productlist.toProductList());
 			return Response.status(Response.Status.OK).build();
-		}catch (Exception e) {
+		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
+			System.out.println(e.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
@@ -60,7 +69,8 @@ public class ProductListController {
 				res.add(new ProductListDTO(pl));
 			}
 			return res;
-		}catch (Exception e) {
+		}catch (UserIsNotLoggedException | UsernameDoesNotExistException e) {
+			System.out.println(e.getMessage());
 			return res;
 		}
 	}
