@@ -47,7 +47,7 @@ public class ProductService extends GenericService<Product> {
 	}
 
 	@Transactional
-	private Product findByProduct(Product aProduct) {
+	public Product findByProduct(Product aProduct) {
 		Product newProduct = new Product();
 		newProduct.setName(aProduct.getName());
 		newProduct.setBrand(aProduct.getBrand());
