@@ -18,19 +18,16 @@ public class CSVProductParser extends CSVParser<Product>{
 	public Product toObject(List<String> attributes) throws InvalidMoneyException, InvalidCategoryException, InvalidArgumentsException, InvalidDurationException {
 		Product aProduct = new Product();
 		
-		checkValidArguments(attributes);
+		validateAttributes(attributes);
 		
-		String id = attributes.get(0);
-		String name = attributes.get(1);
-		String brand = attributes.get(2);
-		String stock = attributes.get(3);
-		String money = attributes.get(4);
-		String category = attributes.get(5);
-		String processingTime = attributes.get(6);
-		String imageUrl = attributes.get(7);
+		String name = attributes.get(0);
+		String brand = attributes.get(1);
+		String stock = attributes.get(2);
+		String money = attributes.get(3);
+		String category = attributes.get(4);
+		String processingTime = attributes.get(5);
+		String imageUrl = attributes.get(6);
 		
-		
-		aProduct.setId(Integer.parseInt(id));
 		aProduct.setName(name);
 		aProduct.setBrand(brand);
 		aProduct.setStock(Integer.parseInt(stock));
@@ -52,8 +49,8 @@ public class CSVProductParser extends CSVParser<Product>{
 		}
 	}
 
-	private void checkValidArguments(List<String> attributes) throws InvalidArgumentsException {
-		if(attributes.size() != 8){
+	private void validateAttributes(List<String> attributes) throws InvalidArgumentsException {
+		if(attributes.size() != 7){
 			throw new InvalidArgumentsException();
 		}
 	}

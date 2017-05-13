@@ -114,7 +114,6 @@ public class Product extends Entity {
 	public String getImageUrl(){
 		return this.imageUrl;
 	}
-
 }
 
 

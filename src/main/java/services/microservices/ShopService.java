@@ -4,6 +4,7 @@ import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
+import exceptions.ProductListDoesNotExist;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
@@ -15,6 +16,7 @@ public class ShopService{
 	
 	private ProductService productService;
 	private UserService userService;
+	private ProductListService productListService;
 	private CashRegisterManager cashRegisterManager;
 	
 	@Transactional
@@ -41,8 +43,13 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public Duration waitingTime(ProductList p){
-		return cashRegisterManager.getWaitingTime(p);
+	public Duration waitingTime(User u, ProductList p) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist{
+		User logged = userService.validateLogged(u);
+		ProductList pl = productListService.getByUser(p, logged);
+		if(pl == null) {
+			throw new ProductListDoesNotExist();
+		}
+		return cashRegisterManager.getWaitingTime(pl);
 	}
 
 	public UserService getUserService() {

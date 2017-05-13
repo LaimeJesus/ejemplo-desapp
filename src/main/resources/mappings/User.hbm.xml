@@ -29,7 +29,9 @@
 		
 		<one-to-one 
 			name="password" 
-			class="util.Password" >
+			class="util.Password" 
+			cascade="all"
+			>
 		</one-to-one>
 		
 		<property 

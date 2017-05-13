@@ -98,7 +98,7 @@ public class Money extends Entity implements Comparable<Money>{
 
 	@Override
 	public String toString () {
-		return "$" + this.integer.toString() + "," + this.decimal.toString();
+		return this.integer.toString() + "," + this.decimal.toString();
 	}
 	
 	@Override
