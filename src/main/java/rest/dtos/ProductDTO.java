@@ -3,8 +3,6 @@ package rest.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.Duration;
-
 import model.products.Product;
 import util.Category;
 import util.Money;
@@ -27,10 +25,18 @@ public class ProductDTO {
 		this.name = p.getName();
 		this.brand = p.getBrand();
 		this.stock = p.getStock();
-		this.price = p.getPrice().toString();
-		this.category = p.getCategory().toString();
-		this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
+//		this.price = p.getPrice().toString();
+//		this.category = p.getCategory().toString();
+//		this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
 		//this.imageUrl = p.getImageUrl();
+	}
+
+	public static List<ProductDTO> toDTOs(List<Product> retriveAll) {
+		ArrayList<ProductDTO> res = new ArrayList<ProductDTO>();
+		for(Product p : retriveAll){
+			res.add(new ProductDTO(p));
+		}
+		return res;
 	}
 		
 	public Product toProduct(){
@@ -40,7 +46,7 @@ public class ProductDTO {
 		prod.setStock(stock);
 		prod.setPrice(Money.toMoney(price));
 		prod.setCategory(Category.valueOf(category));
-		prod.setProcessingTime(new Duration(processingTime));
+//		prod.setProcessingTime(new Duration(processingTime));
 		return prod;
 	}
 
@@ -51,11 +57,4 @@ public class ProductDTO {
 		return prod;
 	}
 
-	public static List<ProductDTO> toDTOs(List<Product> retriveAll) {
-		ArrayList<ProductDTO> res = new ArrayList<ProductDTO>();
-		for(Product p : retriveAll){
-			res.add(new ProductDTO(p));
-		}
-		return res;
-	}
 }

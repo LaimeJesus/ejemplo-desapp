@@ -1,6 +1,5 @@
 package rest.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -9,7 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
 import model.products.Product;
 import rest.dtos.ProductDTO;
@@ -26,14 +29,19 @@ public class ProductController {
 	@GET
 	@Path("/all")
 	@Produces("application/json")
-	public List<ProductDTO> all(){
-		return ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+	public Response all(){
+		try{
+			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+		    return Response.ok(products, MediaType.APPLICATION_JSON).build();
+		}catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
+		}
 	}
 	// ejemplo de suo: /product/createexamples?howmany=10
 	@GET
 	@Path("/createexamples")
 	@Produces("application/json")
-	public List<ProductDTO> createexamples(@QueryParam("howmany") int howmany){
+	public Response createexamples(@QueryParam("howmany") int howmany){
 		try{
 			for(int i=0;i<howmany;i++){
 				Product p = new Product();
@@ -43,9 +51,10 @@ public class ProductController {
 				p.setStock(i*10);
 				getGeneralService().addProduct(p);
 			}
-			return ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+		    return Response.ok(products, MediaType.APPLICATION_JSON).build();
 		}catch(Exception e){
-			return new ArrayList<ProductDTO>();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
 		}	
 	}
 	
@@ -71,24 +80,23 @@ public class ProductController {
 	}
 	
 	
-//	@POST
-//	@Path("/upload")
-//	@Consumes(MediaType.MULTIPART_FORM_DATA)
-//	@Produces("application/json")
-//	public String upload(@Multipart(value = "file") Attachment att){
-//        try{
-//        	System.out.println("LLEGUE 1");
-//        	System.out.println(att.getContentType());
-//        	//file..close();
-//            System.out.println("LLEGUE 2");
-//            //System.out.println(fileString);
-//            //this.productService.upload(fileString);
-//            System.out.println("LLEGUE 3");
-//            return "test loaded";
-//        }
-//        catch(Exception e){
-//        	return "You failed to upload test => " + e.getMessage(); 
-//        }
-//    }
+	@POST
+	@Path("/upload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces("application/json")
+	public Response upload(MultipartBody body){
+        try{
+        	System.out.println("how many files are atached: " + body.getAllAttachments().size());
+        	for(Attachment att : body.getAllAttachments()){
+        		System.out.println(att.getObject(String.class));
+        		String file = att.getObject(String.class);
+        		getGeneralService().upload(file);        		
+        	}
+            return Response.ok("file uploaded").build();
+        }
+        catch(Exception e){
+        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); 
+        }
+    }
     
 }
