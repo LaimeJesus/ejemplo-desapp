@@ -1,13 +1,20 @@
 package rest.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import model.products.ProductList;
 import rest.dtos.CreateListDTO;
+import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
+import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
 @Path("/productlist")
@@ -40,6 +47,24 @@ public class ProductListController {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
+	
+	@GET
+	@Path("/getproductlists")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<ProductListDTO> getproductlists(UserDTO user){
+		List<ProductListDTO> res = new ArrayList<ProductListDTO>();
+		try{
+			List<ProductList> productlists = generalService.getProductLists(user.toUser());
+			for(ProductList pl : productlists){
+				res.add(new ProductListDTO(pl));
+			}
+			return res;
+		}catch (Exception e) {
+			return res;
+		}
+	}
+	
 	public GeneralService getGeneralService() {
 		return generalService;
 	}

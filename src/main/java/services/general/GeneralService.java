@@ -1,6 +1,8 @@
 package services.general;
 
 
+import java.util.List;
+
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -162,6 +164,12 @@ public class GeneralService {
 
 	public void setShopService(ShopService shopService) {
 		this.shopService = shopService;
+	}
+
+	@Transactional
+	public List<ProductList> getProductLists(User user) throws UserIsNotLoggedException, UsernameDoesNotExistException {
+		getUserService().validateLogged(user);
+		return user.getProfile().getAllProductList();
 	}
 
 	

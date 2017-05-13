@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import model.products.Product;
@@ -20,13 +21,21 @@ import util.Category;
 public class ProductController {
 
 	private GeneralService generalService;
-
+	
+	
 	@GET
 	@Path("/all")
 	@Produces("application/json")
-	public List<ProductDTO> products(){
+	public List<ProductDTO> all(){
+		return ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+	}
+	// ejemplo de suo: /product/createexamples?howmany=10
+	@GET
+	@Path("/createexamples")
+	@Produces("application/json")
+	public List<ProductDTO> createexamples(@QueryParam("howmany") int howmany){
 		try{
-			for(int i=0;i<10;i++){
+			for(int i=0;i<howmany;i++){
 				Product p = new Product();
 				p.setName("name:" + String.valueOf(i));
 				p.setBrand("brand:" + String.valueOf(i));
@@ -34,11 +43,7 @@ public class ProductController {
 				p.setStock(i*10);
 				getGeneralService().addProduct(p);
 			}
-			List<ProductDTO> productsDTOs = new ArrayList<ProductDTO>();
-			for(Product p : getGeneralService().getProductService().retriveAll()){
-				productsDTOs.add(new ProductDTO(p));
-			}
-			return productsDTOs;			
+			return ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
 		}catch(Exception e){
 			return new ArrayList<ProductDTO>();
 		}	

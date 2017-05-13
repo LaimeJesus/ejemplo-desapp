@@ -32,7 +32,6 @@ public class ShopController {
 		} catch (UserIsNotLoggedException | UsernameDoesNotExistException | ProductListDoesNotExist e) {
 			return -1L;
 		}
-		
 	}
 
 	@POST
