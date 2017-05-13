@@ -40,4 +40,11 @@ public class ProductDTO {
 		prod.setProcessingTime(new Duration(processingTime));
 		return prod;
 	}
+
+	public Product toUniqueProduct() {
+		Product prod = new Product();
+		prod.setName(name);
+		prod.setBrand(brand);
+		return prod;
+	}
 }

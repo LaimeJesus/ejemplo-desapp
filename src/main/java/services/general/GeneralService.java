@@ -1,12 +1,16 @@
 package services.general;
 
 
+import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import exceptions.ProductListDoesNotExist;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
@@ -17,6 +21,7 @@ import model.products.ProductList;
 import model.users.User;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
+import services.microservices.ShopService;
 import services.microservices.UserService;
 
 public class GeneralService {
@@ -30,6 +35,7 @@ public class GeneralService {
 	private GeneralOfferService generalOfferService;
 	private ProductService productService;
 	private ProductListService productListService;
+	private ShopService shopService;
 	
 	
 	
@@ -63,6 +69,13 @@ public class GeneralService {
 		}
 	}
 	
+	
+	@Transactional
+	public void addProduct(User user, Product product) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductAlreadyCreatedException {
+		userService.validateLogged(user);
+		productService.addproduct(product);
+	}
+
 	@Transactional
 	public void addProduct (Product newProduct) {
 		this.getProductService().save(newProduct);
@@ -100,12 +113,23 @@ public class GeneralService {
 	public void removeOffer (User u , Offer o , ProductList pl) {}
 
 	
+	@Transactional
+	public Duration waitingTime(User user, ProductList productList) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist {
+		return getShopService().waitingTime(user, productList);		
+	}
+	@Transactional
+	public void ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
+		getShopService().ready(user, productList);
+	}
+
+	
 	
 	
 	
 	public UserService getUserService() {
 		return userService;
 	}
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
@@ -115,21 +139,30 @@ public class GeneralService {
 	public void setGeneralOfferService(GeneralOfferService generalOfferService) {
 		this.generalOfferService = generalOfferService;
 	}
-
+	
 	public ProductService getProductService() {
 		return productService;
 	}
-
+	
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
 	}
-
+	
 	public ProductListService getProductListService() {
 		return productListService;
 	}
-
+	
 	public void setProductListService(ProductListService productListService) {
 		this.productListService = productListService;
 	}
+	
+	public ShopService getShopService() {
+		return shopService;
+	}
 
+	public void setShopService(ShopService shopService) {
+		this.shopService = shopService;
+	}
+
+	
 }

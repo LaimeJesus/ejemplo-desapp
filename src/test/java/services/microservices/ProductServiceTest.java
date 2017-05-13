@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import builders.ProductBuilder;
 import model.products.Product;
+import model.products.SelectedProduct;
 import services.microservices.ProductService;
 import util.Category;
 import util.Money;
@@ -22,6 +23,8 @@ public class ProductServiceTest {
 	
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private SelectedProductService selectedProductService;
 	
 	@Before
 	public void setUp() {
@@ -55,36 +58,32 @@ public class ProductServiceTest {
 	}
 	
 	//@Test
-	public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
-		Product product1ToSave = new ProductBuilder()
-			.withName("Arroz")
-			.withBrand("Molto")
-			.withCategory(Category.Baked)
-			.withPrice(new Money(15,50))
-			.withStock(45)
-			.build();
-		Product product2ToSave = new ProductBuilder()
-			.withName("Arroz")
-			.withBrand("Marolio")
-			.withCategory(Category.Baked)
-			.withPrice(new Money(15,50))
-			.withStock(45)
-			.build();
-		Product product3ToSave = new ProductBuilder()
-			.withName("Arroz")
-			.withBrand("La Campagnola")
-			.withCategory(Category.Baked)
-			.withPrice(new Money(15,50))
-			.withStock(45)
-			.build();
-		
-		productService.save(product1ToSave);
-		productService.save(product2ToSave);
-		productService.save(product3ToSave);
-	
-	
-		
-		
+    public void testWhenDeletingAProductThatIsSelectedThenAllSelectionsAreDeleted() {
+        Product product1ToSave = new ProductBuilder()
+            .withName("Arroz")
+            .withBrand("Molto")
+            .withCategory(Category.Baked)
+            .withPrice(new Money(15,50))
+            .withStock(45)
+            .build();
+        
+        productService.save(product1ToSave);
+        
+        Integer expected = selectedProductService.count();
+    
+        SelectedProduct selection1 = new SelectedProduct(product1ToSave , 1);
+        SelectedProduct selection2 = new SelectedProduct(product1ToSave , 2);
+        SelectedProduct selection3 = new SelectedProduct(product1ToSave , 3);
+        
+        selectedProductService.save(selection1);
+        selectedProductService.save(selection2);
+        selectedProductService.save(selection3);
+        
+        Product fromDB = productService.getByExample(product1ToSave);
+        
+        productService.delete(fromDB);
+        
+        Assert.assertEquals(expected, selectedProductService.count());		
 	
 	}
 	

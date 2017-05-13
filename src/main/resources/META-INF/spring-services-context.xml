@@ -72,7 +72,8 @@
 		<property name="generalOfferService" ref="services.general.generalofferservice" />
 		<property name="productService" ref="services.microservices.productservice" />
 		<property name="productListService" ref="services.microservices.productlistservice" />
-	</bean>	
+		<property name="shopService" ref="services.microservices.shopservice"/>
+	</bean>
 
 	<bean id="services.microservices.shopservice" class="services.microservices.ShopService">
 		<property name="productService" ref="services.microservices.productservice"/>

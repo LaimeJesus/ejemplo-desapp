@@ -31,7 +31,7 @@ public class UserService extends GenericService<User>{
 	@Transactional
 	public void loginUser (User user) throws UsernameDoesNotExistException {
 		//User possible = this.validateExist(user);
-		User possible = this.findByUsername(user.getUsername());
+		User possible = validateExist(user);
 		possible.login();
 		this.update(possible);
 	}

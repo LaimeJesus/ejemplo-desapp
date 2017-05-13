@@ -3,6 +3,7 @@ package rest.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,15 +12,15 @@ import javax.ws.rs.core.Response;
 
 import model.products.Product;
 import rest.dtos.ProductDTO;
-import services.microservices.ProductService;
+import rest.dtos.ProductUserDTO;
+import services.general.GeneralService;
 import util.Category;
 
 @Path("/product")
 public class ProductController {
 
+	private GeneralService generalService;
 
-	private ProductService productService;
-	
 	@GET
 	@Path("/all")
 	@Produces("application/json")
@@ -31,15 +32,12 @@ public class ProductController {
 				p.setBrand("brand:" + String.valueOf(i));
 				p.setCategory(Category.Baked);
 				p.setStock(i*10);
-				productService.save(p);			
+				getGeneralService().addProduct(p);
 			}
-			//creo la lista de respuesta
 			List<ProductDTO> productsDTOs = new ArrayList<ProductDTO>();
-			//lleno la lista con los productos pasados a dtos
-			for(Product p : productService.retriveAll()){
+			for(Product p : getGeneralService().getProductService().retriveAll()){
 				productsDTOs.add(new ProductDTO(p));
 			}
-			//devuelvo la lista de dtos
 			return productsDTOs;			
 		}catch(Exception e){
 			return new ArrayList<ProductDTO>();
@@ -47,15 +45,24 @@ public class ProductController {
 	}
 	
 	@POST
-	@Path("addproduct")
+	@Path("/addproduct")
+	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addproduct(ProductDTO product){
+	public Response addproduct(ProductUserDTO pu){
 		try{
-			productService.save(product.toProduct());
+			getGeneralService().addProduct(pu.user.toUser(), pu.product.toProduct());
 			return Response.status(Response.Status.OK).build();
 		}catch(Exception e){
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
+	}
+	
+	public GeneralService getGeneralService() {
+		return generalService;
+	}
+
+	public void setGeneralService(GeneralService generalService) {
+		this.generalService = generalService;
 	}
 	
 	
@@ -78,12 +85,5 @@ public class ProductController {
 //        	return "You failed to upload test => " + e.getMessage(); 
 //        }
 //    }
-
-    public ProductService getProductService(){
-    	return this.productService;
-    }
-
-    public void setProductService(ProductService aProductService){
-    	this.productService = aProductService;
-    }    
+    
 }
