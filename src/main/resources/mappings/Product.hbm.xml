@@ -32,11 +32,12 @@
 	        column="product_stock"
 	        not-null="false" />
         
-		<one-to-one 
+		<many-to-one 
 			name="price" 
 			class="util.Money"
-			cascade="all">
-		</one-to-one>
+			cascade="all"
+			lazy="false">
+		</many-to-one>
 		  
         <property 
         	name="category" 
