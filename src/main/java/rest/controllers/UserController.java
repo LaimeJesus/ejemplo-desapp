@@ -17,8 +17,7 @@ public class UserController {
 	
 	
 	private GeneralService generalService;
-	//	@Consumes("application/x-www-form-urlencoded")
-//	public Response signUp(@FormParam("username")String username, @FormParam("password") String pass){
+
 	@POST
 	@Path("/signup")
 	@Consumes("application/json")
@@ -32,8 +31,6 @@ public class UserController {
 		}
 	}
 	
-//	@Consumes("application/x-www-form-urlencoded")
-//	public Response login(@FormParam("username")String username, @FormParam("password") String pass){
 	@POST
 	@Path("/login")
 	@Consumes("application/json")
@@ -47,8 +44,6 @@ public class UserController {
 		}
 	}
 	
-//	@Consumes("application/x-www-form-urlencoded")
-//	public Response logout(@FormParam("username")String username){
 	@POST
 	@Path("/logout")
 	@Consumes("application/json")

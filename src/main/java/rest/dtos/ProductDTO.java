@@ -25,9 +25,9 @@ public class ProductDTO {
 		this.name = p.getName();
 		this.brand = p.getBrand();
 		this.stock = p.getStock();
-//		this.price = p.getPrice().toString();
-//		this.category = p.getCategory().toString();
-//		this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
+		this.price = p.getPrice().toString();
+		this.category = p.getCategory().toString();
+		//this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
 		//this.imageUrl = p.getImageUrl();
 	}
 

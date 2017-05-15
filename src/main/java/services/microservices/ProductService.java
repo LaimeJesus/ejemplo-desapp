@@ -44,8 +44,10 @@ public class ProductService extends GenericService<Product> {
 	public void upload(String csv) throws Exception{
 		CSVProductParser parser = new CSVProductParser();
 		List<Product> products = parser.toListObject(parser.parse(csv));
-		
-		saveall(products);
+		for(Product p : products){
+			save(p);
+		}
+		//saveall(products);
 	}
 
 	@Transactional
