@@ -53,11 +53,8 @@ public class ProductController {
 			p.setStock(i*10);
 			getGeneralService().addProduct(p);
 		}
-		System.out.println("SALVE TODOS LOS PRODUCTS");
 		List<Product> prods = getGeneralService().allProducts();
-		System.out.println("TENGO TODOS LOS PRODUCTS DE LA BD");		
 		List<ProductDTO> products = ProductDTO.toDTOs(prods);
-		System.out.println("LOS CAMBIE A DTOS");
 	    return Response.ok(products, MediaType.APPLICATION_JSON).build();
 		
 	}

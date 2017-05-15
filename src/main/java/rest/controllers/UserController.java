@@ -26,8 +26,8 @@ public class UserController {
 		try{
 			generalService.createUser(user.fullUser());
 			return Response.ok().build();			
-		}catch(UserAlreadyExistsException uaee){
-			return Response.status(Response.Status.BAD_REQUEST).build();
+		}catch(UserAlreadyExistsException e){
+			return Response.status(Response.Status.BAD_REQUEST).entity("User already exists").build();
 		}
 	}
 	
