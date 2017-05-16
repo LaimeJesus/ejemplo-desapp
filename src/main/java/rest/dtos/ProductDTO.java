@@ -27,7 +27,7 @@ public class ProductDTO {
 		this.stock = p.getStock();
 		this.price = p.getPrice().toString();
 		this.category = p.getCategory().toString();
-		//this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
+		this.processingTime = (int) p.getProcessingTime().getStandardSeconds();
 		//this.imageUrl = p.getImageUrl();
 	}
 
