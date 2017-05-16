@@ -84,6 +84,11 @@ public class GeneralService {
 	}
 	
 	@Transactional
+	public void addProducts(List<Product> products){
+		getProductService().saveall(products);
+	}
+	
+	@Transactional
 	public void updateProduct (Product newProduct) {
 		this.getProductService().update(newProduct);
 	}
@@ -181,6 +186,12 @@ public class GeneralService {
 		ProductList pl = new ProductList();
 		pl.setName(listname);
 		return getShopService().waitingTime(user, pl);
+	}
+
+	@Transactional
+	public void initRegisters(int quantity) {
+		getShopService().initialize(quantity);
+		
 	}
 
 	

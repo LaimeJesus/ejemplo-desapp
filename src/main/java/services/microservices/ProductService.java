@@ -47,11 +47,10 @@ public class ProductService extends GenericService<Product> {
 		for(Product p : products){
 			save(p);
 		}
-		//saveall(products);
 	}
 
 	@Transactional
-	private void saveall(List<Product> products) {
+	public void saveall(List<Product> products) {
 		for(Product aProduct : products){
 			Product newProduct = findByProduct(aProduct);
 			if(newProduct != null){

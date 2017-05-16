@@ -1,4 +1,4 @@
-package services;
+package services.microservices;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +21,7 @@ import model.products.ProductList;
 import model.users.User;
 import services.general.GeneralOfferService;
 import services.general.GeneralService;
+import services.microservices.MoneyService;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.UserService;

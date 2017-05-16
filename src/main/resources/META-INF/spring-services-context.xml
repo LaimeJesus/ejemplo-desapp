@@ -57,7 +57,7 @@
 		<property name="repository" ref="persistence.umbralalertrepository" />
 	</bean>
 	
-	<bean id="services.moneyservice" class="services.MoneyService">
+	<bean id="services.microservices.moneyservice" class="services.microservices.MoneyService">
 		<property name="repository" ref="persistence.moneyrepository" />
 	</bean>
 	

@@ -42,7 +42,7 @@ public class ProductListTest {
 		
 		someProductList.selectProduct(anyProductMock, 5);
 			
-		assertTrue(someProductList.thisProductIsSelected(anyProductMock));		
+		assertTrue(someProductList.isSelected(anyProductMock));		
 	}
 	
 	@Test (expected = ProductIsAlreadySelectedException.class)
@@ -69,7 +69,7 @@ public class ProductListTest {
 		
 		someProductList.removeProduct(anyProductMock);
 			
-		assertFalse(someProductList.thisProductIsSelected(anyProductMock));
+		assertFalse(someProductList.isSelected(anyProductMock));
 		
 	}
 	
@@ -81,7 +81,7 @@ public class ProductListTest {
 		
 		someProductList.removeProduct(anyProductMock);
 			
-		assertFalse(someProductList.thisProductIsSelected(anyProductMock));
+		assertFalse(someProductList.isSelected(anyProductMock));
 		
 	}
 	

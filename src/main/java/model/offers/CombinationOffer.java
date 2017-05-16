@@ -28,8 +28,8 @@ public class CombinationOffer extends Offer {
 	
 	@Override
 	protected boolean verifyProductRequirements(ProductList productListToVerify) {
-		return productListToVerify.thisProductIsSelected(this.getRelatedProduct()) &&
-			   productListToVerify.thisProductIsSelected(this.getCombinatedProduct());	
+		return productListToVerify.isSelected(this.getRelatedProduct()) &&
+			   productListToVerify.isSelected(this.getCombinatedProduct());	
 	}
 
 	

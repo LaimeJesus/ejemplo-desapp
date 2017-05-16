@@ -45,8 +45,8 @@ public class ProductList extends Entity {
 	}
 	
 	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
-		if ( this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("Putito");
+		if ( this.isSelected(product)) {
+			throw new ProductIsAlreadySelectedException("Can not select that product");
 		}
 	}
 
@@ -60,16 +60,8 @@ public class ProductList extends Entity {
 		return result;
 	}
 	
-	public SelectedProduct getSelectedProduct(Product someProduct){
-		for(SelectedProduct selectedIterator : this.getAllProducts()){
-			if(selectedIterator.equals(someProduct)){
-				return selectedIterator;
-			}
-		}
-		return null;
-	}
 	
-	public boolean thisProductIsSelected (Product someProduct) {
+	public boolean isSelected (Product someProduct) {
 		for (SelectedProduct selected : this.getAllProducts()) {
 			if (selected.getProduct().equals(someProduct))
 				return true;
@@ -92,7 +84,7 @@ public class ProductList extends Entity {
 	}
 	
 	public void removeProduct(Product productToRemove) throws ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException {
-		if (this.thisProductIsSelected(productToRemove)) {
+		if (this.isSelected(productToRemove)) {
 			this.deleteProductFromList(productToRemove);
 			this.update();
 		} else {
@@ -242,4 +234,13 @@ public class ProductList extends Entity {
 		
 		
 	}
+	public SelectedProduct getSelectedProduct(Product someProduct){
+	   for(SelectedProduct selectedIterator : this.getAllProducts()){
+           if(selectedIterator.equals(someProduct)){
+                   return selectedIterator;
+           }
+	   }
+	   return null;
+    }
+
 }

@@ -1,6 +1,5 @@
-package services;
+package services.microservices;
 
-import services.microservices.GenericService;
 import util.Money;
 
 public class MoneyService extends GenericService<Money>{
