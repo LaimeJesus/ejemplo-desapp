@@ -41,7 +41,8 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
         this.getHibernateTemplate().delete(obj);
     }
 
-    public List<T> findAll() {
+    @SuppressWarnings("unchecked")
+	public List<T> findAll() {
         List<T> find = (List<T>) this.getHibernateTemplate().find("from " + this.persistentClass.getName() + " o");
         return find;
 

@@ -21,7 +21,6 @@ import exceptions.UsernameDoesNotExistException;
 import builders.ProductBuilder;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
-import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
