@@ -78,7 +78,7 @@ public class UserService extends GenericService<User>{
 	@Transactional
 	private User validateExist(User possible) throws UsernameDoesNotExistException {
 		User exist = this.findByUsername(possible.getUsername());
-		if (!possible.getUsername().equals(exist.getUsername())) throw new UsernameDoesNotExistException();
+		if (exist == null || !possible.getUsername().equals(exist.getUsername())) throw new UsernameDoesNotExistException();
 		return exist;
 	}
 	

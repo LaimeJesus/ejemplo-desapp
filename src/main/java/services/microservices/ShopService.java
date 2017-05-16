@@ -34,12 +34,12 @@ public class ShopService{
 	
 	@Transactional
 	public void ready(User u, ProductList p) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
-		User e = userService.validateLogged(u);
-		ProductList pl = e.getProfile().getAllProductList().get(e.getProfile().getAllProductList().indexOf(p));
-		cashRegisterManager.addUserWithProductList(e, pl);		
+		User exist = userService.validateLogged(u);
+		ProductList pl = productListService.getByUser(p, exist);
+		cashRegisterManager.addUserWithProductList(exist, pl);		
 		productService.updateStock(pl);
-		e.newPurchase(new PurchaseRecord(p));
-		userService.update(e);
+		exist.newPurchase(new PurchaseRecord(p));
+		userService.update(exist);
 	}
 	
 	@Transactional

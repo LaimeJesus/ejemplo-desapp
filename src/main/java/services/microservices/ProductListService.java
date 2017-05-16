@@ -30,18 +30,20 @@ public class ProductListService extends GenericService<ProductList> {
 	throws 	ProductIsAlreadySelectedException, 
 			ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		
-		this.validateProduct(product);
-		User exist = this.getUserService().validateLogged(user);
-		ProductList valid = this.getByUser(productList, exist);
-		valid.selectProduct(product, quantity);
-		this.getUserService().update(exist);
+		Product existProduct = validateProduct(product);
+		User existUser = this.getUserService().validateLogged(user);
+		ProductList valid = this.getByUser(productList, existUser);
+		valid.selectProduct(existProduct, quantity);
+		this.getUserService().update(existUser);
 	}
 	
 	@Transactional
-	private void validateProduct(Product aProduct) throws ProductDoesNotExistException {
-		if (! productService.retriveAll().contains(aProduct)) {
+	private Product validateProduct(Product aProduct) throws ProductDoesNotExistException {
+		Product exist = productService.findByProduct(aProduct);
+		if (exist == null) {
 			throw new ProductDoesNotExistException();
 		}
+		return exist;
 	}
 	
 	public ProductService getProductService() {

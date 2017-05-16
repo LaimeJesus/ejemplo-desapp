@@ -116,18 +116,10 @@ public class GeneralService {
 
 	
 	@Transactional
-	public Duration waitingTime(User user, ProductList productList) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist {
-		return getShopService().waitingTime(user, productList);		
-	}
-	@Transactional
 	public void ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
 		getShopService().ready(user, productList);
 	}
 
-	
-	
-	
-	
 	public UserService getUserService() {
 		return userService;
 	}
@@ -175,6 +167,20 @@ public class GeneralService {
 	@Transactional
 	public void upload(String file) throws Exception {
 		getProductService().upload(file);
+	}
+	
+	@Transactional
+	public List<Product> allProducts(){
+		return getProductService().retriveAll();
+	}
+
+	@Transactional
+	public Duration waitingTime(String username, String listname) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist {
+		User user = new User();
+		user.setUsername(username);
+		ProductList pl = new ProductList();
+		pl.setName(listname);
+		return getShopService().waitingTime(user, pl);
 	}
 
 	

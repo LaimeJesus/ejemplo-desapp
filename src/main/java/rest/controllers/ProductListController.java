@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import exceptions.ProductDoesNotExistException;
@@ -18,7 +19,6 @@ import model.products.ProductList;
 import rest.dtos.CreateListDTO;
 import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
-import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
 @Path("/productlist")
@@ -36,6 +36,7 @@ public class ProductListController {
 			return Response.status(Response.Status.OK).build();
 		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistException | UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			System.out.println(e.getMessage());
+			e.getMessage();
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		} catch(Exception e){
 			System.out.println(e.getMessage());
@@ -61,10 +62,10 @@ public class ProductListController {
 	@Path("/getproductlists")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<ProductListDTO> getproductlists(UserDTO user){
+	public List<ProductListDTO> getproductlists(@QueryParam("username") String username){
 		List<ProductListDTO> res = new ArrayList<ProductListDTO>();
 		try{
-			List<ProductList> productlists = generalService.getProductLists(user.toUser());
+			List<ProductList> productlists = generalService.getProductLists(generalService.getUserService().findByUsername(username));
 			for(ProductList pl : productlists){
 				res.add(new ProductListDTO(pl));
 			}

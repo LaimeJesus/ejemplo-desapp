@@ -19,6 +19,7 @@ import rest.dtos.ProductDTO;
 import rest.dtos.ProductUserDTO;
 import services.general.GeneralService;
 import util.Category;
+import util.Money;
 
 @Path("/product")
 public class ProductController {
@@ -31,7 +32,7 @@ public class ProductController {
 	@Produces("application/json")
 	public Response all(){
 		try{
-			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
+			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().allProducts());
 		    return Response.ok(products, MediaType.APPLICATION_JSON).build();
 		}catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
@@ -42,20 +43,20 @@ public class ProductController {
 	@Path("/createexamples")
 	@Produces("application/json")
 	public Response createexamples(@QueryParam("howmany") int howmany){
-		try{
-			for(int i=0;i<howmany;i++){
-				Product p = new Product();
-				p.setName("name:" + String.valueOf(i));
-				p.setBrand("brand:" + String.valueOf(i));
-				p.setCategory(Category.Baked);
-				p.setStock(i*10);
-				getGeneralService().addProduct(p);
-			}
-			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().getProductService().retriveAll());
-		    return Response.ok(products, MediaType.APPLICATION_JSON).build();
-		}catch(Exception e){
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
-		}	
+		
+		for(int i=0;i<howmany;i++){
+			Product p = new Product();
+			p.setName("name:" + String.valueOf(i));
+			p.setBrand("brand:" + String.valueOf(i));
+			p.setCategory(Category.Baked);
+			p.setPrice(Money.toMoney(String.valueOf(i*10) + ".0"));
+			p.setStock(i*10);
+			getGeneralService().addProduct(p);
+		}
+		List<Product> prods = getGeneralService().allProducts();
+		List<ProductDTO> products = ProductDTO.toDTOs(prods);
+	    return Response.ok(products, MediaType.APPLICATION_JSON).build();
+		
 	}
 	
 	@POST
@@ -71,6 +72,25 @@ public class ProductController {
 		}
 	}
 	
+	@POST
+	@Path("/upload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces("application/json")
+	public Response upload(MultipartBody body){
+		try{
+			System.out.println("how many files are atached: " + body.getAllAttachments().size());
+			for(Attachment att : body.getAllAttachments()){
+				String file = att.getObject(String.class);
+				getGeneralService().upload(file);
+			}
+			//return Response.ok("file uploaded").build();
+			return Response.ok(ProductDTO.toDTOs(getGeneralService().allProducts())).build();
+		}
+		catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); 
+		}
+	}
+
 	public GeneralService getGeneralService() {
 		return generalService;
 	}
@@ -79,24 +99,5 @@ public class ProductController {
 		this.generalService = generalService;
 	}
 	
-	
-	@POST
-	@Path("/upload")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces("application/json")
-	public Response upload(MultipartBody body){
-        try{
-        	System.out.println("how many files are atached: " + body.getAllAttachments().size());
-        	for(Attachment att : body.getAllAttachments()){
-        		System.out.println(att.getObject(String.class));
-        		String file = att.getObject(String.class);
-        		getGeneralService().upload(file);        		
-        	}
-            return Response.ok("file uploaded").build();
-        }
-        catch(Exception e){
-        	return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); 
-        }
-    }
     
 }
