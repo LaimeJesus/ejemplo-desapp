@@ -1,7 +1,5 @@
 package util;
 
-import model.users.User;
-
 public class Password extends Entity{
 
 	/**

@@ -4,6 +4,10 @@ import exceptions.MoneyCannotSubstractException;
 
 public class Money extends Entity implements Comparable<Money>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1630111307902399625L;
 	private Integer integer;
 	private Integer decimal;
 	

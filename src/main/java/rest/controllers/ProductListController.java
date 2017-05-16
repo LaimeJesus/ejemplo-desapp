@@ -35,17 +35,14 @@ public class ProductListController {
 			generalService.selectProduct(data.user.toUser(), data.productlist.toProductList(), data.product.toUniqueProduct(), data.quantity);
 			return Response.status(Response.Status.OK).build();
 		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistException | UsernameDoesNotExistException | UserIsNotLoggedException e) {
-			System.out.println(e.getMessage());
-			e.getMessage();
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		} catch(Exception e){
-			System.out.println(e.getMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
 	@POST
-	@Path("/createproductlist")
+	@Path("/create")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response createproductlist(CreateListDTO cl){
@@ -53,13 +50,14 @@ public class ProductListController {
 			generalService.createProductList(cl.user.toUser(), cl.productlist.toProductList());
 			return Response.status(Response.Status.OK).build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
-			System.out.println(e.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
 	@GET
-	@Path("/getproductlists")
+	@Path("/mylists")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public List<ProductListDTO> getproductlists(@QueryParam("username") String username){
@@ -71,7 +69,8 @@ public class ProductListController {
 			}
 			return res;
 		}catch (UserIsNotLoggedException | UsernameDoesNotExistException e) {
-			System.out.println(e.getMessage());
+			return res;
+		}catch(Exception e){
 			return res;
 		}
 	}

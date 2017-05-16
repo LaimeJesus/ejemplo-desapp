@@ -1,7 +1,5 @@
 package model.offers;
 
-import java.util.List;
-
 import org.joda.time.Interval;
 
 import model.products.ProductList;

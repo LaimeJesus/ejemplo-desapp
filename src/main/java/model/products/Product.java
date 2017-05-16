@@ -20,6 +20,7 @@ public class Product extends Entity {
 	private Duration processingTime;
 	private String imageUrl;
 	
+	@SuppressWarnings("unused")
 	private java.time.Duration persistentProcessingTime;
 	
 	

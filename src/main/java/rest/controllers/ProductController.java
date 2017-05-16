@@ -7,19 +7,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
-import model.products.Product;
 import rest.dtos.ProductDTO;
 import rest.dtos.ProductUserDTO;
 import services.general.GeneralService;
-import util.Category;
-import util.Money;
 
 @Path("/product")
 public class ProductController {
@@ -37,26 +33,6 @@ public class ProductController {
 		}catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
 		}
-	}
-	// ejemplo de suo: /product/createexamples?howmany=10
-	@GET
-	@Path("/createexamples")
-	@Produces("application/json")
-	public Response createexamples(@QueryParam("howmany") int howmany){
-		
-		for(int i=0;i<howmany;i++){
-			Product p = new Product();
-			p.setName("name:" + String.valueOf(i));
-			p.setBrand("brand:" + String.valueOf(i));
-			p.setCategory(Category.Baked);
-			p.setPrice(Money.toMoney(String.valueOf(i*10) + ".0"));
-			p.setStock(i*10);
-			getGeneralService().addProduct(p);
-		}
-		List<Product> prods = getGeneralService().allProducts();
-		List<ProductDTO> products = ProductDTO.toDTOs(prods);
-	    return Response.ok(products, MediaType.APPLICATION_JSON).build();
-		
 	}
 	
 	@POST
@@ -83,8 +59,7 @@ public class ProductController {
 				String file = att.getObject(String.class);
 				getGeneralService().upload(file);
 			}
-			//return Response.ok("file uploaded").build();
-			return Response.ok(ProductDTO.toDTOs(getGeneralService().allProducts())).build();
+			return Response.ok().build();
 		}
 		catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); 

@@ -21,8 +21,6 @@ import org.mockito.Mockito;
 
 import builders.ProductBuilder;
 
-import static org.mockito.Mockito.*;
-
 public class ProductListTest {
 
 	@Test
@@ -166,7 +164,6 @@ public class ProductListTest {
 			Assert.assertEquals(expected.minus(new Money(2,05)) , aProductList.getTotalAmount());
 			
 		} catch (MoneyCannotSubstractException | ProductIsAlreadySelectedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -194,7 +191,6 @@ public class ProductListTest {
 			Assert.assertEquals(expected , aProductList.getTotalAmount());
 			
 		} catch (MoneyCannotSubstractException | ProductIsAlreadySelectedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -222,7 +218,6 @@ public class ProductListTest {
 			Assert.assertEquals(expected , aProductList.getTotalAmount());
 			
 		} catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -265,7 +260,6 @@ public class ProductListTest {
 			
 			Assert.assertEquals( expected , aProductList.getTotalAmount() );
 		} catch (ProductIsAlreadySelectedException | MoneyCannotSubstractException | ProductDoesNotExistOnListException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}

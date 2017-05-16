@@ -10,7 +10,6 @@ import org.joda.time.Interval;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductIsAlreadySelectedException;
 import model.offers.CategoryOffer;
 import model.products.Product;

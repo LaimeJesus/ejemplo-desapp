@@ -2,7 +2,6 @@ package model.alerts;
 
 import model.products.Product;
 import model.products.ProductList;
-import util.Monetizable;
 import util.Money;
 
 public class PriceAlert extends Alert {

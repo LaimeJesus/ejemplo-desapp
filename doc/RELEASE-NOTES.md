@@ -1,7 +1,69 @@
 ---------------------------------------------------------------------
+### TAG 1.1
+---------------------------------------------------------------------
+### NEW FEATURES :
+#### Core :
+* Travis Build - DONE (GREEN)
+* Using HSQLDB - DONE
+* Dummy Data - DONE
+* I18n- US_ES - NOT DONE
+* Backend Layout Implementation - DONE
+* Presentation Tier Implementation - DONE
+* TAG - DONE
+* RELEASE-NOTES - DONE
+
+#### Model :
+* CleanCode according to Codacy
+
+#### Testing
+* Integration Test
+
+#### Model Features
+
+##### Backend:
+
+###### UserService:
+
+
+##### Rest:
+
+###### UserController:
+* Added path /user.
+* Added endpoints: /signup, /login y /logout.
+
+###### ProductController:
+* Added path /product.
+* Added endpoints: /upload y /all.
+
+###### ProductListController:
+* Added path /productlist.
+* Added endpoints: /create, /selectproduct y /mylists
+
+###### ShopController:
+* Added path /shop.
+* Added endpoints: /waitingtime y /ready.
+
+###### InitializerController:
+* Added dummy creator.
+* Added path /dummy
+* Added endpoints:
+
+##### UI:
+* Added frontend app using angular.
+* URL: https://aloloco-app-grupo-b-frontend.herokuapp.com/
+
+### NOTES :
+* We don’t have an admin validation for upload a csv file.
+* Deletion are not implemented.
+
+### KNOWN ISSUES :
+* When you remove a product from a list, some applied offers related to that product don’t disapply.
+
+---------------------------------------------------------------------
 ### TAG 1.0
 ---------------------------------------------------------------------
 ### NEW FEATURES :
+
 #### Core :
 * Repository Created - DONE
 * Travis Configuration - DONE
@@ -14,23 +76,29 @@
 * Automatic Deploy - DONE (Heroku)
 * Github Tag - DONE ()
 * RELEASE-NOTES.txt - DONE
+
 #### Model :
 * CleanCode according to Codacy, Issues : 6.
+
 #### Testing
 * Unit test
 
 #### Model Features
+
 ##### Alerts:
 * We can create alerts.
 * We can activate and shut down alerts.
 * We can check if an alert can be display for a product list or for a
 productlist when is trying to add a new product.
+
 ##### Offers:
 * We have three possible offers: by combination of two products, by category or by quantity of a product.
 * We can get the previous and final (also the discount) of the offer’s price.
+
 ##### Recommendations:
 * We have a scalable strategy to support different methods to create a recommendation.
 * We can get recommendations from category of products.
+
 ##### Registers:
 * We can create cash-registers which are able of simulate the queue for waiting
 users when are going to pay its productlist.
@@ -52,6 +120,7 @@ users when are going to pay its productlist.
 * We can create profiles which has: an address, product lists, a purchase history
 and alerts.
 * A profile can create a shop list with a name.
+
 ##### Util:
 * We have our own implementation of Money, which has several useful methods such as: Times, Plus, Minus, Divide, Percentage, etc.
 * We can parse a csv file and get the products loaded in that file.
