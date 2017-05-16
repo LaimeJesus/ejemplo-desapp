@@ -57,7 +57,7 @@ public class Product extends Entity {
 	
 
 	public Product(){
-		
+		setProcessingTime(new Duration(2L));
 	}
 	
 	public String getName() {

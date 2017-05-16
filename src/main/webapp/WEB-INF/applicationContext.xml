@@ -24,6 +24,7 @@
 			<ref bean="productlistcontroller"/>
 			<ref bean="usercontroller"/>
 			<ref bean="shopcontroller"/>
+			<ref bean="initializercontroller" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
@@ -48,6 +49,10 @@
 	</bean>	
 
 	<bean id="shopcontroller" class="rest.controllers.ShopController">
+		<property name="generalService" ref="services.general.generalservice"/>
+	</bean>
+	
+	<bean id="initializercontroller" class="rest.controllers.InitializerController">
 		<property name="generalService" ref="services.general.generalservice"/>
 	</bean>
 
