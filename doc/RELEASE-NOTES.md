@@ -22,8 +22,8 @@
 
 ##### Backend:
 
-###### UserService:
-
+###### Services:
+* Added services: user, product, productlist, shop.
 
 ##### Rest:
 
@@ -43,14 +43,15 @@
 * Added path /shop.
 * Added endpoints: /waitingtime y /ready.
 
-###### InitializerController:
+###### DummyController:
 * Added dummy creator.
 * Added path /dummy
-* Added endpoints:
+* Added endpoints: /example
 
 ##### UI:
 * Added frontend app using angular.
 * URL: https://aloloco-app-grupo-b-frontend.herokuapp.com/
+* GIT: https://github.com/yoLUkAsss/grupo-b-012017-frontend
 
 ### NOTES :
 * We don’t have an admin validation for upload a csv file.
