@@ -183,5 +183,16 @@ public class GeneralService {
 		return getShopService().waitingTime(user, pl);
 	}
 
+	@Transactional
+	public void addProducts(List<Product> products) {
+		getProductService().saveall(products);
+	}
+
+	@Transactional
+	public void initRegisters(int registers) {
+		getShopService().initialize(registers);
+		
+	}
+
 	
 }
