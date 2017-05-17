@@ -1,4 +1,66 @@
 ---------------------------------------------------------------------
+### TAG 1.1
+---------------------------------------------------------------------
+### NEW FEATURES :
+#### Core :
+* Travis Build - DONE (GREEN)
+* Using HSQLDB - DONE
+* Dummy Data - DONE
+* I18n- US_ES - NOT DONE
+* Backend Layout Implementation - DONE
+* Presentation Tier Implementation - DONE
+* TAG - DONE
+* RELEASE-NOTES - DONE
+
+#### Model :
+* CleanCode according to Codacy
+
+#### Testing
+* Integration Test
+
+#### Model Features
+
+##### Backend:
+
+###### Services:
+* Added services: user, product, productlist, shop.
+
+##### Rest:
+
+###### UserController:
+* Added path /user.
+* Added endpoints: /signup, /login y /logout.
+
+###### ProductController:
+* Added path /product.
+* Added endpoints: /upload y /all.
+
+###### ProductListController:
+* Added path /productlist.
+* Added endpoints: /create, /selectproduct y /mylists
+
+###### ShopController:
+* Added path /shop.
+* Added endpoints: /waitingtime y /ready.
+
+###### DummyController:
+* Added dummy creator.
+* Added path /dummy
+* Added endpoints: /example
+
+##### UI:
+* Added frontend app using angular.
+* URL: https://aloloco-app-grupo-b-frontend.herokuapp.com/
+* GIT: https://github.com/yoLUkAsss/grupo-b-012017-frontend
+
+### NOTES :
+* We don’t have an admin validation for upload a csv file.
+* Deletion are not implemented.
+
+### KNOWN ISSUES :
+* When you remove a product from a list, some applied offers related to that product don’t disapply.
+
+---------------------------------------------------------------------
 ### TAG 1.0
 ---------------------------------------------------------------------
 ### NEW FEATURES :
