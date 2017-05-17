@@ -35,11 +35,8 @@ public class ProductListController {
 			generalService.selectProduct(data.user.toUser(), data.productlist.toProductList(), data.product.toUniqueProduct(), data.quantity);
 			return Response.status(Response.Status.OK).build();
 		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistException | UsernameDoesNotExistException | UserIsNotLoggedException e) {
-			System.out.println(e.getMessage());
-			e.getMessage();
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		} catch(Exception e){
-			System.out.println(e.getMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -53,7 +50,6 @@ public class ProductListController {
 			generalService.createProductList(cl.user.toUser(), cl.productlist.toProductList());
 			return Response.status(Response.Status.OK).build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
-			System.out.println(e.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}
@@ -71,7 +67,6 @@ public class ProductListController {
 			}
 			return res;
 		}catch (UserIsNotLoggedException | UsernameDoesNotExistException e) {
-			System.out.println(e.getMessage());
 			return res;
 		}
 	}

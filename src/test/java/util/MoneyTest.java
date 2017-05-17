@@ -179,8 +179,6 @@ public class MoneyTest {
 	
 	@Test
 	public void testWhenIntegerPartHasDifferentSizesThenPercentageWorksDifferent() {
-		System.out.println( 0 / 100);
-		System.out.println( 0 % 100);
 		assertEquals(new Money(999, 30 ).percentage(10)  , new Money(99 , 93 ));
 		assertEquals(new Money(123, 55 ).percentage(10)  , new Money(12 , 35 ));
 		assertEquals(new Money(999, 99 ).percentage(10)  , new Money(100 , 0 ));
