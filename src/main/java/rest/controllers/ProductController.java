@@ -33,7 +33,13 @@ public class ProductController {
 	public Response all(){
 		try{
 			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().allProducts());
-		    return Response.ok(products, MediaType.APPLICATION_JSON).build();
+		    return Response.ok(products, MediaType.APPLICATION_JSON)
+		            .header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600")
+		            .build();
 		}catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Exception raised").build();
 		}

@@ -52,13 +52,14 @@ public class ProductService extends GenericService<Product> {
 
 	@Transactional
 	public void saveall(List<Product> products) {
+		List<Product> bdpds = retriveAll();
 		for(Product aProduct : products){
-			Product newProduct = findByProduct(aProduct);
-			if(newProduct != null){
-				this.save(newProduct);
+			//Product newProduct = findByProduct(aProduct);
+			if(bdpds.contains(aProduct)){
+				this.update(aProduct);
 			}
 			else{
-				this.update(aProduct);
+				this.save(aProduct);
 			}
 		}
 		

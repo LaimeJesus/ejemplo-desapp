@@ -23,10 +23,9 @@ public class DummyController {
 	@Path("/example")
 	@Produces("application/json")
 	public Response initialize(){
-
-		List<Product> products = new DummyProduct().example();
-		List<User> users = new DummyUser().example();
 		try {
+			List<Product> products = new DummyProduct().example();
+			List<User> users = new DummyUser().example();
 			generalService.addProducts(products);
 			for(User u : users){
 				generalService.createUser(u);
