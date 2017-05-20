@@ -19,6 +19,7 @@ import exceptions.ProductListDoesNotExist;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
@@ -55,7 +56,7 @@ public class ShopServiceTest {
 	
 	
 	@Test
-	public void testCanGetWaitingTime() throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, UserAlreadyExistsException{
+	public void testCanGetWaitingTime() throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, UserAlreadyExistsException, UsernameOrPasswordInvalidException{
 		shopService.initialize(10);
 		ProductList pl = new ProductList("prod1");
 		User user = new User();
@@ -73,7 +74,7 @@ public class ShopServiceTest {
 	}
 	
 	@Test
-	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException{
+	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameOrPasswordInvalidException{
 		shopService.initialize(5);		
 				
 		Product product = new Product();
@@ -113,7 +114,7 @@ public class ShopServiceTest {
 	}
 	
 	@Test(expected=InvalidSelectedProduct.class)
-	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
+	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException{
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();
 		

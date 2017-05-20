@@ -2,7 +2,7 @@ package rest.dtos;
 
 public class ShopUserDTO {
 	
-	public UserDTO user;
+	public UsernameDTO user;
 	public ProductListDTO productlist;
 
 }

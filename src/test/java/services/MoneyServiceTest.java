@@ -16,6 +16,7 @@ import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
@@ -66,7 +67,7 @@ public class MoneyServiceTest {
 	}
 	
 	@Test
-	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
+	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException, UsernameOrPasswordInvalidException {
 		
 		Integer expected = moneyService.retriveAll().size();
 		

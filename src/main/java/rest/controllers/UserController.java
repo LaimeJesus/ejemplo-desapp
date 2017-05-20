@@ -12,6 +12,7 @@ import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
@@ -60,6 +61,8 @@ public class UserController {
 		            .header("Access-Control-Max-Age", "1209600")
 		            .build();
 		} catch (UsernameDoesNotExistException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch (UsernameOrPasswordInvalidException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.registers.PurchaseRecord;
 import model.users.User;
@@ -29,13 +30,14 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	public void loginUser (User user) throws UsernameDoesNotExistException {
+	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
 		//User possible = this.validateExist(user);
 		User possible = validateExist(user);
+		User current = validatePassword(user);
 		possible.login();
 		this.update(possible);
 	}
-	
+
 	@Transactional
 	public void logout (User user) throws UsernameDoesNotExistException, UserIsNotLoggedException {
 		User possible = this.validateLogged(user);
@@ -108,5 +110,13 @@ public class UserService extends GenericService<User>{
 			return exist;
 		}
 		throw new UserIsNotLoggedException();
-	}	
+	}
+	
+	@Transactional
+	private User validatePassword(User user) throws UsernameOrPasswordInvalidException {
+		User persisted = this.findByUsername(user.getUsername());
+		if (user.getPassword().equals(persisted.getPassword())){
+			return persisted;
+		} throw new UsernameOrPasswordInvalidException();
+	}
 }

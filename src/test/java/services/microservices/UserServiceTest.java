@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import model.users.User;
 import services.microservices.UserService;
 import util.Password;
@@ -52,7 +53,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testUsersCanBeLogged() throws UserAlreadyExistsException, UsernameDoesNotExistException{
+	public void testUsersCanBeLogged() throws UserAlreadyExistsException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException{
 		userService.deleteAll();
 		User user = new User();
 		user.setUsername("pepe");

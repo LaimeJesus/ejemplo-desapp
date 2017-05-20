@@ -18,6 +18,7 @@ import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import builders.ProductBuilder;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
@@ -96,7 +97,8 @@ public class ProductListServiceTest {
     		UserAlreadyExistsException, 
     		UserIsNotLoggedException, 
     		ProductIsAlreadySelectedException, 
-    		ProductDoesNotExistException {
+    		ProductDoesNotExistException, 
+    		UsernameOrPasswordInvalidException {
     	
     	
     	

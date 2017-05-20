@@ -15,7 +15,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
 import model.products.Product;
-import rest.dtos.ProductDTO;
+import rest.dtos.ProductSimpleDTO;
 import rest.dtos.ProductUserDTO;
 import services.general.GeneralService;
 import util.Category;
@@ -32,7 +32,7 @@ public class ProductController {
 	@Produces("application/json")
 	public Response all(){
 		try{
-			List<ProductDTO> products = ProductDTO.toDTOs(getGeneralService().allProducts());
+			List<ProductSimpleDTO> products = ProductSimpleDTO.toDTOs(getGeneralService().allProducts());
 		    return Response.ok(products, MediaType.APPLICATION_JSON)
 		            .header("Access-Control-Allow-Origin", "*")
 		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
@@ -60,7 +60,7 @@ public class ProductController {
 			getGeneralService().addProduct(p);
 		}
 		List<Product> prods = getGeneralService().allProducts();
-		List<ProductDTO> products = ProductDTO.toDTOs(prods);
+		List<ProductSimpleDTO> products = ProductSimpleDTO.toDTOs(prods);
 	    return Response.ok(products, MediaType.APPLICATION_JSON).build();
 		
 	}
@@ -90,7 +90,7 @@ public class ProductController {
 				getGeneralService().upload(file);
 			}
 			//return Response.ok("file uploaded").build();
-			return Response.ok(ProductDTO.toDTOs(getGeneralService().allProducts())).build();
+			return Response.ok(ProductSimpleDTO.toDTOs(getGeneralService().allProducts())).build();
 		}
 		catch(Exception e){
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); 
