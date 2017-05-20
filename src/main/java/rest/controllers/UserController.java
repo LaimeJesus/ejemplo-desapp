@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
@@ -40,6 +41,8 @@ public class UserController {
 			generalService.loginUser(user.toUser());
 			return Response.ok().build();
 		} catch (UsernameDoesNotExistException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch (UsernameOrPasswordInvalidException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}

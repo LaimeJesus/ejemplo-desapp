@@ -114,7 +114,7 @@ public class GeneralServiceTest {
     }
 	
 	@Test
-    public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay() throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, UserAlreadyExistsException{
+    public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay() throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, UserAlreadyExistsException, UsernameOrPasswordInvalidException{
 		User user = new UserBuilder()
 				.withUsername("sandoval.lucasj")
 				.withEmail("sandoval.lucasj@gmail.com")
@@ -167,7 +167,7 @@ public class GeneralServiceTest {
 	}
 	
 	@Test
-	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException, UserAlreadyExistsException {
+	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException, UserAlreadyExistsException, UsernameOrPasswordInvalidException {
 		
 		ProductList someProductList = new ProductList("First");
 		

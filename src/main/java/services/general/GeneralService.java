@@ -16,6 +16,7 @@ import exceptions.ProductListDoesNotExist;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
+import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
 import model.offers.Offer;
 import model.products.Product;
@@ -47,7 +48,7 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void loginUser (User user) throws UsernameDoesNotExistException {
+	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
 		getUserService().loginUser(user);
 	}
 	
