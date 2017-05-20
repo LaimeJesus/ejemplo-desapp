@@ -33,7 +33,11 @@ public class ProductListController {
 	public Response selectproduct(SelectedListDTO data) {
 		try {
 			generalService.selectProduct(data.user.toUser(), data.productlist.toProductList(), data.product.toUniqueProduct(), data.quantity);
-			return Response.status(Response.Status.OK).build();
+			return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600").build();
 		} catch (ProductIsAlreadySelectedException | ProductDoesNotExistException | UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		} catch(Exception e){
@@ -48,7 +52,11 @@ public class ProductListController {
 	public Response createproductlist(CreateListDTO cl){
 		try{
 			generalService.createProductList(cl.user.toUser(), cl.productlist.toProductList());
-			return Response.status(Response.Status.OK).build();
+			return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600").build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}

@@ -8,7 +8,7 @@
 * Dummy Data - DONE
 * I18n- US_ES - NOT DONE
 * Backend Layout Implementation - DONE
-* Presentation Tier Implementation - DONE
+* Presentation Tier Implementation - NOT DONE
 * TAG - DONE
 * RELEASE-NOTES - DONE
 
@@ -49,13 +49,14 @@
 * Added endpoints: /example
 
 ##### UI:
-* Added frontend app using angular.
-* URL: https://aloloco-app-grupo-b-frontend.herokuapp.com/
-* GIT: https://github.com/yoLUkAsss/grupo-b-012017-frontend
+* Added frontend app using angular. NOT FINISHED
+* URL: https://grupo-b-012017-frontend.herokuapp.com
+* GIT: https://github.com/LaimeJesus/grupo-b-012017-frontend
 
 ### NOTES :
 * We don’t have an admin validation for upload a csv file.
 * Deletion are not implemented.
+* We can not finish the frontend using angular. We can not fix a problem with CORS in the server side.
 
 ### KNOWN ISSUES :
 * When you remove a product from a list, some applied offers related to that product don’t disapply.
