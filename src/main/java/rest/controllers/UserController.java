@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
@@ -19,6 +21,7 @@ public class UserController {
 	
 	private GeneralService generalService;
 
+	@CrossOriginResourceSharing
 	@POST
 	@Path("/signup")
 	@Consumes("application/json")
@@ -41,6 +44,7 @@ public class UserController {
 		}
 	}
 	
+	@CrossOriginResourceSharing
 	@POST
 	@Path("/login")
 	@Consumes("application/json")
@@ -62,6 +66,7 @@ public class UserController {
 		}
 	}
 	
+	@CrossOriginResourceSharing
 	@POST
 	@Path("/logout")
 	@Consumes("application/json")
