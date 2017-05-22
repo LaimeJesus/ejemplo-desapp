@@ -56,6 +56,13 @@
 	        not-null="false"
 	        lazy="false" />
 	        
+<!-- 	    <property  -->
+<!-- 	        name="validPeriod"  -->
+<!-- 	        type="org.jadira.usertype.dateandtime.joda.PersistentInterval"  -->
+<!-- 	        column="offer_valid_period"  -->
+<!-- 	        not-null="false" -->
+<!-- 	        lazy="false" /> -->
+	        
         <property 
 	        name="imageUrl" 
 	        type="java.lang.String" 

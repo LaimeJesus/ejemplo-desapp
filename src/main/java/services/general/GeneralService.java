@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.OfferIsAlreadyCreatedException;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
@@ -63,13 +64,15 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public void createOffer (Offer offer , User user) throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException {
+	public void createOffer (Offer offer , User user) throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, OfferIsAlreadyCreatedException {
 		User logged = getUserService().validateLogged(user);
-		if(logged.hasWritePermission()){
-			getGeneralOfferService().save(offer);			
-		}else{
+		if(! logged.hasWritePermission()){
 			throw new WrongUserPermissionException();
 		}
+		if (! generalOfferService.isOfferValid(offer)){
+			throw new OfferIsAlreadyCreatedException();
+		}
+		generalOfferService.save(offer);
 	}
 	
 	

@@ -3,6 +3,7 @@ package services.general;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.OfferIsAlreadyCreatedException;
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
 import model.offers.CrossingOffer;
@@ -21,7 +22,7 @@ public class GeneralOfferService {
 	
 	
 	
-	public void save(Offer offer) {
+	public void save(Offer offer) throws OfferIsAlreadyCreatedException {
 		if (offer instanceof CategoryOffer) {
 			getCategoryOfferService().save( (CategoryOffer) offer);
 		}
@@ -92,8 +93,8 @@ public class GeneralOfferService {
 
 	public boolean isOfferValid(Offer someOffer) {
 		return 
-		this.getCategoryOfferService().isOfferValid(someOffer) ||
-		this.getCombinationOfferService().isOfferValid(someOffer) ||
+		this.getCategoryOfferService().isOfferValid(someOffer) &&
+		this.getCombinationOfferService().isOfferValid(someOffer) &&
 		this.getCrossingOfferService().isOfferValid(someOffer);
 	}
 }

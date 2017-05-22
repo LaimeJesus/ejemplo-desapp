@@ -8,13 +8,13 @@ import util.Category;
 import util.Money;
 
 public class CategoryOffer extends Offer {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1815897013800073580L;
 	private Category category;
-	
+
 	public CategoryOffer(Integer aDiscountRate, Interval anInterval, Category aCategory) {
 		super(aDiscountRate, anInterval);
 		this.setCategory(aCategory);
@@ -38,25 +38,25 @@ public class CategoryOffer extends Offer {
 				);
 	}
 
-	
+
 	public CategoryOffer(){
 		super();
 	}
-	
+
 	public Category getCategory() {
 		return this.category;
 	}
-	
+
 	public void setCategory(Category newCategory) {
 		this.category = newCategory;
 	}
-	
+
 	@Override
-	protected boolean isEqualsToMe(Offer offer) {
+	public boolean isEqualsToMe(Offer offer) {
 		if (offer != null && offer instanceof CategoryOffer) {
 			CategoryOffer current = (CategoryOffer) offer;
-			return 
-				this.getCategory().equals(current.getCategory()) && 
+			return
+				this.getCategory().equals(current.getCategory()) &&
 				this.getDiscountRate().equals(current.getDiscountRate()) &&
 				this.getValidPeriod().equals(current.getValidPeriod());
 		}

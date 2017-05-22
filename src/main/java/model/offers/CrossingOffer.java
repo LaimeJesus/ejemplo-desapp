@@ -8,9 +8,9 @@ import model.products.ProductList;
 import util.Money;
 
 public class CrossingOffer extends Offer {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -695045664315277760L;
 	private Product relatedProduct;
@@ -33,14 +33,14 @@ public class CrossingOffer extends Offer {
 	protected boolean verifyProductRequirements(ProductList productListToVerify) {
 		return productListToVerify.getAllProducts().stream().anyMatch (
 			selectedProduct -> selectedProduct.getProduct().equals(this.getRelatedProduct()) &&
-							   selectedProduct.getQuantity() >= this.getMaxQuantity()	
+							   selectedProduct.getQuantity() >= this.getMaxQuantity()
 				);
 	}
 
 	@Override
 	public Money getFinalPrice(ProductList productListToGetPrice , Money totalAmount) {
 		try {
-			return totalAmount.minus( 
+			return totalAmount.minus(
 				(this.getRelatedProduct().getPrice().times(this.getMaxQuantity())).minus(this.getRelatedProduct().getPrice().times(this.getMinQuantity()))
 				);
 		} catch (MoneyCannotSubstractException e) {
@@ -49,12 +49,12 @@ public class CrossingOffer extends Offer {
 			return new Money(0,0);
 		}
 	}
-	
-	
+
+
 	public CrossingOffer() {
 		super();
 	}
-	
+
 	public Integer getMaxQuantity() {
 		return maxQuantity;
 	}
@@ -84,10 +84,10 @@ public class CrossingOffer extends Offer {
 	}
 
 	@Override
-	protected boolean isEqualsToMe(Offer offer) {
+	public boolean isEqualsToMe(Offer offer) {
 		if (offer != null && offer instanceof CrossingOffer) {
 			CrossingOffer current = (CrossingOffer) offer;
-			return 
+			return
 				this.getMinQuantity().equals(current.getMinQuantity()) &&
 				this.getMaxQuantity().equals(current.getMaxQuantity()) &&
 				this.getRelatedProduct().equals(current.getRelatedProduct()) &&

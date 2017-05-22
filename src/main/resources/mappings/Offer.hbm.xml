@@ -23,6 +23,18 @@
         	type="java.lang.Integer" 
         	column="offer_discount_rate">
         </property>
+        
+        <property 
+        	name="startDate"
+        	type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"
+        	column="offer_start_date">
+        </property>
+        
+        <property 
+        	name="endDate"
+        	type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"
+        	column="offer_end_date">
+        </property>
       
 		<subclass
 			name="model.offers.CombinationOffer"

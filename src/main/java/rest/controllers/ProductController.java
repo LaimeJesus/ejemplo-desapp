@@ -13,14 +13,21 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import model.products.Product;
+import rest.dtos.ProductDetailDTO;
 import rest.dtos.ProductSimpleDTO;
 import rest.dtos.ProductUserDTO;
 import services.general.GeneralService;
 import util.Category;
 import util.Money;
 
+@CrossOriginResourceSharing(
+		allowAllOrigins = true ,
+		allowHeaders = {"Content-Type, X-Requested-With"},
+		allowCredentials = false,
+		maxAge = 86400)
 @Path("/product")
 public class ProductController {
 
@@ -64,6 +71,37 @@ public class ProductController {
 	    return Response.ok(products, MediaType.APPLICATION_JSON).build();
 		
 	}
+	
+	
+	@POST
+	@Path("/detail")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response detail(ProductSimpleDTO prod){
+		try{
+			Product product = new Product();
+			product.setName(prod.name);
+			product.setBrand(prod.brand);
+			Product complete = generalService.getProductService().findByProduct(product);
+			
+		    return Response.ok(new ProductDetailDTO(complete), MediaType.APPLICATION_JSON)
+		    		.header("SupportsCredentials", "false")
+		    		.header("Access-Control-Allow-Credentials", "false")
+		            .header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With")
+		            .header("Access-Control-Allow-Methods", "*")
+		            .build();
+		}catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.header("SupportsCredentials", "false")
+					.header("Access-Control-Allow-Credentials", "false")
+		            .header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With")
+		            .header("Access-Control-Allow-Methods", "*")
+					.entity("Exception raised").build();
+		}
+	}
+	
 	
 	@POST
 	@Path("/addproduct")

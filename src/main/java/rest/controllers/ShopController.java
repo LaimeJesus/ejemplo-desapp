@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 import org.joda.time.Duration;
 
 import exceptions.InvalidSelectedProduct;
@@ -17,6 +18,7 @@ import exceptions.UsernameDoesNotExistException;
 import rest.dtos.ShopUserDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/shop")
 public class ShopController {
 	
