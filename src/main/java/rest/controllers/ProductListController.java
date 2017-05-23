@@ -59,6 +59,8 @@ public class ProductListController {
 		            .header("Access-Control-Max-Age", "1209600").build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
