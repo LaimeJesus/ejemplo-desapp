@@ -37,6 +37,7 @@ public class UserController {
             .header("Access-Control-Allow-Credentials", "true")
             .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
             .header("Access-Control-Max-Age", "1209600")
+            .entity(user)
             .build();
 		}catch(UserAlreadyExistsException e){
 			return Response.status(Response.Status.BAD_REQUEST).entity("User already exists").build();
@@ -58,6 +59,7 @@ public class UserController {
 		            .header("Access-Control-Allow-Credentials", "true")
 		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
 		            .header("Access-Control-Max-Age", "1209600")
+		            .entity(user)
 		            .build();
 		} catch (UsernameDoesNotExistException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -81,6 +83,7 @@ public class UserController {
 		            .header("Access-Control-Allow-Credentials", "true")
 		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
 		            .header("Access-Control-Max-Age", "1209600")
+		            .entity(user)
 		            .build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
