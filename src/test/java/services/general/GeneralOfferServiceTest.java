@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import exceptions.OfferIsAlreadyCreatedException;
 import model.offers.CategoryOffer;
 import model.offers.CrossingOffer;
 import model.offers.Offer;
@@ -42,7 +43,7 @@ public class GeneralOfferServiceTest {
 	}
 	
     @Test
-    public void testGeneralOfferServiceCanSaveOffer(){
+    public void testGeneralOfferServiceCanSaveOffer() throws OfferIsAlreadyCreatedException{
     	Offer someOffer = new CategoryOffer();
     	
     	Integer expected = categoryOfferService.retriveAll().size();
@@ -52,7 +53,7 @@ public class GeneralOfferServiceTest {
     }
     
     @Test
-    public void testGeneralOfferServiceCanSaveDifferentsOffers(){
+    public void testGeneralOfferServiceCanSaveDifferentsOffers() throws OfferIsAlreadyCreatedException{
     	Offer someOffer = new CategoryOffer();
     	Offer anotherOffer = new CrossingOffer();
     	

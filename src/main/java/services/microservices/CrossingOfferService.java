@@ -10,13 +10,13 @@ import model.products.ProductList;
 public class CrossingOfferService extends GenericService<CrossingOffer> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7589276955191921600L;
 
-	
-	
-	
+
+
+
 	public CrossingOffer getById(Integer id) {
 		return this.getRepository().findById(id);
 	}
@@ -26,13 +26,13 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 
 	public boolean isOfferValid(Offer someOffer) {
 		for (CrossingOffer offer : this.retriveAll()) {
-			if (offer.equals(someOffer)) {
-				return true;
+			if (offer.isEqualsToMe(someOffer)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
-	
+
 	public List<CrossingOffer> applicableForList(ProductList aProductList) {
 		List<CrossingOffer> results = new ArrayList<CrossingOffer>();
 		List<CrossingOffer> possibles = this.retriveAll();
@@ -43,5 +43,5 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 		}
 		return results;
 	}
-	
+
 }

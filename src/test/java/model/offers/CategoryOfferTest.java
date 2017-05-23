@@ -114,5 +114,17 @@ public class CategoryOfferTest {
 		
 		
 	}
+	
+	@Test
+	public void testTwoCategoryOfferAreEquals() {
+		
+		Interval interval = new Interval(DateTime.now() , DateTime.now().plusDays(1));
+		
+		CategoryOffer categoryA = new CategoryOffer(25, interval, Category.Drink);
+		CategoryOffer categoryB = new CategoryOffer(25, interval, Category.Drink);
+		
+		assertTrue(categoryA.isEqualsToMe(categoryB));
+		
+	}
 
 }

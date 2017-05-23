@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserIsNotLoggedException;
@@ -21,6 +23,7 @@ import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/productlist")
 public class ProductListController {
 

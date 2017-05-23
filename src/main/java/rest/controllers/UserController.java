@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
@@ -14,6 +16,7 @@ import exceptions.UsernameOrPasswordInvalidException;
 import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/user")
 public class UserController {
 	

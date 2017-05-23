@@ -10,17 +10,17 @@ import model.products.ProductList;
 public class CombinationOfferService extends GenericService<CombinationOffer> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6264043641769715489L;
 
 	public boolean isOfferValid(Offer someOffer) {
 		for (CombinationOffer offer : this.retriveAll()) {
-			if (offer.equals(someOffer)) {
-				return true;
+			if (offer.isEqualsToMe(someOffer)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	public List<CombinationOffer> applicableForList(ProductList aProductList) {
 		List<CombinationOffer> results = new ArrayList<CombinationOffer>();
