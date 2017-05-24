@@ -27,11 +27,11 @@
       var directionsDisplay = new google.maps.DirectionsRenderer();
 
       var unqui = {
-        lat: -34.70637, 
+        lat: -34.70637,
         lng: -58.2772431
       };
       var addressLucas = {
-        lat: -34.783098, 
+        lat: -34.783098,
         lng: -58.216737
       };
 
@@ -39,7 +39,7 @@
         origin: addressLucas,
         destination: unqui,
         travelMode: google.maps.TravelMode.DRIVING
-      }; 
+      };
 
       var map = new google.maps.Map(document.getElementById('map'), {
         center: unqui,
@@ -65,7 +65,7 @@
         alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
         }
       });
-		
+
 	  }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1ZXtqtTXdoUYnqe1toQzOGGV_Yw-trM4&callback=initMap"
@@ -74,14 +74,13 @@
 </html> -->
 
 <!doctype html>
-<html ng-app>
+<html>
 
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="../app/styles.css">
   </head>
 
    <body>
