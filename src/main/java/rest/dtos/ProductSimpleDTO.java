@@ -25,7 +25,7 @@ public class ProductSimpleDTO {
 		if (p.getImageUrl() != null){
 			this.imageUrl = p.getImageUrl();
 		} else {
-			this.imageUrl = "";
+			this.imageUrl = "no-image";
 		}
 		
 	}

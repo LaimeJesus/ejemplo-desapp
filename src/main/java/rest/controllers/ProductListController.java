@@ -18,9 +18,11 @@ import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
+import model.users.User;
 import rest.dtos.CreateListDTO;
 import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
+import rest.dtos.UsernameDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
@@ -49,12 +51,14 @@ public class ProductListController {
 	}
 	
 	@POST
-	@Path("/createproductlist")
+	@Path("/create")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response createproductlist(CreateListDTO cl){
 		try{
-			generalService.createProductList(cl.user.toUser(), cl.productlist.toProductList());
+			User user = generalService.getUserService().findByUsername(cl.username);
+			ProductList list = new ProductList(cl.name);
+			generalService.createProductList(user,list);
 			return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", "*")
 		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
 		            .header("Access-Control-Allow-Credentials", "true")
@@ -68,19 +72,30 @@ public class ProductListController {
 	}
 	
 	@GET
-	@Path("/getproductlists")
+	@Path("/mylists")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<ProductListDTO> getproductlists(@QueryParam("username") String username){
+	public Response getproductlists(@QueryParam("username") String username ){
 		List<ProductListDTO> res = new ArrayList<ProductListDTO>();
 		try{
 			List<ProductList> productlists = generalService.getProductLists(generalService.getUserService().findByUsername(username));
 			for(ProductList pl : productlists){
 				res.add(new ProductListDTO(pl));
 			}
-			return res;
+			return Response
+					.status(Response.Status.OK)
+					.header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600")
+		            .entity(res)
+		            .build();
 		}catch (UserIsNotLoggedException | UsernameDoesNotExistException e) {
-			return res;
+			return Response
+					.status(Response.Status.BAD_REQUEST)
+					.entity(e.getMessage())
+					.build();
 		}
 	}
 	
