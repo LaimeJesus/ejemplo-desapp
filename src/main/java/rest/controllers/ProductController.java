@@ -73,15 +73,14 @@ public class ProductController {
 	}
 	
 	
-	@POST
+	@GET
 	@Path("/detail")
-	@Consumes("application/json")
 	@Produces("application/json")
-	public Response detail(ProductSimpleDTO prod){
+	public Response detail(@QueryParam("name") String name , @QueryParam("brand") String brand){
 		try{
 			Product product = new Product();
-			product.setName(prod.name);
-			product.setBrand(prod.brand);
+			product.setName(name);
+			product.setBrand(brand);
 			Product complete = generalService.getProductService().findByProduct(product);
 			
 		    return Response.ok(new ProductDetailDTO(complete), MediaType.APPLICATION_JSON)

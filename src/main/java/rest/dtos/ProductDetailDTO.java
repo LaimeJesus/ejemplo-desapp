@@ -21,6 +21,7 @@ public class ProductDetailDTO {
 		this.id = p.getId();
 		this.name = p.getName();
 		this.brand = p.getBrand();
+		this.imageUrl = (p.getImageUrl() == null) ? "no-image" : p.getImageUrl();
 		this.imageUrl = p.getImageUrl();
 		this.category = p.getCategory().toString();
 		this.stock = p.getStock();

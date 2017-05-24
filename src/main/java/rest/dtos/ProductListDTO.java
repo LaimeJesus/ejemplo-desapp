@@ -5,6 +5,7 @@ import model.products.ProductList;
 public class ProductListDTO {
 
 	public String name;
+	
 	public ProductListDTO(){
 		
 	}
