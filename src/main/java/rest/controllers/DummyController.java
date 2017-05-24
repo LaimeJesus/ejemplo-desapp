@@ -34,21 +34,28 @@ public class DummyController {
 			List<ProductList> lists = new DummyLists().example();
 			List<ProductList> lists2 = new DummyLists().example();
 			generalService.addProducts(products);
-			for(User u : users){
-				generalService.createUser(u);
-				generalService.loginUser(u);
-				
-				if (u.getUsername().equals("JesusLaime")) {
-					lists = lists2;
-				}
-				for(ProductList list : lists) {
-					generalService.createProductList(u, list);
-				}
-				generalService.logoutUser(u);
-			}
 			
+			User uno = users.get(0);
+			User dos = users.get(1);
+			
+			generalService.createUser(uno);
+			generalService.loginUser(uno);
+			generalService.createUser(dos);
+			generalService.loginUser(dos);
+			for(ProductList list : lists){
+				generalService.createProductList(uno, list);
+				
+			}
+			for(ProductList list : lists2){
+				generalService.createProductList(dos, list);
+				
+			}
+			generalService.logoutUser(uno);
+			generalService.logoutUser(dos);
+
 			generalService.initRegisters(10);
 			return Response.status(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
+			
 
 		} catch (UserAlreadyExistsException e) {
 			e.printStackTrace();
