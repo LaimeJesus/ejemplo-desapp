@@ -12,6 +12,7 @@ public class DummyLists {
 		someNames.add(new ProductList("Cumple de Chizu"));
 		someNames.add(new ProductList("Fulbo del domingo"));
 		someNames.add(new ProductList("Final de la champions"));
+		someNames.add(new ProductList("sinespacios"));
 		return someNames;
 	}
 	
