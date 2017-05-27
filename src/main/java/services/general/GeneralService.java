@@ -22,6 +22,7 @@ import exceptions.WrongUserPermissionException;
 import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
+import model.users.Profile;
 import model.users.User;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
@@ -196,6 +197,13 @@ public class GeneralService {
 	public void initRegisters(int registers) {
 		getShopService().initialize(registers);
 		
+	}
+
+	@Transactional
+	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
+		User u = new User();
+		u.setUsername(username);
+		return getUserService().validateLogged(u).getProfile();
 	}
 
 	
