@@ -1,9 +1,11 @@
 package rest.controllers;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -13,6 +15,7 @@ import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
+import rest.dtos.ProfileDTO;
 import rest.dtos.UserDTO;
 import services.general.GeneralService;
 
@@ -90,6 +93,23 @@ public class UserController {
 		}
 	}
 
+	@GET
+	@Path("/myprofile")
+	@Produces("application/json")
+	public Response profile(@QueryParam("username") String username){
+		try{
+			return Response.ok(new ProfileDTO(generalService.getProfile(username)))
+		            .header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600")
+		            .build();
+		}catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
 	public GeneralService getGeneralService() {
 		return generalService;
 	}

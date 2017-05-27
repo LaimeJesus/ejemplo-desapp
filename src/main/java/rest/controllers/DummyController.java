@@ -53,7 +53,7 @@ public class DummyController {
 			generalService.logoutUser(uno);
 			generalService.logoutUser(dos);
 
-			generalService.initRegisters(10);
+			generalService.initRegisters(1);
 			return Response.status(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
 			
 

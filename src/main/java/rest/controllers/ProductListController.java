@@ -22,7 +22,6 @@ import model.users.User;
 import rest.dtos.CreateListDTO;
 import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
-import rest.dtos.UsernameDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)

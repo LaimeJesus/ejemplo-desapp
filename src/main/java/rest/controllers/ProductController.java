@@ -126,7 +126,6 @@ public class ProductController {
 				String file = att.getObject(String.class);
 				getGeneralService().upload(file);
 			}
-			//return Response.ok("file uploaded").build();
 			return Response.ok(ProductSimpleDTO.toDTOs(getGeneralService().allProducts())).build();
 		}
 		catch(Exception e){
