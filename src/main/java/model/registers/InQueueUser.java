@@ -1,7 +1,6 @@
 package model.registers;
 
-import org.joda.time.base.BaseDuration;
-
+import org.joda.time.Duration;
 import model.products.ProductList;
 import model.users.User;
 
@@ -15,7 +14,7 @@ public class InQueueUser {
 		this.setUser(anUser);
 	}
 
-	public BaseDuration getProcessingTime() {
+	public Duration getProcessingTime() {
 		return this.getProductList().getProcessingTime();
 	}
 
