@@ -17,8 +17,10 @@ public class CashRegisterTest {
 	
 	@Test
 	public void testANewCashRegisterIsEmpty(){
-		Assert.assertTrue(new CashRegister().isEmpty());
-		Assert.assertEquals(0,new CashRegister().size());
+		CashRegister aCashRegister = new CashRegister();
+		Assert.assertTrue(aCashRegister.isEmpty());
+		Assert.assertEquals(0, aCashRegister.size());
+		aCashRegister.stop();
 	}
 	
 	@Test
@@ -29,6 +31,7 @@ public class CashRegisterTest {
 		Duration actual = newCashRegister.getWaitingTime();
 		
 		Assert.assertEquals(expected, actual);
+		newCashRegister.stop();
 	}
 	
 	@Test
@@ -44,23 +47,24 @@ public class CashRegisterTest {
 		Duration actual = emptyCashRegister.getWaitingTime();
 		
 		Assert.assertEquals(expected, actual);
+		emptyCashRegister.stop();
 	}
 	
 	@Test
 	public void testRemovingAnUserInTheQueueWithAProductListWhereItsDurationTimeIs5secondsThenDecreaseTheWaitingTimeFor5seconds(){
-		CashRegister emptyCashRegister = new CashRegister();
+		CashRegister aCashRegister = new CashRegister();
 		
 		InQueueUser newInQueueUserMock = Mockito.mock(InQueueUser.class);
 		Mockito.when(newInQueueUserMock.getProcessingTime()).thenReturn(new Duration(5L));
 
-		emptyCashRegister.add(newInQueueUserMock);
-		Duration afterAdded = emptyCashRegister.getWaitingTime();
-		emptyCashRegister.remove(newInQueueUserMock);
-		Duration afterRemoved = emptyCashRegister.getWaitingTime();
+		aCashRegister.add(newInQueueUserMock);
+		Duration afterAdded = aCashRegister.getWaitingTime();
+		aCashRegister.remove(newInQueueUserMock);
+		Duration afterRemoved = aCashRegister.getWaitingTime();
 		
 		Assert.assertTrue(afterAdded.isLongerThan(afterRemoved));
 		Assert.assertEquals(new Duration(0L), afterRemoved);
-		
+		aCashRegister.stop();
 	}
 	
 	//this test runs in 0,001sec
@@ -76,8 +80,13 @@ public class CashRegisterTest {
 		Mockito.doNothing().when(newInQueueUserMock).newPurchase();
 		
 		aCashRegister.next();
-		
+		try {
+			Thread.sleep(500L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Assert.assertTrue(aCashRegister.isEmpty());
+		aCashRegister.stop();
 	}
 	
 	@Test
@@ -92,12 +101,9 @@ public class CashRegisterTest {
 		ProductList aProductListWithTotalCostEquals45Mock = Mockito.mock(ProductList.class);
 		Mockito.when(aProductListWithTotalCostEquals45Mock.getTotalAmount()).thenReturn(new Money(45,0));
 
-		boolean notAccepted = aCashRegister.accepts(aProductListWithTotalCostEquals100Mock);
-		boolean accepted = aCashRegister.accepts(aProductListWithTotalCostEquals45Mock);
-		
-		Assert.assertFalse(notAccepted);
-		Assert.assertTrue(accepted);
-		
+		Assert.assertFalse(aCashRegister.accepts(aProductListWithTotalCostEquals100Mock));
+		Assert.assertTrue(aCashRegister.accepts(aProductListWithTotalCostEquals45Mock));
+		aCashRegister.stop();
 	}
 	
 	@Test
@@ -112,12 +118,9 @@ public class CashRegisterTest {
 		ProductList aProductListWith5ProductsMock = Mockito.mock(ProductList.class);
 		Mockito.when(aProductListWith5ProductsMock.getQuantityOfProducts()).thenReturn(5);
 
-		boolean notAccepted = aCashRegister.accepts(aProductListWith15ProductsMock);
-		boolean accepted = aCashRegister.accepts(aProductListWith5ProductsMock);
-		
-		Assert.assertFalse(notAccepted);
-		Assert.assertTrue(accepted);
-		
+		Assert.assertFalse(aCashRegister.accepts(aProductListWith15ProductsMock));
+		Assert.assertTrue(aCashRegister.accepts(aProductListWith5ProductsMock));
+		aCashRegister.stop();
 	}
 	
 	@Test
@@ -129,6 +132,7 @@ public class CashRegisterTest {
 		ProductList aProductList = Mockito.mock(ProductList.class);
 		
 		Assert.assertFalse(aCashRegister.accepts(aProductList));
+		aCashRegister.stop();
 	}
 	
 	@Test
@@ -140,6 +144,7 @@ public class CashRegisterTest {
 		ProductList aProductList = Mockito.mock(ProductList.class);
 		
 		Assert.assertTrue(aCashRegister.accepts(aProductList));
+		aCashRegister.stop();
 	}
 	
 }

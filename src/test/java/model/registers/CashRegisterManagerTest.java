@@ -61,7 +61,7 @@ public class CashRegisterManagerTest {
 	}
 	
 	@Test
-	public void testGettingTheWaitingTimeWithTwoCashRegisterWith10secondsAndTheOtherWith8SecondsReturns8Seconds(){
+	public void testGettingTheWaitingTimeWithTwoCashRegisterWith5secondsAndTheOtherWith8SecondsReturns4Seconds(){
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
@@ -83,7 +83,7 @@ public class CashRegisterManagerTest {
 	}
 	
 	@Test
-	public void testAnUserWithItsProductListIsAddedToTheCashRegisterWithTheLesserTime(){
+	public void testAnUserWithAProductListIsAddedToTheCashRegisterWithTheLesserTime(){
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegisterMock = Mockito.mock(CashRegister.class);

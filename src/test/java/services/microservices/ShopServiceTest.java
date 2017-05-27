@@ -23,6 +23,7 @@ import exceptions.UsernameOrPasswordInvalidException;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
+import model.registers.CashRegister;
 import model.registers.PurchaseRecord;
 import model.users.User;
 import util.Category;
@@ -52,6 +53,9 @@ public class ShopServiceTest {
 		shopService.initialize(10);
 		
 		Assert.assertEquals(10, shopService.getCashRegisterManager().getRegisters().size());	
+		
+		shopService.getCashRegisterManager().stop();
+		
 	}
 	
 	
@@ -110,6 +114,7 @@ public class ShopServiceTest {
 		
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();
+		shopService.getCashRegisterManager().stop();
 		
 	}
 	
@@ -149,7 +154,65 @@ public class ShopServiceTest {
 		shopService.ready(u, pl);
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();
+		
+		shopService.getCashRegisterManager().stop();
 	}
 	
-	
+	@Test
+	public void testUsersAreQueuingAfterCallingReady() throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameOrPasswordInvalidException, UserAlreadyExistsException{
+		shopService.initialize(1);		
+		
+		Product product = new Product();
+		product.setName("cafe");
+		product.setBrand("dolca");
+		product.setStock(30);
+		product.setPrice(new Money(10,0));
+		product.setCategory(Category.Drink);
+		product.setProcessingTime(new Duration(1000L));
+		
+		shopService.getProductService().save(product);
+		
+		User userOne = new User();
+		userOne.setUsername("usernameOne");
+		userOne.setPassword(new Password("usernameOne"));
+		userOne.setEmail("usernameOne");
+		ProductList productListOne = new ProductList();
+		productListOne.setName("productListOne");
+		
+		userOne.getProfile().addNewProductList(productListOne);
+		shopService.getUserService().createNewUser(userOne);
+		shopService.getUserService().loginUser(userOne);
+
+		
+		User userTwo = new User();
+		userTwo.setUsername("usernameTwo");
+		userTwo.setPassword(new Password("usernameTwo"));
+		userTwo.setEmail("username"); 
+		ProductList productListTwo = new ProductList();
+		productListTwo.setName("productListTwo");
+
+		userTwo.getProfile().addNewProductList(productListTwo);
+		shopService.getUserService().createNewUser(userTwo);
+		shopService.getUserService().loginUser(userTwo);
+
+		productListService.selectProduct(userOne, productListOne, product, 5);
+		productListService.selectProduct(userTwo, productListTwo, product, 5);
+		
+		CashRegister cr = shopService.getCashRegisterManager().getRegisters().get(0);
+		
+		shopService.ready(userOne, productListOne);
+		Assert.assertEquals(new Duration(5000L), cr.getWaitingTime());
+		Assert.assertEquals(1, cr.size());
+		shopService.ready(userTwo, productListTwo);
+		Assert.assertEquals(2, cr.size());
+		
+		try {
+			Thread.sleep(10000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Assert.assertEquals(0, cr.size());
+		Assert.assertEquals(new Integer(20), shopService.getProductService().getByExample(product).getStock());
+		cr.stop();
+	}
 }
