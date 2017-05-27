@@ -28,8 +28,6 @@ public class CashRegisterManager {
 	public List<CashRegister> getRegisters() {
 		return this.registers;
 	}
-
-
 	
 	public void addInQueueUsertoACashRegister(CashRegister aCashRegister, InQueueUser anInQueueUser){
 		aCashRegister.add(anInQueueUser);
@@ -85,6 +83,12 @@ public class CashRegisterManager {
 
 	public Duration getWaitingTime(ProductList aProductList) {
 		return this.getNextCashRegisterFor(aProductList).getWaitingTime();
+	}
+	
+	public void stop(){
+		for(CashRegister cr : getRegisters()){
+			cr.stop();
+		}
 	}
 
 }
