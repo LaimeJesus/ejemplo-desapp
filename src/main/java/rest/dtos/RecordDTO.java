@@ -1,16 +1,14 @@
 package rest.dtos;
 
-import org.joda.time.DateTime;
-
 import model.registers.PurchaseRecord;
 
 public class RecordDTO {
 
-	DateTime date;
-	String listname;
+	public String date;
+	public String listname;
 
 	public RecordDTO(PurchaseRecord pr) {
-		date = pr.getPurchasingDate();
+		date = pr.getPurchasingDate().toString();
 		listname = pr.getPurchasingList().getName();		
 	}
 

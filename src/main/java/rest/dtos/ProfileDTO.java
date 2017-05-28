@@ -8,15 +8,15 @@ import model.users.Profile;
 
 public class ProfileDTO {
 
-	String address;
-	List<RecordDTO> records;
+	public String address;
+	public List<RecordDTO> records;
 
 	public ProfileDTO(Profile profile) {
-		records = new ArrayList<RecordDTO>();
+		this.records = new ArrayList<RecordDTO>();
 		for(PurchaseRecord pr : profile.getPurchaseRecords()){
-			records.add(new RecordDTO(pr));
+			this.records.add(new RecordDTO(pr));
 		}
-		address = profile.getAddress().getAddress();
+		address = "HARDCODEADO";
 	}
 
 }
