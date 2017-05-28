@@ -33,13 +33,15 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public void ready(User u, ProductList p) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
+	public Duration ready(User u, ProductList p) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
 		User exist = userService.validateLogged(u);
 		ProductList pl = productListService.getByUser(p, exist);
+		Duration d = cashRegisterManager.getWaitingTime(pl);
 		cashRegisterManager.addUserWithProductList(exist, pl);		
 		productService.updateStock(pl);
 		exist.newPurchase(new PurchaseRecord(p));
 		userService.update(exist);
+		return d.plus(pl.getProcessingTime());
 	}
 	
 	@Transactional
