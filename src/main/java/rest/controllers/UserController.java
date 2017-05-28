@@ -11,12 +11,15 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
+import com.google.gson.Gson;
+
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import rest.dtos.ProfileDTO;
 import rest.dtos.UserDTO;
+import rest.dtos.UsernameDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
@@ -55,6 +58,7 @@ public class UserController {
 	@Produces("application/json")
 	public Response login(UserDTO user){		
 		try {
+			Gson gson = new Gson();
 			generalService.loginUser(user.fullUser());
 			return Response.ok(MediaType.APPLICATION_JSON)
 		            .header("Access-Control-Allow-Origin", "*")
@@ -62,7 +66,7 @@ public class UserController {
 		            .header("Access-Control-Allow-Credentials", "true")
 		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
 		            .header("Access-Control-Max-Age", "1209600")
-		            .entity(user)
+		            .entity(gson.toJson(user.username))
 		            .build();
 		} catch (UsernameDoesNotExistException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -77,8 +81,9 @@ public class UserController {
 	@Path("/logout")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response logout(UserDTO user){
+	public Response logout(UsernameDTO user){
 		try {
+			Gson gson = new Gson();
 			generalService.logoutUser(user.toUser());
 			return Response.ok(MediaType.APPLICATION_JSON)
 		            .header("Access-Control-Allow-Origin", "*")
@@ -86,7 +91,7 @@ public class UserController {
 		            .header("Access-Control-Allow-Credentials", "true")
 		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
 		            .header("Access-Control-Max-Age", "1209600")
-		            .entity(user)
+		            .entity(gson.toJson(user))
 		            .build();
 		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
