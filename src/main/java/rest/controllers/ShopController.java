@@ -9,8 +9,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
-import org.joda.time.Duration;
-
 import exceptions.InvalidSelectedProduct;
 import exceptions.ProductListDoesNotExist;
 import exceptions.UserIsNotLoggedException;
@@ -21,9 +19,18 @@ import services.general.GeneralService;
 @CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/shop")
 public class ShopController {
-	
-	
+
+
 	private GeneralService generalService;
+
+//  ejemplo de java duration en forma de json
+//	{
+//		  "standardSeconds": 4,
+//		  "standardDays": 0,
+//		  "standardHours": 0,
+//		  "standardMinutes": 0,
+//		  "millis": 4000
+//		}
 	
 	@GET
 	@Path("/waitingtime")
@@ -31,8 +38,7 @@ public class ShopController {
 	@Produces("application/json")
 	public Response waitingTime(@QueryParam("username") String username, @QueryParam("listname") String listname){
 		try {
-			Duration d = generalService.waitingTime(username, listname);
-			return Response.ok(d.getStandardSeconds()).build();
+			return Response.ok(generalService.waitingTime(username, listname)).build();
 		} catch (UserIsNotLoggedException | UsernameDoesNotExistException | ProductListDoesNotExist e) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		} catch (Exception e){
@@ -47,8 +53,7 @@ public class ShopController {
 	@Produces("application/json")
 	public Response ready(ShopUserDTO su){
 			try {
-				generalService.ready(su.user.toUser(), su.productlist.toProductList());
-				return Response.status(Response.Status.OK).build(); 
+				return Response.ok(generalService.ready(su.user.toUser(), su.productlist.toProductList())).build();
 			} catch (InvalidSelectedProduct | UserIsNotLoggedException | UsernameDoesNotExistException e) {
 				e.printStackTrace();
 				return Response.status(Response.Status.BAD_REQUEST).build();
@@ -58,7 +63,7 @@ public class ShopController {
 			}
 	}
 
-	
+
 	@GET
 	@Path("/initialize")
 	public Response initialize(@QueryParam("howmany")int howmany){
@@ -77,5 +82,5 @@ public class ShopController {
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;
 	}
-	
+
 }
