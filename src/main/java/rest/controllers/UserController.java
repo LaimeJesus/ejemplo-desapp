@@ -110,6 +110,19 @@ public class UserController {
 		}
 	}
 	
+	@POST
+	@Path("/changepassword")
+	@Produces("application/json")
+	public Response changepassword(UserDTO user){
+		try{
+			generalService.updatePassword(user.toUser());
+			return Response.ok().build();			
+		} catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+		
+	}	
+	
 	public GeneralService getGeneralService() {
 		return generalService;
 	}
