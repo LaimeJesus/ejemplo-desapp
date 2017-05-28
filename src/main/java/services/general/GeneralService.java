@@ -121,8 +121,8 @@ public class GeneralService {
 
 	
 	@Transactional
-	public void ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
-		getShopService().ready(user, productList);
+	public Duration ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
+		return getShopService().ready(user, productList);
 	}
 
 	public UserService getUserService() {
@@ -201,9 +201,14 @@ public class GeneralService {
 
 	@Transactional
 	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
-		User u = new User();
-		u.setUsername(username);
-		return getUserService().validateLogged(u).getProfile();
+		return getUserService().findByUsername(username).getProfile();
+	}
+
+	@Transactional
+	public void updatePassword(User user) {
+		User u = getUserService().findByUsername(user.getUsername());
+		u.setPassword(user.getPassword());
+		getUserService().update(u);
 	}
 
 	
