@@ -126,8 +126,8 @@ public class UserController {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 		
-	}	
-	
+	}
+		
 	public GeneralService getGeneralService() {
 		return generalService;
 	}
