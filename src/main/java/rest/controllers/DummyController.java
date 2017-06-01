@@ -2,6 +2,7 @@ package rest.controllers;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -56,6 +57,15 @@ public class DummyController {
 			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
+	}
+	
+	@DELETE
+	@Path("/all")
+	public void deleteall(){
+		generalService.getUserService().deleteAll();
+		generalService.getProductService().deleteAll();
+		generalService.getGeneralOfferService().deleteAll();
+//		generalService.getShopService().getCashRegisterManager().stop();
 	}
 
 	public GeneralService getGeneralService() {
