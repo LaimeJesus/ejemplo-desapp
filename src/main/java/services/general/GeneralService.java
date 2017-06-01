@@ -14,7 +14,9 @@ import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListDoesNotExist;
+import exceptions.PurchaseRecordNotExistException;
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
@@ -22,6 +24,7 @@ import exceptions.WrongUserPermissionException;
 import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
+import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
 import services.microservices.ProductListService;
@@ -41,8 +44,6 @@ public class GeneralService {
 	private ProductService productService;
 	private ProductListService productListService;
 	private ShopService shopService;
-	
-	
 	
 	@Transactional
 	public void createUser (User newUser) throws UserAlreadyExistsException{
@@ -211,5 +212,20 @@ public class GeneralService {
 		getUserService().update(u);
 	}
 
-	
+	@Transactional
+	public PurchaseRecord getPurchaseRecord(Integer userId, Integer purchaseId) throws PurchaseRecordNotExistException, UserDoesNotExistException {
+		//exist
+		User user = getUserService().getUserById(userId);
+		//purchase record
+		PurchaseRecord res = null;
+		for(PurchaseRecord pr : user.getProfile().getPurchaseRecords()){
+			if(pr.getId() == purchaseId){
+				res = pr;
+			}
+		}
+		if(res == null){
+			throw new PurchaseRecordNotExistException();
+		}
+		return res;
+	}	
 }
