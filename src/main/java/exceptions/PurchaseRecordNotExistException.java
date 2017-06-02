@@ -2,6 +2,10 @@ package exceptions;
 
 public class PurchaseRecordNotExistException extends Exception{
 
+	public PurchaseRecordNotExistException(String msg) {
+		super(msg);
+	}
+
 	/**
 	 * 
 	 */
