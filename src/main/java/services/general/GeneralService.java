@@ -14,6 +14,7 @@ import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListDoesNotExist;
+import exceptions.ProductListNotExistException;
 import exceptions.PurchaseRecordNotExistException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
@@ -201,31 +202,56 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
-		return getUserService().findByUsername(username).getProfile();
-	}
-
-	@Transactional
 	public void updatePassword(User user) {
 		User u = getUserService().findByUsername(user.getUsername());
 		u.setPassword(user.getPassword());
 		getUserService().update(u);
 	}
+	
+	@Transactional
+	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
+		return getUserService().findByUsername(username).getProfile();
+	}
 
+	//user methods
+	
 	@Transactional
 	public PurchaseRecord getPurchaseRecord(Integer userId, Integer purchaseId) throws PurchaseRecordNotExistException, UserDoesNotExistException {
-		//exist
-		User user = getUserService().getUserById(userId);
-		//purchase record
-		PurchaseRecord res = null;
-		for(PurchaseRecord pr : user.getProfile().getPurchaseRecords()){
-			if(pr.getId() == purchaseId){
-				res = pr;
-			}
-		}
-		if(res == null){
-			throw new PurchaseRecordNotExistException();
-		}
-		return res;
+		return getUserService().getUserById(userId).getProfile().getPurchaseRecordById(purchaseId);
+	}
+
+	@Transactional
+	public List<User> getUsers() {
+		return getUserService().retriveAll();
+	}
+
+	@Transactional
+	public List<ProductList> getProductLists(Integer userId) throws UserDoesNotExistException {
+		return getUserService().getProductLists(userId);
+	}
+
+	@Transactional
+	public User getUserById(Integer userId) throws UserDoesNotExistException {
+		return getUserService().getUserById(userId);
+	}
+
+	@Transactional
+	public List<PurchaseRecord> getPurchaseRecords(Integer userId) throws UserDoesNotExistException {
+		return getUserService().getUserById(userId).getProfile().getPurchaseRecords();
+	}
+
+	@Transactional
+	public Profile getProfile(Integer userId) throws UserDoesNotExistException {
+		return getUserService().getUserById(userId).getProfile();
+	}
+
+	@Transactional
+	public ProductList getProductListById(Integer userId, Integer listId) throws ProductListNotExistException, UserDoesNotExistException {
+		return getUserService().getUserById(userId).getProfile().getProductListById(listId);
+	}
+
+	@Transactional
+	public void deleteUser(Integer userId) {
+		getUserService().getRepository().deleteById(userId);		
 	}	
 }

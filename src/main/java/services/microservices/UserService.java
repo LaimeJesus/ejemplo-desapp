@@ -124,7 +124,7 @@ public class UserService extends GenericService<User>{
 	public User getUserById(Integer userId) throws UserDoesNotExistException {
 		User user = findById(userId);
 		if(user == null){
-			throw new UserDoesNotExistException();
+			throw new UserDoesNotExistException("User with id:" + userId + " does not exist");
 		}
 		return user;
 	}
