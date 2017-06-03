@@ -20,15 +20,18 @@ import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.CreateListDTO;
+import rest.dtos.ListDetailDTO;
 import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
 import services.general.GeneralService;
+import services.microservices.ProductListService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/productlist")
 public class ProductListController {
 
 	private GeneralService generalService;
+	private ProductListService productListService;
 	
 	@POST
 	@Path("/selectproduct")
@@ -98,11 +101,50 @@ public class ProductListController {
 		}
 	}
 	
+	@GET
+	@Path("/selections")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getproductlists(@QueryParam("username") String username, @QueryParam("listname") String listname){
+		User possible = new User();
+		possible.setUsername(username);
+		ProductList list = new ProductList(listname);
+		try {
+			ProductList valid = productListService.getByUser(list, possible);
+			ListDetailDTO response = new ListDetailDTO(valid);
+			
+			return Response
+					.status(Response.Status.OK)
+					.header("Access-Control-Allow-Origin", "*")
+		            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		            .header("Access-Control-Allow-Credentials", "true")
+		            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+		            .header("Access-Control-Max-Age", "1209600")
+		            .entity(response)
+		            .build();
+			
+		} catch (UsernameDoesNotExistException e) {
+			return Response
+					.status(Response.Status.BAD_REQUEST)
+					.entity(e.getMessage())
+					.build();
+		}
+		
+	}
+	
 	public GeneralService getGeneralService() {
 		return generalService;
 	}
 
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;
+	}
+
+	public ProductListService getProductListService() {
+		return productListService;
+	}
+
+	public void setProductListService(ProductListService productListService) {
+		this.productListService = productListService;
 	}
 }

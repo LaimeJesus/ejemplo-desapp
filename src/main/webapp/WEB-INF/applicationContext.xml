@@ -50,6 +50,7 @@
 	</bean>
 	<bean id="productlistcontroller" class="rest.controllers.ProductListController">
 		<property name="generalService" ref="services.general.generalservice" />
+		<property name="productListService" ref="services.microservices.productlistservice" />
 	</bean>
 	<bean id="usercontroller" class="rest.controllers.UserController">
 		<property name="generalService" ref="services.general.generalservice" />
