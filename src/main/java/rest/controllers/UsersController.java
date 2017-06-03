@@ -15,6 +15,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.JsonSyntaxException;
+
 import exceptions.ProductListNotExistException;
 import exceptions.PurchaseRecordNotExistException;
 import exceptions.SelectedProductNotExistException;
@@ -59,11 +61,11 @@ public class UsersController {
 	@Path("/")
 	@Consumes("application/json")
 	public Response createUser(String userJson){
-		User user = responseDTO.gson.fromJson(userJson, User.class);
 		try {
+			User user = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.createUser(user);
 			return responseDTO.ok(user);
-		} catch (UserAlreadyExistsException e) {
+		} catch (JsonSyntaxException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}		
 	}
@@ -92,20 +94,12 @@ public class UsersController {
 	@Path("/{userId}")
 	@Consumes("application/json")
 	public Response createOrUpdateUser(@PathParam("userId") Integer userId, String userJson){
-		User user = responseDTO.gson.fromJson(userJson, User.class);
 		try {
-			User fromdb = generalService.getUserById(userId);
-			user.setId(fromdb.getId());
-			user.setUsername(fromdb.getUsername());
-			generalService.getUserService().update(user);
-			return responseDTO.ok(user);
-		} catch (UserDoesNotExistException e1) {
-			try {
-				generalService.createUser(user);
-				return responseDTO.ok(user);
-			} catch (UserAlreadyExistsException e) {
-				return responseDTO.error(Status.CONFLICT, e.getMessage());
-			}
+			User user = responseDTO.gson.fromJson(userJson, User.class);
+			generalService.createOrUpdateUser(userId, user);
+			return responseDTO.ok("user updated or created");
+		} catch (JsonSyntaxException | UserAlreadyExistsException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}	
 	
