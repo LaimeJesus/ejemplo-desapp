@@ -40,11 +40,6 @@ import services.microservices.UserService;
 
 public class GeneralService {
 	
-	
-	
-	
-	
-	
 	private UserService userService;
 	private GeneralOfferService generalOfferService;
 	private ProductService productService;
@@ -335,6 +330,32 @@ public class GeneralService {
 	@Transactional
 	public void deleteCombinationOffer(Integer combinationOfferId) throws CombinationOfferNotExistException {
 		getGeneralOfferService().getCombinationOfferService().delete(combinationOfferId);
+	}
+
+	@Transactional
+	public void createProductList(Integer userId, ProductList productList) throws UserDoesNotExistException, UserIsNotLoggedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		user.getProfile().addNewProductList(productList);
+		getUserService().update(user);
+	}
+
+	@Transactional
+	public void deleteProductList(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException {
+		User user = getUserById(userId);
+		ProductList p = user.getProfile().getProductListById(productlistId);
+		user.getProfile().getAllProductList().remove(p);
+		getUserService().update(user);	
+	}
+
+	@Transactional
+	public void createSelectedProduct(Integer userId, Integer productlistId, Integer productId, Integer quantity) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, ProductNotExistException, ProductIsAlreadySelectedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		ProductList pl = user.getProfile().getProductListById(productlistId);
+		Product product = getProductById(productId);
+		pl.selectProduct(product, quantity);
+		getUserService().update(user);
 	}
 
 }
