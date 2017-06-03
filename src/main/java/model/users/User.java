@@ -1,6 +1,7 @@
 package model.users;
 
 
+import exceptions.UserIsNotLoggedException;
 import model.registers.PurchaseRecord;
 import util.Entity;
 import util.Password;
@@ -137,6 +138,9 @@ public class User extends Entity{
 	private boolean isNormalUser() {
 		return this.getUserPermission().equals(Permission.NORMAL);
 	}
-	
-	
+	public void validateLogged() throws UserIsNotLoggedException {
+		if(!getIsLogged()){
+			throw new UserIsNotLoggedException();
+		}
+	}	
 }
