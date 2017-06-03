@@ -61,6 +61,7 @@ public class ProductsController {
 
 	@POST
 	@Path("/")
+	@Consumes("application/json")
 	public Response createProduct(String productJson){
 		try {
 			generalService.createProduct(response.gson.fromJson(productJson, Product.class));
@@ -89,8 +90,12 @@ public class ProductsController {
 	@DELETE
 	@Path("/{productId}")
 	public Response deleteProductById(@PathParam("productId") Integer productId){
-		generalService.deleteProductById(productId);
-		return response.ok("deleted product");
+		try {
+			generalService.deleteProductById(productId);
+			return response.ok("deleted product");
+		} catch (ProductNotExistException e) {
+			return response.error(Status.CONFLICT,e.getMessage());
+		}
 	}
 
 	@PUT

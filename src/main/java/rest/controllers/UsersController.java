@@ -73,7 +73,7 @@ public class UsersController {
 	@Path("/")
 	public Response deleteUsers(){
 		generalService.getUserService().deleteAll();
-		return Response.ok().build();
+		return responseDTO.ok("users deleted");
 	}
 	
 	
@@ -106,13 +106,16 @@ public class UsersController {
 	@DELETE
 	@Path("/{userId}")
 	public Response deleteUser(@PathParam("userId") Integer userId){
-		generalService.deleteUser(userId);
-		return responseDTO.ok("deleted user");
+		try {
+			generalService.deleteUser(userId);
+			return responseDTO.ok("deleted user");
+		} catch (UserDoesNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////
 	
 	//PROFILE METHODS OF AN USER
-	
 	@GET
 	@Path("/{userId}/profile")
 	@Produces("application/json")
@@ -123,7 +126,8 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
-	
+
+	//ESTE ESTA MAL, tengo q revisarlo
 	@PUT
 	@Path("/{id}/profile")
 	public Response createOrUpdateProfile(@PathParam("id") Integer id, ProfileDTO profile){
