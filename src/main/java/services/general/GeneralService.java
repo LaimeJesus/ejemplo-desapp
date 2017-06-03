@@ -15,6 +15,7 @@ import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListDoesNotExist;
 import exceptions.ProductListNotExistException;
+import exceptions.ProductNotExistException;
 import exceptions.PurchaseRecordNotExistException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
@@ -253,5 +254,31 @@ public class GeneralService {
 	@Transactional
 	public void deleteUser(Integer userId) {
 		getUserService().getRepository().deleteById(userId);		
-	}	
+	}
+
+	@Transactional
+	public Product getProductById(Integer productId) throws ProductNotExistException {
+		return getProductService().getProductById(productId);
+	}
+
+	@Transactional
+	public void deleteProductById(Integer productId) {
+		getProductService().getRepository().deleteById(productId);
+	}
+
+	@Transactional
+	public void createProduct(Product product) throws ProductAlreadyCreatedException {
+		getProductService().createProduct(product);
+	}
+
+	@Transactional
+	public void createOrUpdateUser(Integer userId, User user) throws UserAlreadyExistsException {
+		getUserService().createOrUpdate(userId, user);
+	}
+
+	@Transactional
+	public void createOrUpdateProduct(Integer productId, Product product) throws ProductAlreadyCreatedException {
+		getProductService().createOrUpdate(productId, product);
+	}
+
 }
