@@ -6,6 +6,8 @@ import java.util.List;
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.CategoryOfferNotExistException;
+import exceptions.CombinationOfferNotExistException;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
@@ -23,6 +25,8 @@ import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
+import model.offers.CategoryOffer;
+import model.offers.CombinationOffer;
 import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
@@ -252,8 +256,9 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void deleteUser(Integer userId) {
-		getUserService().getRepository().deleteById(userId);		
+	public void deleteUser(Integer userId) throws UserDoesNotExistException {
+		User todelete = getUserById(userId);
+		getUserService().delete(todelete);		
 	}
 
 	@Transactional
@@ -262,8 +267,9 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void deleteProductById(Integer productId) {
-		getProductService().getRepository().deleteById(productId);
+	public void deleteProductById(Integer productId) throws ProductNotExistException {
+		Product todelete = getProductService().getProductById(productId);
+		getProductService().getRepository().delete(todelete);
 	}
 
 	@Transactional
@@ -279,6 +285,56 @@ public class GeneralService {
 	@Transactional
 	public void createOrUpdateProduct(Integer productId, Product product) throws ProductAlreadyCreatedException {
 		getProductService().createOrUpdate(productId, product);
+	}
+
+	@Transactional
+	public List<Offer> getOffers() {
+		return getGeneralOfferService().retriveAll();
+	}
+
+	@Transactional
+	public List<CategoryOffer> getCategoryOffers() {
+		return getGeneralOfferService().getCategoryOfferService().retriveAll();
+	}
+
+	@Transactional
+	public List<CombinationOffer> getCombinationOffers() {
+		return getGeneralOfferService().getCombinationOfferService().retriveAll();
+	}
+
+	@Transactional
+	public void deleteOffers() {
+		getGeneralOfferService().deleteAll();		
+	}
+	
+	@Transactional
+	public void deleteCategoryOffer(Integer categoryOfferId) throws CategoryOfferNotExistException {
+		getGeneralOfferService().getCategoryOfferService().delete(categoryOfferId);		
+	}
+
+	@Transactional
+	public CategoryOffer getCategoryOfferById(Integer categoryOfferId) throws CategoryOfferNotExistException {
+		return getGeneralOfferService().getCategoryOfferService().getCategoryOfferById(categoryOfferId);
+	}
+
+	@Transactional
+	public void createCategoryOffer(CategoryOffer categoryOffer) {
+		getGeneralOfferService().getCategoryOfferService().createOffer(categoryOffer);
+	}
+
+	@Transactional
+	public void createCombinationOffer(CombinationOffer combinationOffer) {
+		getGeneralOfferService().getCombinationOfferService().createOffer(combinationOffer);
+	}
+
+	@Transactional
+	public CombinationOffer getCombinationOfferById(Integer combinationOfferId) throws CombinationOfferNotExistException {
+		return getGeneralOfferService().getCombinationOfferService().getCombinationOfferById(combinationOfferId);
+	}
+
+	@Transactional
+	public void deleteCombinationOffer(Integer combinationOfferId) throws CombinationOfferNotExistException {
+		getGeneralOfferService().getCombinationOfferService().delete(combinationOfferId);
 	}
 
 }
