@@ -133,4 +133,17 @@ public class UserService extends GenericService<User>{
 	public List<ProductList> getProductLists(Integer userId) throws UserDoesNotExistException {
 		return getUserById(userId).getProfile().getAllProductList();
 	}
+
+	@Transactional
+	public void createOrUpdate(Integer userId, User user) {
+		try {
+			User fromdb = getUserById(userId);
+			user.setId(fromdb.getId());
+			getRepository().delete(fromdb);
+//			update(user);
+			save(user);
+		} catch (UserDoesNotExistException e1) {
+			save(user);
+		}		
+	}
 }
