@@ -29,4 +29,5 @@ public interface GenericRepository<T> {
 	void deleteAll();
 
 	List<T> findByField(String field, String key);
+	
 }
