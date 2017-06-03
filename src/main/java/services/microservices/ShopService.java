@@ -1,5 +1,7 @@
 package services.microservices;
 
+import javax.annotation.PreDestroy;
+
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,5 +78,10 @@ public class ShopService{
 
 	public void setProductListService(ProductListService productListService) {
 		this.productListService = productListService;
+	}
+	
+	@PreDestroy
+	public void stop(){
+		cashRegisterManager.stop();
 	}
 }
