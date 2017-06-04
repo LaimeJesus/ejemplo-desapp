@@ -34,6 +34,7 @@ public class CombinationOfferService extends GenericService<CombinationOffer> {
 		return results;
 	}
 	public void createOffer(CombinationOffer combinationOffer) {
+		//isOfferValid(combinationOffer);
 		save(combinationOffer);
 	}
 	public CombinationOffer getCombinationOfferById(Integer combinationOfferId) throws CombinationOfferNotExistException {
@@ -42,7 +43,6 @@ public class CombinationOfferService extends GenericService<CombinationOffer> {
 		return res;
 	}
 	public void delete(Integer combinationOfferId) throws CombinationOfferNotExistException {
-		CombinationOffer res = getCombinationOfferById(combinationOfferId);
-		delete(res);
+		delete(getCombinationOfferById(combinationOfferId));
 	}
 }

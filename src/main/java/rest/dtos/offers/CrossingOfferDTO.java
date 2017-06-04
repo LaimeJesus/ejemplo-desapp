@@ -16,16 +16,16 @@ public class CrossingOfferDTO extends OfferDTO{
 
 	public CrossingOfferDTO(CrossingOffer x) {
 		super(x.getId(), x.getValidPeriod(), x.getDiscountRate());
-		productId = x.getRelatedProduct().getId();
-		minQuantity = x.getMinQuantity();
-		maxQuantity = x.getMaxQuantity();		
+		this.productId = x.getRelatedProduct().getId();
+		this.minQuantity = x.getMinQuantity();
+		this.maxQuantity = x.getMaxQuantity();		
 	}
 
 	public static List<CrossingOfferDTO> createCrossingOffers(List<CrossingOffer> offers) {
-		return offers.stream().map(x -> new CrossingOfferDTO(x)).collect(Collectors.toList());
+		return offers.stream().map((CrossingOffer x) -> new CrossingOfferDTO(x)).collect(Collectors.toList());
 	}
 
-	public CrossingOffer toCrossingOffer(Product p) {
-		return new CrossingOffer(discount, p, maxQuantity, minQuantity, new Interval(start.toDateTime(), end.toDateTime()));
+	public CrossingOffer toCrossingOffer(Product product) {
+		return new CrossingOffer(this.discount, product, this.maxQuantity, this.minQuantity, new Interval(this.start.toDateTime(), this.end.toDateTime()));
 	}
 }

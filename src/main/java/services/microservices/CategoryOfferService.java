@@ -47,7 +47,7 @@ public class CategoryOfferService extends GenericService<CategoryOffer> {
 	}
 
 	public void createOffer(CategoryOffer categoryOffer) {
-		isOfferValid(categoryOffer);
+		//isOfferValid(categoryOffer);
 		save(categoryOffer);		
 	}
 }

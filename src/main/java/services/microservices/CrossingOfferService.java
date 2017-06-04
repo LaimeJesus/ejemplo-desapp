@@ -63,7 +63,7 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 
 
 	public void createOffer(CrossingOffer crossingOffer) {
-		isOfferValid(crossingOffer);
+//		isOfferValid(crossingOffer);
 		save(crossingOffer);
 	}
 

@@ -19,7 +19,6 @@ import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
 import exceptions.CrossingOfferNotExistException;
 import exceptions.ProductNotExistException;
-import model.products.Product;
 import rest.dtos.ResponseDTO;
 import rest.dtos.offers.CategoryOfferDTO;
 import rest.dtos.offers.CombinationOfferDTO;
@@ -52,10 +51,14 @@ public class OffersController {
 	@Produces("application/json")
 	public Response getOffers(){
 		List<OfferDTO> offers = new ArrayList<OfferDTO>();
-		offers.addAll(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
-		offers.addAll(CombinationOfferDTO.createCombinationOffers(generalService.getCombinationOffers()));
-		offers.addAll(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
-		return response.ok(offers);
+		try{
+			offers.addAll(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
+			offers.addAll(CombinationOfferDTO.createCombinationOffers(generalService.getCombinationOffers()));
+			offers.addAll(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
+			return response.ok(offers);			
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "error getting offers");
+		}
 	}
 	@DELETE
 	@Path("/")
@@ -117,11 +120,8 @@ public class OffersController {
 	@Path("/combination")
 	@Consumes("application/json")
 	public Response createCombinationOffer(String combinationOfferJson){		
-		try {
-			CombinationOfferDTO co = response.gson.fromJson(combinationOfferJson, CombinationOfferDTO.class); 
-			Product p1 = generalService.getProductById(co.relatedProductId);
-			Product p2 = generalService.getProductById(co.combinatedProductId);
-			generalService.createCombinationOffer(co.toCombinationOffer(p1, p2));
+		try { 
+			generalService.createCombinationOffer(response.gson.fromJson(combinationOfferJson, CombinationOfferDTO.class));
 			return response.ok("created");
 		} catch (JsonSyntaxException | ProductNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
@@ -152,7 +152,11 @@ public class OffersController {
 	@Path("/crossing")
 	@Produces("application/json")
 	public Response getCrossingOffers(){
-		return response.ok(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
+		try{
+			return response.ok(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));			
+		}catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
+		}
 	}
 
 	@POST
@@ -160,11 +164,12 @@ public class OffersController {
 	@Consumes("application/json")
 	public Response createCrossingOffer(String crossingOfferJson){
 		try {
-			CrossingOfferDTO co = response.gson.fromJson(crossingOfferJson, CrossingOfferDTO.class);
-			generalService.createCrossingOffer(co.toCrossingOffer(generalService.getProductById(co.productId)));
+			generalService.createCrossingOffer(response.gson.fromJson(crossingOfferJson, CrossingOfferDTO.class));
 			return response.ok("created");
 		} catch (JsonSyntaxException | ProductNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "can not create crossing offer");
 		}
 	}
 	
@@ -176,6 +181,8 @@ public class OffersController {
 			return response.ok(new CrossingOfferDTO(generalService.getCrossingOfferById(crossingOfferId)));
 		} catch (CrossingOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "error in server");
 		}
 	}
 	
@@ -187,6 +194,8 @@ public class OffersController {
 			return response.ok("crossing offer deleted");
 		} catch (CrossingOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "can not delete crossing offer");
 		}
 	}
 }

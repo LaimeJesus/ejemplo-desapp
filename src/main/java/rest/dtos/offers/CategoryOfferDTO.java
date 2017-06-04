@@ -12,12 +12,12 @@ public class CategoryOfferDTO extends OfferDTO{
 	public Category category;
 	
 	public CategoryOffer toCategoryOffer(){
-		return new CategoryOffer(discount, new Interval(start.toDateTime(), end.toDateTime()), category);
+		return new CategoryOffer(this.discount, new Interval(this.start.toDateTime(), this.end.toDateTime()), this.category);
 	}
 	
 	public CategoryOfferDTO(CategoryOffer categoryOffer){
 		super(categoryOffer.getId(), categoryOffer.getValidPeriod(), categoryOffer.getDiscountRate());
-		category = categoryOffer.getCategory();
+		this.category = categoryOffer.getCategory();
 	}
 	
 	public static List<CategoryOfferDTO> createCategoryOffers(List<CategoryOffer> categoryOffers) {

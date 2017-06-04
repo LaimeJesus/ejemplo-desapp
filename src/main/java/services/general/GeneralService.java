@@ -38,6 +38,8 @@ import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
 import rest.dtos.SelectedProductDTO;
+import rest.dtos.offers.CombinationOfferDTO;
+import rest.dtos.offers.CrossingOfferDTO;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.ShopService;
@@ -333,10 +335,12 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void createCombinationOffer(CombinationOffer combinationOffer) {
-		getGeneralOfferService().getCombinationOfferService().createOffer(combinationOffer);
+	public void createCombinationOffer(CombinationOfferDTO co) throws ProductNotExistException {
+		Product related = getProductById(co.relatedProductId);
+		Product combinated = getProductById(co.combinatedProductId);
+		getGeneralOfferService().getCombinationOfferService().createOffer(co.toCombinationOffer(related, combinated));
 	}
-
+	
 	@Transactional
 	public CombinationOffer getCombinationOfferById(Integer combinationOfferId) throws CombinationOfferNotExistException {
 		return getGeneralOfferService().getCombinationOfferService().getCombinationOfferById(combinationOfferId);
@@ -359,7 +363,10 @@ public class GeneralService {
 	public void createCrossingOffer(CrossingOffer crossingOffer) {
 		getGeneralOfferService().getCrossingOfferService().createOffer(crossingOffer);
 	}
-	
+	@Transactional
+	public void createCrossingOffer(CrossingOfferDTO crossingOffer) throws ProductNotExistException {
+		getGeneralOfferService().getCrossingOfferService().createOffer(crossingOffer.toCrossingOffer(getProductById(crossingOffer.productId)));
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
