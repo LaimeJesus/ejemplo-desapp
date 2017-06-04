@@ -244,7 +244,7 @@ public class ProductList extends Entity {
 		
 	}
 
-	public Object getSelectedProduct(Integer selectProductId) throws SelectedProductNotExistException {
+	public SelectedProduct getSelectedProduct(Integer selectProductId) throws SelectedProductNotExistException {
 		SelectedProduct res = getAllProducts().stream().filter((SelectedProduct sp) -> sp.getId().equals(selectProductId)).findFirst().orElse(null);
 		if(res == null) throw new SelectedProductNotExistException("Selected Product with id: " + selectProductId+" does not exist");
 		return res;
