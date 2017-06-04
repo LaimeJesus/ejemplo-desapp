@@ -47,7 +47,7 @@ public class ProductList extends Entity {
 	
 	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
 		if ( this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("Putito");
+			throw new ProductIsAlreadySelectedException("product is already selected");
 		}
 	}
 
@@ -240,8 +240,6 @@ public class ProductList extends Entity {
 		for (Offer offer : applied) {
 			this.applyOffer(offer);
 		}
-		
-		
 	}
 
 	public SelectedProduct getSelectedProduct(Integer selectProductId) throws SelectedProductNotExistException {
