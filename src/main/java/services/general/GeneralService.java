@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
+import exceptions.CrossingOfferNotExistException;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
@@ -28,6 +29,7 @@ import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
+import model.offers.CrossingOffer;
 import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
@@ -216,7 +218,9 @@ public class GeneralService {
 		return getUserService().findByUsername(username).getProfile();
 	}
 
-	//user methods
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Transactional
 	public PurchaseRecord getPurchaseRecord(Integer userId, Integer purchaseId) throws PurchaseRecordNotExistException, UserDoesNotExistException {
@@ -283,6 +287,11 @@ public class GeneralService {
 		getProductService().createOrUpdate(productId, product);
 	}
 
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Transactional
 	public List<Offer> getOffers() {
 		return getGeneralOfferService().retriveAll();
@@ -298,6 +307,11 @@ public class GeneralService {
 		return getGeneralOfferService().getCombinationOfferService().retriveAll();
 	}
 
+	@Transactional
+	public List<CrossingOffer> getCrossingOffers() {
+		return getGeneralOfferService().getCrossingOfferService().retriveAll();
+	}
+	
 	@Transactional
 	public void deleteOffers() {
 		getGeneralOfferService().deleteAll();		
@@ -332,7 +346,24 @@ public class GeneralService {
 	public void deleteCombinationOffer(Integer combinationOfferId) throws CombinationOfferNotExistException {
 		getGeneralOfferService().getCombinationOfferService().delete(combinationOfferId);
 	}
-
+	@Transactional
+	public CrossingOffer getCrossingOfferById(Integer crossingOfferId) throws CrossingOfferNotExistException{
+		return getGeneralOfferService().getCrossingOfferService().getCrossingOfferById(crossingOfferId);
+	}
+	@Transactional
+	public void deleteCrossingOffer(Integer crossingOfferId) throws CrossingOfferNotExistException {
+		getGeneralOfferService().getCrossingOfferService().delete(crossingOfferId);
+	}
+	
+	@Transactional
+	public void createCrossingOffer(CrossingOffer crossingOffer) {
+		getGeneralOfferService().getCrossingOfferService().createOffer(crossingOffer);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Transactional
 	public void createProductList(Integer userId, ProductList productList) throws UserDoesNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
