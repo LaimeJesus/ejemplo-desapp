@@ -298,6 +298,8 @@ public class UsersController {
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
 				| ProductNotExistException | ProductIsAlreadySelectedException | JsonSyntaxException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
 		}
 	}
 	@DELETE
@@ -310,6 +312,8 @@ public class UsersController {
 				| ProductDoesNotExistOnListException | ProductIsAlreadySelectedException
 				| MoneyCannotSubstractException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
 		}
 	}
 	@PUT
@@ -321,6 +325,8 @@ public class UsersController {
 		} catch (JsonSyntaxException | UserDoesNotExistException | UserIsNotLoggedException
 				| ProductListNotExistException | ProductNotExistException | ProductIsAlreadySelectedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////
@@ -361,5 +367,15 @@ public class UsersController {
 		}
 	}
 	
+	@POST
+	@Path("/logout")
+	public Response logout(UserDTO user){
+		try {
+			generalService.logoutUser(user.toUser());
+			return responseDTO.ok("user logged out");
+		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}		
+	}
 
 }
