@@ -35,6 +35,7 @@ import model.products.SelectedProduct;
 import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
+import rest.dtos.SelectedProductDTO;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.ShopService;
@@ -254,8 +255,7 @@ public class GeneralService {
 
 	@Transactional
 	public void deleteUser(Integer userId) throws UserDoesNotExistException {
-		User todelete = getUserById(userId);
-		getUserService().delete(todelete);		
+		getUserService().delete(getUserById(userId));		
 	}
 
 	@Transactional
@@ -265,8 +265,7 @@ public class GeneralService {
 
 	@Transactional
 	public void deleteProductById(Integer productId) throws ProductNotExistException {
-		Product todelete = getProductService().getProductById(productId);
-		getProductService().getRepository().delete(todelete);
+		getProductService().delete(getProductService().getProductById(productId));
 	}
 
 	@Transactional
@@ -346,8 +345,7 @@ public class GeneralService {
 	public void deleteProductList(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
 		user.validateLogged();
-		ProductList p = user.getProfile().getProductListById(productlistId);
-		user.getProfile().getAllProductList().remove(p);
+		user.getProfile().getAllProductList().remove(user.getProfile().getProductListById(productlistId));
 		getUserService().update(user);	
 	}
 
@@ -355,9 +353,7 @@ public class GeneralService {
 	public void createSelectedProduct(Integer userId, Integer productlistId, Integer productId, Integer quantity) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, ProductNotExistException, ProductIsAlreadySelectedException {
 		User user = getUserById(userId);
 		user.validateLogged();
-		ProductList pl = user.getProfile().getProductListById(productlistId);
-		Product product = getProductById(productId);
-		pl.selectProduct(product, quantity);
+		user.getProfile().getProductListById(productlistId).selectProduct(getProductById(productId), quantity);
 		getUserService().update(user);
 	}
 
@@ -375,16 +371,14 @@ public class GeneralService {
 	public Duration getWaitingTime(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
 		user.validateLogged();
-		ProductList pl = user.getProductListById(productlistId);
-		return getShopService().waitingTime(user, pl);
+		return getShopService().waitingTime(user, user.getProductListById(productlistId));
 	}
 
 	@Transactional
 	public Duration ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct {
 		User user = getUserById(userId);
 		user.validateLogged();
-		ProductList pl = user.getProductListById(productlistId);
-		return getShopService().ready(user, pl);
+		return getShopService().ready(user, user.getProductListById(productlistId));
 	}
 
 	@Transactional
@@ -392,6 +386,20 @@ public class GeneralService {
 		User user = getUserById(userId);
 		user.validateLogged();
 		user.getProfile().deletePurchaseRecordById(purchaseId);
+		getUserService().update(user);
+	}
+
+	@Transactional
+	public void updateSelectedProduct(Integer userId, Integer productlistId, Integer selectedProductId,
+			SelectedProductDTO selectedProduct) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, ProductNotExistException, ProductIsAlreadySelectedException{
+		User user = getUserById(userId);
+		user.validateLogged();
+		ProductList pl = user.getProductListById(productlistId);
+		try {
+			pl.getSelectedProduct(selectedProductId).setQuantity(selectedProduct.quantity);
+		} catch (SelectedProductNotExistException e) {
+			pl.selectProduct(getProductById(selectedProduct.productId), selectedProduct.quantity);
+		}
 		getUserService().update(user);
 	}
 
