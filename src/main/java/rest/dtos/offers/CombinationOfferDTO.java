@@ -1,5 +1,8 @@
 package rest.dtos.offers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.joda.time.Interval;
 
 import model.offers.CombinationOffer;
@@ -22,4 +25,7 @@ public class CombinationOfferDTO extends OfferDTO{
 		return new CombinationOffer(relatedProduct, combinatedProduct, discount, new Interval(start.toDateTime(), end.toDateTime()));
 	}
 
+	public static List<OfferDTO> createCombinationOffers(List<CombinationOffer> offers) {
+		return offers.stream().map(x -> new CombinationOfferDTO(x)).collect(Collectors.toList());
+	}
 }
