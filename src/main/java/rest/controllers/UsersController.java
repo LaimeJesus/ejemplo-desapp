@@ -310,6 +310,17 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
+	@PUT
+	@Path("/{userId}/productlists/{productlistId}/selectedproducts/{selectedproductId}")
+	public Response updateSelectedProduct(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId, @PathParam("selectedproductId") Integer selectedProductId, String selectedProductJson){
+		try {
+			generalService.updateSelectedProduct(userId, productlistId, selectedProductId, responseDTO.gson.fromJson(selectedProductJson,  SelectedProductDTO.class));
+			return responseDTO.ok("selected product updated");
+		} catch (JsonSyntaxException | UserDoesNotExistException | UserIsNotLoggedException
+				| ProductListNotExistException | ProductNotExistException | ProductIsAlreadySelectedException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
 	/////////////////////////////////////////////////////////////////////////////////
 	//OFFERS APPLIED OF A LIST OF AN USER METHODS
 	@GET
