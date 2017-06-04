@@ -1,7 +1,7 @@
 package rest.controllers;
 
-import java.util.stream.Collectors;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -17,11 +17,14 @@ import com.google.gson.JsonSyntaxException;
 
 import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
+import exceptions.CrossingOfferNotExistException;
 import exceptions.ProductNotExistException;
 import model.products.Product;
 import rest.dtos.ResponseDTO;
 import rest.dtos.offers.CategoryOfferDTO;
 import rest.dtos.offers.CombinationOfferDTO;
+import rest.dtos.offers.CrossingOfferDTO;
+import rest.dtos.offers.OfferDTO;
 import services.general.GeneralService;
 
 @Path("/offers")
@@ -48,7 +51,11 @@ public class OffersController {
 	@Path("/")
 	@Produces("application/json")
 	public Response getOffers(){
-		return response.ok(generalService.getOffers());
+		List<OfferDTO> offers = new ArrayList<OfferDTO>();
+		offers.addAll(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
+		offers.addAll(CombinationOfferDTO.createCombinationOffers(generalService.getCombinationOffers()));
+		offers.addAll(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
+		return response.ok(offers);
 	}
 	@DELETE
 	@Path("/")
@@ -62,7 +69,7 @@ public class OffersController {
 	@Path("/category")
 	@Produces("application/json")
 	public Response getCategoryOffers(){
-		return response.ok(generalService.getCategoryOffers().stream().map(x -> new CategoryOfferDTO(x)).collect(Collectors.toList()));
+		return response.ok(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
 	}
 	@POST
 	@Path("/category")
@@ -103,7 +110,7 @@ public class OffersController {
 	@Path("/combination")
 	@Produces("application/json")
 	public Response getCombinationOffers(){
-		return response.ok(generalService.getCombinationOffers().stream().map(x -> new CombinationOfferDTO(x)).collect(Collectors.toList()));
+		return response.ok(CombinationOfferDTO.createCombinationOffers(generalService.getCombinationOffers()));
 	}
 	
 	@POST
@@ -137,6 +144,48 @@ public class OffersController {
 			generalService.deleteCombinationOffer(combinationOfferId);
 			return response.ok("deleted category offer");			
 		} catch (CombinationOfferNotExistException e) {
+			return response.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	//////////////////////////////////////////////////
+	@GET
+	@Path("/crossing")
+	@Produces("application/json")
+	public Response getCrossingOffers(){
+		return response.ok(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
+	}
+
+	@POST
+	@Path("/crossing")
+	@Consumes("application/json")
+	public Response createCrossingOffer(String crossingOfferJson){
+		try {
+			CrossingOfferDTO co = response.gson.fromJson(crossingOfferJson, CrossingOfferDTO.class);
+			generalService.createCrossingOffer(co.toCrossingOffer(generalService.getProductById(co.productId)));
+			return response.ok("created");
+		} catch (JsonSyntaxException | ProductNotExistException e) {
+			return response.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	
+	@GET
+	@Path("/crossing/{crossingOfferId}")
+	@Produces("application/json")
+	public Response getCrossingOffer(@PathParam("crossingOfferId") Integer crossingOfferId){
+		try {
+			return response.ok(new CrossingOfferDTO(generalService.getCrossingOfferById(crossingOfferId)));
+		} catch (CrossingOfferNotExistException e) {
+			return response.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	
+	@DELETE
+	@Path("/crossing/{crossingOfferId}")
+	public Response deleteCrossingOffer(@PathParam("crossingOfferId") Integer crossingOfferId){
+		try {
+			generalService.deleteCrossingOffer(crossingOfferId);
+			return response.ok("crossing offer deleted");
+		} catch (CrossingOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
 		}
 	}
