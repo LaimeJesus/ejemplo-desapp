@@ -1,6 +1,7 @@
 package rest.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -33,6 +34,7 @@ import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.ProfileDTO;
+import rest.dtos.PurchaseRecordDTO;
 import rest.dtos.ResponseDTO;
 import rest.dtos.SelectedProductDTO;
 import rest.dtos.UserDTO;
@@ -155,7 +157,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getPurchases(@PathParam("userId") Integer userId){
 		try {
-			return responseDTO.ok(generalService.getPurchaseRecords(userId));
+			return responseDTO.ok(generalService.getPurchaseRecords(userId).stream().map(x -> new PurchaseRecordDTO(x)).collect(Collectors.toList()));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
@@ -165,7 +167,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getPurchaseById(@PathParam("userId") Integer userId, @PathParam("purchaseId") Integer purchaseId){
 		try {
-			return responseDTO.ok(generalService.getPurchaseRecord(userId, purchaseId));
+			return responseDTO.ok(new PurchaseRecordDTO(generalService.getPurchaseRecord(userId, purchaseId)));
 		} catch (PurchaseRecordNotExistException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
