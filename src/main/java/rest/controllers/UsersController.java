@@ -17,6 +17,9 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.JsonSyntaxException;
 
+import exceptions.InvalidSelectedProduct;
+import exceptions.MoneyCannotSubstractException;
+import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListNotExistException;
 import exceptions.ProductNotExistException;
@@ -170,6 +173,17 @@ public class UsersController {
 		}
 	}
 	
+	@DELETE
+	@Path("{userId}/purchases/{purchaseId}")
+	public Response deletePurchaseById(@PathParam("userId") Integer userId, @PathParam("purchaseId") Integer purchaseId){
+		try {
+			generalService.deletePurchaseRecord(userId, purchaseId);
+			return responseDTO.ok("purchase deleted");
+		} catch (UserDoesNotExistException | UserIsNotLoggedException | PurchaseRecordNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////////
 	//ADDRESS METHODS OF AN USER
 	@GET
@@ -223,11 +237,31 @@ public class UsersController {
 		try {
 			generalService.deleteProductList(userId, productlistId);
 			return responseDTO.ok("product list deleted");
-		} catch (UserDoesNotExistException | ProductListNotExistException e) {
+		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
 	
+	@GET
+	@Path("/{userId}/productlists/{productlistId}/waitingtime")
+	public Response getWaitingTimeOfAList(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
+		try {
+			return responseDTO.ok(generalService.getWaitingTime(userId, productlistId));
+		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	
+	@GET
+	@Path("/{userId}/productlists/{productlistId}/ready")
+	public Response ready(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
+		try {
+			return responseDTO.ok(generalService.ready(userId, productlistId));
+		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
+				| InvalidSelectedProduct e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
 	/////////////////////////////////////////////////////////////////////////////////
 	//SELECT PRODUCT METHODS OF A LIST OF AN USER
 	@GET
@@ -241,11 +275,11 @@ public class UsersController {
 		}
 	}
 	@GET
-	@Path("/{userId}/productlists/{productlistId}/selectedproducts/{selectproductId}")
+	@Path("/{userId}/productlists/{productlistId}/selectedproducts/{selectedproductId}")
 	@Produces("application/json")
-	public Response getSelectedProduct(@PathParam("userId") Integer userId, @PathParam("listId") Integer listId, @PathParam("selectproductId") Integer selectProductId){
+	public Response getSelectedProduct(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId, @PathParam("selectedproductId") Integer selectedproductId){
 		try {
-			return responseDTO.ok(generalService.getProductListById(userId, listId).getSelectedProduct(selectProductId));
+			return responseDTO.ok(generalService.getProductListById(userId, productlistId).getSelectedProduct(selectedproductId));
 		} catch (ProductListNotExistException | UserDoesNotExistException | SelectedProductNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
@@ -264,7 +298,18 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
-	
+	@DELETE
+	@Path("/{userId}/productlists/{productlistId}/selectedproducts/{selectedproductId}")
+	public Response deleteSelectedProduct(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId, @PathParam("selectedproductId") Integer selectedProductId){
+		try {
+			generalService.deleteSelectedProduct(userId,productlistId, selectedProductId);
+			return responseDTO.ok("selectedproduct deleted");
+		} catch (UserDoesNotExistException | ProductListNotExistException | SelectedProductNotExistException
+				| ProductDoesNotExistOnListException | ProductIsAlreadySelectedException
+				| MoneyCannotSubstractException | UserIsNotLoggedException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
 	/////////////////////////////////////////////////////////////////////////////////
 	//OFFERS APPLIED OF A LIST OF AN USER METHODS
 	@GET
@@ -280,7 +325,7 @@ public class UsersController {
 	
 //	AUTH VALIDATIONS 
 	@POST
-	@Path("/users/signup")
+	@Path("/signup")
 	public Response create(UserDTO user){
 		try {
 			generalService.createUser(user.fullUser());
