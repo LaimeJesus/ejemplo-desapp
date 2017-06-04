@@ -6,9 +6,6 @@ import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
-import exceptions.ProductListDoesNotExist;
-import exceptions.UserIsNotLoggedException;
-import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
 import model.registers.CashRegisterManager;
 import model.registers.PurchaseRecord;
@@ -20,6 +17,11 @@ public class ShopService{
 	private UserService userService;
 	private ProductListService productListService;
 	private CashRegisterManager cashRegisterManager;
+	
+//	@PostConstruct
+//	public void init(){
+//		setCashRegisterManager(new CashRegisterManager(1));
+//	}
 	
 	@Transactional
 	public void initialize(Integer n){
@@ -35,25 +37,17 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public Duration ready(User u, ProductList p) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException{
-		User exist = userService.validateLogged(u);
-		ProductList pl = productListService.getByUser(p, exist);
-		Duration d = cashRegisterManager.getWaitingTime(pl);
-		cashRegisterManager.addUserWithProductList(exist, pl);		
+	public Duration ready(User user, ProductList pl) throws InvalidSelectedProduct{
+		cashRegisterManager.queueUserWithAProductlist(user, pl);
 		productService.updateStock(pl);
-		exist.newPurchase(new PurchaseRecord(p));
-		userService.update(exist);
-		return d.plus(pl.getProcessingTime());
+		user.newPurchase(new PurchaseRecord(pl));
+		userService.update(user);
+		return cashRegisterManager.getWaitingTime(pl).plus(pl.getProcessingTime());
 	}
 	
 	@Transactional
-	public Duration waitingTime(User u, ProductList p) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist{
-		User logged = userService.validateLogged(u);
-		ProductList pl = getProductListService().getByUser(p, logged);
-		if(pl == null) {
-			throw new ProductListDoesNotExist();
-		}
-		return cashRegisterManager.getWaitingTime(pl);
+	public Duration waitingTime(User u, ProductList p){
+		return cashRegisterManager.getWaitingTime(p);
 	}
 
 	public UserService getUserService() {
