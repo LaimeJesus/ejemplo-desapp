@@ -138,5 +138,10 @@ public class Profile extends Entity{
 			throw new ProductListNotExistException("Product list with productListId: " + listId + " does not exist");
 		}
 		return res;
+	}
+
+	public void deletePurchaseRecordById(Integer purchaseId) throws PurchaseRecordNotExistException {
+		PurchaseRecord res = getPurchaseRecordById(purchaseId);
+		getPurchaseRecords().remove(res);
 	}	
 }

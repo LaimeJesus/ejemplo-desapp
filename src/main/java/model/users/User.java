@@ -1,7 +1,9 @@
 package model.users;
 
 
+import exceptions.ProductListNotExistException;
 import exceptions.UserIsNotLoggedException;
+import model.products.ProductList;
 import model.registers.PurchaseRecord;
 import util.Entity;
 import util.Password;
@@ -142,5 +144,8 @@ public class User extends Entity{
 		if(!getIsLogged()){
 			throw new UserIsNotLoggedException();
 		}
+	}
+	public ProductList getProductListById(Integer productlistId) throws ProductListNotExistException {
+		return getProfile().getProductListById(productlistId);
 	}	
 }
