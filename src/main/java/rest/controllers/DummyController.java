@@ -8,14 +8,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import exceptions.OfferIsAlreadyCreatedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
+import exceptions.WrongUserPermissionException;
+import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
 import rest.dummys.DummyLists;
+import rest.dummys.DummyOffers;
 import rest.dummys.DummyProduct;
 import rest.dummys.DummyUser;
 import services.general.GeneralService;
@@ -34,6 +38,7 @@ public class DummyController {
 			List<User> users = new DummyUser().example();
 			List<ProductList> lists = new DummyLists().example();
 			List<ProductList> lists2 = new DummyLists().example();
+			List<Offer> alloffers = new DummyOffers().example();
 			generalService.addProducts(products);
 			
 			User lucas = users.get(0);
@@ -43,17 +48,22 @@ public class DummyController {
 			for (ProductList list : lists){				
 				generalService.createProductList(lucas, list);
 			}
+			
 			generalService.logoutUser(lucas);
 			generalService.createUser(jesus);
 			generalService.loginUser(jesus);
 			for (ProductList list : lists2){				
 				generalService.createProductList(jesus, list);
 			}
+			for (Offer o : alloffers) {
+				generalService.createOffer(o, jesus);
+			}
 			generalService.logoutUser(jesus);
+			
 			generalService.initRegisters(1);
 			return Response.ok(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
 
-		} catch (UserAlreadyExistsException e) {
+		} catch (UserAlreadyExistsException | WrongUserPermissionException | OfferIsAlreadyCreatedException e) {
 			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
