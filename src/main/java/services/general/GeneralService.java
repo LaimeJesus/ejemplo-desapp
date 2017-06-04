@@ -19,6 +19,7 @@ import exceptions.ProductListDoesNotExist;
 import exceptions.ProductListNotExistException;
 import exceptions.ProductNotExistException;
 import exceptions.PurchaseRecordNotExistException;
+import exceptions.SelectedProductNotExistException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
@@ -30,6 +31,7 @@ import model.offers.CombinationOffer;
 import model.offers.Offer;
 import model.products.Product;
 import model.products.ProductList;
+import model.products.SelectedProduct;
 import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
@@ -341,8 +343,9 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void deleteProductList(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException {
+	public void deleteProductList(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
+		user.validateLogged();
 		ProductList p = user.getProfile().getProductListById(productlistId);
 		user.getProfile().getAllProductList().remove(p);
 		getUserService().update(user);	
@@ -355,6 +358,40 @@ public class GeneralService {
 		ProductList pl = user.getProfile().getProductListById(productlistId);
 		Product product = getProductById(productId);
 		pl.selectProduct(product, quantity);
+		getUserService().update(user);
+	}
+
+	@Transactional
+	public void deleteSelectedProduct(Integer userId, Integer productlistId, Integer selectedProductId) throws UserDoesNotExistException, ProductListNotExistException, SelectedProductNotExistException, ProductDoesNotExistOnListException, ProductIsAlreadySelectedException, MoneyCannotSubstractException, UserIsNotLoggedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		ProductList pl = user.getProfile().getProductListById(productlistId);
+		SelectedProduct sp = pl.getSelectedProduct(selectedProductId);
+		pl.removeProduct(sp.getProduct());
+		getUserService().update(user);
+	}
+
+	@Transactional
+	public Duration getWaitingTime(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		ProductList pl = user.getProductListById(productlistId);
+		return getShopService().waitingTime(user, pl);
+	}
+
+	@Transactional
+	public Duration ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct {
+		User user = getUserById(userId);
+		user.validateLogged();
+		ProductList pl = user.getProductListById(productlistId);
+		return getShopService().ready(user, pl);
+	}
+
+	@Transactional
+	public void deletePurchaseRecord(Integer userId, Integer purchaseId) throws UserDoesNotExistException, UserIsNotLoggedException, PurchaseRecordNotExistException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		user.getProfile().deletePurchaseRecordById(purchaseId);
 		getUserService().update(user);
 	}
 
