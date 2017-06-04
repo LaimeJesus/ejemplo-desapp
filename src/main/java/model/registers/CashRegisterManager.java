@@ -104,4 +104,10 @@ public class CashRegisterManager {
 		}
 	}
 
+	public void queueUserWithAProductlist(User user, ProductList pl) {
+		CashRegister cr = getNextCashRegisterFor(pl); 
+		cr.add(new InQueueUser(pl, user));
+		cr.next();
+	}
+
 }
