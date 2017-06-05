@@ -2,6 +2,7 @@ package services.general;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
@@ -236,7 +237,7 @@ public class GeneralService {
 
 	@Transactional
 	public List<ProductList> getProductLists(Integer userId) throws UserDoesNotExistException {
-		return getUserService().getProductLists(userId);
+		return getUserService().getProductLists(userId).stream().map(x -> x.updateTotalAmount()).collect(Collectors.toList());
 	}
 
 	@Transactional

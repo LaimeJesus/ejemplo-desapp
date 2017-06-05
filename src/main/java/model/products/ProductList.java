@@ -247,4 +247,10 @@ public class ProductList extends Entity {
 		if(res == null) throw new SelectedProductNotExistException("Selected Product with id: " + selectProductId+" does not exist");
 		return res;
 	}
+	public ProductList updateTotalAmount(){
+		for(SelectedProduct sp : getAllProducts()){
+			this.totalAmount.add(sp.getFinalPrice());
+		}
+		return this;
+	}
 }

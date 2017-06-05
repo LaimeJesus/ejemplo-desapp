@@ -1,8 +1,6 @@
 package rest.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -33,13 +31,12 @@ import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
-import rest.dtos.ProfileDTO;
 import rest.dtos.PurchaseRecordDTO;
 import rest.dtos.ResponseDTO;
 import rest.dtos.SelectedProductDTO;
 import rest.dtos.UserDTO;
+import rest.dtos.users.ProfileDTO;
 import services.general.GeneralService;
-import util.Address;
 
 @Path("/users")
 public class UsersController {
@@ -134,21 +131,21 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getProfileById(@PathParam("userId") Integer userId){
 		try {
-			return responseDTO.ok(generalService.getProfile(userId));
+			return responseDTO.ok(new ProfileDTO(generalService.getProfile(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
 
 	//END POINTS NO FUNCIONA, tengo q revisarlo
-	@PUT
-	@Path("/{id}/profile")
-	public Response createOrUpdateProfile(@PathParam("id") Integer id, ProfileDTO profile){
-		User u = generalService.getUserService().findById(id);
-		u.getProfile().setAddress(new Address(profile.address));
-		generalService.getUserService().update(u);
-		return Response.ok().build();
-	}
+//	@PUT
+//	@Path("/{id}/profile")
+//	public Response createOrUpdateProfile(@PathParam("id") Integer id, ProfileDTO profile){
+//		User u = generalService.getUserService().findById(id);
+//		u.getProfile().setAddress(new Address(profile.address));
+//		generalService.getUserService().update(u);
+//		return Response.ok().build();
+//	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 	//PURCHASE METHODS OF AN USER
@@ -157,11 +154,12 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getPurchases(@PathParam("userId") Integer userId){
 		try {
-			return responseDTO.ok(generalService.getPurchaseRecords(userId).stream().map(x -> new PurchaseRecordDTO(x)).collect(Collectors.toList()));
+			return responseDTO.ok(PurchaseRecordDTO.createPurchaseRecords(generalService.getPurchaseRecords(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
+
 	@GET
 	@Path("{userId}/purchases/{purchaseId}")
 	@Produces("application/json")
