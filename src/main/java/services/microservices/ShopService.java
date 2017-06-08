@@ -38,11 +38,15 @@ public class ShopService{
 	
 	@Transactional
 	public Duration ready(User user, ProductList pl) throws InvalidSelectedProduct{
-		cashRegisterManager.queueUserWithAProductlist(user, pl);
 		productService.updateStock(pl);
-		user.newPurchase(new PurchaseRecord(pl));
-		userService.update(user);
+		cashRegisterManager.queueUserWithAProductlist(user, pl);
 		return cashRegisterManager.getWaitingTime(pl).plus(pl.getProcessingTime());
+	}
+	
+	@Transactional
+	public void shop(User user, ProductList productList){
+		user.newPurchase(new PurchaseRecord(productList));
+		userService.update(user);
 	}
 	
 	@Transactional

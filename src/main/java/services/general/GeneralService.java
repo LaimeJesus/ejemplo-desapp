@@ -421,6 +421,13 @@ public class GeneralService {
 	}
 
 	@Transactional
+	public void shop(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		getShopService().shop(user, user.getProductListById(productlistId));
+	}
+	
+	@Transactional
 	public void deletePurchaseRecord(Integer userId, Integer purchaseId) throws UserDoesNotExistException, UserIsNotLoggedException, PurchaseRecordNotExistException {
 		User user = getUserById(userId);
 		user.validateLogged();

@@ -262,6 +262,20 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
+	
+	//no tiene validacion de si estaba primero en la caja ni tampoco si la eligio para comprar, simplemente la compra
+	@GET
+	@Path("/{userId}/productlists/{productlistId}/ready")
+	public Response shop(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
+		try {
+			generalService.shop(userId,productlistId);
+			return responseDTO.ok("ya compre");
+		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+		
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////////
 	//SELECT PRODUCT METHODS OF A LIST OF AN USER
 	@GET

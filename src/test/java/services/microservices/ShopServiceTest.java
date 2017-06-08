@@ -110,6 +110,12 @@ public class ShopServiceTest {
 				
 		List<PurchaseRecord> purchases = shopService.getUserService().getPurchaseRecords(user);
 		
+		Assert.assertTrue(purchases.isEmpty());
+		
+		shopService.shop(user, productList);
+		
+		purchases = shopService.getUserService().getPurchaseRecords(user);
+		
 		Assert.assertFalse(purchases.isEmpty());
 		Assert.assertEquals(1, purchases.size());
 		
@@ -213,7 +219,7 @@ public class ShopServiceTest {
 		Assert.assertEquals(2, cr.size());
 		Assert.assertEquals(new Duration(10000L), cr.getWaitingTime());		
 		try {
-			Thread.sleep(10000L);
+			Thread.sleep(15000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
