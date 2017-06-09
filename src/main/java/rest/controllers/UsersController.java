@@ -14,6 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 import com.google.gson.JsonSyntaxException;
 
 import exceptions.InvalidSelectedProduct;
@@ -34,10 +36,11 @@ import model.users.User;
 import rest.dtos.PurchaseRecordDTO;
 import rest.dtos.ResponseDTO;
 import rest.dtos.SelectedProductDTO;
-import rest.dtos.UserDTO;
 import rest.dtos.users.ProfileDTO;
+import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/users")
 public class UsersController {
 	
@@ -225,9 +228,10 @@ public class UsersController {
 	@Produces("application/json")
 	public Response createProductList(@PathParam("userId") Integer userId, String productListJson){
 		try {
-			generalService.createProductList(userId, responseDTO.gson.fromJson(productListJson, ProductList.class));
-			return responseDTO.ok("list created");
-		} catch (UserDoesNotExistException | UserIsNotLoggedException e) {
+			ProductList pl = responseDTO.gson.fromJson(productListJson, ProductList.class);
+			generalService.createProductList(userId, pl);
+			return responseDTO.ok(generalService.getUserById(userId).getProductListByName(pl.getName()));
+		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
@@ -241,7 +245,8 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
-	
+	/////////////////////////////////////////////////////////////////////////////////
+	//SHOP
 	@GET
 	@Path("/{userId}/productlists/{productlistId}/waitingtime")
 	public Response getWaitingTimeOfAList(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
@@ -249,6 +254,8 @@ public class UsersController {
 			return responseDTO.ok(generalService.getWaitingTime(userId, productlistId));
 		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
 	
@@ -260,20 +267,23 @@ public class UsersController {
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
 				| InvalidSelectedProduct e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
 	
 	//no tiene validacion de si estaba primero en la caja ni tampoco si la eligio para comprar, simplemente la compra
-	@GET
-	@Path("/{userId}/productlists/{productlistId}/ready")
+	@POST
+	@Path("/{userId}/productlists/{productlistId}/shop")
 	public Response shop(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
 		try {
 			generalService.shop(userId,productlistId);
 			return responseDTO.ok("ya compre");
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
-		
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////
@@ -357,12 +367,16 @@ public class UsersController {
 //	AUTH VALIDATIONS 
 	@POST
 	@Path("/signup")
-	public Response create(UserDTO user){
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response create(String userJson){
 		try {
-			generalService.createUser(user.fullUser());
+			generalService.createUser(responseDTO.gson.fromJson(userJson, UserDTO.class).signUpUser());
 			return responseDTO.ok("user created");
 		} catch (UserAlreadyExistsException e) {
 			return responseDTO.error(Status.FORBIDDEN, e.getMessage());
+		} catch (JsonSyntaxException j){
+			return responseDTO.error(Status.BAD_REQUEST, "user created incorrectly");
 		}
 	}
 
@@ -379,8 +393,26 @@ public class UsersController {
 		}
 	}
 	
+	//users/loginwithmail
+	@POST
+	@Path("/loginwithmail")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response loginwithmail(String userJson){
+		try {
+			User u = responseDTO.gson.fromJson(userJson, User.class);
+			generalService.loginWithMailUser(u);
+			return responseDTO.ok(generalService.getUserService().findByUsername(u.getUsername()));
+		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException | UserAlreadyExistsException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+	}
+	
+	
 	@POST
 	@Path("/logout")
+	@Consumes("application/json")
+	@Produces("application/json")
 	public Response logout(UserDTO user){
 		try {
 			generalService.logoutUser(user.toUser());

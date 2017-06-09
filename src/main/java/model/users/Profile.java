@@ -143,5 +143,13 @@ public class Profile extends Entity{
 	public void deletePurchaseRecordById(Integer purchaseId) throws PurchaseRecordNotExistException {
 		PurchaseRecord res = getPurchaseRecordById(purchaseId);
 		getPurchaseRecords().remove(res);
+	}
+
+	public ProductList getProductListByName(String name) throws ProductListNotExistException {
+		ProductList res = getAllProductList().stream().filter((ProductList pl) -> pl.getName().equals(name)).findFirst().orElse(null);
+		if(res == null){
+			throw new ProductListNotExistException("Product list with name: " + name + " does not exist");
+		}
+		return res;
 	}	
 }

@@ -147,5 +147,9 @@ public class User extends Entity{
 	}
 	public ProductList getProductListById(Integer productlistId) throws ProductListNotExistException {
 		return getProfile().getProductListById(productlistId);
+	}
+	
+	public ProductList getProductListByName(String name) throws ProductListNotExistException {
+		return getProfile().getProductListByName(name);
 	}	
 }

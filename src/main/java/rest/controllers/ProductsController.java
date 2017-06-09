@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -24,6 +25,7 @@ import model.products.Product;
 import rest.dtos.ResponseDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/products")
 public class ProductsController {
 

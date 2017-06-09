@@ -45,6 +45,7 @@ import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.ShopService;
 import services.microservices.UserService;
+import util.Password;
 
 public class GeneralService {
 	
@@ -447,6 +448,21 @@ public class GeneralService {
 			pl.selectProduct(getProductById(selectedProduct.productId), selectedProduct.quantity);
 		}
 		getUserService().update(user);
+	}
+
+	@Transactional
+	public void loginWithMailUser(User user) throws UserAlreadyExistsException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+		User exists = getUserService().findByUsername(user.getEmail());
+		if(exists == null){
+			user.setPassword(new Password(user.getEmail()));
+			getUserService().createNewUser(user);
+			getUserService().loginUser(user);
+		}else{
+			getUserService().loginUser(exists);
+		}
+		
+		
+		
 	}
 
 }

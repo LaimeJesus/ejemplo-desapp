@@ -13,6 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 import com.google.gson.JsonSyntaxException;
 
 import exceptions.CategoryOfferNotExistException;
@@ -26,6 +28,7 @@ import rest.dtos.offers.CrossingOfferDTO;
 import rest.dtos.offers.OfferDTO;
 import services.general.GeneralService;
 
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/offers")
 public class OffersController {
 

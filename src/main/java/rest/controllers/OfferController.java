@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import rest.dtos.CategoryDTO;
-import rest.dtos.UserDTO;
+import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
 import util.Category;
 

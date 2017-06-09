@@ -2,7 +2,7 @@ package util;
 
 public class Address {
 
-	private String address;
+	public String address;
 
 	public Address(){
 		

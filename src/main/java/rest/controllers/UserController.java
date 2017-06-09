@@ -18,8 +18,8 @@ import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import rest.dtos.ProfileDTO;
-import rest.dtos.UserDTO;
 import rest.dtos.UsernameDTO;
+import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
