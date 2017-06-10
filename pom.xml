@@ -19,6 +19,7 @@
 <!-- 	<project.spring.data.jpa.version>1.10.3.RELEASE</project.spring.data.jpa.version> -->
 	<jackson.version>1.8.2</jackson.version>
 	<cxf.version>2.7.18</cxf.version>
+	<aspectj.version>1.8.10</aspectj.version>
   </properties>
 
   <dependencies>
@@ -250,6 +251,20 @@
 			<version>2.6.3</version>
 		</dependency>
 		<!-- /Jackson -->
+		
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<!-- /AspectJ -->
 		
   </dependencies>
 

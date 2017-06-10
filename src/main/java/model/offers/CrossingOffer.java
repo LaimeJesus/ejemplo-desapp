@@ -96,4 +96,9 @@ public class CrossingOffer extends Offer {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return this.getMaxQuantity() + " x " + this.getMinQuantity() + " of " + this.getRelatedProduct().toString();
+	}
 }

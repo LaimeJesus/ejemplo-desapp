@@ -23,4 +23,9 @@ public class Address extends Entity{
 		this.address = address;
 	}
 
+	@Override
+	public String toString() {
+		return address;
+	}
+
 }

@@ -2,7 +2,7 @@ package util;
 
 import java.io.Serializable;
 
-public class Entity implements Serializable{
+public abstract class Entity implements Serializable{
 	
 	/**
 	 * 
@@ -19,4 +19,6 @@ public class Entity implements Serializable{
 	public void setId(Integer newId) {
 		this.id = newId;
 	}	
+	
+	public abstract String toString();
 }

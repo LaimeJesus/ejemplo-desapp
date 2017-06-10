@@ -61,4 +61,9 @@ public class UmbralAlert extends Alert{
 		return aProduct.getCategory().equals(this.getCategory()) && this.isLesserThanTheAcceptedPercentage(aProductList, aQuantity); 
 		
 	}
+
+	@Override
+	public String toString() {
+		return "Alert for " + this.getCategory() + " products";
+	}
 }

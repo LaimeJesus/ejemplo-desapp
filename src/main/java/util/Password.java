@@ -45,5 +45,10 @@ public class Password extends Entity{
 		return 
 			this.getPassword().equals(somePassword.getPassword());
 	}
+
+	@Override
+	public String toString() {
+		return "********";
+	}
 	
 }

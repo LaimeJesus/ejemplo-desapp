@@ -36,4 +36,9 @@ public class PriceAlert extends Alert {
 	public Boolean satisfy(ProductList aProductList, Product aProduct, Integer aQuantity) {
 		return aProductList.getTotalAmount().add(aProduct.getPrice().times(aQuantity)).greaterThan(this.getLimit());
 	}
+
+	@Override
+	public String toString() {
+		return "Alert for " + this.getLimit().toString() + " limit price";
+	}
 }

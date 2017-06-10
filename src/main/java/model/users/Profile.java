@@ -151,5 +151,10 @@ public class Profile extends Entity{
 			throw new ProductListNotExistException("Product list with name: " + name + " does not exist");
 		}
 		return res;
+	}
+
+	@Override
+	public String toString() {
+		return "Profile: " + this.getAddress().toString();
 	}	
 }

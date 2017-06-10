@@ -253,4 +253,9 @@ public class ProductList extends Entity {
 		}
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }
