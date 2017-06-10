@@ -2,6 +2,13 @@ package exceptions;
 
 public class UserIsNotLoggedException extends Exception {
 
+	public UserIsNotLoggedException(String msg) {
+		super(msg);
+	}
+
+	public UserIsNotLoggedException() {
+	}
+
 	/**
 	 * 
 	 */

@@ -376,7 +376,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response create(String userJson){
 		try {
-			generalService.createUser(responseDTO.gson.fromJson(userJson, UserDTO.class).signUpUser());
+			generalService.createUser(responseDTO.gson.fromJson(userJson, User.class));
 			return responseDTO.ok("user created");
 		} catch (UserAlreadyExistsException e) {
 			return responseDTO.error(Status.FORBIDDEN, e.getMessage());
@@ -389,9 +389,9 @@ public class UsersController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(String userDTO){
+	public Response login(String userJson){
 		try {
-			User u = responseDTO.gson.fromJson(userDTO, UserDTO.class).fullUser();
+			User u = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.loginUser(u);
 			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
 		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException e) {
@@ -418,11 +418,11 @@ public class UsersController {
 	@Path("/logout")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response logout(UserDTO user){
+	public Response logout(Integer id){
 		try {
-			generalService.logoutUser(user.toUser());
+			generalService.logoutUser(id);
 			return responseDTO.ok("user logged out");
-		} catch (UsernameDoesNotExistException | UserIsNotLoggedException e) {
+		} catch (UserIsNotLoggedException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}		
 	}

@@ -2,8 +2,6 @@ package services.general;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -462,6 +460,17 @@ public class GeneralService {
 		}
 		
 		
+		
+	}
+
+	@Transactional
+	public void logoutUser(Integer id) throws UserDoesNotExistException, UserIsNotLoggedException {
+		User exists = getUserById(id);
+		if(!exists.getIsLogged()){
+			throw new UserIsNotLoggedException("user can not log out when is not logged");
+		}
+		exists.logout();
+		getUserService().update(exists);		
 		
 	}
 
