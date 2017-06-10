@@ -14,6 +14,7 @@ public class PurchaseRecordDTO {
 		
 	}
 	public PurchaseRecordDTO(PurchaseRecord purchaseRecord) {
+		id = purchaseRecord.getId();
 		productlist = new ProductListDTO(purchaseRecord.getPurchasingList());
 		purchaseDate = new DateDTO(purchaseRecord.getPurchasingDate());
 	}
