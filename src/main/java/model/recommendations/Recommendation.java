@@ -38,5 +38,10 @@ public class Recommendation extends Entity {
 	public void setRecommended(List<Product> recommended) {
 		this.recommended = recommended;
 	}
+
+	@Override
+	public String toString() {
+		return "Recommendation for: " + this.getRelatedProduct().toString();
+	}
 	
 }

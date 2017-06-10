@@ -19,7 +19,7 @@ public class DummyProduct {
 				.withBrand("Marolio")
 				.withPrice(new Money(13,50))
 				.withCategory(Category.Baked)
-				.withStock(350)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		one.setImageUrl("https://image.ibb.co/mB7ELv/arroz_marolio.jpg");
@@ -28,7 +28,7 @@ public class DummyProduct {
 				.withBrand("La criollita")
 				.withPrice(new Money(11,70))
 				.withCategory(Category.Dairy)
-				.withStock(500)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		two.setImageUrl("https://image.ibb.co/eYyM0v/lechuga.jpg");
@@ -37,7 +37,7 @@ public class DummyProduct {
 				.withBrand("La serenisima")
 				.withPrice(new Money(11,70))
 				.withCategory(Category.Dairy)
-				.withStock(500)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		three.setImageUrl("https://image.ibb.co/cKU5Sa/leche_laserenisima.jpg");
@@ -46,7 +46,7 @@ public class DummyProduct {
 				.withBrand("Bimbo")
 				.withPrice(new Money(28,50))
 				.withCategory(Category.Baked)
-				.withStock(400)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		four.setImageUrl("https://image.ibb.co/eSozna/pan_bimbo.jpg");
@@ -55,7 +55,7 @@ public class DummyProduct {
 				.withBrand("Paladini")
 				.withPrice(new Money(65,39))
 				.withCategory(Category.Meat)
-				.withStock(20)
+				.withStock(2000)
 				.withProcessingTime(new Duration(300L))
 				.build();
 		five.setImageUrl("https://image.ibb.co/hnP5Sa/bondiola_paladini.jpg");
@@ -64,7 +64,7 @@ public class DummyProduct {
 				.withBrand("La buena nueva")
 				.withPrice(new Money(64,50))
 				.withCategory(Category.Vegetable)
-				.withStock(500)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		six.setImageUrl("https://image.ibb.co/eYyM0v/lechuga.jpg");
@@ -73,7 +73,7 @@ public class DummyProduct {
 				.withBrand("La mendocina")
 				.withPrice(new Money(24,00))
 				.withCategory(Category.Fruit)
-				.withStock(600)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		seven.setImageUrl("https://image.ibb.co/cshQSa/manzana.jpg");
@@ -82,7 +82,7 @@ public class DummyProduct {
 				.withBrand("Molto")
 				.withPrice(new Money(15,30))
 				.withCategory(Category.Baked)
-				.withStock(370)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		eight.setImageUrl("https://image.ibb.co/eyF10v/arroz_molto.jpg");
@@ -91,7 +91,7 @@ public class DummyProduct {
 				.withBrand("Sancor")
 				.withPrice(new Money(21,56))
 				.withCategory(Category.Dairy)
-				.withStock(500)
+				.withStock(2000)
 				.withProcessingTime(new Duration(200L))
 				.build();
 		nine.setImageUrl("https://image.ibb.co/juYofv/leche_sancor.jpg");
@@ -100,7 +100,7 @@ public class DummyProduct {
 				.withBrand("Ariel")
 				.withPrice(new Money(35,60))
 				.withCategory(Category.Perfumery)
-				.withStock(500)
+				.withStock(2000)
 				.withProcessingTime(new Duration(300L))
 				.build();
 		res.add(one);

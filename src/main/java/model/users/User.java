@@ -151,5 +151,9 @@ public class User extends Entity{
 	
 	public ProductList getProductListByName(String name) throws ProductListNotExistException {
 		return getProfile().getProductListByName(name);
+	}
+	@Override
+	public String toString() {
+		return "Username: " + this.getUsername() + " Email: " + this.getEmail();
 	}	
 }
