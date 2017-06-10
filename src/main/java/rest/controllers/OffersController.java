@@ -21,12 +21,14 @@ import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
 import exceptions.CrossingOfferNotExistException;
 import exceptions.ProductNotExistException;
+import rest.dtos.CategoryDTO;
 import rest.dtos.generics.ResponseDTO;
 import rest.dtos.offers.CategoryOfferDTO;
 import rest.dtos.offers.CombinationOfferDTO;
 import rest.dtos.offers.CrossingOfferDTO;
 import rest.dtos.offers.OfferDTO;
 import services.general.GeneralService;
+import util.Category;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/offers")
@@ -71,6 +73,22 @@ public class OffersController {
 	}
 	
 	//////////////////////////////////////////////////
+	@GET
+	@Path("/categories")
+	@Produces("application/json")
+	public Response getAllCategories(){
+		
+		try {
+			List<CategoryDTO> values = new ArrayList<CategoryDTO>(); 
+			for (Category category : Category.values()){
+				values.add(new CategoryDTO(category));
+			}
+			return response.ok(values);
+		} catch (Exception e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
 	@GET
 	@Path("/category")
 	@Produces("application/json")

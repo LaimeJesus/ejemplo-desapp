@@ -11,9 +11,9 @@ public class LoggingAspect {
 
 	final static Logger logger = Logger.getLogger(LoggingAspect.class);
 	
-	@Before("execution(* rest.controllers.*.*(..)) ")
+//	@Before("execution(* rest.controllers.*.*(..)) ")
 	public void logControllers (JoinPoint joinPoint ){
-		
+
 		totalLog(
 				" controller " + joinPoint.getTarget().getClass().getName(),
 				joinPoint.getSignature().getName(),
