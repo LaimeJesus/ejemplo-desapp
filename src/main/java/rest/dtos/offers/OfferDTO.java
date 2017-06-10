@@ -2,6 +2,8 @@ package rest.dtos.offers;
 
 import org.joda.time.Interval;
 
+import rest.dtos.generics.DateDTO;
+
 public class OfferDTO {
 	public Integer id;
 	public DateDTO start;

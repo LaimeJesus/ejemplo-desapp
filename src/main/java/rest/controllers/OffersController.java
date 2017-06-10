@@ -21,7 +21,7 @@ import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
 import exceptions.CrossingOfferNotExistException;
 import exceptions.ProductNotExistException;
-import rest.dtos.ResponseDTO;
+import rest.dtos.generics.ResponseDTO;
 import rest.dtos.offers.CategoryOfferDTO;
 import rest.dtos.offers.CombinationOfferDTO;
 import rest.dtos.offers.CrossingOfferDTO;

@@ -1,21 +1,20 @@
-package rest.dtos;
+package rest.dtos.productlists;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.products.ProductList;
 import model.registers.PurchaseRecord;
-import rest.dtos.offers.DateDTO;
+import rest.dtos.generics.DateDTO;
 
 public class PurchaseRecordDTO {
-
-	public ProductList productlist;
+	public int id;
+	public ProductListDTO productlist;
 	public DateDTO purchaseDate;
 	public PurchaseRecordDTO(){
 		
 	}
 	public PurchaseRecordDTO(PurchaseRecord purchaseRecord) {
-		productlist = purchaseRecord.getPurchasingList();
+		productlist = new ProductListDTO(purchaseRecord.getPurchasingList());
 		purchaseDate = new DateDTO(purchaseRecord.getPurchasingDate());
 	}
 	public static List<PurchaseRecordDTO> createPurchaseRecords(List<PurchaseRecord> purchaseRecords) {

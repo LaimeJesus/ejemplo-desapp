@@ -1,15 +1,17 @@
 package rest.dtos.users;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import model.users.User;
-import util.Address;
 import util.Password;
 
 public class UserDTO {
+	public int id;
 	public String username;
-	public String password;
+	public Password password;
 	public String email;
-	public String address;
-	//public ProfileDTO profile;
+	public ProfileDTO profile;
 	
 	public User toUser(){
 		User u = new User();
@@ -19,7 +21,7 @@ public class UserDTO {
 	
 	public User fullUser(){
 		User u = toUser();
-		u.setPassword(new Password(password));
+		u.setPassword(password);
 		return u;
 	}
 	
@@ -27,8 +29,21 @@ public class UserDTO {
 		User u = new User();
 		u.setUsername(username);
 		u.setEmail(email);
-		u.setPassword(new Password(password));
-//		u.getProfile().setAddress(new Address(address));
+		u.setPassword(password);
+		u.getProfile().setAddress(profile.address);;
 		return u;
 	}
+	
+	public UserDTO(User u){
+		profile = new ProfileDTO(u.getProfile());
+		email = u.getEmail();
+		username = u.getUsername();
+		password = u.getPassword();
+		id = u.getId();
+	}
+
+	public static List<UserDTO> createUsers(List<User> users) {
+		return users.stream().map((User x) -> new UserDTO(x)).collect(Collectors.toList());
+	}
+	
 }

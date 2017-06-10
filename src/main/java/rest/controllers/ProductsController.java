@@ -22,7 +22,8 @@ import com.google.gson.JsonSyntaxException;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductNotExistException;
 import model.products.Product;
-import rest.dtos.ResponseDTO;
+import rest.dtos.generics.ResponseDTO;
+import rest.dtos.products.ProductDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
@@ -51,7 +52,7 @@ public class ProductsController {
 	@Path("/")
 	@Produces("application/json")
 	public Response getProducts(){
-		return response.ok(generalService.getProductService().retriveAll());
+		return response.ok(ProductDTO.createProducts(generalService.getProductService().retriveAll()));
 	}
 
 	@DELETE
@@ -66,7 +67,7 @@ public class ProductsController {
 	@Consumes("application/json")
 	public Response createProduct(String productJson){
 		try {
-			generalService.createProduct(response.gson.fromJson(productJson, Product.class));
+			generalService.createProduct(response.gson.fromJson(productJson, ProductDTO.class).toProduct());
 			return response.ok("created product");
 		} catch (JsonSyntaxException | ProductAlreadyCreatedException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
@@ -82,7 +83,7 @@ public class ProductsController {
 	@Produces("application/json")
 	public Response getProductById(@PathParam("productId") Integer productId){
 		try {
-			return response.ok(generalService.getProductById(productId));
+			return response.ok(new ProductDTO(generalService.getProductById(productId)));
 		} catch (ProductNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
 		} catch (Exception e){

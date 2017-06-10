@@ -1,4 +1,4 @@
-package rest.dtos;
+package rest.dtos.generics;
 
 import javax.ws.rs.core.Response.Status;
 

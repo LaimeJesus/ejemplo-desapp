@@ -38,9 +38,9 @@ import model.products.SelectedProduct;
 import model.registers.PurchaseRecord;
 import model.users.Profile;
 import model.users.User;
-import rest.dtos.SelectedProductDTO;
 import rest.dtos.offers.CombinationOfferDTO;
 import rest.dtos.offers.CrossingOfferDTO;
+import rest.dtos.productlists.SelectedProductDTO;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.ShopService;
@@ -238,7 +238,7 @@ public class GeneralService {
 
 	@Transactional
 	public List<ProductList> getProductLists(Integer userId) throws UserDoesNotExistException {
-		return getUserService().getProductLists(userId).stream().map(x -> x.updateTotalAmount()).collect(Collectors.toList());
+		return getUserService().getProductLists(userId);
 	}
 
 	@Transactional

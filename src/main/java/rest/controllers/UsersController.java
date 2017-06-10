@@ -33,9 +33,10 @@ import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
-import rest.dtos.PurchaseRecordDTO;
-import rest.dtos.ResponseDTO;
-import rest.dtos.SelectedProductDTO;
+import rest.dtos.generics.DurationDTO;
+import rest.dtos.generics.ResponseDTO;
+import rest.dtos.productlists.PurchaseRecordDTO;
+import rest.dtos.productlists.SelectedProductDTO;
 import rest.dtos.users.ProfileDTO;
 import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
@@ -66,7 +67,7 @@ public class UsersController {
 	@Path("/")
 	@Produces("application/json")
 	public Response users(){
-		return responseDTO.ok(getGeneralService().getUsers());
+		return responseDTO.ok(UserDTO.createUsers(getGeneralService().getUsers()));
 	}
 	
 	@POST
@@ -97,7 +98,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getById(@PathParam("userId") Integer userId){
 		try {
-			return responseDTO.ok(generalService.getUserById(userId));
+			return responseDTO.ok(new UserDTO(generalService.getUserById(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
@@ -230,7 +231,8 @@ public class UsersController {
 		try {
 			ProductList pl = responseDTO.gson.fromJson(productListJson, ProductList.class);
 			generalService.createProductList(userId, pl);
-			return responseDTO.ok(generalService.getUserById(userId).getProductListByName(pl.getName()));
+			pl = generalService.getUserById(userId).getProductListByName(pl.getName());
+			return responseDTO.ok(pl.updateTotalAmount());
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
@@ -251,7 +253,7 @@ public class UsersController {
 	@Path("/{userId}/productlists/{productlistId}/waitingtime")
 	public Response getWaitingTimeOfAList(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
 		try {
-			return responseDTO.ok(generalService.getWaitingTime(userId, productlistId));
+			return responseDTO.ok(new DurationDTO(generalService.getWaitingTime(userId, productlistId)));
 		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
@@ -263,7 +265,7 @@ public class UsersController {
 	@Path("/{userId}/productlists/{productlistId}/ready")
 	public Response ready(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
 		try {
-			return responseDTO.ok(generalService.ready(userId, productlistId));
+			return responseDTO.ok(new DurationDTO(generalService.ready(userId, productlistId)));
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
 				| InvalidSelectedProduct e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
@@ -318,9 +320,12 @@ public class UsersController {
 			generalService.createSelectedProduct(userId, productlistId, selectedProduct.productId, selectedProduct.quantity);
 			return responseDTO.ok("product selected");
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
-				| ProductNotExistException | ProductIsAlreadySelectedException | JsonSyntaxException e) {
+				| ProductNotExistException | ProductIsAlreadySelectedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		} catch(Exception e){
+		} catch(JsonSyntaxException e){
+			return responseDTO.error(Status.CONFLICT, "json error");
+		}
+		catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
 		}
 	}
@@ -384,10 +389,11 @@ public class UsersController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(UserDTO user){
+	public Response login(String userDTO){
 		try {
-			generalService.loginUser(user.fullUser());
-			return responseDTO.ok(generalService.getUserService().findByUsername(user.username));
+			User u = responseDTO.gson.fromJson(userDTO, UserDTO.class).fullUser();
+			generalService.loginUser(u);
+			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
 		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
@@ -402,12 +408,11 @@ public class UsersController {
 		try {
 			User u = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.loginWithMailUser(u);
-			return responseDTO.ok(generalService.getUserService().findByUsername(u.getUsername()));
+			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
 		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}
 	}
-	
 	
 	@POST
 	@Path("/logout")

@@ -20,8 +20,8 @@ import exceptions.UsernameDoesNotExistException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.CreateListDTO;
-import rest.dtos.ProductListDTO;
 import rest.dtos.SelectedListDTO;
+import rest.dtos.productlists.ProductListDTO;
 import services.general.GeneralService;
 
 @CrossOriginResourceSharing(allowAllOrigins = true)
