@@ -12,8 +12,7 @@
             <generator class="increment" />
         </id>
         
- 		<!-- <property name="purchasingDate" type="org.joda.time.contrib.hibernate.PersistentDateTime"/> -->
-		
+ 		<property name="purchasingDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"/>
 		<one-to-one 
 			name="purchasingList" 
 			class="model.products.ProductList" 

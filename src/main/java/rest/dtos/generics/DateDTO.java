@@ -11,6 +11,7 @@ public class DateDTO {
 		this.minutes = date.getMinuteOfHour();
 //		this.seconds = date.getSecondOfMinute();
 	}
+	
 	public int year;
 	public int month;
 	public int day;

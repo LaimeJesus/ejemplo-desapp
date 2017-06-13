@@ -35,11 +35,11 @@ public class UserDTO {
 	}
 	
 	public UserDTO(User u){
+		id = u.getId();
 		profile = new ProfileDTO(u.getProfile());
 		email = u.getEmail();
 		username = u.getUsername();
 		password = u.getPassword();
-		id = u.getId();
 	}
 
 	public static List<UserDTO> createUsers(List<User> users) {

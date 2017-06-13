@@ -74,7 +74,7 @@ public class ShopServiceTest {
 		Assert.assertEquals(new Duration(0), expected);
 		
 		shopService.getUserService().deleteAll();
-		
+		shopService.getCashRegisterManager().stop();
 	}
 	
 	@Test
