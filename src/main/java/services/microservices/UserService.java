@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
 import exceptions.UsernameOrPasswordInvalidException;
@@ -31,7 +32,6 @@ public class UserService extends GenericService<User>{
 	
 	@Transactional
 	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
-		//User possible = this.validateExist(user);
 		User possible = validateExist(user);
 		User current = validatePassword(user);
 		possible.login();
@@ -118,5 +118,32 @@ public class UserService extends GenericService<User>{
 		if (user.getPassword().equals(persisted.getPassword())){
 			return persisted;
 		} throw new UsernameOrPasswordInvalidException();
+	}
+
+	@Transactional
+	public User getUserById(Integer userId) throws UserDoesNotExistException {
+		User user = findById(userId);
+		if(user == null){
+			throw new UserDoesNotExistException("User with id:" + userId + " does not exist");
+		}
+		return user;
+	}
+
+	@Transactional
+	public List<ProductList> getProductLists(Integer userId) throws UserDoesNotExistException {
+		return getUserById(userId).getProfile().getAllProductList();
+	}
+
+	@Transactional
+	public void createOrUpdate(Integer userId, User user) {
+		try {
+			User fromdb = getUserById(userId);
+			user.setId(fromdb.getId());
+			getRepository().delete(fromdb);
+//			update(user);
+			save(user);
+		} catch (UserDoesNotExistException e1) {
+			save(user);
+		}		
 	}
 }

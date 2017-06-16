@@ -23,12 +23,10 @@
 
 	<jaxrs:server id="product" address="/"  >
 		<jaxrs:serviceBeans>
-			<ref bean="productcontroller"/>
-			<ref bean="productlistcontroller"/>
-			<ref bean="usercontroller"/>
-			<ref bean="shopcontroller"/>
-			<ref bean="offercontroller"/>
 			<ref bean="dummycontroller"/>
+			<ref bean="userscontroller"/>
+			<ref bean="productscontroller"/>
+			<ref bean="offerscontroller"/>
 			<ref bean="cors-server"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
@@ -44,6 +42,7 @@
 			<cxf:logging />
 		</jaxrs:features>
 	</jaxrs:server>
+<<<<<<< HEAD
 
 	<bean id="productcontroller" class="rest.controllers.ProductController">
 		<property name="generalService" ref="services.general.generalservice" />
@@ -51,20 +50,20 @@
 	<bean id="productlistcontroller" class="rest.controllers.ProductListController">
 		<property name="generalService" ref="services.general.generalservice" />
 		<property name="productListService" ref="services.microservices.productlistservice" />
-	</bean>
-	<bean id="usercontroller" class="rest.controllers.UserController">
-		<property name="generalService" ref="services.general.generalservice" />
-	</bean>	
-
-	<bean id="shopcontroller" class="rest.controllers.ShopController">
-		<property name="generalService" ref="services.general.generalservice"/>
-	</bean>
-	
-	<bean id="offercontroller" class="rest.controllers.OfferController">
-		<property name="generalService" ref="services.general.generalservice"/>
-	</bean>
+=======
 	
 	<bean id="dummycontroller" class="rest.controllers.DummyController">
+		<property name="generalService" ref="services.general.generalservice"/>
+>>>>>>> origin/master
+	</bean>
+
+	<bean id="userscontroller" class="rest.controllers.UsersController">
+		<property name="generalService" ref="services.general.generalservice"/>
+	</bean>
+	<bean id="productscontroller" class="rest.controllers.ProductsController">
+		<property name="generalService" ref="services.general.generalservice"/>
+	</bean>
+	<bean id="offerscontroller" class="rest.controllers.OffersController">
 		<property name="generalService" ref="services.general.generalservice"/>
 	</bean>
 

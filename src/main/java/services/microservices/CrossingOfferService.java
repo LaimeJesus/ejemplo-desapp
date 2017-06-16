@@ -3,6 +3,7 @@ package services.microservices;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.CrossingOfferNotExistException;
 import model.offers.CrossingOffer;
 import model.offers.Offer;
 import model.products.ProductList;
@@ -42,6 +43,28 @@ public class CrossingOfferService extends GenericService<CrossingOffer> {
 			}
 		}
 		return results;
+	}
+
+
+	public void delete(Integer crossingOfferId) throws CrossingOfferNotExistException {
+		delete(getCrossingOfferById(crossingOfferId));
+	}
+
+
+
+
+	public CrossingOffer getCrossingOfferById(Integer crossingOfferId) throws CrossingOfferNotExistException {
+		CrossingOffer co = findById(crossingOfferId);
+		if(co == null) throw new CrossingOfferNotExistException("crossing offer with id:" + crossingOfferId+ " does not exist");
+		return co;
+	}
+
+
+
+
+	public void createOffer(CrossingOffer crossingOffer) {
+//		isOfferValid(crossingOffer);
+		save(crossingOffer);
 	}
 
 }

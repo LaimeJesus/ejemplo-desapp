@@ -3,6 +3,7 @@ package services.microservices;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.CategoryOfferNotExistException;
 import model.offers.CategoryOffer;
 import model.offers.Offer;
 import model.products.ProductList;
@@ -34,4 +35,19 @@ public class CategoryOfferService extends GenericService<CategoryOffer> {
 		return results;
 	}
 
+	public void delete(Integer categoryOfferId) throws CategoryOfferNotExistException {
+		CategoryOffer co = getCategoryOfferById(categoryOfferId);
+		delete(co);
+	}
+
+	public CategoryOffer getCategoryOfferById(Integer categoryOfferId) throws CategoryOfferNotExistException {
+		CategoryOffer co = findById(categoryOfferId);
+		if(co == null) throw new CategoryOfferNotExistException("Category Offer with id: "+ categoryOfferId+" does not exist");
+		return co;
+	}
+
+	public void createOffer(CategoryOffer categoryOffer) {
+		//isOfferValid(categoryOffer);
+		save(categoryOffer);		
+	}
 }

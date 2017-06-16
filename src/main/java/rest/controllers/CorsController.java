@@ -10,7 +10,7 @@ import org.apache.cxf.rs.security.cors.CorsHeaderConstants;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import exceptions.UserAlreadyExistsException;
-import rest.dtos.UserDTO;
+import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
 
 

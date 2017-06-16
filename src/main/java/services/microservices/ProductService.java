@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
 import exceptions.ProductAlreadyCreatedException;
+import exceptions.ProductNotExistException;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
@@ -45,9 +46,8 @@ public class ProductService extends GenericService<Product> {
 		CSVProductParser parser = new CSVProductParser();
 		List<Product> products = parser.toListObject(parser.parse(csv));
 		for(Product p : products){
-			save(p);
+			createOrUpdate(p.getId(), p);
 		}
-		//saveall(products);
 	}
 
 	@Transactional
@@ -110,5 +110,33 @@ public class ProductService extends GenericService<Product> {
 
 	public void setSelectedProductService(SelectedProductService selectedProductService) {
 		this.selectedProductService = selectedProductService;
+	}
+
+	@Transactional
+	public void createProduct(Product product) throws ProductAlreadyCreatedException {
+		validateProduct(product);
+		save(product);
+	}
+
+	@Transactional
+	public void createOrUpdate(Integer productId, Product product) throws ProductAlreadyCreatedException {
+		try {
+			Product fromdb = getProductById(productId);
+			product.setId(fromdb.getId());
+			delete(fromdb);
+			getRepository().delete(fromdb);
+			save(product);
+//			update(product);
+		} catch (ProductNotExistException e) {
+			//validateProduct(product);
+			save(product);
+		}		
+	}
+
+	@Transactional
+	public Product getProductById(Integer productId) throws ProductNotExistException {
+		Product p = findById(productId);
+		if(p == null) throw new ProductNotExistException("Product with id: "+ productId + " does not exist");
+		return p;
 	}
 }

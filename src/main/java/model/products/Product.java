@@ -116,6 +116,11 @@ public class Product extends Entity {
 	public String getImageUrl(){
 		return this.imageUrl;
 	}
+
+	@Override
+	public String toString() {
+		return "Product: " + this.getName() + " " + this.getBrand();
+	}
 }
 
 

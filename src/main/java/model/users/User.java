@@ -1,6 +1,9 @@
 package model.users;
 
 
+import exceptions.ProductListNotExistException;
+import exceptions.UserIsNotLoggedException;
+import model.products.ProductList;
 import model.registers.PurchaseRecord;
 import util.Entity;
 import util.Password;
@@ -137,6 +140,20 @@ public class User extends Entity{
 	private boolean isNormalUser() {
 		return this.getUserPermission().equals(Permission.NORMAL);
 	}
+	public void validateLogged() throws UserIsNotLoggedException {
+		if(!getIsLogged()){
+			throw new UserIsNotLoggedException();
+		}
+	}
+	public ProductList getProductListById(Integer productlistId) throws ProductListNotExistException {
+		return getProfile().getProductListById(productlistId);
+	}
 	
-	
+	public ProductList getProductListByName(String name) throws ProductListNotExistException {
+		return getProfile().getProductListByName(name);
+	}
+	@Override
+	public String toString() {
+		return "Username: " + this.getUsername() + " Email: " + this.getEmail();
+	}	
 }

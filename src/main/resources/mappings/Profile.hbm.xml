@@ -9,11 +9,12 @@
         <id name="id" type="java.lang.Integer" column="profile_id">
             <generator class="increment" />
         </id>
-        
-        <property 
-        	name="address" 
-        	type="java.lang.String" 
-        	column="profile_address"/>
+                
+       		<many-to-one 
+			name="address" 
+			class="util.Address" 
+			cascade="all"
+			lazy="false" />
         
         <!-- <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one> -->
 		

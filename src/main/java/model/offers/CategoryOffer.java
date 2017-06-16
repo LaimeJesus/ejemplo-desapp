@@ -62,4 +62,9 @@ public class CategoryOffer extends Offer {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "Offer for " + this.getCategory().toString() + " products";
+	}
 }

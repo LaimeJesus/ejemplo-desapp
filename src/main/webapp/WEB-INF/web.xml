@@ -16,6 +16,7 @@
 		<param-value>
 			classpath*:/META-INF/spring-persistence-context.xml,
 			classpath*:/META-INF/spring-services-context.xml,
+			classpath*:/META-INF/spring-aspects-context.xml,
 			/WEB-INF/applicationContext.xml
 		</param-value>
 	</context-param>

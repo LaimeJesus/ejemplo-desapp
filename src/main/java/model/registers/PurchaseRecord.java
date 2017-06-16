@@ -38,5 +38,10 @@ public class PurchaseRecord extends Entity {
 	public void setPurchasingList(ProductList productList) {
 		this.purchasingList = productList;
 	}
+
+	@Override
+	public String toString() {
+		return this.getPurchasingList().toString() + " - " + this.getPurchasingDate().toString();
+	}
 	
 }

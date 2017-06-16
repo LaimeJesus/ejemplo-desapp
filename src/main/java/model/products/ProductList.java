@@ -7,6 +7,7 @@ import org.joda.time.Duration;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
+import exceptions.SelectedProductNotExistException;
 import model.offers.Offer;
 import util.Category;
 import util.Entity;
@@ -46,7 +47,7 @@ public class ProductList extends Entity {
 	
 	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {
 		if ( this.thisProductIsSelected(product)) {
-			throw new ProductIsAlreadySelectedException("Putito");
+			throw new ProductIsAlreadySelectedException("product is already selected");
 		}
 	}
 
@@ -239,7 +240,22 @@ public class ProductList extends Entity {
 		for (Offer offer : applied) {
 			this.applyOffer(offer);
 		}
-		
-		
+	}
+
+	public SelectedProduct getSelectedProduct(Integer selectProductId) throws SelectedProductNotExistException {
+		SelectedProduct res = getAllProducts().stream().filter((SelectedProduct sp) -> sp.getId().equals(selectProductId)).findFirst().orElse(null);
+		if(res == null) throw new SelectedProductNotExistException("Selected Product with id: " + selectProductId+" does not exist");
+		return res;
+	}
+	public ProductList updateTotalAmount(){
+		for(SelectedProduct sp : getAllProducts()){
+			this.totalAmount.add(sp.getFinalPrice());
+		}
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 }

@@ -49,5 +49,11 @@ public class SelectedProduct extends Entity{
 	public Money getFinalPrice() {
 		return this.getProduct().getPrice().times(this.getQuantity());
 	}
+
+
+	@Override
+	public String toString() {
+		return this.getQuantity() + " times of " + this.getProduct().toString();
+	}
 	
 }

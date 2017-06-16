@@ -14,5 +14,4 @@ public class CategoryOfferRepository extends HibernateGenericDAO<CategoryOffer> 
 	protected Class<CategoryOffer> getDomainClass() {
 		return CategoryOffer.class;
 	}
-
 }

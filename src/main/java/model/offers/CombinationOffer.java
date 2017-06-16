@@ -66,4 +66,9 @@ public class CombinationOffer extends Offer {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return this.getRelatedProduct().toString() + " with " + this.getCombinatedProduct().toString();
+	}
+
 }

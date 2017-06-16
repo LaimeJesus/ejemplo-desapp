@@ -74,7 +74,7 @@ public class ShopServiceTest {
 		Assert.assertEquals(new Duration(0), expected);
 		
 		shopService.getUserService().deleteAll();
-		
+		shopService.getCashRegisterManager().stop();
 	}
 	
 	@Test
@@ -103,9 +103,18 @@ public class ShopServiceTest {
 		shopService.getUserService().loginUser(user);
 		productListService.selectProduct(user, productList, product, 10);
 		
+		user = shopService.getUserService().findByUsername("username");
+		productList = user.getProfile().getList("productList");
+		
 		shopService.ready(user, productList);
 				
 		List<PurchaseRecord> purchases = shopService.getUserService().getPurchaseRecords(user);
+		
+		Assert.assertTrue(purchases.isEmpty());
+		
+		shopService.shop(user, productList);
+		
+		purchases = shopService.getUserService().getPurchaseRecords(user);
 		
 		Assert.assertFalse(purchases.isEmpty());
 		Assert.assertEquals(1, purchases.size());
@@ -183,7 +192,6 @@ public class ShopServiceTest {
 		shopService.getUserService().createNewUser(userOne);
 		shopService.getUserService().loginUser(userOne);
 
-		
 		User userTwo = new User();
 		userTwo.setUsername("usernameTwo");
 		userTwo.setPassword(new Password("usernameTwo"));
@@ -200,14 +208,18 @@ public class ShopServiceTest {
 		
 		CashRegister cr = shopService.getCashRegisterManager().getRegisters().get(0);
 		
+		userOne = shopService.getUserService().findByUsername("usernameOne");
+		productListOne = userOne.getProfile().getList("productListOne");
+		userTwo = shopService.getUserService().findByUsername("usernameTwo");
+		productListTwo = userTwo.getProfile().getList("productListTwo");
 		shopService.ready(userOne, productListOne);
 		Assert.assertEquals(new Duration(5000L), cr.getWaitingTime());
 		Assert.assertEquals(1, cr.size());
 		shopService.ready(userTwo, productListTwo);
 		Assert.assertEquals(2, cr.size());
-		
+		Assert.assertEquals(new Duration(10000L), cr.getWaitingTime());		
 		try {
-			Thread.sleep(10000L);
+			Thread.sleep(15000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

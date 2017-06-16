@@ -88,7 +88,26 @@ public class CashRegisterManager {
 	public void stop(){
 		for(CashRegister cr : getRegisters()){
 			cr.stop();
+		} 
+	}
+	public void start(int n){
+		if(getRegisters().stream().anyMatch(cr -> !cr.isEmpty())){
+			try {
+				Thread.sleep(5000L);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		registers = new ArrayList<CashRegister>();
+		for(int i=0;i<n;i++){
+			registers.add(new CashRegister());
+		}
+	}
+
+	public void queueUserWithAProductlist(User user, ProductList pl) {
+		CashRegister cr = getNextCashRegisterFor(pl); 
+		cr.add(new InQueueUser(pl, user));
+		cr.next();
 	}
 
 }
