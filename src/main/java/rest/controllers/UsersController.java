@@ -426,5 +426,18 @@ public class UsersController {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		}		
 	}
+	
+	@POST
+	@Path("/{id}/logout")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response logoutById(@PathParam("id") Integer id){
+		try {
+			generalService.logoutUser(id);
+			return responseDTO.ok("user logged out");
+		} catch (UserIsNotLoggedException | UserDoesNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}		
+	}
 
 }
