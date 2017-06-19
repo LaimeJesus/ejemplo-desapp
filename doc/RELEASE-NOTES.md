@@ -1,5 +1,37 @@
+### TAG 3.0
 ---------------------------------------------------------------------
-### TAG 1.1
+### NEW FEATURES :
+#### Core :
+* Date Formatters - DONE
+* Money, Numbers Formatters - NOT DONE
+* Pagination Grid - DONE
+* Responsive - DONE
+* Architectural Test - NOT DONE
+* Service Auditory(log4j) - DONE
+* Google auth - DONE
+* TAG - DONE
+* RELEASE-NOTES - DONE
+
+#### Model Features:
+
+* Create Category Offers - DONE
+* Delivery Shop - DONE
+* Show Google Maps - DONE
+* Box Registers Notification - DONE
+* Purchase Records History - DONE
+
+### NOTES :
+* We don’t have an admin validation for upload a csv file.
+
+### KNOWN ISSUES :
+* Offers still can not being applied to lists.
+* Offers still can not being selected.
+* Offers still can not being deleted.
+* Products still can not being created.
+* We still don't have a button to upload a csv file in front-end.
+
+---------------------------------------------------------------------
+### TAG 2.0
 ---------------------------------------------------------------------
 ### NEW FEATURES :
 #### Core :
