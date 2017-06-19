@@ -42,9 +42,19 @@
 			<cxf:logging />
 		</jaxrs:features>
 	</jaxrs:server>
+<<<<<<< HEAD
+
+	<bean id="productcontroller" class="rest.controllers.ProductController">
+		<property name="generalService" ref="services.general.generalservice" />
+	</bean>
+	<bean id="productlistcontroller" class="rest.controllers.ProductListController">
+		<property name="generalService" ref="services.general.generalservice" />
+		<property name="productListService" ref="services.microservices.productlistservice" />
+=======
 	
 	<bean id="dummycontroller" class="rest.controllers.DummyController">
 		<property name="generalService" ref="services.general.generalservice"/>
+>>>>>>> origin/master
 	</bean>
 
 	<bean id="userscontroller" class="rest.controllers.UsersController">
