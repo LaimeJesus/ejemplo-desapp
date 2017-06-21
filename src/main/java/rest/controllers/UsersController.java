@@ -44,7 +44,7 @@ import services.general.GeneralService;
 @CrossOriginResourceSharing(allowAllOrigins = true)
 @Path("/users")
 public class UsersController {
-	
+
 	private GeneralService generalService;
 	private ResponseDTO responseDTO;
 
@@ -55,21 +55,24 @@ public class UsersController {
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;
 	}
-	
+
 	@PostConstruct
 	public void init(){
 		responseDTO = new ResponseDTO();
 	}
-	
-	// DEFAULT USERS ACTIVITY
 
+	// DEFAULT USERS ACTIVITY
 	@GET
 	@Path("/")
 	@Produces("application/json")
 	public Response users(){
-		return responseDTO.ok(UserDTO.createUsers(getGeneralService().getUsers()));
+		try{
+			return responseDTO.ok(UserDTO.createUsers(getGeneralService().getUsers()));
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
-	
+
 	@POST
 	@Path("/")
 	@Consumes("application/json")
@@ -81,16 +84,22 @@ public class UsersController {
 			return responseDTO.ok(generalService.getUserService().findByUsername(u.getUsername()));
 		} catch (JsonSyntaxException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		}		
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 	@DELETE
 	@Path("/")
 	public Response deleteUsers(){
-		generalService.getUserService().deleteAll();
-		return responseDTO.ok("users deleted");
+		try{
+			generalService.getUserService().deleteAll();
+			return responseDTO.ok("users deleted");
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
-	
-	
+
+
 	/////////////////////////////////////////////////////////////////////////////////
 	//ALL METHOD INVOLVING USERS only
 	@GET
@@ -101,6 +110,8 @@ public class UsersController {
 			return responseDTO.ok(new UserDTO(generalService.getUserById(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 
@@ -114,9 +125,11 @@ public class UsersController {
 			return responseDTO.ok("user updated or created");
 		} catch (JsonSyntaxException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
-	}	
-	
+	}
+
 	@DELETE
 	@Path("/{userId}")
 	public Response deleteUser(@PathParam("userId") Integer userId){
@@ -125,10 +138,12 @@ public class UsersController {
 			return responseDTO.ok("deleted user");
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////
-	
+
 	//PROFILE METHODS OF AN USER
 	@GET
 	@Path("/{userId}/profile")
@@ -138,18 +153,10 @@ public class UsersController {
 			return responseDTO.ok(new ProfileDTO(generalService.getProfile(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
-
-	//END POINTS NO FUNCIONA, tengo q revisarlo
-//	@PUT
-//	@Path("/{id}/profile")
-//	public Response createOrUpdateProfile(@PathParam("id") Integer id, ProfileDTO profile){
-//		User u = generalService.getUserService().findById(id);
-//		u.getProfile().setAddress(new Address(profile.address));
-//		generalService.getUserService().update(u);
-//		return Response.ok().build();
-//	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 	//PURCHASE METHODS OF AN USER
@@ -161,6 +168,8 @@ public class UsersController {
 			return responseDTO.ok(PurchaseRecordDTO.createPurchaseRecords(generalService.getPurchaseRecords(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 
@@ -176,7 +185,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
-	
+
 	@DELETE
 	@Path("{userId}/purchases/{purchaseId}")
 	public Response deletePurchaseById(@PathParam("userId") Integer userId, @PathParam("purchaseId") Integer purchaseId){
@@ -185,9 +194,11 @@ public class UsersController {
 			return responseDTO.ok("purchase deleted");
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | PurchaseRecordNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////
 	//ADDRESS METHODS OF AN USER
 	@GET
@@ -198,9 +209,11 @@ public class UsersController {
 			return responseDTO.ok(generalService.getUserById(userId).getProfile().getAddress());
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////
 	// PRODUCT LISTS METHODS OF AN USER
 	@GET
@@ -211,6 +224,8 @@ public class UsersController {
 			return responseDTO.ok(generalService.getProductLists(userId));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@GET
@@ -221,6 +236,8 @@ public class UsersController {
 			return responseDTO.ok(generalService.getProductListById(userId, productlistId));
 		} catch (UserDoesNotExistException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@POST
@@ -235,6 +252,8 @@ public class UsersController {
 			return responseDTO.ok(pl.updateTotalAmount());
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@DELETE
@@ -245,6 +264,8 @@ public class UsersController {
 			return responseDTO.ok("product list deleted");
 		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////
@@ -260,7 +281,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
-	
+
 	@GET
 	@Path("/{userId}/productlists/{productlistId}/ready")
 	public Response ready(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
@@ -273,7 +294,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
-	
+
 	//no tiene validacion de si estaba primero en la caja ni tampoco si la eligio para comprar, simplemente la compra
 	@POST
 	@Path("/{userId}/productlists/{productlistId}/shop")
@@ -287,7 +308,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////
 	//SELECT PRODUCT METHODS OF A LIST OF AN USER
 	@GET
@@ -298,6 +319,8 @@ public class UsersController {
 			return responseDTO.ok(generalService.getProductListById(userId, productlistId).getAllProducts());
 		} catch (ProductListNotExistException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not get selected products");
 		}
 	}
 	@GET
@@ -308,6 +331,8 @@ public class UsersController {
 			return responseDTO.ok(generalService.getProductListById(userId, productlistId).getSelectedProduct(selectedproductId));
 		} catch (ProductListNotExistException | UserDoesNotExistException | SelectedProductNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not get that selected product");
 		}
 	}
 	@POST
@@ -366,10 +391,12 @@ public class UsersController {
 			return responseDTO.ok(generalService.getProductListById(userId, productlistId).getAppliedOffers());
 		} catch (ProductListNotExistException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not get offer for that list");
 		}
-	}	
-	
-//	AUTH VALIDATIONS 
+	}
+
+//	AUTH VALIDATIONS
 	@POST
 	@Path("/signup")
 	@Consumes("application/json")
@@ -382,6 +409,8 @@ public class UsersController {
 			return responseDTO.error(Status.FORBIDDEN, e.getMessage());
 		} catch (JsonSyntaxException j){
 			return responseDTO.error(Status.BAD_REQUEST, "user created incorrectly");
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not logout");
 		}
 	}
 
@@ -396,9 +425,11 @@ public class UsersController {
 			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
 		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not log");
 		}
 	}
-	
+
 	//users/loginwithmail
 	@POST
 	@Path("/loginwithmail")
@@ -411,22 +442,26 @@ public class UsersController {
 			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
 		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not log in with mail");
 		}
 	}
-	
+
 	@POST
 	@Path("/logout")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response logout(Integer id){
+	public Response logout(int id){
 		try {
 			generalService.logoutUser(id);
 			return responseDTO.ok("user logged out");
 		} catch (UserIsNotLoggedException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		}		
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not logout");
+		}
 	}
-	
+
 	@POST
 	@Path("/{id}/logout")
 	@Consumes("application/json")
@@ -437,7 +472,9 @@ public class UsersController {
 			return responseDTO.ok("user logged out");
 		} catch (UserIsNotLoggedException | UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		}		
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not logout");
+		}
 	}
 
 }
