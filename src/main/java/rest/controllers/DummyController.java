@@ -61,20 +61,25 @@ public class DummyController {
 
 			generalService.initRegisters(1);
 			return Response.ok(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
-
 		} catch (UserAlreadyExistsException | WrongUserPermissionException | OfferIsAlreadyCreatedException e) {
-			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		} catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("SOMETHING GONE WRONG").build();
 		}
 	}
 
 	@DELETE
 	@Path("/all")
-	public void deleteall(){
-		generalService.getUserService().deleteAll();
-		generalService.getProductService().deleteAll();
-		generalService.getGeneralOfferService().deleteAll();
-//		generalService.getShopService().getCashRegisterManager().stop();
+	public Response deleteall(){
+		try{
+			generalService.getUserService().deleteAll();
+			generalService.getProductService().deleteAll();
+			generalService.getGeneralOfferService().deleteAll();
+			generalService.getShopService().getCashRegisterManager().stop();
+			return Response.ok(Response.Status.ACCEPTED).entity("All data deleted correctly").build();
+		} catch(Exception e){
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("SOMETHING GONE WRONG").build();
+		}		
 	}
 
 	public GeneralService getGeneralService() {
