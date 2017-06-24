@@ -40,26 +40,25 @@ public class DummyController {
 			List<ProductList> lists2 = new DummyLists().example();
 			List<Offer> alloffers = new DummyOffers().example();
 			generalService.addProducts(products);
-			
 			User lucas = users.get(0);
 			User jesus = users.get(1);
 			generalService.createUser(lucas);
 			generalService.loginUser(lucas);
-			for (ProductList list : lists){				
+			for (ProductList list : lists){
 				generalService.createProductList(lucas, list);
 			}
-			
+
 			generalService.logoutUser(lucas);
 			generalService.createUser(jesus);
 			generalService.loginUser(jesus);
-			for (ProductList list : lists2){				
+			for (ProductList list : lists2){
 				generalService.createProductList(jesus, list);
 			}
 			for (Offer o : alloffers) {
 				generalService.createOffer(o, jesus);
 			}
 			generalService.logoutUser(jesus);
-			
+
 			generalService.initRegisters(1);
 			return Response.ok(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
 
@@ -68,7 +67,7 @@ public class DummyController {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
-	
+
 	@DELETE
 	@Path("/all")
 	public void deleteall(){

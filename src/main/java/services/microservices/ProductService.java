@@ -15,30 +15,30 @@ import util.CSVProductParser;
 
 public class ProductService extends GenericService<Product> {
 
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8067303758622033038L;
-	
+
 	@Autowired
 	private SelectedProductService selectedProductService;
-	
-	
+
+
 	@Transactional
 	public void addproduct(Product p) throws ProductAlreadyCreatedException{
 		validateProduct(p);
 		save(p);
 	}
-	
+
 	@Transactional
 	private Product validateProduct(Product p) throws ProductAlreadyCreatedException {
-		Product prod = findByProduct(p); 
+		Product prod = findByProduct(p);
 		if( prod == null){
 			return prod;
 		}
 		throw new ProductAlreadyCreatedException();
-		
+
 	}
 
 	@Transactional
@@ -52,17 +52,17 @@ public class ProductService extends GenericService<Product> {
 
 	@Transactional
 	public void saveall(List<Product> products) {
-		List<Product> bdpds = retriveAll();
+		// List<Product> bdpds = retriveAll();
 		for(Product aProduct : products){
 			//Product newProduct = findByProduct(aProduct);
-			if(bdpds.contains(aProduct)){
-				this.update(aProduct);
-			}
-			else{
+			// if(bdpds.contains(aProduct)){
+			// 	this.update(aProduct);
+			// }
+			// else{
 				this.save(aProduct);
-			}
+			// }
 		}
-		
+
 	}
 
 	@Transactional
@@ -82,16 +82,16 @@ public class ProductService extends GenericService<Product> {
 			validateSelectedProduct(sp, current);
 			current.setStock(current.getStock() - sp.getQuantity());
 			this.update(current);
-		}		
+		}
 	}
 
 	@Transactional
 	private void validateSelectedProduct(SelectedProduct sp, Product current) throws InvalidSelectedProduct {
 		if(sp.getQuantity() > current.getStock()){
 			throw new InvalidSelectedProduct("can not select that product");
-		}		
+		}
 	}
-	
+
 	@Transactional
 	@Override
 	public void delete(Product pro) {
@@ -130,7 +130,7 @@ public class ProductService extends GenericService<Product> {
 		} catch (ProductNotExistException e) {
 			//validateProduct(product);
 			save(product);
-		}		
+		}
 	}
 
 	@Transactional

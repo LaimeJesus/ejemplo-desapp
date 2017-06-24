@@ -14,26 +14,26 @@ import services.microservices.CombinationOfferService;
 import services.microservices.CrossingOfferService;
 
 public class GeneralOfferService {
-	
-	
+
+
 	private CategoryOfferService categoryOfferService;
 	private CombinationOfferService combinationOfferService;
 	private CrossingOfferService crossingOfferService;
-	
-	
-	
+
+
+
 	public void save(Offer offer) throws OfferIsAlreadyCreatedException {
 		if (offer instanceof CategoryOffer) {
 			getCategoryOfferService().save( (CategoryOffer) offer);
 		}
 		if (offer instanceof CombinationOffer) {
-			getCombinationOfferService().save( (CombinationOffer) offer);
+			getCombinationOfferService().save((CombinationOffer) offer);	
 		}
 		if (offer instanceof CrossingOffer) {
 			getCrossingOfferService().save( (CrossingOffer) offer);
 		}
 	}
-	
+
 	public void delete(Offer offer) {
 		if (offer instanceof CategoryOffer) {
 			getCategoryOfferService().delete( (CategoryOffer) offer);
@@ -45,7 +45,7 @@ public class GeneralOfferService {
 			getCrossingOfferService().delete( (CrossingOffer) offer);
 		}
 	}
-	
+
 	public List<Offer> retriveAll() {
 		List<Offer> results = new ArrayList<Offer>();
 		results.addAll(this.getCategoryOfferService().retriveAll());
@@ -53,7 +53,7 @@ public class GeneralOfferService {
 		results.addAll(this.getCombinationOfferService().retriveAll());
 		return results;
 	}
-	
+
 	public List<Offer> applicableForList(ProductList aProductList) {
 		List<Offer> results = new ArrayList<Offer>();
 		results.addAll(this.getCategoryOfferService().applicableForList(aProductList));
@@ -63,8 +63,8 @@ public class GeneralOfferService {
 	}
 
 
-	
-	
+
+
 
 	public CategoryOfferService getCategoryOfferService() {
 		return categoryOfferService;
@@ -92,7 +92,7 @@ public class GeneralOfferService {
 	}
 
 	public boolean isOfferValid(Offer someOffer) {
-		return 
+		return
 		this.getCategoryOfferService().isOfferValid(someOffer) &&
 		this.getCombinationOfferService().isOfferValid(someOffer) &&
 		this.getCrossingOfferService().isOfferValid(someOffer);

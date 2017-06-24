@@ -3,71 +3,73 @@
 <!DOCTYPE hibernate-mapping PUBLIC
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-        
+
 <hibernate-mapping default-access="field" default-cascade="save-update">
-    
+
     <class name="model.products.Product">
-        
-        
-        <id 
-	        name="id" 
-	        type="java.lang.Integer" 
+
+
+        <id
+	        name="id"
+	        type="java.lang.Integer"
 	        column="product_id">
             <generator class="increment" />
         </id>
-        
-        <property 
-        	name="name" 
-        	type="java.lang.String" 
+
+        <property
+        	name="name"
+        	type="java.lang.String"
         	column="product_name"
-        	not-null="false" />
-        <property 
-	        name="brand" 
-	        type="java.lang.String" 
+        	not-null="false"
+        	/>
+        <property
+	        name="brand"
+	        type="java.lang.String"
 	        column="product_brand"
-	        not-null="false" />
-        <property 
-	        name="stock" 
-	        type="java.lang.Integer" 
+	        not-null="false"
+	        />
+        <property
+	        name="stock"
+	        type="java.lang.Integer"
 	        column="product_stock"
 	        not-null="false" />
-        
-		<many-to-one 
-			name="price" 
+
+		<many-to-one
+			name="price"
 			class="util.Money"
 			cascade="all"
 			lazy="false">
 		</many-to-one>
-		  
-        <property 
-        	name="category" 
+
+        <property
+        	name="category"
         	column="product_category"
         	not-null="false" >
 		  	<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">util.Category</param>
 			</type>
-			       
+
 		</property>
-		
-        <property 
-	        name="processingTime" 
+
+        <property
+	        name="processingTime"
 	        type="org.jadira.usertype.dateandtime.joda.PersistentDurationAsMillisLong" 
-	        column="products_processing_time" 
+	        column="products_processing_time"
 	        not-null="false"
 	        lazy="false" />
-	        
+
 <!-- 	    <property  -->
 <!-- 	        name="validPeriod"  -->
 <!-- 	        type="org.jadira.usertype.dateandtime.joda.PersistentInterval"  -->
 <!-- 	        column="offer_valid_period"  -->
 <!-- 	        not-null="false" -->
 <!-- 	        lazy="false" /> -->
-	        
-        <property 
-	        name="imageUrl" 
-	        type="java.lang.String" 
+
+        <property
+	        name="imageUrl"
+	        type="java.lang.String"
 	        column="product_image_url"
 	        not-null="false"/>
     </class>
-    
+
 </hibernate-mapping>
