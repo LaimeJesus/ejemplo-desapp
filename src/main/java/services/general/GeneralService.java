@@ -219,6 +219,14 @@ public class GeneralService {
 	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
 		return getUserService().findByUsername(username).getProfile();
 	}
+	
+	@Transactional
+	public void setProfilePicture(Integer userId, String newUrl) throws UserDoesNotExistException, UserIsNotLoggedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		user.getProfile().setUrl(newUrl);
+		getUserService().update(user);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////

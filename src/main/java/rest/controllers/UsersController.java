@@ -145,7 +145,22 @@ public class UsersController {
 	/////////////////////////////////////////////////////////////////////////////////
 
 	//PROFILE METHODS OF AN USER
-	@GET
+	@POST
+	@Path("/{userId}/profile/imageUrl")
+	@Produces("application/json")
+	public Response setProfile(@PathParam("userId") Integer userId, String imageUrl){
+		try {
+			generalService.setProfilePicture(userId, imageUrl);
+			return responseDTO.ok("profile image loaded correctly");
+		} catch (UserDoesNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
+	}
+
+	
+	@PUT
 	@Path("/{userId}/profile")
 	@Produces("application/json")
 	public Response getProfileById(@PathParam("userId") Integer userId){
@@ -157,7 +172,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
-
+	
 	/////////////////////////////////////////////////////////////////////////////////
 	//PURCHASE METHODS OF AN USER
 	@GET

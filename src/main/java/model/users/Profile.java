@@ -22,6 +22,7 @@ public class Profile extends Entity{
 	 */
 	private static final long serialVersionUID = 5152611130346050935L;
 	private Address address;
+	private String url;
 	private List<ProductList> allProductLists;
 	private List<PurchaseRecord> purchaseRecords;
 	private List<Alert> alerts;
@@ -156,5 +157,13 @@ public class Profile extends Entity{
 	@Override
 	public String toString() {
 		return "Profile: " + this.getAddress().toString();
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}	
 }
