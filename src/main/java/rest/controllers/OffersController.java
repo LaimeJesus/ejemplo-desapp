@@ -68,8 +68,12 @@ public class OffersController {
 	@DELETE
 	@Path("/")
 	public Response deleteOffers(){
-		generalService.deleteOffers();
-		return response.ok("deleted offers");
+		try{
+			generalService.deleteOffers();
+			return response.ok("deleted offers");
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 	
 	//////////////////////////////////////////////////
@@ -77,7 +81,6 @@ public class OffersController {
 	@Path("/categories")
 	@Produces("application/json")
 	public Response getAllCategories(){
-		
 		try {
 			List<CategoryDTO> values = new ArrayList<CategoryDTO>(); 
 			for (Category category : Category.values()){
@@ -93,7 +96,11 @@ public class OffersController {
 	@Path("/category")
 	@Produces("application/json")
 	public Response getCategoryOffers(){
-		return response.ok(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
+		try{
+			return response.ok(CategoryOfferDTO.createCategoryOffers(generalService.getCategoryOffers()));
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 	@POST
 	@Path("/category")
@@ -104,6 +111,8 @@ public class OffersController {
 			return response.ok("created");
 		}catch(JsonSyntaxException e){
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@GET
@@ -127,6 +136,8 @@ public class OffersController {
 			return response.ok("deleted category offer");			
 		} catch (CategoryOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	//////////////////////////////////////////////////
@@ -134,7 +145,11 @@ public class OffersController {
 	@Path("/combination")
 	@Produces("application/json")
 	public Response getCombinationOffers(){
+		try {
 		return response.ok(CombinationOfferDTO.createCombinationOffers(generalService.getCombinationOffers()));
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 	
 	@POST
@@ -146,6 +161,8 @@ public class OffersController {
 			return response.ok("created");
 		} catch (JsonSyntaxException | ProductNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@GET
@@ -156,6 +173,8 @@ public class OffersController {
 			return response.ok(new CombinationOfferDTO(generalService.getCombinationOfferById(combinationOfferId)));
 		} catch (CombinationOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@DELETE
@@ -166,6 +185,8 @@ public class OffersController {
 			return response.ok("deleted category offer");			
 		} catch (CombinationOfferNotExistException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	//////////////////////////////////////////////////

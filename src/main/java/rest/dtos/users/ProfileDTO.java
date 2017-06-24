@@ -12,12 +12,14 @@ public class ProfileDTO {
 	public List<ProductListDTO> productLists;
 	public List<PurchaseRecordDTO> purchaseRecords;
 	public Address address;
+	public String url;
 
 	public ProfileDTO(Profile profile) {
 		id = profile.getId();
 		productLists = ProductListDTO.createProductLists(profile.getAllProductList());
 		purchaseRecords = PurchaseRecordDTO.createPurchaseRecords(profile.getPurchaseRecords());
 		address = profile.getAddress();
+		url = profile.getUrl();
 	}
 
 }

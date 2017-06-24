@@ -52,14 +52,22 @@ public class ProductsController {
 	@Path("/")
 	@Produces("application/json")
 	public Response getProducts(){
-		return response.ok(ProductDTO.createProducts(generalService.getProductService().retriveAll()));
+		try{
+			return response.ok(ProductDTO.createProducts(generalService.getProductService().retriveAll()));
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 
 	@DELETE
 	@Path("/")
 	public Response deleteProducts(){
+		try{
 		generalService.getProductService().deleteAll();
 		return response.ok("deleted products");
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
 	}
 
 	@POST
@@ -98,6 +106,8 @@ public class ProductsController {
 			return response.ok("deleted product");
 		} catch (ProductNotExistException e) {
 			return response.error(Status.CONFLICT,e.getMessage());
+		} catch(Exception e){
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 

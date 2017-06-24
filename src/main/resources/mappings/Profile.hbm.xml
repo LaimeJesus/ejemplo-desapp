@@ -15,6 +15,12 @@
 			class="util.Address" 
 			cascade="all"
 			lazy="false" />
+			
+			<property 
+        	name="url" 
+        	type="java.lang.String" 
+        	column="profile_url"
+        	not-null="false" /> 
         
         <!-- <one-to-one name="address" class="util.Address" cascade="save-update"></one-to-one> -->
 		
