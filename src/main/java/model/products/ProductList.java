@@ -43,6 +43,7 @@ public class ProductList extends Entity {
 	public void selectProduct(Product product , Integer howMany) throws ProductIsAlreadySelectedException {
 		this.validateProductIsSelected(product);
 		this.addProductToList(new SelectedProduct(product, howMany));
+		this.totalAmount.add(product.getPrice().times(howMany));
 	}
 	
 	private void validateProductIsSelected(Product product) throws ProductIsAlreadySelectedException {

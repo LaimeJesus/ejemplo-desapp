@@ -54,6 +54,13 @@ public class GeneralService {
 	private ShopService shopService;
 	
 	@Transactional
+	public void createUserForTest (User someUser) throws Exception {	
+		getUserService().createNewUser(someUser);
+		throw new RuntimeException();
+	}
+
+
+	@Transactional
 	public void createUser (User newUser) throws UserAlreadyExistsException{
 		getUserService().createNewUser(newUser);	
 	}

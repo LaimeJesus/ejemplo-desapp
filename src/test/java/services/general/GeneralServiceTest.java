@@ -388,6 +388,32 @@ public class GeneralServiceTest {
 		generalService.createOffer(validOffer, someValidUser);
 	}
 
+	
+	@Test
+	public void testTransactional() {
+		
+		generalService.getUserService().deleteAll();
+		
+		User someUser = new UserBuilder()
+				.withEmail("transactionaltest@gmail.com")
+				.withPassword(new Password("altapassword"))
+				.withUsername("transactional")
+				.withUserPermission(Permission.ADMIN)
+				.build();
+		
+		try {
+			generalService.createUserForTest(someUser);
+		} catch (Exception e) {
+			System.out.println("ASDS");
+			System.out.println( generalService.getUserService().retriveAll().size());
+			System.out.println("ASDS");
+			
+		} finally {
+			Assert.assertTrue(generalService.getUserService().retriveAll().isEmpty());			
+		}
+	}
+	
+	
 
 	@After
 	public void after(){

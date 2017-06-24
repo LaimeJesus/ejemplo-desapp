@@ -11,7 +11,7 @@ public class ProductListDTO {
 
 	public int id;
 	public String name;
-	public Money total;
+	public Money totalAmount;
 	public List<SelectedProductDTO> selectedProducts;
 	public List<OfferDTO> appliedOffers;
 	
@@ -22,7 +22,7 @@ public class ProductListDTO {
 	public ProductListDTO(ProductList pl) {
 		id = pl.getId();
 		name = pl.getName();
-		total = pl.getMoneyOfProducts();
+		totalAmount = pl.getMoneyOfProducts();
 		selectedProducts = SelectedProductDTO.createSelectedProducts(pl.getAllProducts());
 	}
 	public ProductList toProductList() {

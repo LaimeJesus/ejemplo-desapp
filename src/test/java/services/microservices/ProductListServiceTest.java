@@ -111,13 +111,10 @@ public class ProductListServiceTest {
 			new Interval(DateTime.now() , DateTime.now().plusDays(1)) ,
 			Category.Dairy
 			);
-    	CrossingOffer offer2 = new CrossingOffer();
 
     	aPl.getAppliedOffers().add(offer1);
-    	aPl.getAppliedOffers().add(offer2);
 
     	generalOfferService.save(offer1);
-    	generalOfferService.save(offer2);
 
     	User someUser = new UserBuilder()
     		.withUsername("lucas")
@@ -157,5 +154,30 @@ public class ProductListServiceTest {
     	generalService.getUserService().deleteAll();
     	generalService.getProductService().deleteAll();
     }
+    
+    @Test
+    public void test1() {
+    	
+    	Product someProduct = new ProductBuilder()
+        		.withBrand("Marolio")
+        		.withName("Arroz")
+        		.withCategory(Category.Fruit)
+        		.withPrice(new Money(15,15))
+        		.withStock(54)
+        		.build();
+    	
+    	User someUser = new UserBuilder()
+        		.withUsername("lucas")
+        		.withEmail("sandoval.lucasj@gmail.com")
+        		.withPassword(new Password("asdasd"))
+        		.withUserPermission(Permission.NORMAL)
+        		.build();
+    	
+    	
+    	
+    }
+
+    
+    
 
 }

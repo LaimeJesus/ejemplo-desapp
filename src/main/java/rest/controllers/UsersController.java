@@ -34,6 +34,7 @@ import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.generics.DurationDTO;
+import rest.dtos.productlists.ProductListDTO;
 import rest.dtos.generics.ResponseDTO;
 import rest.dtos.productlists.PurchaseRecordDTO;
 import rest.dtos.productlists.SelectedProductDTO;
@@ -221,7 +222,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getProductLists(@PathParam("userId") Integer userId, @QueryParam("sortedBy") List<String> sorts){
 		try {
-			return responseDTO.ok(generalService.getProductLists(userId));
+			return responseDTO.ok(ProductListDTO.createProductLists(generalService.getProductLists(userId)));
 		} catch (UserDoesNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
@@ -233,7 +234,7 @@ public class UsersController {
 	@Produces("application/json")
 	public Response getProductListById(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
 		try {
-			return responseDTO.ok(generalService.getProductListById(userId, productlistId));
+			return responseDTO.ok(new ProductListDTO(generalService.getProductListById(userId, productlistId)));
 		} catch (UserDoesNotExistException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){

@@ -22,8 +22,6 @@ public class UserService extends GenericService<User>{
 	private static final long serialVersionUID = -2769328934018732341L;
 
 	
-	
-	
 	@Transactional
 	public void createNewUser (User newUser) throws UserAlreadyExistsException {
 		this.validateNewUser(newUser);
