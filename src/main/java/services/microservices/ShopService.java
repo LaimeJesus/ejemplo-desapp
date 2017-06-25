@@ -17,7 +17,6 @@ public class ShopService{
 	private UserService userService;
 	private ProductListService productListService;
 	private CashRegisterManager cashRegisterManager;
-	
 //	@PostConstruct
 //	public void init(){
 //		setCashRegisterManager(new CashRegisterManager(1));
@@ -45,7 +44,7 @@ public class ShopService{
 	
 	@Transactional
 	public void shop(User user, ProductList productList){
-		user.newPurchase(new PurchaseRecord(productList));
+		user.newPurchase(new PurchaseRecord(productList));		
 		userService.update(user);
 	}
 	

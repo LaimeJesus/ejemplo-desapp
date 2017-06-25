@@ -60,6 +60,7 @@ public class DummyController {
 			generalService.logoutUser(jesus);
 
 			generalService.initRegisters(1);
+			generalService.initializeRecommender();
 			return Response.ok(Response.Status.ACCEPTED).entity("All data loaded correctly").build();
 		} catch (UserAlreadyExistsException | WrongUserPermissionException | OfferIsAlreadyCreatedException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

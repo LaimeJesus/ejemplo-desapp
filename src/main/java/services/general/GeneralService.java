@@ -1,6 +1,8 @@
 package services.general;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,7 @@ import rest.dtos.offers.CrossingOfferDTO;
 import rest.dtos.productlists.SelectedProductDTO;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
+import services.microservices.RecommendationService;
 import services.microservices.ShopService;
 import services.microservices.UserService;
 import util.Password;
@@ -52,6 +55,7 @@ public class GeneralService {
 	private ProductService productService;
 	private ProductListService productListService;
 	private ShopService shopService;
+	private RecommendationService recommendationService;
 	
 	@Transactional
 	public void createUserForTest (User someUser) throws Exception {	
@@ -438,7 +442,9 @@ public class GeneralService {
 	public void shop(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException {
 		User user = getUserById(userId);
 		user.validateLogged();
-		getShopService().shop(user, user.getProductListById(productlistId));
+		ProductList pl = user.getProductListById(productlistId);
+		getRecommendationService().updateProducts(pl);
+		getShopService().shop(user, pl);
 	}
 	
 	@Transactional
@@ -487,6 +493,38 @@ public class GeneralService {
 		exists.logout();
 		getUserService().update(exists);		
 		
+	}
+
+
+	@Transactional
+	public void initializeRecommender() {
+		recommendationService.initializeProducts(getProductService().retriveAll().size());
+		
+	}
+
+
+	public RecommendationService getRecommendationService() {
+		return recommendationService;
+	}
+
+
+	public void setRecommendationService(RecommendationService recommendationService) {
+		this.recommendationService = recommendationService;
+	}
+
+	@Transactional
+	public List<Product> getRecommendation(Integer productId) throws ProductNotExistException {
+		Collection<Integer> recos = recommendationService.getRecommendationFor(productId, 2);
+		List<Product> res = new ArrayList<Product>();
+		for(Integer id : recos){
+			res.add(getProductById(id+1));
+		}
+		return res;
+	}
+
+	@Transactional
+	public Integer[][] getRecommendations() {
+		return getRecommendationService().getProducts();
 	}
 
 }

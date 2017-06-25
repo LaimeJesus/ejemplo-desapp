@@ -38,7 +38,6 @@
 	</bean>
 	
 	<bean id="services.microservices.recommendationservice" class="services.microservices.RecommendationService">
-		<property name="repository" ref="persistence.recommendationrepository" />
 	</bean>
 	
 	<bean id="services.microservices.selectedproductservice" class="services.microservices.SelectedProductService">
@@ -73,6 +72,7 @@
 		<property name="productService" ref="services.microservices.productservice" />
 		<property name="productListService" ref="services.microservices.productlistservice" />
 		<property name="shopService" ref="services.microservices.shopservice"/>
+		<property name="recommendationService" ref="services.microservices.recommendationservice"/>
 	</bean>
 
 	<bean id="services.microservices.shopservice" class="services.microservices.ShopService">
