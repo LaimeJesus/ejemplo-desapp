@@ -28,6 +28,7 @@
 			<ref bean="productscontroller"/>
 			<ref bean="offerscontroller"/>
 			<ref bean="recommendationscontroller"/>
+			<ref bean="registerscontroller"/>
 			<ref bean="cors-server"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
@@ -57,6 +58,9 @@
 		<property name="generalService" ref="services.general.generalservice"/>
 	</bean>
 	<bean id="recommendationscontroller" class="rest.controllers.RecommendationsController">
+		<property name="generalService" ref="services.general.generalservice"/>
+	</bean>
+		<bean id="registerscontroller" class="rest.controllers.RegistersController">
 		<property name="generalService" ref="services.general.generalservice"/>
 	</bean>
 	<bean id="cors-server" scope="prototype" class="rest.controllers.CorsController">

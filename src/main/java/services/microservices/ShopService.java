@@ -17,10 +17,6 @@ public class ShopService{
 	private UserService userService;
 	private ProductListService productListService;
 	private CashRegisterManager cashRegisterManager;
-//	@PostConstruct
-//	public void init(){
-//		setCashRegisterManager(new CashRegisterManager(1));
-//	}
 	
 	@Transactional
 	public void initialize(Integer n){

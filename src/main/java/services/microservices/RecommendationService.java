@@ -2,11 +2,8 @@ package services.microservices;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Ordering;

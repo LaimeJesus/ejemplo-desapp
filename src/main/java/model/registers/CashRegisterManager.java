@@ -20,7 +20,7 @@ public class CashRegisterManager {
 	public CashRegisterManager(Integer n){
 		this.registers = new ArrayList<CashRegister>();
 		for(int i=0; i<n; i++){
-			CashRegister aCashRegister = new CashRegister();
+			CashRegister aCashRegister = new CashRegister(i);
 			this.addCashRegister(aCashRegister);			
 		}
 	}

@@ -12,18 +12,28 @@ public class CashRegister {
 
 	private Duration waitingTime;
 	private List<InQueueUser> queue;
-	private Filter filter;
+	public Filter filter;
 	private boolean isRunning;
 	public ExecutorService executor;
+	public Integer id;
 
 	public CashRegister(){
+		initialize();
+	}
+	
+	public CashRegister(int id) {
+		this.id = id;
+		initialize();
+	}
+	
+	public void initialize(){
 		waitingTime = new Duration(0L);
 		filter = new OpenFilter();
 		queue = new ArrayList<InQueueUser>();
 		isRunning = false;
 		executor = Executors.newSingleThreadExecutor();
 	}
-	
+
 	public Duration getWaitingTime() {
 		return waitingTime;
 	}

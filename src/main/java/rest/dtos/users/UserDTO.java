@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import model.users.User;
 import util.Password;
+import util.Permission;
 
 public class UserDTO {
 	public int id;
@@ -12,6 +13,7 @@ public class UserDTO {
 	public Password password;
 	public String email;
 	public ProfileDTO profile;
+	public Permission role;
 	
 	public User toUser(){
 		User u = new User();
@@ -40,6 +42,7 @@ public class UserDTO {
 		email = u.getEmail();
 		username = u.getUsername();
 		password = u.getPassword();
+		role = u.getUserPermission();
 	}
 
 	public static List<UserDTO> createUsers(List<User> users) {
