@@ -128,17 +128,12 @@ public class GeneralService {
 		//this.getProductListService().removeProduct(productList , product);
 	}
 	
-	public void generateRecommmendation (User u , Product p) {}
-	
 	@Transactional
 	public void applyOffer (User user , Offer offer , ProductList productList) throws MoneyCannotSubstractException, UsernameDoesNotExistException {
 		if (this.getGeneralOfferService().isOfferValid(offer) ){
 			this.getProductListService().applyOffer(user,offer,productList);
 		}
 	}
-	
-	public void removeOffer (User u , Offer o , ProductList pl) {}
-
 	
 	@Transactional
 	public Duration ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
