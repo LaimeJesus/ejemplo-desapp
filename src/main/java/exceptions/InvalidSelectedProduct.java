@@ -6,6 +6,9 @@ public class InvalidSelectedProduct extends Exception {
 		super(msg);
 	}
 
+	public InvalidSelectedProduct(){
+		super("Product can not being selected");
+	}
 	/**
 	 * 
 	 */

@@ -5,6 +5,9 @@ public class ProductListNotExistException extends Exception {
 	public ProductListNotExistException(String msg) {
 		super(msg);
 	}
+	public ProductListNotExistException(){
+		super("Product list not exist");
+	}
 
 	/**
 	 * 

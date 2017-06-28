@@ -7,6 +7,7 @@ public class UserIsNotLoggedException extends Exception {
 	}
 
 	public UserIsNotLoggedException() {
+		super("User is not logged");
 	}
 
 	/**

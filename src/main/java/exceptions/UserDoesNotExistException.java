@@ -5,6 +5,10 @@ public class UserDoesNotExistException extends Exception {
 	public UserDoesNotExistException(String msg) {
 		super(msg);
 	}
+	
+	public UserDoesNotExistException(){
+		super("User does not exist");
+	}
 
 	/**
 	 * 
