@@ -316,6 +316,7 @@
 	     		<target>1.8</target>
 	     	</configuration>
      	</plugin>
+     	
 	    <plugin>
 	      <groupId>org.apache.maven.plugins</groupId>
 	      <artifactId>maven-dependency-plugin</artifactId>
@@ -337,6 +338,36 @@
 	        </execution>
 	       </executions>
 	    </plugin>
+	    
+	    <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.17</version>
+            <executions>
+            	<execution>
+	            	<id>verify-style</id>
+	            	<phase>process-classes</phase>
+	            	<goals>
+	            		<goal>check</goal>
+	            	</goals>
+            	</execution>
+            </executions>
+            <configuration>
+                <logViolationsToConsole>true</logViolationsToConsole>
+                <checkstyleRules>
+                <module name="Checker">
+                  	<property name="charset" value="UTF-8" />
+					<property name="fileExtensions" value="java"/>
+				    <module name="TreeWalker">
+		                <module name="RegexpSinglelineJava">
+						  <property name="format" value="System\.out\.println"/>
+						  <property name="ignoreComments" value="true"/>
+						</module>		
+				    </module>
+				</module>
+	            </checkstyleRules>
+            </configuration>
+       </plugin>	    
     </plugins>
     <finalName>desapp-grupob-backend</finalName>
   </build>
