@@ -17,8 +17,8 @@ import services.general.GeneralService;
 @CrossOriginResourceSharing(
         allowOrigins = {
         		"*"
-        }, 
-        allowCredentials = true, 
+        },
+        allowCredentials = true,
         maxAge = 1,
         allowHeaders = {
                 "X-custom-1", "X-custom-2"
@@ -39,7 +39,7 @@ public class CorsController {
 	@Produces("application/json")
 	public Response signup(UserDTO user){
 		try{
-			System.out.println(user);
+			// System.out.println(user);
 			getGeneralService().createUser(user.fullUser());
 			return Response.ok()
 					.header(CorsHeaderConstants.HEADER_AC_ALLOW_METHODS, "POST")
@@ -62,5 +62,5 @@ public class CorsController {
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;
 	}
-	
+
 }

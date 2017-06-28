@@ -150,7 +150,7 @@ public class User extends Entity{
 	}
 	
 	public ProductList getProductListByName(String name) throws ProductListNotExistException {
-		return getProfile().getProductListByName(name);
+		return getProfile().getProductListByName(name).updateTotalAmount();
 	}
 	@Override
 	public String toString() {
