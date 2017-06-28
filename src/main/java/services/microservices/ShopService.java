@@ -5,6 +5,7 @@ import javax.annotation.PreDestroy;
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.CanNotGetCashRegister;
 import exceptions.InvalidSelectedProduct;
 import model.products.ProductList;
 import model.registers.CashRegisterManager;
@@ -32,7 +33,7 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public Duration ready(User user, ProductList pl) throws InvalidSelectedProduct{
+	public Duration ready(User user, ProductList pl) throws InvalidSelectedProduct, CanNotGetCashRegister{
 		productService.updateStock(pl);
 		cashRegisterManager.queueUserWithAProductlist(user, pl);
 		return cashRegisterManager.getWaitingTime(pl).plus(pl.getProcessingTime());
@@ -45,7 +46,7 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public Duration waitingTime(User u, ProductList p){
+	public Duration waitingTime(User u, ProductList p) throws CanNotGetCashRegister{
 		return cashRegisterManager.getWaitingTime(p);
 	}
 

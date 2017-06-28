@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.Duration;
 
+import exceptions.CanNotGetCashRegister;
 import model.products.ProductList;
 import model.users.User;
 import util.Money;
@@ -34,11 +35,11 @@ public class CashRegisterManager {
 		aCashRegister.next();
 	}
 
-	public void addInQueueUser(InQueueUser anInQueueUser) {
+	public void addInQueueUser(InQueueUser anInQueueUser) throws CanNotGetCashRegister {
 		this.addInQueueUsertoACashRegister(this.getNextCashRegisterFor(anInQueueUser.getProductList()), anInQueueUser);
 	}
 
-	public CashRegister getNextCashRegisterFor(ProductList aProductList){
+	public CashRegister getNextCashRegisterFor(ProductList aProductList) throws CanNotGetCashRegister{
 		CashRegister cashRegister = null;
 		for(CashRegister cr : this.getRegisters()){
 			if(cashRegister == null && cr.accepts(aProductList)){
@@ -49,6 +50,7 @@ public class CashRegisterManager {
 				}				
 			}
 		}
+		if(cashRegister == null) throw new CanNotGetCashRegister(aProductList);
 		return cashRegister;
 	}
 
@@ -77,11 +79,11 @@ public class CashRegisterManager {
 		this.registers.remove(cr);
 	}
 	
-	public void addUserWithProductList(User user, ProductList pl){
+	public void addUserWithProductList(User user, ProductList pl) throws CanNotGetCashRegister{
 		this.addInQueueUser(new InQueueUser(pl, user));
 	}
 
-	public Duration getWaitingTime(ProductList aProductList) {
+	public Duration getWaitingTime(ProductList aProductList) throws CanNotGetCashRegister {
 		return this.getNextCashRegisterFor(aProductList).getWaitingTime();
 	}
 	
@@ -104,7 +106,7 @@ public class CashRegisterManager {
 		}
 	}
 
-	public void queueUserWithAProductlist(User user, ProductList pl) {
+	public void queueUserWithAProductlist(User user, ProductList pl) throws CanNotGetCashRegister {
 		CashRegister cr = getNextCashRegisterFor(pl); 
 		cr.add(new InQueueUser(pl, user));
 		cr.next();

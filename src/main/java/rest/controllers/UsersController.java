@@ -18,6 +18,7 @@ import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import com.google.gson.JsonSyntaxException;
 
+import exceptions.CanNotGetCashRegister;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.ProductDoesNotExistOnListException;
@@ -83,9 +84,12 @@ public class UsersController {
 			User u = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.createUser(u);
 			return responseDTO.ok(generalService.getUserService().findByUsername(u.getUsername()));
-		} catch (JsonSyntaxException | UserAlreadyExistsException e) {
+		} catch (JsonSyntaxException e) {
+			return responseDTO.error(Status.CONFLICT, e.getLocalizedMessage());
+		} catch(UserAlreadyExistsException e){
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		} catch(Exception e){
+		}
+		catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
@@ -264,8 +268,7 @@ public class UsersController {
 		try {
 			ProductList pl = responseDTO.gson.fromJson(productListJson, ProductList.class);
 			generalService.createProductList(userId, pl);
-			pl = generalService.getUserById(userId).getProductListByName(pl.getName());
-			return responseDTO.ok(pl.updateTotalAmount());
+			return responseDTO.ok(generalService.getUserById(userId).getProductListByName(pl.getName()));
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
@@ -293,6 +296,8 @@ public class UsersController {
 			return responseDTO.ok(new DurationDTO(generalService.getWaitingTime(userId, productlistId)));
 		} catch (UserDoesNotExistException | ProductListNotExistException | UserIsNotLoggedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch (CanNotGetCashRegister e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");
 		}
@@ -305,6 +310,8 @@ public class UsersController {
 			return responseDTO.ok(new DurationDTO(generalService.ready(userId, productlistId)));
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
 				| InvalidSelectedProduct e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch (CanNotGetCashRegister e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "problem in server");

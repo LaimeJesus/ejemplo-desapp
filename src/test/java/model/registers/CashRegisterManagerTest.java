@@ -5,22 +5,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import exceptions.CanNotGetCashRegister;
 import model.products.ProductList;
 import model.registers.CashRegister;
 import model.registers.CashRegisterManager;
 
 public class CashRegisterManagerTest {
 	
-	
 	@Test
-	public void testCreateACashRegisterManagerWith10CashRegistersHas10CashRegisters(){
-		CashRegisterManager sut = new CashRegisterManager(10);
-		
-		Assert.assertEquals(10, sut.getRegisters().size());
-	}
-	
-	@Test
-	public void testGettingTheCashRegisterWithLesserWaitingTime(){
+	public void testGettingTheCashRegisterWithLesserWaitingTime() throws CanNotGetCashRegister{
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
@@ -37,12 +30,13 @@ public class CashRegisterManagerTest {
 		sut.addCashRegister(aCashRegister1Mock);
 		sut.addCashRegister(aCashRegister2Mock);
 		
-		Assert.assertEquals(aCashRegister2Mock, sut.getNextCashRegisterFor(aProductListMock));	
+		Assert.assertEquals(aCashRegister2Mock, sut.getNextCashRegisterFor(aProductListMock));		
 		
+		sut.stop();
 	}
 	
-	@Test
-	public void testGettingTheCashRegisterWithLesserTimeWhenAllMyCashRegisterAreClosedThenReturnsNull(){
+	@Test(expected=CanNotGetCashRegister.class)
+	public void testGettingTheCashRegisterWithLesserTimeWhenAllMyCashRegisterAreClosedThenReturnsNull() throws CanNotGetCashRegister{
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
@@ -56,12 +50,12 @@ public class CashRegisterManagerTest {
 		sut.addCashRegister(aCashRegister1Mock);
 		sut.addCashRegister(aCashRegister2Mock);
 		
-		Assert.assertEquals(null, sut.getNextCashRegisterFor(aProductListMock));	
-		
+		sut.getNextCashRegisterFor(aProductListMock);
+		sut.stop();
 	}
 	
 	@Test
-	public void testGettingTheWaitingTimeWithTwoCashRegisterWith5secondsAndTheOtherWith8SecondsReturns4Seconds(){
+	public void testGettingTheWaitingTimeWithTwoCashRegisterWith5secondsAndTheOtherWith8SecondsReturns4Seconds() throws CanNotGetCashRegister{
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegister1Mock = Mockito.mock(CashRegister.class);
@@ -79,11 +73,11 @@ public class CashRegisterManagerTest {
 		sut.addCashRegister(aCashRegister2Mock);
 		
 		Assert.assertEquals(new Duration(4L), sut.getWaitingTime(aProductListMock));	
-				
+		sut.stop();
 	}
 	
 	@Test
-	public void testAnUserWithAProductListIsAddedToTheCashRegisterWithTheLesserTime(){
+	public void testAnUserWithAProductListIsAddedToTheCashRegisterWithTheLesserTime() throws CanNotGetCashRegister{
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegisterMock = Mockito.mock(CashRegister.class);
@@ -98,9 +92,9 @@ public class CashRegisterManagerTest {
 		sut.addCashRegister(aCashRegisterMock);
 		sut.addInQueueUser(anInQueueUserMock);
 		
-		
 		Mockito.verify(aCashRegisterMock).next();
 		Mockito.verify(anInQueueUserMock).getProductList();
+		sut.stop();
 	}
 	
 	@Test
@@ -115,6 +109,7 @@ public class CashRegisterManagerTest {
 		sut.changeFilterFor(0, newCloseFilter);
 		
 		Mockito.verify(aCashRegisterMock).useFilter(newCloseFilter);
+		sut.stop();
 	}
 	
 }
