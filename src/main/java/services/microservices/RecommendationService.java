@@ -16,7 +16,7 @@ import model.products.SelectedProduct;
 public class RecommendationService implements Serializable{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8735532598538235828L;
 	private Integer[][] products;
@@ -31,17 +31,16 @@ public class RecommendationService implements Serializable{
 				products[i][j] = 0;
 			}
 			sorted.add(TreeMultimap.create(Collections.reverseOrder(), Ordering.natural()));
-//			sorted.set(i, TreeMultimap.create(Collections.reverseOrder(), Ordering.natural()));
 		}
 	}
-	
+
 	@Transactional
 	public void updateProducts(ProductList pl){
 		try{
 			for(SelectedProduct sp1 : pl.getAllProducts()){
 				Integer looking1 = sp1.getProduct().getId()-1;
 				for(SelectedProduct sp2 : pl.getAllProducts()){
-					Integer looking2 = sp2.getProduct().getId()-1; 
+					Integer looking2 = sp2.getProduct().getId()-1;
 					if(looking1 != looking2){
 						sorted.get(looking1).remove(products[looking1][looking2], looking2);
 						products[looking1][looking2] += 1;
@@ -51,10 +50,10 @@ public class RecommendationService implements Serializable{
 			}
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
 		}
 	}
-	
+
 	//quantity <= products.size()
 	@Transactional
 	public Collection<Integer> getRecommendationFor(Integer productId, Integer quantity){
@@ -73,5 +72,5 @@ public class RecommendationService implements Serializable{
 	public Integer[][] getProducts() {
 		return products;
 	}
-	
+
 }

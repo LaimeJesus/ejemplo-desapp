@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.Duration;
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.CanNotGetCashRegister;
 import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
 import exceptions.CrossingOfferNotExistException;
@@ -141,7 +142,7 @@ public class GeneralService {
 
 	
 	@Transactional
-	public Duration ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException {
+	public Duration ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, CanNotGetCashRegister {
 		return getShopService().ready(user, productList);
 	}
 
@@ -200,7 +201,7 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public Duration waitingTime(String username, String listname) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist {
+	public Duration waitingTime(String username, String listname) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, CanNotGetCashRegister {
 		User user = new User();
 		user.setUsername(username);
 		ProductList pl = new ProductList();
@@ -425,14 +426,14 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public Duration getWaitingTime(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException {
+	public Duration getWaitingTime(Integer userId, Integer productlistId) throws UserDoesNotExistException, ProductListNotExistException, UserIsNotLoggedException, CanNotGetCashRegister {
 		User user = getUserById(userId);
 		user.validateLogged();
 		return getShopService().waitingTime(user, user.getProductListById(productlistId));
 	}
 
 	@Transactional
-	public Duration ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct {
+	public Duration ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct, CanNotGetCashRegister {
 		User user = getUserById(userId);
 		user.validateLogged();
 		return getShopService().ready(user, user.getProductListById(productlistId));
