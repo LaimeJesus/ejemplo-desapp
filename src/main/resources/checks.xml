@@ -15,9 +15,6 @@
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 
-<!--  <module name="RegexpMultiline">
-  <property name="format" value="System\.(out)|(err)\.print(ln)?\("/>
-</module> -->
   <module name="RegexpSinglelineJava">
       <property name="format"         value="System\.(out)|(err)\.print(ln)?\("/>
       <property name="message"        value="ENCONTRE SYSTEM OUT"/>
