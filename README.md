@@ -24,6 +24,29 @@ Repository for project **Comprando aloloco**
 ### Mockup
 ![Mockup](https://raw.githubusercontent.com/LaimeJesus/grupo-b-012017/master/doc/Mockups%20-%20Lobby%20%26%20AddProduct%20-%20PNG.png)
 
+## Install Server Locally:
+
+### Install Java 8
+* Download [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads) from Oracle.
+
+### Install Maven 2
+* Download [mvn2](https://maven.apache.org/download.cgi) from Apache.
+
+### Clone the repository from GitHub
+* Download from [github](https://github.com/LaimeJesus/grupo-b-012017).
+
+### Run server locally:
+Go to root directory of project.
+* Linux:
+  * On the command line, enter:
+  ```
+    mvn package
+    java -jar target/dependency/jetty-runner.jar target/*.war
+  ```
+  * This will run the server in the port 8080.
+* Other Platforms:
+  * Pending.
+
 #### Authors
 * Sandoval Lucas
 * Laime Jesus
