@@ -68,7 +68,7 @@ public class RecommendationService implements Serializable{
 		}
 		return res;
 	}
-
+	@Transactional
 	public Integer[][] getProducts() {
 		return products;
 	}

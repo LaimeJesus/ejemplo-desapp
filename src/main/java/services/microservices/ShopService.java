@@ -11,6 +11,7 @@ import model.products.ProductList;
 import model.registers.CashRegisterManager;
 import model.registers.PurchaseRecord;
 import model.users.User;
+import rest.dtos.users.WaitingUser;
 
 public class ShopService{
 	
@@ -33,10 +34,9 @@ public class ShopService{
 	}
 	
 	@Transactional
-	public Duration ready(User user, ProductList pl) throws InvalidSelectedProduct, CanNotGetCashRegister{
+	public WaitingUser ready(User user, ProductList pl) throws InvalidSelectedProduct, CanNotGetCashRegister{
 		productService.updateStock(pl);
-		cashRegisterManager.queueUserWithAProductlist(user, pl);
-		return cashRegisterManager.getWaitingTime(pl).plus(pl.getProcessingTime());
+		return cashRegisterManager.queueUserWithAProductlist(user, pl);
 	}
 	
 	@Transactional

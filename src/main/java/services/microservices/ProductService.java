@@ -21,7 +21,6 @@ public class ProductService extends GenericService<Product> {
 	 */
 	private static final long serialVersionUID = -8067303758622033038L;
 
-	@Autowired
 	private SelectedProductService selectedProductService;
 
 
@@ -52,15 +51,15 @@ public class ProductService extends GenericService<Product> {
 
 	@Transactional
 	public void saveall(List<Product> products) {
-		// List<Product> bdpds = retriveAll();
+		 List<Product> bdpds = retriveAll();
 		for(Product aProduct : products){
-			//Product newProduct = findByProduct(aProduct);
-			// if(bdpds.contains(aProduct)){
-			// 	this.update(aProduct);
-			// }
-			// else{
+			Product newProduct = findByProduct(aProduct);
+			 if(bdpds.contains(aProduct)){
+			 	this.update(aProduct);
+			 }
+			 else{
 				this.save(aProduct);
-			// }
+			 }
 		}
 
 	}
@@ -92,9 +91,9 @@ public class ProductService extends GenericService<Product> {
 		}
 	}
 
+	
 	@Transactional
-	@Override
-	public void delete(Product pro) {
+	public void deleteProduct(Product pro) {
 		List<SelectedProduct> allSelected = selectedProductService.retriveAll();
 		for (SelectedProduct sp : allSelected) {
 			if (sp.getProduct().equals(pro)){
@@ -123,10 +122,11 @@ public class ProductService extends GenericService<Product> {
 		try {
 			Product fromdb = getProductById(productId);
 			product.setId(fromdb.getId());
-			delete(fromdb);
-			getRepository().delete(fromdb);
-			save(product);
-//			update(product);
+//			delete(fromdb);
+//			getRepository().delete(fromdb);
+//			save(product);
+			
+			update(product);
 		} catch (ProductNotExistException e) {
 			//validateProduct(product);
 			save(product);

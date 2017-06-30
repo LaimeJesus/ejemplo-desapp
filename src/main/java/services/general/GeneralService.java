@@ -42,6 +42,7 @@ import model.users.User;
 import rest.dtos.offers.CombinationOfferDTO;
 import rest.dtos.offers.CrossingOfferDTO;
 import rest.dtos.productlists.SelectedProductDTO;
+import rest.dtos.users.WaitingUser;
 import services.microservices.ProductListService;
 import services.microservices.ProductService;
 import services.microservices.RecommendationService;
@@ -137,7 +138,7 @@ public class GeneralService {
 	}
 	
 	@Transactional
-	public Duration ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, CanNotGetCashRegister {
+	public WaitingUser ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, CanNotGetCashRegister {
 		return getShopService().ready(user, productList);
 	}
 
@@ -286,7 +287,7 @@ public class GeneralService {
 
 	@Transactional
 	public void deleteProductById(Integer productId) throws ProductNotExistException {
-		getProductService().delete(getProductService().getProductById(productId));
+		getProductService().deleteProduct(getProductService().getProductById(productId));
 	}
 
 	@Transactional
@@ -428,7 +429,7 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public Duration ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct, CanNotGetCashRegister {
+	public WaitingUser ready(Integer userId, Integer productlistId) throws UserDoesNotExistException, UserIsNotLoggedException, ProductListNotExistException, InvalidSelectedProduct, CanNotGetCashRegister {
 		User user = getUserById(userId);
 		user.validateLogged();
 		return getShopService().ready(user, user.getProductListById(productlistId));

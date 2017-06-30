@@ -24,7 +24,6 @@ public class ProductListService extends GenericService<ProductList> {
 	private ProductService productService;
 	private UserService userService;
 	
-	
 	@Transactional
 	public void selectProduct( User user , ProductList productList , Product product , Integer quantity) 
 	throws 	ProductIsAlreadySelectedException, 

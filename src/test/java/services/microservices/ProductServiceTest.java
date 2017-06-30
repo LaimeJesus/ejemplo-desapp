@@ -55,7 +55,7 @@ public class ProductServiceTest {
 		
 		Assert.assertTrue( productService.retriveAll().contains(productToSave));
 		
-		productService.delete(productToSave);
+		productService.deleteProduct(productToSave);
 	}
 	
 	//@Test
@@ -82,7 +82,7 @@ public class ProductServiceTest {
         
         Product fromDB = productService.getByExample(product1ToSave);
         
-        productService.delete(fromDB);
+        productService.deleteProduct(fromDB);
         
         Assert.assertEquals(expected, selectedProductService.count());		
 	

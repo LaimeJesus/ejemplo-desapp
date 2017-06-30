@@ -4,11 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -394,108 +389,6 @@ public class GeneralServiceTest {
 		generalService.createOffer(validOffer, someValidUser);
 	}
 
-
-	@Test
-	public void testTransactional() {
-
-		generalService.getUserService().deleteAll();
-
-		User someUser = new UserBuilder()
-				.withEmail("transactionaltest@gmail.com")
-				.withPassword(new Password("altapassword"))
-				.withUsername("transactional")
-				.withUserPermission(Permission.ADMIN)
-				.build();
-
-		try {
-			generalService.createUserForTest(someUser);
-		} catch (Exception e) {
-			System.out.println("ASDS");
-			System.out.println( generalService.getUserService().retriveAll().size());
-			System.out.println("ASDS");
-
-		} finally {
-			Assert.assertTrue(generalService.getUserService().retriveAll().isEmpty());
-		}
-	}
-
-	@Test
-	public void testArchiteture1() {
-		boolean result = true;
-
-		try {
-
-			Method[] methods = Class.forName("services.general.GeneralService").getMethods();
-			Method[] superMethods = Class.forName("services.general.GeneralService").getSuperclass().getMethods();
-
-			List<Method> myMethods = Arrays.asList(methods);
-			List<Method> myFatherMethods = Arrays.asList(superMethods);
-
-			for (Method m : methods) {
-				if ( !(m.getName().contains("Service") || myFatherMethods.contains(m)) ) {
-					Annotation[] annotations = m.getAnnotations();
-					if (annotations.length == 0) {
-						result = false;
-					}
-					for (Annotation a : annotations) {
-						result &= a.toString().startsWith("@org.springframework.transaction.annotation.Transactional");
-					}
-				}
-			}
-
-			Assert.assertTrue(result);
-
-		} catch (SecurityException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
-
-
-	public void testArchiteture2() {
-
-		boolean result = false;
-
-		try {
-			List<Method> mymethods = Arrays.asList(Class.forName("rest.controllers.UsersController").getMethods());
-			List<Method> myFatherMethods = Arrays.asList(Class.forName("rest.controllers.UsersController").getSuperclass().getMethods());
-
-			for (Method m : mymethods) {
-
-				if ( !(m.getName().contains("Service") || myFatherMethods.contains(m)) )
-
-				{
-
-					System.out.println(m.getName());
-					List<Annotation> annotations = Arrays.asList(m.getAnnotations());
-
-					if (annotations.isEmpty()){
-						result = false;
-					}
-
-					for (Annotation a : annotations) {
-						if (	a.toString().contains("GET") 	||
-								a.toString().contains("POST") 	||
-								a.toString().contains("PUT") 	||
-								a.toString().contains("DELETE")
-								) {
-							result &= m.getReturnType().getName().contains("javax.ws.rs.core.Response");
-						}
-					}
-				}
-
-			}
-
-			Assert.assertTrue(result);
-
-		} catch (SecurityException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Assert.fail();
-		}
-
-	}
 
 	@After
 	public void after(){
