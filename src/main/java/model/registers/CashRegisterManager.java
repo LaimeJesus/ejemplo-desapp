@@ -8,6 +8,7 @@ import org.joda.time.Duration;
 import exceptions.CanNotGetCashRegister;
 import model.products.ProductList;
 import model.users.User;
+import rest.dtos.users.WaitingUser;
 import util.Money;
 
 public class CashRegisterManager {
@@ -106,10 +107,11 @@ public class CashRegisterManager {
 		}
 	}
 
-	public void queueUserWithAProductlist(User user, ProductList pl) throws CanNotGetCashRegister {
+	public WaitingUser queueUserWithAProductlist(User user, ProductList pl) throws CanNotGetCashRegister {
 		CashRegister cr = getNextCashRegisterFor(pl); 
 		cr.add(new InQueueUser(pl, user));
 		cr.next();
+		return new WaitingUser(cr.id, pl.getId(), cr.getWaitingTime(), user.getId());
 	}
 
 }

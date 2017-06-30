@@ -307,7 +307,7 @@ public class UsersController {
 	@Path("/{userId}/productlists/{productlistId}/ready")
 	public Response ready(@PathParam("userId") Integer userId, @PathParam("productlistId") Integer productlistId){
 		try {
-			return responseDTO.ok(new DurationDTO(generalService.ready(userId, productlistId)));
+			return responseDTO.ok(generalService.ready(userId, productlistId));
 		} catch (UserDoesNotExistException | UserIsNotLoggedException | ProductListNotExistException
 				| InvalidSelectedProduct e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
