@@ -6,6 +6,7 @@ import java.util.List;
 import org.joda.time.Duration;
 
 import exceptions.CanNotGetCashRegister;
+import exceptions.RegisterDoesNotExistException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.users.WaitingUser;
@@ -55,20 +56,27 @@ public class CashRegisterManager {
 		return cashRegister;
 	}
 
-	public void changeFilterFor(int index, Filter f) {
-		this.getRegisters().get(index).useFilter(f);
+	public CashRegister getRegister(int index) throws RegisterDoesNotExistException{
+	  if(index >= this.getRegisters().size()){
+      throw new RegisterDoesNotExistException(); 
+    }
+	  return this.getRegisters().get(index);
+	}
+	
+	public void changeFilterFor(int index, Filter f) throws RegisterDoesNotExistException {
+		getRegister(index).useFilter(f);
 	}
 	/////////////////////////////////////////////////////////////
 	
-	public void closeCashRegister(int index){
+	public void closeCashRegister(int index) throws RegisterDoesNotExistException{
 		this.changeFilterFor(index, new CloseFilter());
 	}
 
-	public void openCashRegister(int index){
+	public void openCashRegister(int index) throws RegisterDoesNotExistException{
 		this.changeFilterFor(index, new OpenFilter());
 	}
 	
-	public void totalCostFilter(int index, Money money){
+	public void totalCostFilter(int index, Money money) throws RegisterDoesNotExistException{
 		this.changeFilterFor(index, new TotalCostFilter(money));
 	}
 	

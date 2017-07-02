@@ -21,6 +21,7 @@ import com.google.gson.JsonSyntaxException;
 import exceptions.CanNotGetCashRegister;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.PasswordInvalidException;
 import exceptions.PasswordNotChangedException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
@@ -32,7 +33,6 @@ import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import model.products.ProductList;
 import model.users.User;
 import rest.dtos.generics.DurationDTO;
@@ -385,7 +385,7 @@ public class UsersController {
 				| ProductNotExistException | ProductIsAlreadySelectedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(JsonSyntaxException e){
-			return responseDTO.error(Status.CONFLICT, "json error");
+			return responseDTO.error(Status.CONFLICT, e.getLocalizedMessage());
 		}
 		catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
@@ -411,10 +411,13 @@ public class UsersController {
 		try {
 			generalService.updateSelectedProduct(userId, productlistId, selectedProductId, responseDTO.gson.fromJson(selectedProductJson,  SelectedProductDTO.class));
 			return responseDTO.ok("selected product updated");
-		} catch (JsonSyntaxException | UserDoesNotExistException | UserIsNotLoggedException
+		} catch (UserDoesNotExistException | UserIsNotLoggedException
 				| ProductListNotExistException | ProductNotExistException | ProductIsAlreadySelectedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
-		} catch(Exception e){
+		} catch(JsonSyntaxException e){
+		  return responseDTO.error(Status.CONFLICT, e.getMessage());
+		}
+		catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not take that request");
 		}
 	}
@@ -460,7 +463,7 @@ public class UsersController {
 			User u = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.loginUser(u);
 			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
-		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException e) {
+		} catch (UsernameDoesNotExistException | PasswordInvalidException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not log");
@@ -477,7 +480,7 @@ public class UsersController {
 			User u = responseDTO.gson.fromJson(userJson, User.class);
 			generalService.loginWithMailUser(u);
 			return responseDTO.ok(new UserDTO(generalService.getUserService().findByUsername(u.getUsername())));
-		} catch (UsernameDoesNotExistException | UsernameOrPasswordInvalidException | UserAlreadyExistsException e) {
+		} catch (UsernameDoesNotExistException | PasswordInvalidException | UserAlreadyExistsException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "can not log in with mail");

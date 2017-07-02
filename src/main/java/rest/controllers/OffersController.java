@@ -62,7 +62,7 @@ public class OffersController {
 			offers.addAll(CrossingOfferDTO.createCrossingOffers(generalService.getCrossingOffers()));
 			return response.ok(offers);			
 		} catch(Exception e){
-			return response.error(Status.INTERNAL_SERVER_ERROR, "error getting offers");
+			return response.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
 	@DELETE

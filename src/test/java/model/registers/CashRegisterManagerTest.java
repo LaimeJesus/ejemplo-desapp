@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import exceptions.CanNotGetCashRegister;
+import exceptions.RegisterDoesNotExistException;
 import model.products.ProductList;
 import model.registers.CashRegister;
 import model.registers.CashRegisterManager;
@@ -98,7 +99,7 @@ public class CashRegisterManagerTest {
 	}
 	
 	@Test
-	public void testChangeACashRegisterToClose(){
+	public void testChangeACashRegisterToClose() throws RegisterDoesNotExistException{
 		CashRegisterManager sut = new CashRegisterManager();
 		
 		CashRegister aCashRegisterMock = Mockito.mock(CashRegister.class);

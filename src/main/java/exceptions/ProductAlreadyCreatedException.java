@@ -2,6 +2,9 @@ package exceptions;
 
 public class ProductAlreadyCreatedException extends Exception {
 
+  public ProductAlreadyCreatedException(){
+    super("Product already exists");
+  }
 	/**
 	 * 
 	 */

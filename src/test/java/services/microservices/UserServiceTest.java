@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import exceptions.PasswordInvalidException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import model.users.User;
 import services.microservices.UserService;
 import util.Password;
@@ -53,7 +53,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testUsersCanBeLogged() throws UserAlreadyExistsException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException{
+	public void testUsersCanBeLogged() throws UserAlreadyExistsException, UsernameDoesNotExistException, PasswordInvalidException{
 		userService.deleteAll();
 		User user = new User();
 		user.setUsername("pepe");

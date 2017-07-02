@@ -2,10 +2,10 @@ package services.microservices;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import exceptions.InvalidSelectedProduct;
+import exceptions.InvalidUploadCSV;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductNotExistException;
 import model.products.Product;
@@ -41,9 +41,14 @@ public class ProductService extends GenericService<Product> {
 	}
 
 	@Transactional
-	public void upload(String csv) throws Exception{
+	public void upload(String csv) throws InvalidUploadCSV, ProductAlreadyCreatedException{
 		CSVProductParser parser = new CSVProductParser();
-		List<Product> products = parser.toListObject(parser.parse(csv));
+		List<Product> products;
+    try {
+      products = parser.toListObject(parser.parse(csv));
+    } catch (Exception e) {
+      throw new InvalidUploadCSV();
+    }
 		for(Product p : products){
 			createOrUpdate(p.getId(), p);
 		}
@@ -54,7 +59,8 @@ public class ProductService extends GenericService<Product> {
 		 List<Product> bdpds = retriveAll();
 		for(Product aProduct : products){
 			Product newProduct = findByProduct(aProduct);
-			 if(bdpds.contains(aProduct)){
+			 if(bdpds.contains(newProduct)){
+			  aProduct.setId(newProduct.getId());
 			 	this.update(aProduct);
 			 }
 			 else{

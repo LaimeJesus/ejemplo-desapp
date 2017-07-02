@@ -1,22 +1,18 @@
 package services;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import builders.ProductBuilder;
 import builders.UserBuilder;
+import exceptions.PasswordInvalidException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
@@ -67,7 +63,7 @@ public class MoneyServiceTest {
 	}
 	
 //	@Test
-	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException, UsernameOrPasswordInvalidException {
+	public void testWhenWorkingWithListsMoneysArenPersisted() throws UserAlreadyExistsException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException, PasswordInvalidException {
 		
 		Integer expected = moneyService.retriveAll().size();
 		

@@ -12,8 +12,10 @@ import exceptions.CategoryOfferNotExistException;
 import exceptions.CombinationOfferNotExistException;
 import exceptions.CrossingOfferNotExistException;
 import exceptions.InvalidSelectedProduct;
+import exceptions.InvalidUploadCSV;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
+import exceptions.PasswordInvalidException;
 import exceptions.PasswordNotChangedException;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductDoesNotExistException;
@@ -28,7 +30,6 @@ import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
@@ -73,7 +74,7 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+	public void loginUser (User user) throws UsernameDoesNotExistException, PasswordInvalidException {
 		getUserService().loginUser(user);
 	}
 
@@ -188,10 +189,10 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void upload(String file) throws Exception {
+	public void upload(String file) throws InvalidUploadCSV, ProductAlreadyCreatedException {
 		getProductService().upload(file);
 	}
-
+	
 	@Transactional
 	public List<Product> allProducts(){
 		return getProductService().retriveAll();
@@ -477,7 +478,7 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void loginWithMailUser(User user) throws UserAlreadyExistsException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+	public void loginWithMailUser(User user) throws UserAlreadyExistsException, UsernameDoesNotExistException, PasswordInvalidException {
 		User exists = getUserService().findByUsername(user.getEmail());
 		if(exists == null){
 			user.setPassword(new Password(user.getEmail()));

@@ -20,12 +20,12 @@ import builders.ProductBuilder;
 import builders.UserBuilder;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
+import exceptions.PasswordInvalidException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import exceptions.WrongUserPermissionException;
 import model.offers.CategoryOffer;
 import model.offers.CombinationOffer;
@@ -116,8 +116,8 @@ public class GeneralServiceTest {
 		generalService.createUser(anotherUserToSignUp);
     }
 
-	@Test (expected = UsernameOrPasswordInvalidException.class)
-	public void testWhenAUserTriesToLogInWithIncorrectPasswordThenThrowsAnException() throws UserAlreadyExistsException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+	@Test (expected = PasswordInvalidException.class)
+	public void testWhenAUserTriesToLogInWithIncorrectPasswordThenThrowsAnException() throws UserAlreadyExistsException, UsernameDoesNotExistException, PasswordInvalidException {
 		User userToSignUp = new UserBuilder()
 			.withUsername("sandoval.lucasj")
 			.withEmail("sandoval.lucasj@gmail.com")
@@ -132,7 +132,7 @@ public class GeneralServiceTest {
 	}
 
 	@Test (expected = UsernameDoesNotExistException.class)
-	public void testWhenAUserThatIsNotRegisteredTriesToLoginThenThrowsAnException() throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+	public void testWhenAUserThatIsNotRegisteredTriesToLoginThenThrowsAnException() throws UsernameDoesNotExistException, PasswordInvalidException {
 		User userToSignUp = new UserBuilder()
 			.withUsername("sandoval.lucasj")
 			.withEmail("sandoval.lucasj@gmail.com")
@@ -144,7 +144,7 @@ public class GeneralServiceTest {
 	}
 
 	@Test
-    public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay() throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, UserAlreadyExistsException, UsernameOrPasswordInvalidException, OfferIsAlreadyCreatedException{
+  public void testWhenAAdminUserCreatesAnOfferThenEverythinIsOkay() throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, UserAlreadyExistsException, PasswordInvalidException, OfferIsAlreadyCreatedException{
 		User user = new UserBuilder()
 				.withUsername("sandoval.lucasj")
 				.withEmail("sandoval.lucasj@gmail.com")
@@ -214,7 +214,7 @@ public class GeneralServiceTest {
 	}
 
 	@Test
-	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException, UserAlreadyExistsException, UsernameOrPasswordInvalidException {
+	public void testWhenICreateAProductListThenEverythingIsOkay() throws UsernameDoesNotExistException, UserIsNotLoggedException, UserAlreadyExistsException, PasswordInvalidException {
 
 		ProductList someProductList = new ProductList("First");
 
@@ -251,7 +251,7 @@ public class GeneralServiceTest {
 		Assert.assertTrue(userService.getListsFromUser(saved).contains(anotherProductList));
 	}
 
-	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, UsernameDoesNotExistException {
+	public void testWhenISelectAProductFromAListThatExistThenEverythingIsOkay() throws UserAlreadyExistsException, PasswordInvalidException, MoneyCannotSubstractException, UsernameDoesNotExistException {
 
 		ProductList someProductList = new ProductList("First");
 
@@ -283,7 +283,7 @@ public class GeneralServiceTest {
 	}
 
 	@Test
-	public void testWhenSelectingAProductThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
+	public void testWhenSelectingAProductThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, PasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 
 		User someValidUser = new UserBuilder()
 			.withUsername("someUser")
@@ -322,7 +322,7 @@ public class GeneralServiceTest {
 	}
 
 	@Test
-	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, UsernameOrPasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
+	public void testWhenApplyAnApplicableOfferThenMyTotalAmountIsUpdated() throws UserAlreadyExistsException, PasswordInvalidException, MoneyCannotSubstractException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 
 		ProductList someProductList = new ProductList("First");
 
@@ -366,7 +366,7 @@ public class GeneralServiceTest {
 
 
 	@Test (expected = OfferIsAlreadyCreatedException.class)
-	public void testWhenCreatingACategoryOfferThenItCantBeCreatedAgain() throws UserAlreadyExistsException, UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, UsernameOrPasswordInvalidException, OfferIsAlreadyCreatedException {
+	public void testWhenCreatingACategoryOfferThenItCantBeCreatedAgain() throws UserAlreadyExistsException, UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, PasswordInvalidException, OfferIsAlreadyCreatedException {
 		Interval valid = new Interval(DateTime.now(), DateTime.now().plusDays(1));
 		CategoryOffer validOffer = new CategoryOffer(15, valid, Category.Cleaning);
 

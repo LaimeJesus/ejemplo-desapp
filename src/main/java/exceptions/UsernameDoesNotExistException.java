@@ -2,6 +2,10 @@ package exceptions;
 
 public class UsernameDoesNotExistException extends Exception {
 
+  public UsernameDoesNotExistException(){
+    super("Username does not exist");
+  }
+  
 	/**
 	 * 
 	 */
