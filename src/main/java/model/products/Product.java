@@ -20,10 +20,6 @@ public class Product extends Entity {
 	private Duration processingTime;
 	private String imageUrl;
 	
-	private java.time.Duration persistentProcessingTime;
-	
-	
-	
 	public Product (String newName , String newBrand , Integer newStock , Money newPrice , Category newCategory) {
 		this.setName(newName);
 		this.setBrand(newBrand);

@@ -131,9 +131,9 @@ public class ProductsController {
 			return response.error(Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////
-	
+
 	@PUT
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

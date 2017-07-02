@@ -127,12 +127,18 @@ public class ProductService extends GenericService<Product> {
 	public void createOrUpdate(Integer productId, Product product) throws ProductAlreadyCreatedException {
 		try {
 			Product fromdb = getProductById(productId);
-			product.setId(fromdb.getId());
+			fromdb.setName(product.getName());
+			fromdb.setBrand(product.getBrand());
+			fromdb.setStock(product.getStock());
+			fromdb.getPrice().setInteger(product.getPrice().getInteger());
+			fromdb.getPrice().setDecimal(product.getPrice().getDecimal());
+			fromdb.setProcessingTime(product.getProcessingTime());
+			fromdb.setImageUrl(product.getImageUrl());
+//			product.setId(fromdb.getId());
 //			delete(fromdb);
 //			getRepository().delete(fromdb);
 //			save(product);
-			
-			update(product);
+			update(fromdb);
 		} catch (ProductNotExistException e) {
 			//validateProduct(product);
 			save(product);

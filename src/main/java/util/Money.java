@@ -24,19 +24,19 @@ public class Money extends Entity implements Comparable<Money>{
 
 	
 	
-	private void setDecimal(Integer decimal) {
+	public void setDecimal(Integer decimal) {
 		this.decimal = decimal;
 	}
 
-	private void setInteger(Integer integerPart) {
+	public void setInteger(Integer integerPart) {
 		this.integer = integerPart;
 	}
 	
-	private Integer getInteger() {
+	public Integer getInteger() {
 		return this.integer;
 	}
 	
-	private Integer getDecimal() {
+	public Integer getDecimal() {
 		return this.decimal;
 	}
 
