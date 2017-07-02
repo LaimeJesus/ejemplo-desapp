@@ -7,4 +7,8 @@ public class ProductIsAlreadySelectedException extends Exception {
 		super(message);
 	}
 
+	public ProductIsAlreadySelectedException() {
+    super("Product is already selected");
+  }
+	
 }

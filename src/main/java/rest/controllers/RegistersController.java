@@ -7,7 +7,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import exceptions.RegisterDoesNotExistException;
 import rest.dtos.generics.ResponseDTO;
 import rest.dtos.registers.RegisterDTO;
 import services.general.GeneralService;
@@ -27,34 +29,55 @@ public class RegistersController {
 	@Path("/")
 	@Produces("application/json")
 	public Response getRegisters(){
-		return response.ok(RegisterDTO.create(generalService.getShopService().getCashRegisterManager().getRegisters()));
+	  try{
+	    return response.ok(RegisterDTO.create(generalService.getShopService().getCashRegisterManager().getRegisters()));
+	  } catch(Exception e){
+      return response.error(Status.INTERNAL_SERVER_ERROR, "server not working correctly");
+    }
 	}
 
 	@PUT
 	@Path("/{registerId}/close")
 	@Produces("application/json")
 	public Response closeRegister(@PathParam("registerId") Integer registerId){
-		generalService.getShopService().getCashRegisterManager().closeCashRegister(registerId);
-		return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegisters().get(registerId)));
+	  try{
+	    generalService.getShopService().getCashRegisterManager().closeCashRegister(registerId);
+	    return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegister(registerId)));
+	  } catch(RegisterDoesNotExistException e){
+      return response.error(Status.CONFLICT, e.getMessage());
+    } catch(Exception e){
+      return response.error(Status.INTERNAL_SERVER_ERROR, "server not working correctly");
+    }
 	}
 	@PUT
 	@Path("/{registerId}/open")
 	@Produces("application/json")
 	public Response openRegister(@PathParam("registerId") Integer registerId){
-		generalService.getShopService().getCashRegisterManager().openCashRegister(registerId);
-		return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegisters().get(registerId)));
+	  try{
+	    generalService.getShopService().getCashRegisterManager().openCashRegister(registerId);
+	    return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegister(registerId)));
+	  } catch(RegisterDoesNotExistException e){
+      return response.error(Status.CONFLICT, e.getMessage());
+    } catch(Exception e){
+      return response.error(Status.INTERNAL_SERVER_ERROR, "server not working correctly");
+    }
 	}
 	@GET
 	@Path("/{registerId}")
 	@Produces("application/json")
 	public Response getRegister(@PathParam("registerId") Integer registerId){
-		return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegisters().get(registerId)));
+	  try{
+	    return response.ok(new RegisterDTO(generalService.getShopService().getCashRegisterManager().getRegister(registerId)));
+	  } catch(RegisterDoesNotExistException e){
+      return response.error(Status.CONFLICT, e.getMessage());
+    } catch(Exception e){
+      return response.error(Status.INTERNAL_SERVER_ERROR, "server not working correctly");
+    }
 	}
 
 	public GeneralService getGeneralService() {
 		return generalService;
 	}
-
 
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;

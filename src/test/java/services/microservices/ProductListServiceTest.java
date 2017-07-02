@@ -11,28 +11,26 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import builders.ProductBuilder;
 import builders.UserBuilder;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
+import exceptions.PasswordInvalidException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
-import builders.ProductBuilder;
 import model.offers.CategoryOffer;
-import model.offers.CrossingOffer;
 import model.products.Product;
 import model.products.ProductList;
 import model.users.User;
 import services.general.GeneralOfferService;
 import services.general.GeneralService;
-import services.microservices.ProductListService;
-import util.Password;
-import util.Permission;
 import util.Category;
 import util.Money;
+import util.Password;
+import util.Permission;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -99,8 +97,7 @@ public class ProductListServiceTest {
     		UserIsNotLoggedException,
     		ProductIsAlreadySelectedException,
     		ProductDoesNotExistException,
-    		UsernameOrPasswordInvalidException,
-    		OfferIsAlreadyCreatedException {
+    		OfferIsAlreadyCreatedException, PasswordInvalidException {
 
 
 
@@ -153,31 +150,6 @@ public class ProductListServiceTest {
     	generalService.getGeneralOfferService().deleteAll();
     	generalService.getUserService().deleteAll();
     	generalService.getProductService().deleteAll();
-    }
-    
-    @Test
-    public void test1() {
-    	
-    	Product someProduct = new ProductBuilder()
-        		.withBrand("Marolio")
-        		.withName("Arroz")
-        		.withCategory(Category.Fruit)
-        		.withPrice(new Money(15,15))
-        		.withStock(54)
-        		.build();
-    	
-    	User someUser = new UserBuilder()
-        		.withUsername("lucas")
-        		.withEmail("sandoval.lucasj@gmail.com")
-        		.withPassword(new Password("asdasd"))
-        		.withUserPermission(Permission.NORMAL)
-        		.build();
-    	
-    	
-    	
-    }
-
-    
-    
+    }   
 
 }

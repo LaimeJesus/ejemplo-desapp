@@ -14,13 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import exceptions.CanNotGetCashRegister;
 import exceptions.InvalidSelectedProduct;
+import exceptions.PasswordInvalidException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListDoesNotExist;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserIsNotLoggedException;
 import exceptions.UsernameDoesNotExistException;
-import exceptions.UsernameOrPasswordInvalidException;
 import model.products.Product;
 import model.products.ProductList;
 import model.products.SelectedProduct;
@@ -50,7 +50,7 @@ public class ShopServiceTest {
 	}	
 	
 	@Test
-	public void testCanGetWaitingTime() throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, UserAlreadyExistsException, UsernameOrPasswordInvalidException, CanNotGetCashRegister{
+	public void testCanGetWaitingTime() throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductListDoesNotExist, UserAlreadyExistsException, PasswordInvalidException, CanNotGetCashRegister{
 		shopService.initialize(10);
 		ProductList pl = new ProductList("prod1");
 		User user = new User();
@@ -68,7 +68,7 @@ public class ShopServiceTest {
 	}
 	
 	@Test
-	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameOrPasswordInvalidException, CanNotGetCashRegister{
+	public void testUserCanBeReadyToShop() throws InvalidSelectedProduct, UserAlreadyExistsException, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, PasswordInvalidException, CanNotGetCashRegister{
 		shopService.initialize(5);		
 				
 		Product product = new Product();
@@ -118,7 +118,7 @@ public class ShopServiceTest {
 	}
 	
 	@Test(expected=InvalidSelectedProduct.class)
-	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, UsernameOrPasswordInvalidException, CanNotGetCashRegister{
+	public void testReadyToPayAProductListWithASelectedProductWithStockGreaterThanItsProductThrowsAnException() throws UserAlreadyExistsException, InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, PasswordInvalidException, CanNotGetCashRegister{
 		shopService.getUserService().deleteAll();
 		shopService.getProductService().deleteAll();
 		
@@ -158,7 +158,7 @@ public class ShopServiceTest {
 	}
 	
 	@Test(timeout=16000)
-	public void testUsersAreQueuingAfterCallingReady() throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameOrPasswordInvalidException, UserAlreadyExistsException, CanNotGetCashRegister{
+	public void testUsersAreQueuingAfterCallingReady() throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, ProductIsAlreadySelectedException, ProductDoesNotExistException, PasswordInvalidException, UserAlreadyExistsException, CanNotGetCashRegister{
 		shopService.initialize(1);		
 		
 		Product product = new Product();

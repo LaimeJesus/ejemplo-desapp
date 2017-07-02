@@ -19,6 +19,7 @@ import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 
 import com.google.gson.JsonSyntaxException;
 
+import exceptions.InvalidUploadCSV;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductNotExistException;
 import model.products.Product;
@@ -77,9 +78,12 @@ public class ProductsController {
 		try {
 			generalService.createProduct(response.gson.fromJson(productJson, ProductDTO.class).toProduct());
 			return response.ok("created product");
-		} catch (JsonSyntaxException | ProductAlreadyCreatedException e) {
+		} catch (ProductAlreadyCreatedException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
-		} catch (Exception e){
+		} catch(JsonSyntaxException e){
+		  return response.error(Status.CONFLICT, e.getMessage());
+		}
+		catch (Exception e){
 			return response.error(Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
@@ -119,8 +123,10 @@ public class ProductsController {
 			Product product = response.gson.fromJson(productJson, Product.class);
 			generalService.createOrUpdateProduct(productId, product);
 			return response.ok("product created or updated");
-		} catch (JsonSyntaxException | ProductAlreadyCreatedException e) {
+		} catch (ProductAlreadyCreatedException e) {
 			return response.error(Status.CONFLICT, e.getMessage());
+		} catch(JsonSyntaxException e){
+		  return response.error(Status.CONFLICT, e.getMessage());
 		} catch (Exception e){
 			return response.error(Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
@@ -137,12 +143,16 @@ public class ProductsController {
 		for(Attachment att : body.getAllAttachments()){
 			file = att.getObject(String.class);
 		}
-		try {
-			getGeneralService().upload(file);
-			return response.ok(generalService.getProductService().retriveAll());
-		} catch (Exception e) {
-			return response.error(Status.CONFLICT, e.getMessage());
-		}
+			try {
+        getGeneralService().upload(file);
+        return response.ok(generalService.getProductService().retriveAll());
+      } catch (InvalidUploadCSV e) {
+        return response.error(Status.CONFLICT, e.getMessage());
+      } catch (ProductAlreadyCreatedException e) {
+        return response.error(Status.CONFLICT, e.getMessage());
+      } catch (Exception e) {
+        return response.error(Status.CONFLICT, "server not working correctly");
+      }
 	}
 
 }

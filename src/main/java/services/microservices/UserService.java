@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import exceptions.PasswordInvalidException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserIsNotLoggedException;
@@ -29,7 +30,7 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
+	public void loginUser (User user) throws UsernameDoesNotExistException, PasswordInvalidException {
 		User possible = validateExist(user);
 		User current = validatePassword(user);
 		possible.login();
@@ -111,11 +112,11 @@ public class UserService extends GenericService<User>{
 	}
 	
 	@Transactional
-	private User validatePassword(User user) throws UsernameOrPasswordInvalidException {
+	private User validatePassword(User user) throws PasswordInvalidException {
 		User persisted = this.findByUsername(user.getUsername());
 		if (user.getPassword().equals(persisted.getPassword())){
 			return persisted;
-		} throw new UsernameOrPasswordInvalidException();
+		} throw new PasswordInvalidException();
 	}
 
 	@Transactional

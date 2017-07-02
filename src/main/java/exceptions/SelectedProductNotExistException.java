@@ -5,6 +5,10 @@ public class SelectedProductNotExistException extends Exception {
 	public SelectedProductNotExistException(String msg) {
 		super(msg);
 	}
+	
+	public SelectedProductNotExistException() {
+    super("Product does not exist");
+  }
 
 	/**
 	 * 
