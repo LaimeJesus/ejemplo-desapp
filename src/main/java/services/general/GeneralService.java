@@ -51,16 +51,16 @@ import services.microservices.UserService;
 import util.Password;
 
 public class GeneralService {
-	
+
 	private UserService userService;
 	private GeneralOfferService generalOfferService;
 	private ProductService productService;
 	private ProductListService productListService;
 	private ShopService shopService;
 	private RecommendationService recommendationService;
-	
+
 	@Transactional
-	public void createUserForTest (User someUser) throws Exception {	
+	public void createUserForTest (User someUser) throws Exception {
 		getUserService().createNewUser(someUser);
 		throw new RuntimeException();
 	}
@@ -68,24 +68,24 @@ public class GeneralService {
 
 	@Transactional
 	public void createUser (User newUser) throws UserAlreadyExistsException{
-		getUserService().createNewUser(newUser);	
+		getUserService().createNewUser(newUser);
 	}
-	
+
 	@Transactional
 	public void loginUser (User user) throws UsernameDoesNotExistException, UsernameOrPasswordInvalidException {
 		getUserService().loginUser(user);
 	}
-	
+
 	@Transactional
 	public void logoutUser (User user) throws UsernameDoesNotExistException, UserIsNotLoggedException{
 		getUserService().logout(user);
 	}
-	
+
 	@Transactional
 	public void authenticateUser (User user) throws UsernameDoesNotExistException {
 		getUserService().authenticateUser(user);
 	}
-	
+
 	@Transactional
 	public void createOffer (Offer offer , User user) throws UsernameDoesNotExistException, WrongUserPermissionException, UserIsNotLoggedException, OfferIsAlreadyCreatedException {
 		User logged = getUserService().validateLogged(user);
@@ -97,8 +97,8 @@ public class GeneralService {
 		}
 		generalOfferService.save(offer);
 	}
-	
-	
+
+
 	@Transactional
 	public void addProduct(User user, Product product) throws UserIsNotLoggedException, UsernameDoesNotExistException, ProductAlreadyCreatedException {
 		userService.validateLogged(user);
@@ -109,34 +109,34 @@ public class GeneralService {
 	public void addProduct (Product newProduct) {
 		this.getProductService().save(newProduct);
 	}
-	
+
 	@Transactional
 	public void updateProduct (Product newProduct) {
 		this.getProductService().update(newProduct);
 	}
-	
+
 	@Transactional
 	public void createProductList (User user , ProductList productList) throws UsernameDoesNotExistException, UserIsNotLoggedException {
 		this.getUserService().createProductList(user,productList);
 	}
-	
+
 	@Transactional
-	public void selectProduct (User user , ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {	
+	public void selectProduct (User user , ProductList productList , Product product , Integer quantity) throws ProductIsAlreadySelectedException, ProductDoesNotExistException, UsernameDoesNotExistException, UserIsNotLoggedException {
 		this.getProductListService().selectProduct(user , productList , product , quantity);
 	}
-	
+
 	@Transactional
 	public void removeProduct (ProductList productList , Product product ) throws ProductDoesNotExistOnListException {
 		//this.getProductListService().removeProduct(productList , product);
 	}
-	
+
 	@Transactional
 	public void applyOffer (User user , Offer offer , ProductList productList) throws MoneyCannotSubstractException, UsernameDoesNotExistException {
 		if (this.getGeneralOfferService().isOfferValid(offer) ){
 			this.getProductListService().applyOffer(user,offer,productList);
 		}
 	}
-	
+
 	@Transactional
 	public WaitingUser ready(User user, ProductList productList) throws InvalidSelectedProduct, UserIsNotLoggedException, UsernameDoesNotExistException, CanNotGetCashRegister {
 		return getShopService().ready(user, productList);
@@ -155,23 +155,23 @@ public class GeneralService {
 	public void setGeneralOfferService(GeneralOfferService generalOfferService) {
 		this.generalOfferService = generalOfferService;
 	}
-	
+
 	public ProductService getProductService() {
 		return productService;
 	}
-	
+
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
 	}
-	
+
 	public ProductListService getProductListService() {
 		return productListService;
 	}
-	
+
 	public void setProductListService(ProductListService productListService) {
 		this.productListService = productListService;
 	}
-	
+
 	public ShopService getShopService() {
 		return shopService;
 	}
@@ -190,7 +190,7 @@ public class GeneralService {
 	public void upload(String file) throws Exception {
 		getProductService().upload(file);
 	}
-	
+
 	@Transactional
 	public List<Product> allProducts(){
 		return getProductService().retriveAll();
@@ -213,7 +213,7 @@ public class GeneralService {
 	@Transactional
 	public void initRegisters(int registers) {
 		getShopService().initialize(registers);
-		
+
 	}
 
 	@Transactional
@@ -222,12 +222,12 @@ public class GeneralService {
 		u.setPassword(user.getPassword());
 		getUserService().update(u);
 	}
-	
+
 	@Transactional
 	public Profile getProfile(String username) throws UserIsNotLoggedException, UsernameDoesNotExistException {
 		return getUserService().findByUsername(username).getProfile();
 	}
-	
+
 	@Transactional
 	public void setProfilePicture(Integer userId, String newUrl) throws UserDoesNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
@@ -236,10 +236,18 @@ public class GeneralService {
 		getUserService().update(user);
 	}
 
+	@Transactional
+	public void changePassword(Integer userId, String newPassword) throws UserDoesNotExistException, UserIsNotLoggedException {
+		User user = getUserById(userId);
+		user.validateLogged();
+		user.getPassword().setPassword(newPassword);
+		getUserService().update(user);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Transactional
 	public PurchaseRecord getPurchaseRecord(Integer userId, Integer purchaseId) throws PurchaseRecordNotExistException, UserDoesNotExistException {
 		return getUserService().getUserById(userId).getProfile().getPurchaseRecordById(purchaseId);
@@ -277,7 +285,7 @@ public class GeneralService {
 
 	@Transactional
 	public void deleteUser(Integer userId) throws UserDoesNotExistException {
-		getUserService().delete(getUserById(userId));		
+		getUserService().delete(getUserById(userId));
 	}
 
 	@Transactional
@@ -305,11 +313,11 @@ public class GeneralService {
 		getProductService().createOrUpdate(productId, product);
 	}
 
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Transactional
 	public List<Offer> getOffers() {
 		return getGeneralOfferService().retriveAll();
@@ -329,15 +337,15 @@ public class GeneralService {
 	public List<CrossingOffer> getCrossingOffers() {
 		return getGeneralOfferService().getCrossingOfferService().retriveAll();
 	}
-	
+
 	@Transactional
 	public void deleteOffers() {
-		getGeneralOfferService().deleteAll();		
+		getGeneralOfferService().deleteAll();
 	}
-	
+
 	@Transactional
 	public void deleteCategoryOffer(Integer categoryOfferId) throws CategoryOfferNotExistException {
-		getGeneralOfferService().getCategoryOfferService().delete(categoryOfferId);		
+		getGeneralOfferService().getCategoryOfferService().delete(categoryOfferId);
 	}
 
 	@Transactional
@@ -356,7 +364,7 @@ public class GeneralService {
 		Product combinated = getProductById(co.combinatedProductId);
 		getGeneralOfferService().getCombinationOfferService().createOffer(co.toCombinationOffer(related, combinated));
 	}
-	
+
 	@Transactional
 	public CombinationOffer getCombinationOfferById(Integer combinationOfferId) throws CombinationOfferNotExistException {
 		return getGeneralOfferService().getCombinationOfferService().getCombinationOfferById(combinationOfferId);
@@ -374,7 +382,7 @@ public class GeneralService {
 	public void deleteCrossingOffer(Integer crossingOfferId) throws CrossingOfferNotExistException {
 		getGeneralOfferService().getCrossingOfferService().delete(crossingOfferId);
 	}
-	
+
 	@Transactional
 	public void createCrossingOffer(CrossingOffer crossingOffer) {
 		getGeneralOfferService().getCrossingOfferService().createOffer(crossingOffer);
@@ -386,7 +394,7 @@ public class GeneralService {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Transactional
 	public void createProductList(Integer userId, ProductList productList) throws UserDoesNotExistException, UserIsNotLoggedException {
 		User user = getUserById(userId);
@@ -400,7 +408,7 @@ public class GeneralService {
 		User user = getUserById(userId);
 		user.validateLogged();
 		user.getProfile().getAllProductList().remove(user.getProfile().getProductListById(productlistId));
-		getUserService().update(user);	
+		getUserService().update(user);
 	}
 
 	@Transactional
@@ -443,7 +451,7 @@ public class GeneralService {
 		getRecommendationService().updateProducts(pl);
 		getShopService().shop(user, pl);
 	}
-	
+
 	@Transactional
 	public void deletePurchaseRecord(Integer userId, Integer purchaseId) throws UserDoesNotExistException, UserIsNotLoggedException, PurchaseRecordNotExistException {
 		User user = getUserById(userId);
@@ -476,9 +484,9 @@ public class GeneralService {
 		}else{
 			getUserService().loginUser(exists);
 		}
-		
-		
-		
+
+
+
 	}
 
 	@Transactional
@@ -488,15 +496,15 @@ public class GeneralService {
 			throw new UserIsNotLoggedException("user can not log out when is not logged");
 		}
 		exists.logout();
-		getUserService().update(exists);		
-		
+		getUserService().update(exists);
+
 	}
 
 
 	@Transactional
 	public void initializeRecommender() {
 		recommendationService.initializeProducts(getProductService().retriveAll().size());
-		
+
 	}
 
 

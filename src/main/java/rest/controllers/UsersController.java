@@ -164,7 +164,20 @@ public class UsersController {
 		}
 	}
 
-	
+	@POST
+	@Path("/{userId}/profile/password")
+	@Produces("application/json")
+	public Response changePassword(@PathParam("userId") Integer userId, String newPassword){
+		try {
+			generalService.changePassword(userId, newPassword);
+			return responseDTO.ok("password change correctly");
+		} catch (UserDoesNotExistException e) {
+			return responseDTO.error(Status.CONFLICT, e.getMessage());
+		} catch(Exception e){
+			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
+		}
+	}
+
 	@PUT
 	@Path("/{userId}/profile")
 	@Produces("application/json")
@@ -177,7 +190,7 @@ public class UsersController {
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////
 	//PURCHASE METHODS OF AN USER
 	@GET
