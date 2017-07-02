@@ -120,6 +120,9 @@ public class ProductService extends GenericService<Product> {
 	@Transactional
 	public void createProduct(Product product) throws ProductAlreadyCreatedException {
 		validateProduct(product);
+		if(product.getImageUrl() == ""){
+		  product.setImageUrl("http://image.ibb.co/kaSNyQ/no_image_fixed.png");
+		}
 		save(product);
 	}
 
