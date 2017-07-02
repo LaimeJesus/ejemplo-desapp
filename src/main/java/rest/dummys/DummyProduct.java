@@ -103,7 +103,6 @@ public class DummyProduct {
 				.withStock(2000)
 				.withProcessingTime(new Duration(300L))
 				.build();
-		ten.setImageUrl("no-image");
 		res.add(one);
 		res.add(two);
 		res.add(three);
