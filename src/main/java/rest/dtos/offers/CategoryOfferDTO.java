@@ -18,6 +18,7 @@ public class CategoryOfferDTO extends OfferDTO{
 	public CategoryOfferDTO(CategoryOffer categoryOffer){
 		super(categoryOffer.getId(), categoryOffer.getValidPeriod(), categoryOffer.getDiscountRate());
 		this.category = categoryOffer.getCategory();
+		this.description = categoryOffer.toString();
 	}
 	
 	public static List<CategoryOfferDTO> createCategoryOffers(List<CategoryOffer> categoryOffers) {

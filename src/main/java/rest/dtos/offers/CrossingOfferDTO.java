@@ -18,7 +18,8 @@ public class CrossingOfferDTO extends OfferDTO{
 		super(x.getId(), x.getValidPeriod(), x.getDiscountRate());
 		this.productId = x.getRelatedProduct().getId();
 		this.minQuantity = x.getMinQuantity();
-		this.maxQuantity = x.getMaxQuantity();		
+		this.maxQuantity = x.getMaxQuantity();
+		this.description = x.toString();
 	}
 
 	public static List<CrossingOfferDTO> createCrossingOffers(List<CrossingOffer> offers) {
