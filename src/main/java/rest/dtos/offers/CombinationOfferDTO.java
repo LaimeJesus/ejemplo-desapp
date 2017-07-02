@@ -17,6 +17,7 @@ public class CombinationOfferDTO extends OfferDTO{
 		super(combinationOffer.getId(), combinationOffer.getValidPeriod(), combinationOffer.getDiscountRate());
 		this.relatedProductId = combinationOffer.getRelatedProduct().getId();
 		this.combinatedProductId = combinationOffer.getCombinatedProduct().getId();
+		this.description = combinationOffer.toString();
 	}
 
 	public CombinationOffer toCombinationOffer(Product relatedProduct, Product combinatedProduct) {

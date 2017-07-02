@@ -9,6 +9,7 @@ public class OfferDTO {
 	public DateDTO start;
 	public DateDTO end;
 	public Integer discount;
+	public String description;
 	public OfferDTO(){
 		
 	}
