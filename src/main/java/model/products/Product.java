@@ -57,6 +57,7 @@ public class Product extends Entity {
 	
 
 	public Product(){
+		this.imageUrl = "http://image.ibb.co/kaSNyQ/no_image_fixed.png";
 	}
 	
 	public String getName() {
