@@ -14,6 +14,7 @@ import exceptions.CrossingOfferNotExistException;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
 import exceptions.OfferIsAlreadyCreatedException;
+import exceptions.PasswordNotChangedException;
 import exceptions.ProductAlreadyCreatedException;
 import exceptions.ProductDoesNotExistException;
 import exceptions.ProductDoesNotExistOnListException;
@@ -237,9 +238,10 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public void changePassword(Integer userId, String newPassword) throws UserDoesNotExistException, UserIsNotLoggedException {
+	public void changePassword(Integer userId, String newPassword) throws UserDoesNotExistException, UserIsNotLoggedException, PasswordNotChangedException {
 		User user = getUserById(userId);
 		user.validateLogged();
+		if(user.getPassword().getPassword() == newPassword) throw new PasswordNotChangedException();
 		user.getPassword().setPassword(newPassword);
 		getUserService().update(user);
 	}

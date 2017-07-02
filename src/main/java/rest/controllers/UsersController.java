@@ -21,6 +21,7 @@ import com.google.gson.JsonSyntaxException;
 import exceptions.CanNotGetCashRegister;
 import exceptions.InvalidSelectedProduct;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.PasswordNotChangedException;
 import exceptions.ProductDoesNotExistOnListException;
 import exceptions.ProductIsAlreadySelectedException;
 import exceptions.ProductListNotExistException;
@@ -171,7 +172,7 @@ public class UsersController {
 		try {
 			generalService.changePassword(userId, newPassword);
 			return responseDTO.ok("password change correctly");
-		} catch (UserDoesNotExistException e) {
+		} catch (UserDoesNotExistException | PasswordNotChangedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
 		} catch(Exception e){
 			return responseDTO.error(Status.INTERNAL_SERVER_ERROR, "server is not working correctly");
