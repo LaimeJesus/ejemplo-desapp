@@ -10,8 +10,10 @@ public class OfferDTO {
 	public DateDTO end;
 	public Integer discount;
 	public String description;
+	public String type;
+
 	public OfferDTO(){
-		
+
 	}
 	public OfferDTO(Integer offerId, Interval interval, Integer discountRate){
 		id = offerId;

@@ -20,6 +20,7 @@ public class CrossingOfferDTO extends OfferDTO{
 		this.minQuantity = x.getMinQuantity();
 		this.maxQuantity = x.getMaxQuantity();
 		this.description = x.toString();
+		this.type = "Crossing Offer";
 	}
 
 	public static List<CrossingOfferDTO> createCrossingOffers(List<CrossingOffer> offers) {
