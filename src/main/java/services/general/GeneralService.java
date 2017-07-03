@@ -242,7 +242,7 @@ public class GeneralService {
 	public void changePassword(Integer userId, String oldPassword, String newPassword) throws UserDoesNotExistException, UserIsNotLoggedException, PasswordNotChangedException {
 		User user = getUserById(userId);
 		user.validateLogged();
-		if(oldPassword == newPassword || user.getPassword().getPassword() == newPassword) throw new PasswordNotChangedException();
+		if(oldPassword != user.getPassword().getPassword() || user.getPassword().getPassword() == newPassword || oldPassword == newPassword) throw new PasswordNotChangedException();
 		user.getPassword().setPassword(newPassword);
 		getUserService().update(user);
 	}

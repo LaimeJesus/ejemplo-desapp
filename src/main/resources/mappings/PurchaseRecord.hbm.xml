@@ -13,11 +13,11 @@
         </id>
         
  		<property name="purchasingDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"/>
-		<one-to-one 
+		<many-to-one 
 			name="purchasingList" 
 			class="model.products.ProductList" 
 			cascade="persist">
-		</one-to-one>
+		</many-to-one>
 	
 	</class>
 	

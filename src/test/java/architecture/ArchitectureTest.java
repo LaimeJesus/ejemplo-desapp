@@ -22,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-
 import builders.UserBuilder;
 import model.users.User;
 import services.general.GeneralService;
@@ -89,7 +87,6 @@ public class ArchitectureTest {
       Assert.assertTrue(result);
 
     } catch (SecurityException | ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       Assert.fail();
     }
@@ -97,7 +94,7 @@ public class ArchitectureTest {
 
   
   //check controllers methods returns response
-  //@Test
+//  @Test
   public void testArchiteture2() {
 
     boolean result = false;
@@ -135,7 +132,6 @@ public class ArchitectureTest {
       Assert.assertTrue(result);
 
     } catch (SecurityException | ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       Assert.fail();
     }

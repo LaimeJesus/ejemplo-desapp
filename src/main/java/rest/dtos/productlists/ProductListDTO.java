@@ -25,9 +25,7 @@ public class ProductListDTO {
 		totalAmount = pl.getMoneyOfProducts();
 		selectedProducts = SelectedProductDTO.createSelectedProducts(pl.getAllProducts());
 	}
-	public ProductList toProductList() {
-		return new ProductList(name);
-	}
+
 	public static List<ProductListDTO> createProductLists(List<ProductList> productlists) {
 		return productlists.stream().map(x -> new ProductListDTO(x)).collect(Collectors.toList());
 	}

@@ -36,10 +36,9 @@
 		
 		<bag 
 			name="purchaseRecords" 
-			cascade="all" 
+			cascade="all"
 			lazy="false" 
 			inverse="false">
-			
 			<key column="profile_id"/>
 			<one-to-many class="model.registers.PurchaseRecord"/>
 		</bag>

@@ -137,10 +137,14 @@ public class UserService extends GenericService<User>{
 	public void createOrUpdate(Integer userId, User user) {
 		try {
 			User fromdb = getUserById(userId);
-			user.setId(fromdb.getId());
-			getRepository().delete(fromdb);
+//			user.setId(fromdb.getId());
+//			getRepository().delete(fromdb);
+			fromdb.setEmail(user.getEmail());
+			fromdb.getPassword().setPassword(user.getPassword().getPassword());
+			fromdb.getProfile().getAddress().setAddress(user.getProfile().getAddress().getAddress());
+			update(fromdb);
 //			update(user);
-			save(user);
+//			save(user);
 		} catch (UserDoesNotExistException e1) {
 			save(user);
 		}		

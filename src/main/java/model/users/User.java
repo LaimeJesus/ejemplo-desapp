@@ -118,7 +118,6 @@ public class User extends Entity{
 			return this.totalEquals(newUser) ;
 		}
 		return false;
-		
 	}
 	
 	private boolean isMyType(Object anyObject) {
