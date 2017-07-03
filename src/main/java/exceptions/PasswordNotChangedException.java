@@ -3,7 +3,7 @@ package exceptions;
 public class PasswordNotChangedException extends Exception {
 
    public PasswordNotChangedException(){
-     super("Trying to change password for the same");
+     super("Error trying to change password");
    }
   /**
    * 
