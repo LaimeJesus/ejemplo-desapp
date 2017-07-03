@@ -40,6 +40,7 @@ import rest.dtos.productlists.ProductListDTO;
 import rest.dtos.generics.ResponseDTO;
 import rest.dtos.productlists.PurchaseRecordDTO;
 import rest.dtos.productlists.SelectedProductDTO;
+import rest.dtos.users.ChangePasswordDTO;
 import rest.dtos.users.ProfileDTO;
 import rest.dtos.users.UserDTO;
 import services.general.GeneralService;
@@ -168,9 +169,10 @@ public class UsersController {
 	@POST
 	@Path("/{userId}/profile/password")
 	@Produces("application/json")
-	public Response changePassword(@PathParam("userId") Integer userId, String newPassword){
+	public Response changePassword(@PathParam("userId") Integer userId, String changePasswordDTO){
 		try {
-			generalService.changePassword(userId, newPassword);
+		  ChangePasswordDTO cpdto = responseDTO.gson.fromJson(changePasswordDTO, ChangePasswordDTO.class);
+			generalService.changePassword(userId, cpdto.oldpassword, cpdto.newpassword);
 			return responseDTO.ok("password change correctly");
 		} catch (UserDoesNotExistException | PasswordNotChangedException e) {
 			return responseDTO.error(Status.CONFLICT, e.getMessage());
