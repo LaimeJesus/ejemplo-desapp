@@ -120,7 +120,7 @@ public class ProductsController {
 	@Consumes("application/json")
 	public Response createOrUpdateProduct(@PathParam("productId") Integer productId, String productJson){
 		try {
-			Product product = response.gson.fromJson(productJson, Product.class);
+			Product product = response.gson.fromJson(productJson, ProductDTO.class).toProduct();
 			generalService.createOrUpdateProduct(productId, product);
 			return response.ok("product created or updated");
 		} catch (ProductAlreadyCreatedException e) {

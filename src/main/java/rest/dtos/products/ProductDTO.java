@@ -1,6 +1,8 @@
 package rest.dtos.products;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import model.products.Product;
@@ -41,8 +43,13 @@ public class ProductDTO {
 		p.setPrice(price);
 		p.setCategory(category);
 		p.setProcessingTime(processingTime.toDuration());
-		p.setImageUrl(imageUrl);
-		
+		String pattern = "(http(s?):/)(/[^/]+)+" + "\\.(?:jpg|gif|png)";
+		Matcher m = Pattern.compile(pattern).matcher(imageUrl);
+		if(m.find()){
+		  p.setImageUrl(imageUrl);		  
+		}else{
+		  p.setImageUrl("http://image.ibb.co/kaSNyQ/no_image_fixed.png");
+		}
 		return p;
 	}
 
