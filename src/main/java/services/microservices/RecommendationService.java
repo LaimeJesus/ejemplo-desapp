@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.TreeMultimap;
 
+import exceptions.NoRecommendationForProductException;
 import model.products.ProductList;
 import model.products.SelectedProduct;
 
@@ -22,6 +26,12 @@ public class RecommendationService implements Serializable{
 	private Integer[][] products;
 	private ArrayList<SortedSetMultimap<Integer, Integer>> sorted;
 //	private SortedSetMultimap<Integer, Integer> prods;
+		
+	@PostConstruct
+	public void initproducts(){
+	  sorted = new ArrayList<SortedSetMultimap<Integer,Integer>>();
+	}
+	
 	@Transactional
 	public void initializeProducts(Integer size){
 		products = new Integer[size-1][size-1];
@@ -56,12 +66,13 @@ public class RecommendationService implements Serializable{
 
 	//quantity <= products.size()
 	@Transactional
-	public Collection<Integer> getRecommendationFor(Integer productId, Integer quantity){
+	public Collection<Integer> getRecommendationFor(Integer productId, Integer quantity) throws NoRecommendationForProductException{
+	  if(sorted.isEmpty() || sorted.size() < productId-1) throw new NoRecommendationForProductException();
 		return getListReco(productId-1, quantity);
 	}
 
 	@Transactional
-	private Collection<Integer> getListReco(Integer productId, Integer quantity) {
+	private Collection<Integer> getListReco(Integer productId, Integer quantity){
 		Collection<Integer> res = sorted.get(productId).values();
 		for(int i = res.size(); i >= quantity; i--){
 			res.remove(i);

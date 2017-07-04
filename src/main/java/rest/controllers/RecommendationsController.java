@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import exceptions.NoRecommendationForProductException;
 import exceptions.ProductNotExistException;
 import rest.dtos.generics.ResponseDTO;
 import rest.dtos.products.ProductDTO;
@@ -46,10 +47,12 @@ public class RecommendationsController {
 	@Produces("application/json")
 	public Response getRecommendationForProduct(@PathParam("productId") Integer productId){
 		try {
-			return response.ok(ProductDTO.createProducts(generalService.getRecommendation(productId)));
+			return response.ok(ProductDTO.createProducts(generalService.getRecommendation(productId, 2)));
 		} catch (ProductNotExistException e) {
-			return response.error(Status.FORBIDDEN, "can not get recommenadtion");
-		} catch (Exception e){
+			return response.error(Status.FORBIDDEN, "product can not get recommenadtion");
+		} catch (NoRecommendationForProductException e) {
+      return response.error(Status.FORBIDDEN, e.getMessage());
+    }	catch (Exception e){
 			return response.error(Status.INTERNAL_SERVER_ERROR, "server problem");
 		}
 	}

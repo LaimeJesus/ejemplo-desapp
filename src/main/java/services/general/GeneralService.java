@@ -14,6 +14,7 @@ import exceptions.CrossingOfferNotExistException;
 import exceptions.InvalidSelectedProduct;
 import exceptions.InvalidUploadCSV;
 import exceptions.MoneyCannotSubstractException;
+import exceptions.NoRecommendationForProductException;
 import exceptions.OfferIsAlreadyCreatedException;
 import exceptions.PasswordInvalidException;
 import exceptions.PasswordNotChangedException;
@@ -521,8 +522,8 @@ public class GeneralService {
 	}
 
 	@Transactional
-	public List<Product> getRecommendation(Integer productId) throws ProductNotExistException {
-		Collection<Integer> recos = recommendationService.getRecommendationFor(productId, 2);
+	public List<Product> getRecommendation(Integer productId, Integer quantity) throws ProductNotExistException, NoRecommendationForProductException {
+		Collection<Integer> recos = recommendationService.getRecommendationFor(productId, quantity);
 		List<Product> res = new ArrayList<Product>();
 		for(Integer id : recos){
 			res.add(getProductById(id+1));
