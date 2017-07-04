@@ -13,10 +13,18 @@
         </id>
         
  		<property name="purchasingDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"/>
-		<many-to-one 
-			name="purchasingList" 
-			class="model.products.ProductList" 
-			cascade="persist">
+	
+        <property
+       	name="name"
+       	type="java.lang.String"
+       	column="purchase_record_name"
+       	not-null="false"
+       	/>
+		<many-to-one
+			name="totalAmount"
+			class="util.Money"
+			cascade="all"
+			lazy="false">
 		</many-to-one>
 	
 	</class>

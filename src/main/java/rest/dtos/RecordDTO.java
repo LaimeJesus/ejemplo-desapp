@@ -7,11 +7,12 @@ public class RecordDTO {
 
 	
 	public String listname;
+	public String name;
 	public DateDTO date;
 
 	public RecordDTO(PurchaseRecord pr) {
 		date = new DateDTO(pr.getPurchasingDate());
-		listname = pr.getPurchasingList().getName();		
+		listname = pr.getName();		
 	}
 
 }
